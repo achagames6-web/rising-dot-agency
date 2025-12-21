@@ -264,7 +264,7 @@ describe('SmoothScroll', () => {
 
       const trigger = {
         id: 'test-trigger',
-        element: mockDocument.createElement('div') as any,
+        element: mockDocument.createElement() as any,
         start: 0,
         end: 100,
       };
@@ -279,7 +279,7 @@ describe('SmoothScroll', () => {
       smoothScroll = new SmoothScroll();
       const instance = smoothScroll.getInstance() as any;
 
-      const element = mockDocument.createElement('div') as any;
+      const element = mockDocument.createElement() as any;
 
       const onEnter = jest.fn();
       smoothScroll.addScrollTrigger({

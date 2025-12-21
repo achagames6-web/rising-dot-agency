@@ -138,7 +138,7 @@ export function PluginConstellation({
   };
 
   // Get unique categories from plugins
-  const uniqueCategories = [...new Set(plugins.map(p => p.category))];
+  const uniqueCategories = Array.from(new Set(plugins.map(p => p.category)));
   const displayCategories = categoryColorsArray.filter(c => uniqueCategories.includes(c.category));
 
   return (

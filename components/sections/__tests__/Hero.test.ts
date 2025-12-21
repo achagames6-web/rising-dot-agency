@@ -55,7 +55,7 @@ describe('Hero Animation Sequence Timing', () => {
           particleCount: fc.integer({ min: 1000, max: 5000 }),
           logoFormationDuration: fc.constant(1500), // Fixed per spec
           textScrambleDuration: fc.constant(1500), // Fixed per spec
-          deviceCapability: fc.constantFrom('low', 'medium', 'high'),
+          deviceCapability: fc.constantFrom('low' as const, 'medium' as const, 'high' as const),
         }),
         async (config) => {
           const timing = await simulateHeroAnimation(config);
@@ -77,7 +77,7 @@ describe('Hero Animation Sequence Timing', () => {
           particleCount: fc.integer({ min: 1000, max: 5000 }),
           logoFormationDuration: fc.constant(1500),
           textScrambleDuration: fc.constant(1500),
-          deviceCapability: fc.constantFrom('low', 'medium', 'high'),
+          deviceCapability: fc.constantFrom('low' as const, 'medium' as const, 'high' as const),
         }),
         async (config) => {
           const timing = await simulateHeroAnimation(config);
@@ -99,7 +99,7 @@ describe('Hero Animation Sequence Timing', () => {
           particleCount: fc.integer({ min: 1000, max: 5000 }),
           logoFormationDuration: fc.constant(1500),
           textScrambleDuration: fc.constant(1500),
-          deviceCapability: fc.constantFrom('low', 'medium', 'high'),
+          deviceCapability: fc.constantFrom('low' as const, 'medium' as const, 'high' as const),
         }),
         async (config) => {
           const timing = await simulateHeroAnimation(config);
@@ -122,7 +122,7 @@ describe('Hero Animation Sequence Timing', () => {
           particleCount: fc.integer({ min: 1000, max: 5000 }),
           logoFormationDuration: fc.constant(1500),
           textScrambleDuration: fc.constant(1500),
-          deviceCapability: fc.constantFrom('low', 'medium', 'high'),
+          deviceCapability: fc.constantFrom('low' as const, 'medium' as const, 'high' as const),
         }),
         async (config) => {
           const timing = await simulateHeroAnimation(config);
@@ -145,7 +145,7 @@ describe('Hero Animation Sequence Timing', () => {
           particleCount: fc.integer({ min: 1000, max: 5000 }),
           logoFormationDuration: fc.constant(1500),
           textScrambleDuration: fc.constant(1500),
-          deviceCapability: fc.constantFrom('low', 'medium', 'high'),
+          deviceCapability: fc.constantFrom('low' as const, 'medium' as const, 'high' as const),
         }),
         async (config) => {
           const timing = await simulateHeroAnimation(config);
@@ -172,7 +172,7 @@ describe('Hero Animation Sequence Timing', () => {
           particleCount: fc.integer({ min: 1000, max: 5000 }),
           logoFormationDuration: fc.constant(1500),
           textScrambleDuration: fc.constant(1500),
-          deviceCapability: fc.constantFrom('low', 'medium', 'high'),
+          deviceCapability: fc.constantFrom('low' as const, 'medium' as const, 'high' as const),
         }),
         async (config) => {
           const timing = await simulateHeroAnimation(config);
@@ -200,7 +200,7 @@ describe('Hero Animation Sequence Timing', () => {
           particleCount: fc.integer({ min: 1000, max: 5000 }),
           logoFormationDuration: fc.constant(1500),
           textScrambleDuration: fc.constant(1500),
-          deviceCapability: fc.constantFrom('low', 'medium', 'high'),
+          deviceCapability: fc.constantFrom('low' as const, 'medium' as const, 'high' as const),
         }),
         async (config) => {
           const timing = await simulateHeroAnimation(config);

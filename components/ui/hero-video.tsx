@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils';
 type AnimateT = 'left' | 'right' | 'top' | 'bottom' | 'z' | 'blur' | undefined;
 
 const SPRING_CONFIG = {
-  type: 'spring',
+  type: 'spring' as const,
   stiffness: 100,
   damping: 16,
   mass: 0.75,
