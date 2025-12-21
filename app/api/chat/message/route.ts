@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     await db.collection('conversations').updateOne(
       { _id: new ObjectId(conversationId) },
       {
-        $push: { messages: userMessage } as any,
+        $push: { messages: userMessage as any },
         $set: { updatedAt: new Date() },
       }
     );
@@ -58,12 +58,17 @@ export async function POST(request: NextRequest) {
     }
 
     // Get AI response
-    const previousMessages: ChatMessage[] = conversation.messages.map((msg: any) => ({
-      role: msg.role,
-      content: msg.content,
-    }));
+    const previousMessages: ChatMessage[] = conversation.messages.map(
+      (msg: any) => ({
+        role: msg.role,
+        content: msg.content,
+      })
+    );
 
-    const { response, wantsHuman } = await getChatResponse(previousMessages, message);
+    const { response, wantsHuman } = await getChatResponse(
+      previousMessages,
+      message
+    );
 
     const assistantMessage = {
       role: 'assistant' as const,
@@ -82,8 +87,9 @@ export async function POST(request: NextRequest) {
 
       // Send notification email for human support request
       try {
-        const notificationEmail = process.env.CHAT_NOTIFICATION_EMAIL || process.env.ADMIN_EMAIL;
-        
+        const notificationEmail =
+          process.env.CHAT_NOTIFICATION_EMAIL || process.env.ADMIN_EMAIL;
+
         if (notificationEmail) {
           await resend.emails.send({
             from: 'Rising Dot <onboarding@resend.dev>',
@@ -115,10 +121,9 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    await db.collection('conversations').updateOne(
-      { _id: new ObjectId(conversationId) },
-      updateData
-    );
+    await db
+      .collection('conversations')
+      .updateOne({ _id: new ObjectId(conversationId) }, updateData);
 
     return NextResponse.json({
       message: userMessage,
@@ -164,9 +169,8 @@ export async function GET(request: NextRequest) {
 
     // Return only new messages if lastMessageCount is provided
     const messages = conversation.messages;
-    const newMessages = lastMessageCount > 0 
-      ? messages.slice(lastMessageCount) 
-      : messages;
+    const newMessages =
+      lastMessageCount > 0 ? messages.slice(lastMessageCount) : messages;
 
     return NextResponse.json({
       messages: newMessages,
