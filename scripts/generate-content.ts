@@ -33,8 +33,24 @@ async function generateStaticContent() {
   console.log('🚀 Starting static content generation...\n');
 
   if (!MONGODB_URI) {
-    console.error('❌ MONGODB_URI environment variable is not set');
-    process.exit(1);
+    console.warn('⚠️  MONGODB_URI environment variable is not set');
+    console.warn(
+      '⚠️  Skipping content generation. Using existing static files if available.\n'
+    );
+
+    // Check if static files exist
+    if (fs.existsSync(OUTPUT_DIR) && fs.readdirSync(OUTPUT_DIR).length > 1) {
+      console.log(
+        '✅ Existing static content files found. Build can continue.\n'
+      );
+      process.exit(0);
+    } else {
+      console.error('❌ No existing static content files found.');
+      console.error(
+        '❌ Please set MONGODB_URI or manually create content files.\n'
+      );
+      process.exit(1);
+    }
   }
 
   let client: MongoClient | null = null;
