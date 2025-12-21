@@ -52,15 +52,15 @@ export default function PagesList() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2563EB]"></div>
+      <div className="flex h-64 items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-[#2563EB]"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-800">
+      <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-800">
         Error: {error}
       </div>
     );
@@ -69,82 +69,87 @@ export default function PagesList() {
   return (
     <div className="space-y-4">
       {pages.length === 0 ? (
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center">
-          <FileText className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-slate-900 mb-2">
+        <div className="rounded-xl border border-slate-200 bg-white p-12 text-center shadow-sm">
+          <FileText className="mx-auto mb-4 h-16 w-16 text-slate-300" />
+          <h3 className="mb-2 text-xl font-semibold text-slate-900">
             No pages yet
           </h3>
-          <p className="text-slate-600 mb-4">
+          <p className="mb-4 text-slate-600">
             Create your first page to get started
           </p>
         </div>
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
           <table className="w-full">
-            <thead className="bg-slate-50 border-b border-slate-200">
+            <thead className="border-b border-slate-200 bg-slate-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
                   Title
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
                   Slug
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
                   Updated
                 </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-slate-500">
                   Actions
                 </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200">
               {pages.map((page) => (
-                <tr key={page.id} className="hover:bg-slate-50 transition-colors">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-slate-900">{page.title}</div>
+                <tr
+                  key={page.id}
+                  className="transition-colors hover:bg-slate-50"
+                >
+                  <td className="whitespace-nowrap px-6 py-4">
+                    <div className="text-sm font-medium text-slate-900">
+                      {page.title}
+                    </div>
                     {page.meta_description && (
-                      <div className="text-sm text-slate-500 truncate max-w-md">
+                      <div className="max-w-md truncate text-sm text-slate-500">
                         {page.meta_description}
                       </div>
                     )}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <code className="text-sm text-slate-600 bg-slate-100 px-2 py-1 rounded">
+                  <td className="whitespace-nowrap px-6 py-4">
+                    <code className="rounded bg-slate-100 px-2 py-1 text-sm text-slate-600">
                       /{page.slug}
                     </code>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="whitespace-nowrap px-6 py-4">
                     {page.published_at ? (
-                      <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">
+                      <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
                         Published
                       </span>
                     ) : (
-                      <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">
+                      <span className="rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
                         Draft
                       </span>
                     )}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                  <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
                     {new Date(page.updated_at).toLocaleDateString()}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                     <div className="flex items-center justify-end gap-2">
                       <Link
                         href={`/admin/pages/${page.id}`}
-                        className="text-[#2563EB] hover:text-[#1d4ed8] p-1"
+                        className="p-1 text-[#2563EB] hover:text-[#1d4ed8]"
                         title="Edit"
                       >
-                        <Edit className="w-4 h-4" />
+                        <Edit className="h-4 w-4" />
                       </Link>
                       <button
                         onClick={() => deletePage(page.id)}
-                        className="text-red-600 hover:text-red-800 p-1"
+                        className="p-1 text-red-600 hover:text-red-800"
                         title="Delete"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 className="h-4 w-4" />
                       </button>
                     </div>
                   </td>

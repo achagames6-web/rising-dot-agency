@@ -113,14 +113,14 @@ export default function ActivityLogViewer({ userId }: ActivityLogViewerProps) {
     <div className="space-y-4">
       {/* Filters */}
       {!userId && (
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row">
           <select
             value={actionFilter}
             onChange={(e) => {
               setActionFilter(e.target.value);
               setPage(1);
             }}
-            className="px-4 py-2 bg-[#1E293B] border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#37AFE1]"
+            className="rounded-lg border border-slate-700 bg-[#1E293B] px-4 py-2 text-white focus:border-[#37AFE1] focus:outline-none"
           >
             <option value="">All Actions</option>
             {uniqueActions.map((action) => (
@@ -135,7 +135,7 @@ export default function ActivityLogViewer({ userId }: ActivityLogViewerProps) {
               setResourceFilter(e.target.value);
               setPage(1);
             }}
-            className="px-4 py-2 bg-[#1E293B] border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#37AFE1]"
+            className="rounded-lg border border-slate-700 bg-[#1E293B] px-4 py-2 text-white focus:border-[#37AFE1] focus:outline-none"
           >
             <option value="">All Resources</option>
             {uniqueResources.map((resource) => (
@@ -148,16 +148,16 @@ export default function ActivityLogViewer({ userId }: ActivityLogViewerProps) {
       )}
 
       {/* Activity Log */}
-      <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 overflow-hidden">
+      <div className="overflow-hidden rounded-xl border border-slate-700/50 bg-[#1E293B]">
         {loading ? (
           <div className="p-12 text-center">
-            <div className="inline-block w-8 h-8 border-4 border-[#37AFE1]/30 border-t-[#37AFE1] rounded-full animate-spin"></div>
+            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-[#37AFE1]/30 border-t-[#37AFE1]"></div>
             <p className="mt-4 text-slate-400">Loading activity logs...</p>
           </div>
         ) : logs.length === 0 ? (
           <div className="p-12 text-center">
-            <Activity className="w-16 h-16 text-slate-600 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">
+            <Activity className="mx-auto mb-4 h-16 w-16 text-slate-600" />
+            <h3 className="mb-2 text-xl font-semibold text-white">
               No activity logs
             </h3>
             <p className="text-slate-400">
@@ -174,19 +174,19 @@ export default function ActivityLogViewer({ userId }: ActivityLogViewerProps) {
                   <div className="flex items-start gap-4">
                     <div className="flex-shrink-0">
                       <div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center ${getActionColor(
+                        className={`flex h-10 w-10 items-center justify-center rounded-full ${getActionColor(
                           log.action
                         )}`}
                       >
                         {log.resource_type === 'user' ? (
-                          <User className="w-5 h-5" />
+                          <User className="h-5 w-5" />
                         ) : (
-                          <FileText className="w-5 h-5" />
+                          <FileText className="h-5 w-5" />
                         )}
                       </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
+                    <div className="min-w-0 flex-1">
+                      <div className="mb-1 flex items-center gap-2">
                         <span className="font-medium text-white">
                           {log.user_name || 'System'}
                         </span>
@@ -202,7 +202,7 @@ export default function ActivityLogViewer({ userId }: ActivityLogViewerProps) {
                       </div>
                       <div className="flex items-center gap-4 text-sm text-slate-400">
                         <span className="flex items-center gap-1">
-                          <Calendar className="w-4 h-4" />
+                          <Calendar className="h-4 w-4" />
                           {formatDate(log.created_at)}
                         </span>
                         {log.user_email && (
@@ -211,10 +211,10 @@ export default function ActivityLogViewer({ userId }: ActivityLogViewerProps) {
                       </div>
                       {log.details && Object.keys(log.details).length > 0 && (
                         <details className="mt-2">
-                          <summary className="text-sm text-slate-400 cursor-pointer hover:text-white">
+                          <summary className="cursor-pointer text-sm text-slate-400 hover:text-white">
                             View details
                           </summary>
-                          <pre className="mt-2 p-2 bg-[#0F172A] rounded text-xs overflow-x-auto text-slate-300">
+                          <pre className="mt-2 overflow-x-auto rounded bg-[#0F172A] p-2 text-xs text-slate-300">
                             {JSON.stringify(log.details, null, 2)}
                           </pre>
                         </details>
@@ -227,11 +227,11 @@ export default function ActivityLogViewer({ userId }: ActivityLogViewerProps) {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="px-6 py-4 border-t border-slate-700 flex items-center justify-between">
+              <div className="flex items-center justify-between border-t border-slate-700 px-6 py-4">
                 <button
                   onClick={() => setPage(Math.max(1, page - 1))}
                   disabled={page === 1}
-                  className="px-4 py-2 text-sm font-medium text-slate-300 bg-slate-700 border border-slate-600 rounded-lg hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="rounded-lg border border-slate-600 bg-slate-700 px-4 py-2 text-sm font-medium text-slate-300 hover:bg-slate-600 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   Previous
                 </button>
@@ -241,7 +241,7 @@ export default function ActivityLogViewer({ userId }: ActivityLogViewerProps) {
                 <button
                   onClick={() => setPage(Math.min(totalPages, page + 1))}
                   disabled={page === totalPages}
-                  className="px-4 py-2 text-sm font-medium text-slate-300 bg-slate-700 border border-slate-600 rounded-lg hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="rounded-lg border border-slate-600 bg-slate-700 px-4 py-2 text-sm font-medium text-slate-300 hover:bg-slate-600 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   Next
                 </button>

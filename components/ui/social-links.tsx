@@ -3,7 +3,10 @@
 import * as React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { useSocialLinks, SocialLinks as SocialLinksType } from '@/lib/hooks/useSocialLinks';
+import {
+  useSocialLinks,
+  SocialLinks as SocialLinksType,
+} from '@/lib/hooks/useSocialLinks';
 
 interface Social {
   name: string;
@@ -18,7 +21,7 @@ interface SocialLinksProps extends React.HTMLAttributes<HTMLDivElement> {
 // Helper to build socials array from settings
 function buildSocialsFromSettings(links: SocialLinksType): Social[] {
   const socials: Social[] = [];
-  
+
   if (links.instagram) {
     socials.push({
       name: 'Instagram',
@@ -47,7 +50,7 @@ function buildSocialsFromSettings(links: SocialLinksType): Social[] {
       href: links.facebook,
     });
   }
-  
+
   return socials;
 }
 
@@ -75,12 +78,16 @@ export const defaultSocials: Social[] = [
   },
 ];
 
-export function SocialLinks({ socials: propSocials, className, ...props }: SocialLinksProps) {
+export function SocialLinks({
+  socials: propSocials,
+  className,
+  ...props
+}: SocialLinksProps) {
   const { socialLinks } = useSocialLinks();
   const [hoveredSocial, setHoveredSocial] = React.useState<string | null>(null);
   const [rotation, setRotation] = React.useState<number>(0);
   const [clicked, setClicked] = React.useState<boolean>(false);
-  
+
   // Use prop socials if provided, otherwise build from settings
   const socials = propSocials || buildSocialsFromSettings(socialLinks);
 
@@ -101,15 +108,20 @@ export function SocialLinks({ socials: propSocials, className, ...props }: Socia
   }, [clicked]);
 
   return (
-    <div className={cn('flex items-center justify-center gap-0', className)} {...props}>
+    <div
+      className={cn('flex items-center justify-center gap-0', className)}
+      {...props}
+    >
       {socials.map((social, index) => (
         <a
           href={social.href || '#'}
           target="_blank"
           rel="noopener noreferrer"
           className={cn(
-            'relative cursor-pointer px-5 py-2 transition-opacity duration-200 text-white',
-            hoveredSocial && hoveredSocial !== social.name ? 'opacity-50' : 'opacity-100'
+            'relative cursor-pointer px-5 py-2 text-white transition-opacity duration-200',
+            hoveredSocial && hoveredSocial !== social.name
+              ? 'opacity-50'
+              : 'opacity-100'
           )}
           key={index}
           onMouseEnter={() => {

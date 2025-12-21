@@ -1,18 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { 
-  FileText, 
-  Globe, 
-  Link2, 
-  Mail, 
-  Search, 
-  Code, 
-  Target, 
-  LinkIcon, 
-  AlertTriangle, 
-  BarChart3, 
-  Share2, 
+import {
+  FileText,
+  Globe,
+  Link2,
+  Mail,
+  Search,
+  Code,
+  Target,
+  LinkIcon,
+  AlertTriangle,
+  BarChart3,
+  Share2,
   ExternalLink,
   Gauge,
   Image,
@@ -21,7 +21,7 @@ import {
   Copy,
   Languages,
   Bot,
-  Gift
+  Gift,
 } from 'lucide-react';
 
 // Existing components
@@ -48,11 +48,27 @@ import HreflangManager from '@/components/admin/seo/HreflangManager';
 import CrawlBudgetMonitor from '@/components/admin/seo/CrawlBudgetMonitor';
 import LeadMagnetManager from '@/components/admin/seo/LeadMagnetManager';
 
-type TabType = 
-  | 'meta' | 'audit' | 'keywords' | 'schema' | 'sitemap' | 'robots' 
-  | 'redirects' | 'links' | 'broken' | 'social' | 'utm' | 'subscribers'
-  | 'pagespeed' | 'images' | 'headings' | 'readability' | 'duplicates' 
-  | 'hreflang' | 'crawl' | 'leadmagnets';
+type TabType =
+  | 'meta'
+  | 'audit'
+  | 'keywords'
+  | 'schema'
+  | 'sitemap'
+  | 'robots'
+  | 'redirects'
+  | 'links'
+  | 'broken'
+  | 'social'
+  | 'utm'
+  | 'subscribers'
+  | 'pagespeed'
+  | 'images'
+  | 'headings'
+  | 'readability'
+  | 'duplicates'
+  | 'hreflang'
+  | 'crawl'
+  | 'leadmagnets';
 
 interface TabGroup {
   name: string;
@@ -102,27 +118,48 @@ export default function SEOPage() {
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case 'meta': return <MetaTagsEditor />;
-      case 'audit': return <SEOAudit />;
-      case 'keywords': return <KeywordTracker />;
-      case 'schema': return <SchemaMarkupGenerator />;
-      case 'headings': return <HeadingAnalyzer />;
-      case 'images': return <ImageAltManager />;
-      case 'readability': return <ContentReadability />;
-      case 'sitemap': return <SitemapGenerator />;
-      case 'robots': return <RobotsEditor />;
-      case 'redirects': return <RedirectManager />;
-      case 'links': return <InternalLinkAnalyzer />;
-      case 'broken': return <BrokenLinkChecker />;
-      case 'duplicates': return <DuplicateContentDetector />;
-      case 'hreflang': return <HreflangManager />;
-      case 'crawl': return <CrawlBudgetMonitor />;
-      case 'pagespeed': return <PageSpeedInsights />;
-      case 'social': return <SocialPreview />;
-      case 'utm': return <UTMBuilder />;
-      case 'subscribers': return <SubscribersManager />;
-      case 'leadmagnets': return <LeadMagnetManager />;
-      default: return <MetaTagsEditor />;
+      case 'meta':
+        return <MetaTagsEditor />;
+      case 'audit':
+        return <SEOAudit />;
+      case 'keywords':
+        return <KeywordTracker />;
+      case 'schema':
+        return <SchemaMarkupGenerator />;
+      case 'headings':
+        return <HeadingAnalyzer />;
+      case 'images':
+        return <ImageAltManager />;
+      case 'readability':
+        return <ContentReadability />;
+      case 'sitemap':
+        return <SitemapGenerator />;
+      case 'robots':
+        return <RobotsEditor />;
+      case 'redirects':
+        return <RedirectManager />;
+      case 'links':
+        return <InternalLinkAnalyzer />;
+      case 'broken':
+        return <BrokenLinkChecker />;
+      case 'duplicates':
+        return <DuplicateContentDetector />;
+      case 'hreflang':
+        return <HreflangManager />;
+      case 'crawl':
+        return <CrawlBudgetMonitor />;
+      case 'pagespeed':
+        return <PageSpeedInsights />;
+      case 'social':
+        return <SocialPreview />;
+      case 'utm':
+        return <UTMBuilder />;
+      case 'subscribers':
+        return <SubscribersManager />;
+      case 'leadmagnets':
+        return <LeadMagnetManager />;
+      default:
+        return <MetaTagsEditor />;
     }
   };
 
@@ -131,7 +168,7 @@ export default function SEOPage() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-white">SEO & Marketing</h1>
-        <p className="text-slate-400 mt-1">
+        <p className="mt-1 text-slate-400">
           Comprehensive SEO tools to optimize your website
         </p>
       </div>
@@ -140,7 +177,9 @@ export default function SEOPage() {
       <div className="space-y-4">
         {tabGroups.map((group) => (
           <div key={group.name}>
-            <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">{group.name}</p>
+            <p className="mb-2 text-xs font-medium uppercase tracking-wider text-slate-500">
+              {group.name}
+            </p>
             <div className="flex flex-wrap gap-2">
               {group.tabs.map((tab) => {
                 const Icon = tab.icon;
@@ -148,13 +187,13 @@ export default function SEOPage() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                       activeTab === tab.id
                         ? 'bg-[#37AFE1] text-white'
                         : 'bg-[#1E293B] text-slate-300 hover:bg-slate-700 hover:text-white'
                     }`}
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon className="h-4 w-4" />
                     {tab.label}
                   </button>
                 );

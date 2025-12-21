@@ -8,18 +8,27 @@ const MagneticCursor = dynamic(() => import('@/components/MagneticCursor'), {
   ssr: false,
 });
 
-const GlobalBackground = dynamic(() => import('@/components/GlobalBackground'), {
-  ssr: false,
-});
+const GlobalBackground = dynamic(
+  () => import('@/components/GlobalBackground'),
+  {
+    ssr: false,
+  }
+);
 
 const CookieConsent = dynamic(
-  () => import('@/components/security/CookieConsent').then((mod) => mod.CookieConsent),
+  () =>
+    import('@/components/security/CookieConsent').then(
+      (mod) => mod.CookieConsent
+    ),
   { ssr: false }
 );
 
-const AnalyticsTracker = dynamic(() => import('@/components/analytics/AnalyticsTracker'), {
-  ssr: false,
-});
+const AnalyticsTracker = dynamic(
+  () => import('@/components/analytics/AnalyticsTracker'),
+  {
+    ssr: false,
+  }
+);
 
 const ChatWidget = dynamic(() => import('@/components/ChatWidget'), {
   ssr: false,
@@ -48,10 +57,11 @@ const firaCode = Fira_Code({
 
 export const metadata: Metadata = {
   title: 'Rising Dot Agency',
-  description: 'Premium digital solutions provider specializing in N8N Automations, Chatbot Development, Web Design, WordPress, Shopify, and SEO services.',
+  description:
+    'Premium digital solutions provider specializing in N8N Automations, Chatbot Development, Web Design, WordPress, Shopify, and SEO services.',
   other: {
     // Resource hints for performance
-    'preconnect': 'https://fonts.googleapis.com',
+    preconnect: 'https://fonts.googleapis.com',
     'dns-prefetch': 'https://fonts.gstatic.com',
   },
 };
@@ -62,14 +72,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${inter.variable} ${firaCode.variable}`}>
+    <html
+      lang="en"
+      className={`${montserrat.variable} ${inter.variable} ${firaCode.variable}`}
+    >
       <head>
         {/* Resource hints for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
       </head>
-      <body className="font-inter bg-[#0F172A]">
+      <body className="bg-[#0F172A] font-inter">
         <GlobalBackground />
         <MagneticCursor />
         {children}

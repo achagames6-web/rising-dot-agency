@@ -18,7 +18,9 @@ export async function GET() {
     results.teamMembers = teamResult.deletedCount;
 
     // Clear testimonials
-    const testimonialsResult = await db.collection('testimonials').deleteMany({});
+    const testimonialsResult = await db
+      .collection('testimonials')
+      .deleteMany({});
     results.testimonials = testimonialsResult.deletedCount;
 
     // Clear services
@@ -35,6 +37,9 @@ export async function GET() {
     });
   } catch (error) {
     console.error('Error clearing seed data:', error);
-    return NextResponse.json({ error: 'Failed to clear seed data' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to clear seed data' },
+      { status: 500 }
+    );
   }
 }

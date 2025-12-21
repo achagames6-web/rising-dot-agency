@@ -14,14 +14,19 @@ import {
 } from '../workflowBuilderUtils';
 
 // All valid node types
-const NODE_TYPES: WorkflowNode['type'][] = ['trigger', 'action', 'condition', 'output'];
+const NODE_TYPES: WorkflowNode['type'][] = [
+  'trigger',
+  'action',
+  'condition',
+  'output',
+];
 
 // Default node colors - must match the component's defaults
 const defaultNodeColors: NodeTypeColors = {
-  trigger: '#2563EB',   // Primary Blue
-  action: '#7C3AED',    // Secondary Purple
+  trigger: '#2563EB', // Primary Blue
+  action: '#7C3AED', // Secondary Purple
   condition: '#F59E0B', // Warning Amber
-  output: '#10B981',    // Success Green
+  output: '#10B981', // Success Green
 };
 
 /**
@@ -42,7 +47,9 @@ const nodeTypeColorsArb: fc.Arbitrary<NodeTypeColors> = fc.record({
 /**
  * Generator for valid node types
  */
-const nodeTypeArb: fc.Arbitrary<WorkflowNode['type']> = fc.constantFrom(...NODE_TYPES);
+const nodeTypeArb: fc.Arbitrary<WorkflowNode['type']> = fc.constantFrom(
+  ...NODE_TYPES
+);
 
 describe('WorkflowBuilder Node Color Mapping', () => {
   /**
@@ -64,7 +71,10 @@ describe('WorkflowBuilder Node Color Mapping', () => {
   test('Property 4: Default colors are returned correctly for all node types', () => {
     fc.assert(
       fc.property(nodeTypeArb, (nodeType) => {
-        const returnedColor = getNodeColorFromMapping(nodeType, defaultNodeColors);
+        const returnedColor = getNodeColorFromMapping(
+          nodeType,
+          defaultNodeColors
+        );
 
         // Should return the correct default color for each type
         expect(returnedColor).toBe(defaultNodeColors[nodeType]);

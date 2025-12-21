@@ -85,10 +85,10 @@ export default function FeatureRequestForm({
   const [error, setError] = useState('');
 
   const handleFeatureToggle = (value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       features: prev.features.includes(value)
-        ? prev.features.filter(f => f !== value)
+        ? prev.features.filter((f) => f !== value)
         : [...prev.features, value],
     }));
   };
@@ -125,16 +125,21 @@ export default function FeatureRequestForm({
 
   if (isSubmitted) {
     return (
-      <section className="py-20 px-6">
+      <section className="px-6 py-20">
         <motion.div
-          className="max-w-2xl mx-auto text-center"
+          className="mx-auto max-w-2xl text-center"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
         >
-          <div className="w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center" style={{ backgroundColor: `${accentColor}20` }}>
-            <CheckCircle className="w-10 h-10" style={{ color: accentColor }} />
+          <div
+            className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full"
+            style={{ backgroundColor: `${accentColor}20` }}
+          >
+            <CheckCircle className="h-10 w-10" style={{ color: accentColor }} />
           </div>
-          <h2 className="text-3xl font-bold text-white mb-4">{successMessage}</h2>
+          <h2 className="mb-4 text-3xl font-bold text-white">
+            {successMessage}
+          </h2>
           <p className="text-[#94A3B8]">{successSubtext}</p>
         </motion.div>
       </section>
@@ -142,91 +147,125 @@ export default function FeatureRequestForm({
   }
 
   return (
-    <section className="py-20 px-6">
-      <div className="max-w-4xl mx-auto">
+    <section className="px-6 py-20">
+      <div className="mx-auto max-w-4xl">
         {/* Header */}
-        <div className="text-center mb-12">
-          <span className="text-sm font-medium tracking-wider uppercase" style={{ color: accentColor }}>
+        <div className="mb-12 text-center">
+          <span
+            className="text-sm font-medium uppercase tracking-wider"
+            style={{ color: accentColor }}
+          >
             {eyebrow}
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-white mt-4">
+          <h2 className="mt-4 text-4xl font-bold text-white md:text-5xl">
             {title} <span style={{ color: accentColor }}>{titleHighlight}</span>
           </h2>
-          <p className="text-[#94A3B8] text-lg mt-4 max-w-2xl mx-auto">{subtitle}</p>
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-[#94A3B8]">
+            {subtitle}
+          </p>
         </div>
 
         <motion.form
           onSubmit={handleSubmit}
-          className="bg-[#1E293B] rounded-2xl p-8 border border-slate-700/50"
+          className="rounded-2xl border border-slate-700/50 bg-[#1E293B] p-8"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
           {/* Basic Info */}
-          <div className="grid md:grid-cols-2 gap-6 mb-8">
+          <div className="mb-8 grid gap-6 md:grid-cols-2">
             <div>
-              <label className="block text-slate-300 font-medium mb-2">Name *</label>
+              <label className="mb-2 block font-medium text-slate-300">
+                Name *
+              </label>
               <input
                 type="text"
                 required
                 value={formData.name}
-                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, name: e.target.value }))
+                }
                 placeholder={placeholders.name}
-                className="w-full px-4 py-3 bg-[#0F172A] border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#37AFE1] transition-colors"
+                className="w-full rounded-xl border border-slate-700 bg-[#0F172A] px-4 py-3 text-white placeholder-slate-500 transition-colors focus:border-[#37AFE1] focus:outline-none"
               />
             </div>
             <div>
-              <label className="block text-slate-300 font-medium mb-2">Email *</label>
+              <label className="mb-2 block font-medium text-slate-300">
+                Email *
+              </label>
               <input
                 type="email"
                 required
                 value={formData.email}
-                onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, email: e.target.value }))
+                }
                 placeholder={placeholders.email}
-                className="w-full px-4 py-3 bg-[#0F172A] border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#37AFE1] transition-colors"
+                className="w-full rounded-xl border border-slate-700 bg-[#0F172A] px-4 py-3 text-white placeholder-slate-500 transition-colors focus:border-[#37AFE1] focus:outline-none"
               />
             </div>
           </div>
 
           <div className="mb-8">
-            <label className="block text-slate-300 font-medium mb-2">Company</label>
+            <label className="mb-2 block font-medium text-slate-300">
+              Company
+            </label>
             <input
               type="text"
               value={formData.company}
-              onChange={(e) => setFormData(prev => ({ ...prev, company: e.target.value }))}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, company: e.target.value }))
+              }
               placeholder={placeholders.company}
-              className="w-full px-4 py-3 bg-[#0F172A] border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#37AFE1] transition-colors"
+              className="w-full rounded-xl border border-slate-700 bg-[#0F172A] px-4 py-3 text-white placeholder-slate-500 transition-colors focus:border-[#37AFE1] focus:outline-none"
             />
           </div>
 
           {/* Description */}
           <div className="mb-8">
-            <label className="block text-slate-300 font-medium mb-2">Describe Your Ideal SaaS *</label>
+            <label className="mb-2 block font-medium text-slate-300">
+              Describe Your Ideal SaaS *
+            </label>
             <textarea
               required
               rows={4}
               value={formData.description}
-              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  description: e.target.value,
+                }))
+              }
               placeholder={placeholders.description}
-              className="w-full px-4 py-3 bg-[#0F172A] border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#37AFE1] transition-colors resize-none"
+              className="w-full resize-none rounded-xl border border-slate-700 bg-[#0F172A] px-4 py-3 text-white placeholder-slate-500 transition-colors focus:border-[#37AFE1] focus:outline-none"
             />
           </div>
 
           {/* Feature Checkboxes */}
           <div className="mb-8">
-            <label className="block text-slate-300 font-medium mb-4">Desired Features</label>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <label className="mb-4 block font-medium text-slate-300">
+              Desired Features
+            </label>
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
               {featureOptions.map((feature) => (
                 <button
                   key={feature.value}
                   type="button"
                   onClick={() => handleFeatureToggle(feature.value)}
-                  className={`px-4 py-3 rounded-xl border text-sm font-medium transition-all ${
+                  className={`rounded-xl border px-4 py-3 text-sm font-medium transition-all ${
                     formData.features.includes(feature.value)
                       ? 'border-[#37AFE1] bg-[#37AFE1]/10 text-[#37AFE1]'
                       : 'border-slate-700 bg-[#0F172A] text-slate-400 hover:border-slate-600'
                   }`}
-                  style={formData.features.includes(feature.value) ? { borderColor: accentColor, backgroundColor: `${accentColor}10`, color: accentColor } : {}}
+                  style={
+                    formData.features.includes(feature.value)
+                      ? {
+                          borderColor: accentColor,
+                          backgroundColor: `${accentColor}10`,
+                          color: accentColor,
+                        }
+                      : {}
+                  }
                 >
                   {feature.label}
                 </button>
@@ -236,19 +275,31 @@ export default function FeatureRequestForm({
 
           {/* Budget */}
           <div className="mb-8">
-            <label className="block text-slate-300 font-medium mb-4">Budget Range</label>
+            <label className="mb-4 block font-medium text-slate-300">
+              Budget Range
+            </label>
             <div className="flex flex-wrap gap-3">
               {budgetOptions.map((option) => (
                 <button
                   key={option.value}
                   type="button"
-                  onClick={() => setFormData(prev => ({ ...prev, budget: option.value }))}
-                  className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
+                  onClick={() =>
+                    setFormData((prev) => ({ ...prev, budget: option.value }))
+                  }
+                  className={`rounded-lg border px-4 py-2 text-sm font-medium transition-all ${
                     formData.budget === option.value
                       ? 'border-[#37AFE1] bg-[#37AFE1]/10 text-[#37AFE1]'
                       : 'border-slate-700 bg-[#0F172A] text-slate-400 hover:border-slate-600'
                   }`}
-                  style={formData.budget === option.value ? { borderColor: accentColor, backgroundColor: `${accentColor}10`, color: accentColor } : {}}
+                  style={
+                    formData.budget === option.value
+                      ? {
+                          borderColor: accentColor,
+                          backgroundColor: `${accentColor}10`,
+                          color: accentColor,
+                        }
+                      : {}
+                  }
                 >
                   {option.label}
                 </button>
@@ -258,7 +309,7 @@ export default function FeatureRequestForm({
 
           {/* Error */}
           {error && (
-            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm">
+            <div className="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-400">
               {error}
             </div>
           )}
@@ -267,17 +318,17 @@ export default function FeatureRequestForm({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-4 rounded-xl font-semibold text-white flex items-center justify-center gap-2 transition-all hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex w-full items-center justify-center gap-2 rounded-xl py-4 font-semibold text-white transition-all hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-50"
             style={{ backgroundColor: accentColor }}
           >
             {isSubmitting ? (
               <>
-                <Loader2 className="w-5 h-5 animate-spin" />
+                <Loader2 className="h-5 w-5 animate-spin" />
                 Submitting...
               </>
             ) : (
               <>
-                <Send className="w-5 h-5" />
+                <Send className="h-5 w-5" />
                 {submitButtonText}
               </>
             )}

@@ -38,22 +38,22 @@ const defaultData: DataPoint[] = [
   { month: 'Sep', traffic: 10200, conversions: 204 },
   { month: 'Oct', traffic: 12500, conversions: 250 },
   { month: 'Nov', traffic: 15000, conversions: 300 },
-  { month: 'Dec', traffic: 18000, conversions: 360 }
+  { month: 'Dec', traffic: 18000, conversions: 360 },
 ];
 
 const defaultMilestones: Milestone[] = [
   { index: 2, label: '2.5K Visitors', icon: '🎯' },
   { index: 5, label: '5K Visitors', icon: '🚀' },
   { index: 8, label: '10K Visitors', icon: '⭐' },
-  { index: 11, label: '18K Visitors', icon: '🎉' }
+  { index: 11, label: '18K Visitors', icon: '🎉' },
 ];
 
 /**
  * TrafficGrowth Component
- * 
+ *
  * Performance timeline showing organic traffic growth with animated line chart.
  * Displays milestone celebrations with particle effects at key achievements.
- * 
+ *
  * Validates: Requirements 14.4, 14.7, 14.8
  */
 export function TrafficGrowth({
@@ -64,14 +64,17 @@ export function TrafficGrowth({
   totalGrowthLabel = 'Total Growth',
   monthlyVisitorsLabel = 'Monthly Visitors',
   conversionsLabel = 'Conversions',
-  conversionRateLabel = 'Conversion Rate'
+  conversionRateLabel = 'Conversion Rate',
 }: TrafficGrowthProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [animationProgress, setAnimationProgress] = useState(0);
   const [hoveredPoint, setHoveredPoint] = useState<number | null>(null);
 
   const data = propData && propData.length > 0 ? propData : defaultData;
-  const milestones = propMilestones && propMilestones.length > 0 ? propMilestones : defaultMilestones;
+  const milestones =
+    propMilestones && propMilestones.length > 0
+      ? propMilestones
+      : defaultMilestones;
 
   useEffect(() => {
     // Animate progress from 0 to 1 over 2 seconds
@@ -118,12 +121,12 @@ export function TrafficGrowth({
       const padding = 40;
       const chartWidth = canvas.offsetWidth - padding * 2;
       const chartHeight = canvas.offsetHeight - padding * 2;
-      const maxTraffic = Math.max(...data.map(d => d.traffic));
+      const maxTraffic = Math.max(...data.map((d) => d.traffic));
 
       // Calculate points
       const points = data.map((d, i) => ({
         x: padding + (i / (data.length - 1)) * chartWidth,
-        y: padding + chartHeight - (d.traffic / maxTraffic) * chartHeight
+        y: padding + chartHeight - (d.traffic / maxTraffic) * chartHeight,
       }));
 
       // Draw grid lines
@@ -138,21 +141,29 @@ export function TrafficGrowth({
       }
 
       // Draw area under curve
-      const gradient = ctx.createLinearGradient(0, padding, 0, padding + chartHeight);
+      const gradient = ctx.createLinearGradient(
+        0,
+        padding,
+        0,
+        padding + chartHeight
+      );
       gradient.addColorStop(0, '#F9731640');
       gradient.addColorStop(1, '#F9731600');
-      
+
       ctx.fillStyle = gradient;
       ctx.beginPath();
       ctx.moveTo(points[0].x, padding + chartHeight);
-      
+
       const visiblePoints = Math.floor(points.length * animationProgress);
       for (let i = 0; i <= visiblePoints; i++) {
         const point = points[Math.min(i, points.length - 1)];
         ctx.lineTo(point.x, point.y);
       }
-      
-      ctx.lineTo(points[Math.min(visiblePoints, points.length - 1)].x, padding + chartHeight);
+
+      ctx.lineTo(
+        points[Math.min(visiblePoints, points.length - 1)].x,
+        padding + chartHeight
+      );
       ctx.closePath();
       ctx.fill();
 
@@ -161,7 +172,7 @@ export function TrafficGrowth({
       ctx.lineWidth = 3;
       ctx.beginPath();
       ctx.moveTo(points[0].x, points[0].y);
-      
+
       for (let i = 1; i <= visiblePoints; i++) {
         const point = points[Math.min(i, points.length - 1)];
         ctx.lineTo(point.x, point.y);
@@ -171,7 +182,14 @@ export function TrafficGrowth({
       // Draw points
       points.slice(0, visiblePoints + 1).forEach((point, i) => {
         // Outer glow
-        const glowGradient = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, 15);
+        const glowGradient = ctx.createRadialGradient(
+          point.x,
+          point.y,
+          0,
+          point.x,
+          point.y,
+          15
+        );
         glowGradient.addColorStop(0, '#F9731680');
         glowGradient.addColorStop(1, '#F9731600');
         ctx.fillStyle = glowGradient;
@@ -201,18 +219,22 @@ export function TrafficGrowth({
   }, [animationProgress, hoveredPoint, data]);
 
   return (
-    <div className="relative w-full min-h-[600px] bg-[#0F172A] rounded-2xl p-8 overflow-hidden">
+    <div className="relative min-h-[600px] w-full overflow-hidden rounded-2xl bg-[#0F172A] p-8">
       {/* Background effect */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 2px 2px, #F97316 1px, transparent 0)',
-          backgroundSize: '40px 40px'
-        }} />
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle at 2px 2px, #F97316 1px, transparent 0)',
+            backgroundSize: '40px 40px',
+          }}
+        />
       </div>
 
       {/* Header */}
       <div className="relative z-10 mb-6">
-        <h3 className="text-3xl font-bold text-white mb-2">{title}</h3>
+        <h3 className="mb-2 text-3xl font-bold text-white">{title}</h3>
         <p className="text-[#64748B]">{subtitle}</p>
       </div>
 
@@ -220,16 +242,16 @@ export function TrafficGrowth({
       <div className="relative z-10 mb-6">
         <canvas
           ref={canvasRef}
-          className="w-full h-[350px]"
+          className="h-[350px] w-full"
           style={{ width: '100%', height: '350px' }}
         />
 
         {/* Month labels */}
-        <div className="flex justify-between px-10 mt-2">
+        <div className="mt-2 flex justify-between px-10">
           {data.map((d, i) => (
             <div
               key={d.month}
-              className="text-[#64748B] text-sm cursor-pointer hover:text-white transition-colors"
+              className="cursor-pointer text-sm text-[#64748B] transition-colors hover:text-white"
               onMouseEnter={() => setHoveredPoint(i)}
               onMouseLeave={() => setHoveredPoint(null)}
             >
@@ -241,44 +263,46 @@ export function TrafficGrowth({
         {/* Milestone markers */}
         {milestones.map((milestone) => {
           const isVisible = animationProgress >= milestone.index / data.length;
-          
-          return isVisible && (
-            <motion.div
-              key={milestone.index}
-              className="absolute"
-              style={{
-                left: `${(milestone.index / (data.length - 1)) * 100}%`,
-                top: '20%'
-              }}
-              initial={{ opacity: 0, scale: 0, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ 
-                delay: (milestone.index / data.length) * 2,
-                duration: 0.5,
-                type: 'spring',
-                stiffness: 200
-              }}
-            >
-              <div className="relative transform -translate-x-1/2">
-                {/* Particle burst effect */}
-                <motion.div
-                  className="absolute inset-0 flex items-center justify-center"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: [0, 2, 0] }}
-                  transition={{ 
-                    delay: (milestone.index / data.length) * 2 + 0.3,
-                    duration: 1
-                  }}
-                >
-                  <div className="text-4xl">{milestone.icon}</div>
-                </motion.div>
 
-                {/* Label */}
-                <div className="bg-[#F97316] text-white px-3 py-2 rounded-lg text-sm font-bold whitespace-nowrap shadow-lg">
-                  {milestone.label}
+          return (
+            isVisible && (
+              <motion.div
+                key={milestone.index}
+                className="absolute"
+                style={{
+                  left: `${(milestone.index / (data.length - 1)) * 100}%`,
+                  top: '20%',
+                }}
+                initial={{ opacity: 0, scale: 0, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{
+                  delay: (milestone.index / data.length) * 2,
+                  duration: 0.5,
+                  type: 'spring',
+                  stiffness: 200,
+                }}
+              >
+                <div className="relative -translate-x-1/2 transform">
+                  {/* Particle burst effect */}
+                  <motion.div
+                    className="absolute inset-0 flex items-center justify-center"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: [0, 2, 0] }}
+                    transition={{
+                      delay: (milestone.index / data.length) * 2 + 0.3,
+                      duration: 1,
+                    }}
+                  >
+                    <div className="text-4xl">{milestone.icon}</div>
+                  </motion.div>
+
+                  {/* Label */}
+                  <div className="whitespace-nowrap rounded-lg bg-[#F97316] px-3 py-2 text-sm font-bold text-white shadow-lg">
+                    {milestone.label}
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            )
           );
         })}
       </div>
@@ -286,50 +310,62 @@ export function TrafficGrowth({
       {/* Stats */}
       <div className="relative z-10 grid grid-cols-4 gap-4">
         <motion.div
-          className="bg-[#1E293B]/50 rounded-lg p-4 border border-[#64748B]/30"
+          className="rounded-lg border border-[#64748B]/30 bg-[#1E293B]/50 p-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.5, duration: 0.5 }}
         >
-          <div className="text-[#64748B] text-sm mb-1">{totalGrowthLabel}</div>
-          <div className="text-[#F97316] text-2xl font-bold">
-            {Math.round((data[data.length - 1].traffic / data[0].traffic - 1) * 100)}%
+          <div className="mb-1 text-sm text-[#64748B]">{totalGrowthLabel}</div>
+          <div className="text-2xl font-bold text-[#F97316]">
+            {Math.round(
+              (data[data.length - 1].traffic / data[0].traffic - 1) * 100
+            )}
+            %
           </div>
         </motion.div>
 
         <motion.div
-          className="bg-[#1E293B]/50 rounded-lg p-4 border border-[#64748B]/30"
+          className="rounded-lg border border-[#64748B]/30 bg-[#1E293B]/50 p-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.6, duration: 0.5 }}
         >
-          <div className="text-[#64748B] text-sm mb-1">{monthlyVisitorsLabel}</div>
-          <div className="text-white text-2xl font-bold">
+          <div className="mb-1 text-sm text-[#64748B]">
+            {monthlyVisitorsLabel}
+          </div>
+          <div className="text-2xl font-bold text-white">
             {(data[data.length - 1].traffic / 1000).toFixed(1)}K
           </div>
         </motion.div>
 
         <motion.div
-          className="bg-[#1E293B]/50 rounded-lg p-4 border border-[#64748B]/30"
+          className="rounded-lg border border-[#64748B]/30 bg-[#1E293B]/50 p-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.7, duration: 0.5 }}
         >
-          <div className="text-[#64748B] text-sm mb-1">{conversionsLabel}</div>
-          <div className="text-white text-2xl font-bold">
+          <div className="mb-1 text-sm text-[#64748B]">{conversionsLabel}</div>
+          <div className="text-2xl font-bold text-white">
             {data[data.length - 1].conversions}
           </div>
         </motion.div>
 
         <motion.div
-          className="bg-[#1E293B]/50 rounded-lg p-4 border border-[#64748B]/30"
+          className="rounded-lg border border-[#64748B]/30 bg-[#1E293B]/50 p-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.8, duration: 0.5 }}
         >
-          <div className="text-[#64748B] text-sm mb-1">{conversionRateLabel}</div>
-          <div className="text-white text-2xl font-bold">
-            {((data[data.length - 1].conversions / data[data.length - 1].traffic) * 100).toFixed(1)}%
+          <div className="mb-1 text-sm text-[#64748B]">
+            {conversionRateLabel}
+          </div>
+          <div className="text-2xl font-bold text-white">
+            {(
+              (data[data.length - 1].conversions /
+                data[data.length - 1].traffic) *
+              100
+            ).toFixed(1)}
+            %
           </div>
         </motion.div>
       </div>

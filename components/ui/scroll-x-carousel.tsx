@@ -54,12 +54,11 @@ export function ScrollXCarouselContainer({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn('sticky overflow-hidden w-full top-0 left-0', className)}
+      className={cn('sticky left-0 top-0 w-full overflow-hidden', className)}
       {...props}
     />
   );
 }
-
 
 export function ScrollXCarouselWrap({
   className,

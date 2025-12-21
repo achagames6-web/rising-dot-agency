@@ -19,17 +19,34 @@ const pagesToAnalyze = [
 ];
 
 // Simulated link structure (in production, you'd crawl the actual pages)
-const simulatedLinks: Record<string, { internal: string[]; external: string[] }> = {
+const simulatedLinks: Record<
+  string,
+  { internal: string[]; external: string[] }
+> = {
   '/': {
     internal: ['/about', '/services', '/portfolio', '/contact', '/blog'],
-    external: ['https://facebook.com', 'https://twitter.com', 'https://linkedin.com'],
+    external: [
+      'https://facebook.com',
+      'https://twitter.com',
+      'https://linkedin.com',
+    ],
   },
   '/about': {
     internal: ['/', '/services', '/contact', '/portfolio'],
     external: [],
   },
   '/services': {
-    internal: ['/', '/services/chatbot-development', '/services/web-design', '/services/wordpress', '/services/shopify', '/services/seo', '/services/saas', '/services/n8n-automations', '/contact'],
+    internal: [
+      '/',
+      '/services/chatbot-development',
+      '/services/web-design',
+      '/services/wordpress',
+      '/services/shopify',
+      '/services/seo',
+      '/services/saas',
+      '/services/n8n-automations',
+      '/contact',
+    ],
     external: [],
   },
   '/portfolio': {
@@ -81,9 +98,12 @@ export async function POST() {
     const db = client.db('rising-dot');
 
     // Build link structure
-    const links = pagesToAnalyze.map(page => {
-      const pageLinks = simulatedLinks[page.path] || { internal: [], external: [] };
-      
+    const links = pagesToAnalyze.map((page) => {
+      const pageLinks = simulatedLinks[page.path] || {
+        internal: [],
+        external: [],
+      };
+
       // Count incoming links
       let incomingLinks = 0;
       Object.entries(simulatedLinks).forEach(([, links]) => {
@@ -95,8 +115,11 @@ export async function POST() {
       return {
         page: page.path,
         title: page.title,
-        internalLinks: pageLinks.internal.map(url => ({ url, text: 'Link' })),
-        externalLinks: pageLinks.external.map(url => ({ url, text: 'External Link' })),
+        internalLinks: pageLinks.internal.map((url) => ({ url, text: 'Link' })),
+        externalLinks: pageLinks.external.map((url) => ({
+          url,
+          text: 'External Link',
+        })),
         incomingLinks,
         outgoingLinks: pageLinks.internal.length + pageLinks.external.length,
       };
@@ -104,8 +127,8 @@ export async function POST() {
 
     // Find orphan pages (pages with no incoming links except homepage)
     const orphanPages = links
-      .filter(l => l.page !== '/' && l.incomingLinks === 0)
-      .map(l => ({ url: l.page, title: l.title }));
+      .filter((l) => l.page !== '/' && l.incomingLinks === 0)
+      .map((l) => ({ url: l.page, title: l.title }));
 
     // Save to database
     await db.collection('seoLinks').updateOne(
@@ -123,6 +146,9 @@ export async function POST() {
     return NextResponse.json({ links, orphanPages });
   } catch (error) {
     console.error('Error analyzing links:', error);
-    return NextResponse.json({ error: 'Failed to analyze links' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to analyze links' },
+      { status: 500 }
+    );
   }
 }

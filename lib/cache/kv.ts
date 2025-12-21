@@ -2,7 +2,7 @@ import { kv } from '@vercel/kv';
 
 /**
  * Vercel KV (Redis) caching utilities
- * 
+ *
  * This module provides caching functionality using Vercel KV.
  * Environment variables required:
  * - KV_URL
@@ -128,13 +128,13 @@ export async function getOrSetCached<T>(
   ttl: number = CACHE_TTL.MEDIUM
 ): Promise<T> {
   const cached = await getCached<T>(key);
-  
+
   if (cached !== null) {
     return cached;
   }
-  
+
   const data = await fallback();
   await setCached(key, data, ttl);
-  
+
   return data;
 }

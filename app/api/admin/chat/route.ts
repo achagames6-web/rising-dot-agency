@@ -31,7 +31,8 @@ export async function GET(request: NextRequest) {
       status: conv.status,
       messageCount: conv.messages?.length || 0,
       lastMessage: conv.messages?.[conv.messages.length - 1]?.content || '',
-      lastMessageTime: conv.messages?.[conv.messages.length - 1]?.timestamp || conv.updatedAt,
+      lastMessageTime:
+        conv.messages?.[conv.messages.length - 1]?.timestamp || conv.updatedAt,
       createdAt: conv.createdAt,
       updatedAt: conv.updatedAt,
     }));

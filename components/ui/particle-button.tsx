@@ -21,7 +21,7 @@ function ParticleEffect({ elementRef }: ParticleEffectProps) {
       {[...Array(6)].map((_, i) => (
         <motion.div
           key={i}
-          className="fixed w-1 h-1 bg-[#F58122] rounded-full pointer-events-none z-[9999]"
+          className="pointer-events-none fixed z-[9999] h-1 w-1 rounded-full bg-[#F58122]"
           style={{ left: centerX, top: centerY }}
           initial={{
             scale: 0,
@@ -56,9 +56,8 @@ export function useParticleEffect(duration = 1000) {
     }, duration);
   };
 
-  const ParticlePortal = () => (
-    showParticles ? <ParticleEffect elementRef={elementRef} /> : null
-  );
+  const ParticlePortal = () =>
+    showParticles ? <ParticleEffect elementRef={elementRef} /> : null;
 
   return { elementRef, triggerParticles, ParticlePortal, showParticles };
 }
@@ -87,7 +86,11 @@ export function ParticleWrapper({
 
   return (
     <>
-      {showParticles && <ParticleEffect elementRef={wrapperRef as React.RefObject<HTMLElement>} />}
+      {showParticles && (
+        <ParticleEffect
+          elementRef={wrapperRef as React.RefObject<HTMLElement>}
+        />
+      )}
       <div
         ref={wrapperRef}
         onClick={handleClick}

@@ -18,139 +18,121 @@ describe('Responsive Design System - Property Tests', () => {
   describe('Property 10: Responsive Particle Count Adaptation', () => {
     test('particle count adapts correctly to viewport width', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 320, max: 3840 }),
-          (viewportWidth) => {
-            const particleCount = getAdaptiveParticleCount(viewportWidth);
+        fc.property(fc.integer({ min: 320, max: 3840 }), (viewportWidth) => {
+          const particleCount = getAdaptiveParticleCount(viewportWidth);
 
-            if (viewportWidth >= BREAKPOINTS.desktop) {
-              // Desktop: >1024px should have 5000 particles
-              expect(particleCount).toBe(5000);
-            } else if (viewportWidth >= BREAKPOINTS.mobile) {
-              // Tablet: 768-1024px should have 2500 particles
-              expect(particleCount).toBe(2500);
-            } else {
-              // Mobile: <768px should have 500 particles
-              expect(particleCount).toBe(500);
-            }
+          if (viewportWidth >= BREAKPOINTS.desktop) {
+            // Desktop: >1024px should have 5000 particles
+            expect(particleCount).toBe(5000);
+          } else if (viewportWidth >= BREAKPOINTS.mobile) {
+            // Tablet: 768-1024px should have 2500 particles
+            expect(particleCount).toBe(2500);
+          } else {
+            // Mobile: <768px should have 500 particles
+            expect(particleCount).toBe(500);
           }
-        ),
+        }),
         { numRuns: 100 }
       );
     });
 
     test('device type classification is consistent', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 320, max: 3840 }),
-          (viewportWidth) => {
-            const deviceType = getDeviceType(viewportWidth);
+        fc.property(fc.integer({ min: 320, max: 3840 }), (viewportWidth) => {
+          const deviceType = getDeviceType(viewportWidth);
 
-            // Device type should be one of the three valid types
-            expect(['mobile', 'tablet', 'desktop']).toContain(deviceType);
+          // Device type should be one of the three valid types
+          expect(['mobile', 'tablet', 'desktop']).toContain(deviceType);
 
-            // Verify boundaries
-            if (viewportWidth < BREAKPOINTS.mobile) {
-              expect(deviceType).toBe('mobile');
-            } else if (viewportWidth < BREAKPOINTS.desktop) {
-              expect(deviceType).toBe('tablet');
-            } else {
-              expect(deviceType).toBe('desktop');
-            }
+          // Verify boundaries
+          if (viewportWidth < BREAKPOINTS.mobile) {
+            expect(deviceType).toBe('mobile');
+          } else if (viewportWidth < BREAKPOINTS.desktop) {
+            expect(deviceType).toBe('tablet');
+          } else {
+            expect(deviceType).toBe('desktop');
           }
-        ),
+        }),
         { numRuns: 100 }
       );
     });
 
     test('particle count is always positive and reasonable', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 1, max: 10000 }),
-          (viewportWidth) => {
-            const particleCount = getAdaptiveParticleCount(viewportWidth);
+        fc.property(fc.integer({ min: 1, max: 10000 }), (viewportWidth) => {
+          const particleCount = getAdaptiveParticleCount(viewportWidth);
 
-            // Particle count should always be positive
-            expect(particleCount).toBeGreaterThan(0);
+          // Particle count should always be positive
+          expect(particleCount).toBeGreaterThan(0);
 
-            // Particle count should be one of the three valid values
-            expect([500, 2500, 5000]).toContain(particleCount);
+          // Particle count should be one of the three valid values
+          expect([500, 2500, 5000]).toContain(particleCount);
 
-            // Particle count should never exceed desktop maximum
-            expect(particleCount).toBeLessThanOrEqual(5000);
-          }
-        ),
+          // Particle count should never exceed desktop maximum
+          expect(particleCount).toBeLessThanOrEqual(5000);
+        }),
         { numRuns: 100 }
       );
     });
 
     test('target FPS matches device capabilities', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 320, max: 3840 }),
-          (viewportWidth) => {
-            const deviceType = getDeviceType(viewportWidth);
-            const targetFPS = getTargetFPS(deviceType);
+        fc.property(fc.integer({ min: 320, max: 3840 }), (viewportWidth) => {
+          const deviceType = getDeviceType(viewportWidth);
+          const targetFPS = getTargetFPS(deviceType);
 
-            // FPS should match requirements
-            if (deviceType === 'desktop') {
-              expect(targetFPS).toBe(60);
-            } else if (deviceType === 'tablet') {
-              expect(targetFPS).toBe(50);
-            } else {
-              expect(targetFPS).toBe(45);
-            }
-
-            // FPS should always be reasonable
-            expect(targetFPS).toBeGreaterThanOrEqual(30);
-            expect(targetFPS).toBeLessThanOrEqual(60);
+          // FPS should match requirements
+          if (deviceType === 'desktop') {
+            expect(targetFPS).toBe(60);
+          } else if (deviceType === 'tablet') {
+            expect(targetFPS).toBe(50);
+          } else {
+            expect(targetFPS).toBe(45);
           }
-        ),
+
+          // FPS should always be reasonable
+          expect(targetFPS).toBeGreaterThanOrEqual(30);
+          expect(targetFPS).toBeLessThanOrEqual(60);
+        }),
         { numRuns: 100 }
       );
     });
 
     test('WebGL usage is appropriate for device type', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 320, max: 3840 }),
-          (viewportWidth) => {
-            const deviceType = getDeviceType(viewportWidth);
-            const useWebGL = shouldUseWebGL(deviceType);
+        fc.property(fc.integer({ min: 320, max: 3840 }), (viewportWidth) => {
+          const deviceType = getDeviceType(viewportWidth);
+          const useWebGL = shouldUseWebGL(deviceType);
 
-            // Only desktop should use WebGL
-            if (deviceType === 'desktop') {
-              expect(useWebGL).toBe(true);
-            } else {
-              expect(useWebGL).toBe(false);
-            }
+          // Only desktop should use WebGL
+          if (deviceType === 'desktop') {
+            expect(useWebGL).toBe(true);
+          } else {
+            expect(useWebGL).toBe(false);
           }
-        ),
+        }),
         { numRuns: 100 }
       );
     });
 
     test('animation strategy matches device capabilities', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 320, max: 3840 }),
-          (viewportWidth) => {
-            const deviceType = getDeviceType(viewportWidth);
-            const strategy = getAnimationStrategy(deviceType);
+        fc.property(fc.integer({ min: 320, max: 3840 }), (viewportWidth) => {
+          const deviceType = getDeviceType(viewportWidth);
+          const strategy = getAnimationStrategy(deviceType);
 
-            // Strategy should match device type
-            if (deviceType === 'desktop') {
-              expect(strategy).toBe('3d');
-            } else if (deviceType === 'tablet') {
-              expect(strategy).toBe('2d');
-            } else {
-              expect(strategy).toBe('css');
-            }
-
-            // Strategy should be one of the valid options
-            expect(['css', '2d', '3d']).toContain(strategy);
+          // Strategy should match device type
+          if (deviceType === 'desktop') {
+            expect(strategy).toBe('3d');
+          } else if (deviceType === 'tablet') {
+            expect(strategy).toBe('2d');
+          } else {
+            expect(strategy).toBe('css');
           }
-        ),
+
+          // Strategy should be one of the valid options
+          expect(['css', '2d', '3d']).toContain(strategy);
+        }),
         { numRuns: 100 }
       );
     });

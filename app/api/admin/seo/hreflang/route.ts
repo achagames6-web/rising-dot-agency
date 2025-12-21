@@ -6,12 +6,15 @@ export async function GET() {
   try {
     const client = await clientPromise;
     const db = client.db('rising-dot');
-    
+
     const entries = await db.collection('seoHreflang').find({}).toArray();
     return NextResponse.json(entries);
   } catch (error) {
     console.error('Error fetching hreflang:', error);
-    return NextResponse.json({ error: 'Failed to fetch hreflang' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch hreflang' },
+      { status: 500 }
+    );
   }
 }
 
@@ -45,6 +48,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(result);
   } catch (error) {
     console.error('Error saving hreflang:', error);
-    return NextResponse.json({ error: 'Failed to save hreflang' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to save hreflang' },
+      { status: 500 }
+    );
   }
 }

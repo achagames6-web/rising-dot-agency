@@ -56,7 +56,9 @@ export default function MediaLibraryPage() {
   const fetchFolders = useCallback(async (folder: string = '') => {
     setFoldersLoading(true);
     try {
-      const response = await fetch(`/api/admin/media/folders?folder=${encodeURIComponent(folder)}`);
+      const response = await fetch(
+        `/api/admin/media/folders?folder=${encodeURIComponent(folder)}`
+      );
       const data = await response.json();
       setSubfolders(data.folders || []);
     } catch (error) {
@@ -71,7 +73,9 @@ export default function MediaLibraryPage() {
   const fetchMedia = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/admin/media?type=${mediaType}&folder=${encodeURIComponent(currentFolder)}`);
+      const response = await fetch(
+        `/api/admin/media?type=${mediaType}&folder=${encodeURIComponent(currentFolder)}`
+      );
       const data = await response.json();
       setFiles(data.files || []);
     } catch (error) {
@@ -122,7 +126,6 @@ export default function MediaLibraryPage() {
       setUploading(false);
     }
   };
-
 
   const handleDelete = async (publicId: string, resourceType: string) => {
     if (!confirm('Are you sure you want to delete this file?')) return;
@@ -186,22 +189,25 @@ export default function MediaLibraryPage() {
 
   return (
     <div className="min-h-full">
-      <div className="flex justify-between items-center mb-6">
+      <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-white">Media Library</h1>
-          <p className="text-slate-400 mt-1">
+          <p className="mt-1 text-slate-400">
             Manage your images and videos with Cloudinary
           </p>
         </div>
         <div className="flex items-center gap-3">
           <button
-            onClick={() => { fetchMedia(); fetchFolders(currentFolder); }}
-            className="p-2 bg-[#1E293B] border border-slate-700 rounded-lg text-slate-400 hover:text-white transition-colors"
+            onClick={() => {
+              fetchMedia();
+              fetchFolders(currentFolder);
+            }}
+            className="rounded-lg border border-slate-700 bg-[#1E293B] p-2 text-slate-400 transition-colors hover:text-white"
           >
-            <RefreshCw className="w-5 h-5" />
+            <RefreshCw className="h-5 w-5" />
           </button>
-          <label className="flex items-center gap-2 px-4 py-2 bg-[#37AFE1] text-white rounded-lg hover:bg-[#37AFE1]/80 transition-colors cursor-pointer">
-            <Upload className="w-4 h-4" />
+          <label className="flex cursor-pointer items-center gap-2 rounded-lg bg-[#37AFE1] px-4 py-2 text-white transition-colors hover:bg-[#37AFE1]/80">
+            <Upload className="h-4 w-4" />
             Upload Files
             <input
               type="file"
@@ -215,24 +221,28 @@ export default function MediaLibraryPage() {
       </div>
 
       {/* Breadcrumb Navigation */}
-      <div className="flex items-center gap-2 mb-4 p-3 bg-[#1E293B] rounded-lg border border-slate-700/50">
+      <div className="mb-4 flex items-center gap-2 rounded-lg border border-slate-700/50 bg-[#1E293B] p-3">
         <button
           onClick={() => navigateToFolder('')}
-          className={`flex items-center gap-1 px-2 py-1 rounded transition-colors ${
-            !currentFolder ? 'text-[#37AFE1]' : 'text-slate-400 hover:text-white'
+          className={`flex items-center gap-1 rounded px-2 py-1 transition-colors ${
+            !currentFolder
+              ? 'text-[#37AFE1]'
+              : 'text-slate-400 hover:text-white'
           }`}
         >
-          <Home className="w-4 h-4" />
+          <Home className="h-4 w-4" />
           <span>Root</span>
         </button>
         {breadcrumbs.map((crumb, index) => (
           <div key={index} className="flex items-center gap-2">
-            <ChevronRight className="w-4 h-4 text-slate-600" />
+            <ChevronRight className="h-4 w-4 text-slate-600" />
             <button
-              onClick={() => navigateToFolder(breadcrumbs.slice(0, index + 1).join('/'))}
-              className={`px-2 py-1 rounded transition-colors ${
-                index === breadcrumbs.length - 1 
-                  ? 'text-[#37AFE1]' 
+              onClick={() =>
+                navigateToFolder(breadcrumbs.slice(0, index + 1).join('/'))
+              }
+              className={`rounded px-2 py-1 transition-colors ${
+                index === breadcrumbs.length - 1
+                  ? 'text-[#37AFE1]'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -248,132 +258,149 @@ export default function MediaLibraryPage() {
         onDragLeave={handleDrag}
         onDragOver={handleDrag}
         onDrop={handleDrop}
-        className={`mb-6 border-2 border-dashed rounded-xl p-6 text-center transition-colors ${
-          dragActive ? 'border-[#37AFE1] bg-[#37AFE1]/10' : 'border-slate-700 bg-[#1E293B]'
+        className={`mb-6 rounded-xl border-2 border-dashed p-6 text-center transition-colors ${
+          dragActive
+            ? 'border-[#37AFE1] bg-[#37AFE1]/10'
+            : 'border-slate-700 bg-[#1E293B]'
         }`}
       >
         {uploading ? (
           <div className="flex flex-col items-center gap-3">
-            <div className="w-8 h-8 border-2 border-[#37AFE1]/30 border-t-[#37AFE1] rounded-full animate-spin" />
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
             <p className="text-slate-400">Uploading files...</p>
           </div>
         ) : (
           <div className="flex flex-col items-center gap-2">
-            <Upload className="w-10 h-10 text-slate-500" />
-            <p className="text-slate-400">Drag and drop files here, or click "Upload Files"</p>
+            <Upload className="h-10 w-10 text-slate-500" />
+            <p className="text-slate-400">
+              Drag and drop files here, or click "Upload Files"
+            </p>
             {currentFolder && (
-              <p className="text-xs text-[#37AFE1]">Uploading to: {currentFolder}</p>
+              <p className="text-xs text-[#37AFE1]">
+                Uploading to: {currentFolder}
+              </p>
             )}
           </div>
         )}
       </div>
 
       {/* Filters */}
-      <div className="flex items-center gap-4 mb-6">
-        <div className="flex bg-[#1E293B] rounded-lg border border-slate-700 p-1">
+      <div className="mb-6 flex items-center gap-4">
+        <div className="flex rounded-lg border border-slate-700 bg-[#1E293B] p-1">
           <button
             onClick={() => setMediaType('image')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-md transition-colors ${
-              mediaType === 'image' ? 'bg-[#37AFE1] text-white' : 'text-slate-400 hover:text-white'
+            className={`flex items-center gap-2 rounded-md px-4 py-2 transition-colors ${
+              mediaType === 'image'
+                ? 'bg-[#37AFE1] text-white'
+                : 'text-slate-400 hover:text-white'
             }`}
           >
-            <ImageIcon className="w-4 h-4" />
+            <ImageIcon className="h-4 w-4" />
             Images
           </button>
           <button
             onClick={() => setMediaType('video')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-md transition-colors ${
-              mediaType === 'video' ? 'bg-[#37AFE1] text-white' : 'text-slate-400 hover:text-white'
+            className={`flex items-center gap-2 rounded-md px-4 py-2 transition-colors ${
+              mediaType === 'video'
+                ? 'bg-[#37AFE1] text-white'
+                : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Video className="w-4 h-4" />
+            <Video className="h-4 w-4" />
             Videos
           </button>
         </div>
-        
-        <span className="text-slate-500 text-sm">
+
+        <span className="text-sm text-slate-500">
           {filteredFiles.length} files | {subfolders.length} folders
         </span>
 
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
           <input
             type="text"
             placeholder="Search files..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-[#1E293B] border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#37AFE1]"
+            className="w-full rounded-lg border border-slate-700 bg-[#1E293B] py-2 pl-10 pr-4 text-white focus:border-[#37AFE1] focus:outline-none"
           />
         </div>
 
-        <div className="flex bg-[#1E293B] rounded-lg border border-slate-700 p-1">
+        <div className="flex rounded-lg border border-slate-700 bg-[#1E293B] p-1">
           <button
             onClick={() => setViewMode('grid')}
-            className={`p-2 rounded-md transition-colors ${
-              viewMode === 'grid' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'
+            className={`rounded-md p-2 transition-colors ${
+              viewMode === 'grid'
+                ? 'bg-slate-700 text-white'
+                : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Grid className="w-4 h-4" />
+            <Grid className="h-4 w-4" />
           </button>
           <button
             onClick={() => setViewMode('list')}
-            className={`p-2 rounded-md transition-colors ${
-              viewMode === 'list' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'
+            className={`rounded-md p-2 transition-colors ${
+              viewMode === 'list'
+                ? 'bg-slate-700 text-white'
+                : 'text-slate-400 hover:text-white'
             }`}
           >
-            <List className="w-4 h-4" />
+            <List className="h-4 w-4" />
           </button>
         </div>
       </div>
-
 
       <div className="flex gap-6">
         {/* Main Content - Folders and Files */}
         <div className="flex-1">
           {/* Subfolders */}
           {foldersLoading ? (
-            <div className="flex items-center gap-2 mb-6 text-slate-400">
-              <div className="w-4 h-4 border-2 border-slate-600 border-t-[#37AFE1] rounded-full animate-spin" />
+            <div className="mb-6 flex items-center gap-2 text-slate-400">
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-slate-600 border-t-[#37AFE1]" />
               Loading folders...
             </div>
-          ) : subfolders.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-sm font-medium text-slate-400 mb-3 flex items-center gap-2">
-                <Folder className="w-4 h-4" />
-                Folders ({subfolders.length})
-              </h3>
-              <div className="grid grid-cols-6 gap-3">
-                {subfolders.map((folder) => (
-                  <button
-                    key={folder.path}
-                    onClick={() => navigateToFolder(folder.path)}
-                    className="flex flex-col items-center gap-2 p-4 bg-[#1E293B] rounded-xl border border-slate-700/50 hover:border-[#37AFE1]/50 hover:bg-[#1E293B]/80 transition-all group"
-                  >
-                    <FolderOpen className="w-10 h-10 text-yellow-500 group-hover:text-yellow-400 transition-colors" />
-                    <span className="text-sm text-slate-300 truncate w-full text-center">
-                      {folder.name}
-                    </span>
-                  </button>
-                ))}
+          ) : (
+            subfolders.length > 0 && (
+              <div className="mb-6">
+                <h3 className="mb-3 flex items-center gap-2 text-sm font-medium text-slate-400">
+                  <Folder className="h-4 w-4" />
+                  Folders ({subfolders.length})
+                </h3>
+                <div className="grid grid-cols-6 gap-3">
+                  {subfolders.map((folder) => (
+                    <button
+                      key={folder.path}
+                      onClick={() => navigateToFolder(folder.path)}
+                      className="group flex flex-col items-center gap-2 rounded-xl border border-slate-700/50 bg-[#1E293B] p-4 transition-all hover:border-[#37AFE1]/50 hover:bg-[#1E293B]/80"
+                    >
+                      <FolderOpen className="h-10 w-10 text-yellow-500 transition-colors group-hover:text-yellow-400" />
+                      <span className="w-full truncate text-center text-sm text-slate-300">
+                        {folder.name}
+                      </span>
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )
           )}
 
           {/* Files */}
           {loading ? (
-            <div className="flex items-center justify-center h-64">
-              <div className="w-8 h-8 border-2 border-[#37AFE1]/30 border-t-[#37AFE1] rounded-full animate-spin" />
+            <div className="flex h-64 items-center justify-center">
+              <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
             </div>
           ) : filteredFiles.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-64 text-slate-500">
-              <ImageIcon className="w-16 h-16 mb-4" />
+            <div className="flex h-64 flex-col items-center justify-center text-slate-500">
+              <ImageIcon className="mb-4 h-16 w-16" />
               <p>No {mediaType}s found in this folder</p>
-              <p className="text-sm">Upload some files or navigate to another folder</p>
+              <p className="text-sm">
+                Upload some files or navigate to another folder
+              </p>
             </div>
           ) : (
             <>
-              <h3 className="text-sm font-medium text-slate-400 mb-3 flex items-center gap-2">
-                <ImageIcon className="w-4 h-4" />
+              <h3 className="mb-3 flex items-center gap-2 text-sm font-medium text-slate-400">
+                <ImageIcon className="h-4 w-4" />
                 Files ({filteredFiles.length})
               </h3>
               {viewMode === 'grid' ? (
@@ -382,7 +409,7 @@ export default function MediaLibraryPage() {
                     <div
                       key={file.publicId}
                       onClick={() => setSelectedFile(file)}
-                      className={`relative group cursor-pointer rounded-lg overflow-hidden border-2 transition-colors ${
+                      className={`group relative cursor-pointer overflow-hidden rounded-lg border-2 transition-colors ${
                         selectedFile?.publicId === file.publicId
                           ? 'border-[#37AFE1]'
                           : 'border-transparent hover:border-slate-600'
@@ -390,45 +417,70 @@ export default function MediaLibraryPage() {
                     >
                       <div className="aspect-square bg-[#0F172A]">
                         {file.type === 'video' ? (
-                          <video src={file.url} className="w-full h-full object-cover" />
+                          <video
+                            src={file.url}
+                            className="h-full w-full object-cover"
+                          />
                         ) : (
-                          <img src={file.url} alt={file.publicId} className="w-full h-full object-cover" />
+                          <img
+                            src={file.url}
+                            alt={file.publicId}
+                            className="h-full w-full object-cover"
+                          />
                         )}
                       </div>
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                      <div className="absolute inset-0 flex items-center justify-center gap-2 bg-black/60 opacity-0 transition-opacity group-hover:opacity-100">
                         <button
-                          onClick={(e) => { e.stopPropagation(); copyToClipboard(file.url); }}
-                          className="p-2 bg-white/20 rounded-lg hover:bg-white/30 transition-colors"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            copyToClipboard(file.url);
+                          }}
+                          className="rounded-lg bg-white/20 p-2 transition-colors hover:bg-white/30"
                         >
                           {copiedUrl === file.url ? (
-                            <Check className="w-4 h-4 text-green-400" />
+                            <Check className="h-4 w-4 text-green-400" />
                           ) : (
-                            <Copy className="w-4 h-4 text-white" />
+                            <Copy className="h-4 w-4 text-white" />
                           )}
                         </button>
                         <button
-                          onClick={(e) => { e.stopPropagation(); handleDelete(file.publicId, file.type); }}
-                          className="p-2 bg-red-500/20 rounded-lg hover:bg-red-500/30 transition-colors"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDelete(file.publicId, file.type);
+                          }}
+                          className="rounded-lg bg-red-500/20 p-2 transition-colors hover:bg-red-500/30"
                         >
-                          <Trash2 className="w-4 h-4 text-red-400" />
+                          <Trash2 className="h-4 w-4 text-red-400" />
                         </button>
                       </div>
-                      <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
-                        <p className="text-xs text-white truncate">{file.publicId.split('/').pop()}</p>
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2">
+                        <p className="truncate text-xs text-white">
+                          {file.publicId.split('/').pop()}
+                        </p>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 overflow-hidden">
+                <div className="overflow-hidden rounded-xl border border-slate-700/50 bg-[#1E293B]">
                   <table className="w-full">
                     <thead>
                       <tr className="border-b border-slate-700">
-                        <th className="text-left p-4 text-slate-400 font-medium">Preview</th>
-                        <th className="text-left p-4 text-slate-400 font-medium">Name</th>
-                        <th className="text-left p-4 text-slate-400 font-medium">Size</th>
-                        <th className="text-left p-4 text-slate-400 font-medium">Dimensions</th>
-                        <th className="text-left p-4 text-slate-400 font-medium">Actions</th>
+                        <th className="p-4 text-left font-medium text-slate-400">
+                          Preview
+                        </th>
+                        <th className="p-4 text-left font-medium text-slate-400">
+                          Name
+                        </th>
+                        <th className="p-4 text-left font-medium text-slate-400">
+                          Size
+                        </th>
+                        <th className="p-4 text-left font-medium text-slate-400">
+                          Dimensions
+                        </th>
+                        <th className="p-4 text-left font-medium text-slate-400">
+                          Actions
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -436,35 +488,60 @@ export default function MediaLibraryPage() {
                         <tr
                           key={file.publicId}
                           onClick={() => setSelectedFile(file)}
-                          className={`border-b border-slate-700/50 cursor-pointer transition-colors ${
-                            selectedFile?.publicId === file.publicId ? 'bg-[#37AFE1]/10' : 'hover:bg-slate-700/30'
+                          className={`cursor-pointer border-b border-slate-700/50 transition-colors ${
+                            selectedFile?.publicId === file.publicId
+                              ? 'bg-[#37AFE1]/10'
+                              : 'hover:bg-slate-700/30'
                           }`}
                         >
                           <td className="p-4">
-                            <div className="w-12 h-12 rounded overflow-hidden bg-[#0F172A]">
+                            <div className="h-12 w-12 overflow-hidden rounded bg-[#0F172A]">
                               {file.type === 'video' ? (
-                                <video src={file.url} className="w-full h-full object-cover" />
+                                <video
+                                  src={file.url}
+                                  className="h-full w-full object-cover"
+                                />
                               ) : (
-                                <img src={file.url} alt={file.publicId} className="w-full h-full object-cover" />
+                                <img
+                                  src={file.url}
+                                  alt={file.publicId}
+                                  className="h-full w-full object-cover"
+                                />
                               )}
                             </div>
                           </td>
-                          <td className="p-4 text-white">{file.publicId.split('/').pop()}</td>
-                          <td className="p-4 text-slate-400">{formatFileSize(file.size)}</td>
-                          <td className="p-4 text-slate-400">{file.width} × {file.height}</td>
+                          <td className="p-4 text-white">
+                            {file.publicId.split('/').pop()}
+                          </td>
+                          <td className="p-4 text-slate-400">
+                            {formatFileSize(file.size)}
+                          </td>
+                          <td className="p-4 text-slate-400">
+                            {file.width} × {file.height}
+                          </td>
                           <td className="p-4">
                             <div className="flex items-center gap-2">
                               <button
-                                onClick={(e) => { e.stopPropagation(); copyToClipboard(file.url); }}
-                                className="p-2 hover:bg-slate-700 rounded transition-colors"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  copyToClipboard(file.url);
+                                }}
+                                className="rounded p-2 transition-colors hover:bg-slate-700"
                               >
-                                {copiedUrl === file.url ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-slate-400" />}
+                                {copiedUrl === file.url ? (
+                                  <Check className="h-4 w-4 text-green-400" />
+                                ) : (
+                                  <Copy className="h-4 w-4 text-slate-400" />
+                                )}
                               </button>
                               <button
-                                onClick={(e) => { e.stopPropagation(); handleDelete(file.publicId, file.type); }}
-                                className="p-2 hover:bg-red-500/20 rounded transition-colors"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDelete(file.publicId, file.type);
+                                }}
+                                className="rounded p-2 transition-colors hover:bg-red-500/20"
                               >
-                                <Trash2 className="w-4 h-4 text-red-400" />
+                                <Trash2 className="h-4 w-4 text-red-400" />
                               </button>
                             </div>
                           </td>
@@ -478,70 +555,89 @@ export default function MediaLibraryPage() {
           )}
         </div>
 
-
         {/* File Details Panel */}
         {selectedFile && (
-          <div className="w-80 shrink-0 bg-[#1E293B] rounded-xl border border-slate-700/50 p-4 h-fit sticky top-4">
-            <div className="flex items-center justify-between mb-4">
+          <div className="sticky top-4 h-fit w-80 shrink-0 rounded-xl border border-slate-700/50 bg-[#1E293B] p-4">
+            <div className="mb-4 flex items-center justify-between">
               <h3 className="text-lg font-semibold text-white">File Details</h3>
               <button
                 onClick={() => setSelectedFile(null)}
-                className="p-1 hover:bg-slate-700 rounded transition-colors"
+                className="rounded p-1 transition-colors hover:bg-slate-700"
               >
-                <X className="w-4 h-4 text-slate-400" />
+                <X className="h-4 w-4 text-slate-400" />
               </button>
             </div>
 
-            <div className="aspect-video bg-[#0F172A] rounded-lg overflow-hidden mb-4">
+            <div className="mb-4 aspect-video overflow-hidden rounded-lg bg-[#0F172A]">
               {selectedFile.type === 'video' ? (
-                <video src={selectedFile.url} controls className="w-full h-full object-contain" />
+                <video
+                  src={selectedFile.url}
+                  controls
+                  className="h-full w-full object-contain"
+                />
               ) : (
-                <img src={selectedFile.url} alt={selectedFile.publicId} className="w-full h-full object-contain" />
+                <img
+                  src={selectedFile.url}
+                  alt={selectedFile.publicId}
+                  className="h-full w-full object-contain"
+                />
               )}
             </div>
 
             <div className="space-y-3">
               <div>
-                <p className="text-xs text-slate-500 mb-1">File Name</p>
-                <p className="text-sm text-white break-all">{selectedFile.publicId.split('/').pop()}</p>
+                <p className="mb-1 text-xs text-slate-500">File Name</p>
+                <p className="break-all text-sm text-white">
+                  {selectedFile.publicId.split('/').pop()}
+                </p>
               </div>
               <div>
-                <p className="text-xs text-slate-500 mb-1">Folder</p>
-                <p className="text-sm text-slate-400 break-all">{selectedFile.folder || 'Root'}</p>
+                <p className="mb-1 text-xs text-slate-500">Folder</p>
+                <p className="break-all text-sm text-slate-400">
+                  {selectedFile.folder || 'Root'}
+                </p>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <p className="text-xs text-slate-500 mb-1">Format</p>
-                  <p className="text-sm text-white uppercase">{selectedFile.format}</p>
+                  <p className="mb-1 text-xs text-slate-500">Format</p>
+                  <p className="text-sm uppercase text-white">
+                    {selectedFile.format}
+                  </p>
                 </div>
                 <div>
-                  <p className="text-xs text-slate-500 mb-1">Size</p>
-                  <p className="text-sm text-white">{formatFileSize(selectedFile.size)}</p>
+                  <p className="mb-1 text-xs text-slate-500">Size</p>
+                  <p className="text-sm text-white">
+                    {formatFileSize(selectedFile.size)}
+                  </p>
                 </div>
                 <div>
-                  <p className="text-xs text-slate-500 mb-1">Width</p>
+                  <p className="mb-1 text-xs text-slate-500">Width</p>
                   <p className="text-sm text-white">{selectedFile.width}px</p>
                 </div>
                 <div>
-                  <p className="text-xs text-slate-500 mb-1">Height</p>
+                  <p className="mb-1 text-xs text-slate-500">Height</p>
                   <p className="text-sm text-white">{selectedFile.height}px</p>
                 </div>
               </div>
 
               <div>
-                <p className="text-xs text-slate-500 mb-1">URL</p>
+                <p className="mb-1 text-xs text-slate-500">URL</p>
                 <div className="flex items-center gap-2">
                   <input
                     type="text"
                     value={selectedFile.url}
                     readOnly
-                    className="flex-1 px-3 py-2 bg-[#0F172A] border border-slate-700 rounded text-xs text-slate-400"
+                    className="flex-1 rounded border border-slate-700 bg-[#0F172A] px-3 py-2 text-xs text-slate-400"
                   />
                   <button
                     onClick={() => copyToClipboard(selectedFile.url)}
-                    className="p-2 bg-slate-700 rounded hover:bg-slate-600 transition-colors"
+                    className="rounded bg-slate-700 p-2 transition-colors hover:bg-slate-600"
                   >
-                    {copiedUrl === selectedFile.url ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-white" />}
+                    {copiedUrl === selectedFile.url ? (
+                      <Check className="h-4 w-4 text-green-400" />
+                    ) : (
+                      <Copy className="h-4 w-4 text-white" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -551,26 +647,28 @@ export default function MediaLibraryPage() {
                   href={selectedFile.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition-colors text-sm"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-slate-700 px-4 py-2 text-sm text-white transition-colors hover:bg-slate-600"
                 >
-                  <ExternalLink className="w-4 h-4" />
+                  <ExternalLink className="h-4 w-4" />
                   Open
                 </a>
                 <a
                   href={selectedFile.url}
                   download
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition-colors text-sm"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-slate-700 px-4 py-2 text-sm text-white transition-colors hover:bg-slate-600"
                 >
-                  <Download className="w-4 h-4" />
+                  <Download className="h-4 w-4" />
                   Download
                 </a>
               </div>
 
               <button
-                onClick={() => handleDelete(selectedFile.publicId, selectedFile.type)}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-colors text-sm"
+                onClick={() =>
+                  handleDelete(selectedFile.publicId, selectedFile.type)
+                }
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-red-500/20 px-4 py-2 text-sm text-red-400 transition-colors hover:bg-red-500/30"
               >
-                <Trash2 className="w-4 h-4" />
+                <Trash2 className="h-4 w-4" />
                 Delete File
               </button>
             </div>

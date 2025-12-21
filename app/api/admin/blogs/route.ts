@@ -7,13 +7,13 @@ export async function GET() {
   try {
     const client = await clientPromise;
     const db = client.db('rising-dot');
-    
+
     const blogs = await db
       .collection('blogs')
       .find({})
       .sort({ createdAt: -1 })
       .toArray();
-    
+
     return NextResponse.json(blogs);
   } catch (error) {
     console.error('Error fetching blogs:', error);
@@ -30,17 +30,17 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const client = await clientPromise;
     const db = client.db('rising-dot');
-    
+
     // Generate slug from title
     const slug = body.title
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)/g, '');
-    
+
     // Calculate read time (approx 200 words per minute)
     const wordCount = body.content?.split(/\s+/).length || 0;
     const readTime = Math.ceil(wordCount / 200);
-    
+
     const blogPost: Omit<BlogPost, '_id'> = {
       title: body.title,
       slug,
@@ -58,9 +58,9 @@ export async function POST(request: NextRequest) {
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-    
+
     const result = await db.collection('blogs').insertOne(blogPost);
-    
+
     return NextResponse.json(
       { ...blogPost, _id: result.insertedId },
       { status: 201 }

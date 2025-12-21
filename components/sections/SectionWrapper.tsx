@@ -27,7 +27,9 @@ export default function SectionWrapper({
     const checkVisibility = async () => {
       try {
         // Fetch content with visibility included (single API call instead of two)
-        const res = await fetch(`/api/content?page=${page}&section=${section}&includeVisibility=true`);
+        const res = await fetch(
+          `/api/content?page=${page}&section=${section}&includeVisibility=true`
+        );
 
         if (!res.ok) {
           // If fetch fails, default to visible
@@ -37,7 +39,7 @@ export default function SectionWrapper({
 
         const data = await res.json();
         const sectionData = data[section];
-        
+
         // Check _visible flag from content response
         setIsVisible(sectionData?._visible !== false);
       } catch (err) {

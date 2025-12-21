@@ -6,7 +6,9 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const featured = searchParams.get('featured') === 'true';
-    const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : undefined;
+    const limit = searchParams.get('limit')
+      ? parseInt(searchParams.get('limit')!)
+      : undefined;
 
     const db = await getDatabase();
     const collection = db.collection(COLLECTIONS.PROJECTS);
@@ -35,6 +37,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ projects }, { headers });
   } catch (error) {
     console.error('Error fetching projects:', error);
-    return NextResponse.json({ error: 'Failed to fetch projects' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch projects' },
+      { status: 500 }
+    );
   }
 }

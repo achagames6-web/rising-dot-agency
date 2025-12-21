@@ -49,7 +49,6 @@ const defaultAutomatedProcess: ProcessConfig = {
   summary: 'Zero errors, fully automated',
 };
 
-
 export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
   manualProcess,
   automatedProcess,
@@ -76,7 +75,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
 
   const handleMouseMove = (e: MouseEvent) => {
     if (!isDragging || !containerRef.current) return;
-    
+
     const rect = containerRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const percentage = (x / rect.width) * 100;
@@ -87,7 +86,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
     if (isDragging) {
       window.addEventListener('mousemove', handleMouseMove);
       window.addEventListener('mouseup', handleMouseUp);
-      
+
       return () => {
         window.removeEventListener('mousemove', handleMouseMove);
         window.removeEventListener('mouseup', handleMouseUp);
@@ -98,31 +97,33 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[500px] rounded-lg overflow-hidden cursor-ew-resize"
+      className="relative h-[500px] w-full cursor-ew-resize overflow-hidden rounded-lg"
     >
       {/* Before (Manual Process) - Uses CMS content with fallback */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#1E293B] to-[#0F172A]">
-        <div className="h-full flex flex-col items-center justify-center p-8">
-          <h3 className="text-3xl font-bold text-white mb-8">{manual.title}</h3>
-          <div className="space-y-4 w-full max-w-md">
+        <div className="flex h-full flex-col items-center justify-center p-8">
+          <h3 className="mb-8 text-3xl font-bold text-white">{manual.title}</h3>
+          <div className="w-full max-w-md space-y-4">
             {manual.steps.map((item) => (
               <div
                 key={item.step}
-                className="flex items-center justify-between p-4 bg-[#64748B]/20 rounded-lg"
+                className="flex items-center justify-between rounded-lg bg-[#64748B]/20 p-4"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-[#EF4444] flex items-center justify-center text-white font-bold">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#EF4444] font-bold text-white">
                     {item.step}
                   </div>
                   <span className="text-white">{item.text}</span>
                 </div>
-                <span className="text-[#F59E0B] font-medium">{item.time}</span>
+                <span className="font-medium text-[#F59E0B]">{item.time}</span>
               </div>
             ))}
           </div>
           <div className="mt-8 text-center">
-            <p className="text-[#EF4444] text-2xl font-bold">Total: {manual.totalTime}</p>
-            <p className="text-[#64748B] mt-2">{manual.summary}</p>
+            <p className="text-2xl font-bold text-[#EF4444]">
+              Total: {manual.totalTime}
+            </p>
+            <p className="mt-2 text-[#64748B]">{manual.summary}</p>
           </div>
         </div>
       </div>
@@ -134,34 +135,38 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`,
         }}
       >
-        <div className="h-full flex flex-col items-center justify-center p-8">
-          <h3 className="text-3xl font-bold text-white mb-8">{automated.title}</h3>
-          <div className="space-y-4 w-full max-w-md">
+        <div className="flex h-full flex-col items-center justify-center p-8">
+          <h3 className="mb-8 text-3xl font-bold text-white">
+            {automated.title}
+          </h3>
+          <div className="w-full max-w-md space-y-4">
             {automated.steps.map((item) => (
               <div
                 key={item.step}
-                className="flex items-center justify-between p-4 bg-white/10 rounded-lg backdrop-blur-sm"
+                className="flex items-center justify-between rounded-lg bg-white/10 p-4 backdrop-blur-sm"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-[#37AFE1] flex items-center justify-center text-white font-bold">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#37AFE1] font-bold text-white">
                     {item.step}
                   </div>
                   <span className="text-white">{item.text}</span>
                 </div>
-                <span className="text-[#37AFE1] font-medium">{item.time}</span>
+                <span className="font-medium text-[#37AFE1]">{item.time}</span>
               </div>
             ))}
           </div>
           <div className="mt-8 text-center">
-            <p className="text-[#37AFE1] text-2xl font-bold">Total: {automated.totalTime}</p>
-            <p className="text-white/80 mt-2">{automated.summary}</p>
+            <p className="text-2xl font-bold text-[#37AFE1]">
+              Total: {automated.totalTime}
+            </p>
+            <p className="mt-2 text-white/80">{automated.summary}</p>
           </div>
         </div>
       </div>
 
       {/* Slider Handle */}
       <motion.div
-        className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize"
+        className="absolute bottom-0 top-0 w-1 cursor-ew-resize bg-white"
         style={{
           left: `${sliderPosition}%`,
         }}
@@ -173,7 +178,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
         }}
         transition={{ duration: 0.3 }}
       >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center">
+        <div className="absolute left-1/2 top-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-lg">
           <svg
             width="24"
             height="24"
@@ -192,17 +197,18 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
       {/* Liquid Ripple Effect */}
       {rippleActive && (
         <motion.div
-          className="absolute inset-0 pointer-events-none"
+          className="pointer-events-none absolute inset-0"
           initial={{ opacity: 0 }}
           animate={{ opacity: [0, 1, 0] }}
           transition={{ duration: 0.3 }}
         >
           <div
-            className="absolute top-0 bottom-0 w-32 blur-xl"
+            className="absolute bottom-0 top-0 w-32 blur-xl"
             style={{
               left: `${sliderPosition}%`,
               transform: 'translateX(-50%)',
-              background: 'radial-gradient(circle, rgba(139, 92, 246, 0.6) 0%, transparent 70%)',
+              background:
+                'radial-gradient(circle, rgba(139, 92, 246, 0.6) 0%, transparent 70%)',
             }}
           />
         </motion.div>

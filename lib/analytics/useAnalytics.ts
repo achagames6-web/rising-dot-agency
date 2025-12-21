@@ -70,7 +70,9 @@ export function useAnimationTracking(animationName: string) {
       { threshold: 0.5 }
     );
 
-    const element = document.querySelector(`[data-animation="${animationName}"]`);
+    const element = document.querySelector(
+      `[data-animation="${animationName}"]`
+    );
     if (element) {
       observer.observe(element);
     }
@@ -90,7 +92,10 @@ export function useAnimationTracking(animationName: string) {
 /**
  * Hook to track scroll-triggered animations
  */
-export function useScrollAnimation(animationName: string, triggerPoint: number = 0.5) {
+export function useScrollAnimation(
+  animationName: string,
+  triggerPoint: number = 0.5
+) {
   const { trackAnimationEvent } = useAnalytics();
   const triggered = useRef(false);
 
@@ -110,7 +115,9 @@ export function useScrollAnimation(animationName: string, triggerPoint: number =
       { threshold: triggerPoint }
     );
 
-    const element = document.querySelector(`[data-scroll-animation="${animationName}"]`);
+    const element = document.querySelector(
+      `[data-scroll-animation="${animationName}"]`
+    );
     if (element) {
       observer.observe(element);
     }

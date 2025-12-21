@@ -17,13 +17,19 @@ export async function GET(
       .findOne({ _id: new ObjectId(id) });
 
     if (!member) {
-      return NextResponse.json({ error: 'Team member not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Team member not found' },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json(member);
   } catch (error) {
     console.error('Error fetching team member:', error);
-    return NextResponse.json({ error: 'Failed to fetch team member' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch team member' },
+      { status: 500 }
+    );
   }
 }
 
@@ -44,26 +50,34 @@ export async function PUT(
     };
 
     const allowedFields = ['name', 'role', 'image', 'order', 'published'];
-    allowedFields.forEach(field => {
+    allowedFields.forEach((field) => {
       if (body[field] !== undefined) {
         updateData[field] = body[field];
       }
     });
 
-    const result = await db.collection('teamMembers').findOneAndUpdate(
-      { _id: new ObjectId(id) },
-      { $set: updateData },
-      { returnDocument: 'after' }
-    );
+    const result = await db
+      .collection('teamMembers')
+      .findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        { $set: updateData },
+        { returnDocument: 'after' }
+      );
 
     if (!result) {
-      return NextResponse.json({ error: 'Team member not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Team member not found' },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json(result);
   } catch (error) {
     console.error('Error updating team member:', error);
-    return NextResponse.json({ error: 'Failed to update team member' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to update team member' },
+      { status: 500 }
+    );
   }
 }
 
@@ -82,12 +96,18 @@ export async function DELETE(
       .deleteOne({ _id: new ObjectId(id) });
 
     if (result.deletedCount === 0) {
-      return NextResponse.json({ error: 'Team member not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Team member not found' },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting team member:', error);
-    return NextResponse.json({ error: 'Failed to delete team member' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to delete team member' },
+      { status: 500 }
+    );
   }
 }

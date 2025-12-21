@@ -1,6 +1,6 @@
 /**
  * Sentry Performance Monitoring
- * 
+ *
  * Implements Real User Monitoring (RUM) with Sentry
  * Requirements 21.10, 40.7
  */
@@ -178,7 +178,9 @@ class SentryMonitor {
 
     // Track various interaction types
     ['click', 'touchstart', 'keydown'].forEach((eventType) => {
-      document.addEventListener(eventType, measureLatency(eventType), { passive: true });
+      document.addEventListener(eventType, measureLatency(eventType), {
+        passive: true,
+      });
     });
   }
 
@@ -327,13 +329,20 @@ class SentryMonitor {
   /**
    * Track animation performance
    */
-  trackAnimationPerformance(animationName: string, duration: number, fps: number) {
-    Sentry.startSpan({ name: `animation.${animationName}`, op: 'animation' }, () => {
-      Sentry.setMeasurement('duration', duration, 'ms');
-      Sentry.setMeasurement('fps', fps, 'none');
-      Sentry.setTag('animation_name', animationName);
-      Sentry.setTag('device_type', this.getDeviceType());
-    });
+  trackAnimationPerformance(
+    animationName: string,
+    duration: number,
+    fps: number
+  ) {
+    Sentry.startSpan(
+      { name: `animation.${animationName}`, op: 'animation' },
+      () => {
+        Sentry.setMeasurement('duration', duration, 'ms');
+        Sentry.setMeasurement('fps', fps, 'none');
+        Sentry.setTag('animation_name', animationName);
+        Sentry.setTag('device_type', this.getDeviceType());
+      }
+    );
 
     // Alert if animation performance is poor
     if (fps < 30) {
@@ -358,7 +367,7 @@ class SentryMonitor {
    */
   trackDevicePerformance() {
     const metrics = this.getPerformanceMetrics();
-    
+
     Sentry.setContext('device_performance', {
       device_type: metrics.deviceType,
       fps: metrics.fps,
@@ -413,7 +422,7 @@ export function initializeSentry(config: SentryConfig): SentryMonitor {
         deviceType: 'desktop',
       }),
       trackPerformanceMetric: () => {},
-      startTransaction: () => ({} as any),
+      startTransaction: () => ({}) as any,
       trackAnimationPerformance: () => {},
       trackDevicePerformance: () => {},
       destroy: () => {},

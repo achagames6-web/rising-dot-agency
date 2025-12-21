@@ -12,20 +12,26 @@ export async function GET() {
     const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
     const endOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
 
-    const [total, active, unsubscribed, thisMonth, lastMonth] = await Promise.all([
-      db.collection('subscribers').countDocuments({}),
-      db.collection('subscribers').countDocuments({ status: 'active' }),
-      db.collection('subscribers').countDocuments({ status: 'unsubscribed' }),
-      db.collection('subscribers').countDocuments({
-        subscribedAt: { $gte: startOfMonth },
-      }),
-      db.collection('subscribers').countDocuments({
-        subscribedAt: { $gte: startOfLastMonth, $lte: endOfLastMonth },
-      }),
-    ]);
+    const [total, active, unsubscribed, thisMonth, lastMonth] =
+      await Promise.all([
+        db.collection('subscribers').countDocuments({}),
+        db.collection('subscribers').countDocuments({ status: 'active' }),
+        db.collection('subscribers').countDocuments({ status: 'unsubscribed' }),
+        db.collection('subscribers').countDocuments({
+          subscribedAt: { $gte: startOfMonth },
+        }),
+        db.collection('subscribers').countDocuments({
+          subscribedAt: { $gte: startOfLastMonth, $lte: endOfLastMonth },
+        }),
+      ]);
 
     // Calculate growth percentage
-    const growth = lastMonth > 0 ? Math.round(((thisMonth - lastMonth) / lastMonth) * 100) : thisMonth > 0 ? 100 : 0;
+    const growth =
+      lastMonth > 0
+        ? Math.round(((thisMonth - lastMonth) / lastMonth) * 100)
+        : thisMonth > 0
+          ? 100
+          : 0;
 
     return NextResponse.json({
       total,
@@ -36,6 +42,9 @@ export async function GET() {
     });
   } catch (error) {
     console.error('Error fetching subscriber stats:', error);
-    return NextResponse.json({ error: 'Failed to fetch stats' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch stats' },
+      { status: 500 }
+    );
   }
 }

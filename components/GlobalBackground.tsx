@@ -6,10 +6,13 @@
  */
 export default function GlobalBackground() {
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
+    <div
+      className="pointer-events-none fixed inset-0 overflow-hidden"
+      style={{ zIndex: 0 }}
+    >
       {/* Large purple orb - top left */}
       <div
-        className="fixed rounded-full pointer-events-none"
+        className="pointer-events-none fixed rounded-full"
         style={{
           left: '5%',
           top: '10%',
@@ -24,7 +27,7 @@ export default function GlobalBackground() {
 
       {/* Blue orb - top right */}
       <div
-        className="fixed rounded-full pointer-events-none"
+        className="pointer-events-none fixed rounded-full"
         style={{
           right: '10%',
           top: '20%',
@@ -39,7 +42,7 @@ export default function GlobalBackground() {
 
       {/* Purple orb - bottom */}
       <div
-        className="fixed rounded-full pointer-events-none"
+        className="pointer-events-none fixed rounded-full"
         style={{
           left: '50%',
           bottom: '10%',

@@ -11,10 +11,7 @@ import DOMPurify, { Config } from 'isomorphic-dompurify';
  * @param options DOMPurify configuration options
  * @returns Sanitized HTML string
  */
-export function sanitizeHTML(
-  input: string,
-  options?: Config
-): string {
+export function sanitizeHTML(input: string, options?: Config): string {
   if (typeof input !== 'string') {
     return '';
   }
@@ -43,7 +40,8 @@ export function sanitizeHTML(
     ],
     ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'class', 'id'],
     ALLOW_DATA_ATTR: false,
-    ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
+    ALLOWED_URI_REGEXP:
+      /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
   };
 
   const config = { ...defaultConfig, ...options };
@@ -88,7 +86,7 @@ export function sanitizeURL(url: string): string {
   // Validate URL format
   try {
     const urlObj = new URL(trimmed, 'https://example.com');
-    
+
     // Only allow http, https, mailto, and tel protocols
     const allowedProtocols = ['http:', 'https:', 'mailto:', 'tel:'];
     if (!allowedProtocols.includes(urlObj.protocol)) {
@@ -113,10 +111,10 @@ export function sanitizeEmail(email: string): string {
   }
 
   const trimmed = email.trim().toLowerCase();
-  
+
   // Basic email validation regex
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
+
   if (!emailRegex.test(trimmed)) {
     return '';
   }
@@ -150,7 +148,7 @@ export function sanitizeJSON<T = any>(input: string): T | null {
 
   try {
     const parsed = JSON.parse(input);
-    
+
     // Recursively sanitize string values in the object
     return sanitizeObjectStrings(parsed);
   } catch {

@@ -34,7 +34,7 @@ export default function AnalyticsTracker() {
   // Track page view on route change
   useEffect(() => {
     if (pathname === lastTrackedPath.current) return;
-    
+
     // Send previous page duration before tracking new page
     if (lastTrackedPath.current) {
       const duration = Math.floor((Date.now() - startTime.current) / 1000);
@@ -61,9 +61,11 @@ export default function AnalyticsTracker() {
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
-      
+      const docHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent =
+        docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
+
       if (scrollPercent > maxScrollDepth.current) {
         maxScrollDepth.current = scrollPercent;
       }
@@ -77,14 +79,17 @@ export default function AnalyticsTracker() {
   useEffect(() => {
     const handleUnload = () => {
       const duration = Math.floor((Date.now() - startTime.current) / 1000);
-      
+
       // Use sendBeacon for reliable tracking on page unload
       if (navigator.sendBeacon) {
-        navigator.sendBeacon('/api/analytics/track', JSON.stringify({
-          page: pathname,
-          scrollDepth: maxScrollDepth.current,
-          duration,
-        }));
+        navigator.sendBeacon(
+          '/api/analytics/track',
+          JSON.stringify({
+            page: pathname,
+            scrollDepth: maxScrollDepth.current,
+            duration,
+          })
+        );
       }
     };
 
@@ -94,7 +99,10 @@ export default function AnalyticsTracker() {
 
   // Expose tracking function globally for custom events
   useEffect(() => {
-    (window as any).trackEvent = (event: string, eventData?: Record<string, any>) => {
+    (window as any).trackEvent = (
+      event: string,
+      eventData?: Record<string, any>
+    ) => {
       track({ page: pathname, event, eventData });
     };
 
@@ -110,17 +118,20 @@ export default function AnalyticsTracker() {
 export function useAnalytics() {
   const pathname = usePathname();
 
-  const trackEvent = useCallback(async (event: string, eventData?: Record<string, any>) => {
-    try {
-      await fetch('/api/analytics/track', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ page: pathname, event, eventData }),
-      });
-    } catch (error) {
-      console.debug('Event tracking failed:', error);
-    }
-  }, [pathname]);
+  const trackEvent = useCallback(
+    async (event: string, eventData?: Record<string, any>) => {
+      try {
+        await fetch('/api/analytics/track', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ page: pathname, event, eventData }),
+        });
+      } catch (error) {
+        console.debug('Event tracking failed:', error);
+      }
+    },
+    [pathname]
+  );
 
   return { trackEvent };
 }

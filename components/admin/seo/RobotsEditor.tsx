@@ -8,7 +8,10 @@ export default function RobotsEditor() {
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [message, setMessage] = useState<{
+    type: 'success' | 'error';
+    text: string;
+  } | null>(null);
 
   const defaultRobots = `# robots.txt
 User-agent: *
@@ -85,10 +88,12 @@ Sitemap: ${siteUrl}/sitemap.xml
       const trimmed = line.trim();
       if (trimmed.startsWith('User-agent:')) hasUserAgent = true;
       if (trimmed.startsWith('Sitemap:')) hasSitemap = true;
-      
+
       // Check for common issues
       if (trimmed === 'Disallow: /') {
-        warnings.push(`Line ${index + 1}: "Disallow: /" blocks all crawlers from your entire site`);
+        warnings.push(
+          `Line ${index + 1}: "Disallow: /" blocks all crawlers from your entire site`
+        );
       }
     });
 
@@ -107,7 +112,7 @@ Sitemap: ${siteUrl}/sitemap.xml
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="w-8 h-8 border-2 border-[#37AFE1]/30 border-t-[#37AFE1] rounded-full animate-spin" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
       </div>
     );
   }
@@ -115,29 +120,31 @@ Sitemap: ${siteUrl}/sitemap.xml
   return (
     <div className="space-y-6">
       {message && (
-        <div className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
+        <div
+          className={`rounded-lg p-4 ${message.type === 'success' ? 'border border-green-500/30 bg-green-500/20 text-green-400' : 'border border-red-500/30 bg-red-500/20 text-red-400'}`}
+        >
           {message.text}
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Editor */}
-        <div className="lg:col-span-2 bg-[#1E293B] rounded-xl border border-slate-700/50 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-white font-semibold">Edit robots.txt</h3>
+        <div className="rounded-xl border border-slate-700/50 bg-[#1E293B] p-6 lg:col-span-2">
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="font-semibold text-white">Edit robots.txt</h3>
             <div className="flex gap-2">
               <a
                 href="/robots.txt"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 py-1.5 text-sm bg-slate-700 text-slate-300 rounded-lg hover:bg-slate-600"
+                className="flex items-center gap-2 rounded-lg bg-slate-700 px-3 py-1.5 text-sm text-slate-300 hover:bg-slate-600"
               >
-                <Eye className="w-4 h-4" />
+                <Eye className="h-4 w-4" />
                 View Live
               </a>
               <button
                 onClick={handleReset}
-                className="px-3 py-1.5 text-sm bg-slate-700 text-slate-300 rounded-lg hover:bg-slate-600"
+                className="rounded-lg bg-slate-700 px-3 py-1.5 text-sm text-slate-300 hover:bg-slate-600"
               >
                 Reset Default
               </button>
@@ -147,18 +154,18 @@ Sitemap: ${siteUrl}/sitemap.xml
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="w-full h-96 px-4 py-3 bg-[#0F172A] border border-slate-700 rounded-lg text-white font-mono text-sm focus:outline-none focus:border-[#37AFE1] resize-none"
+            className="h-96 w-full resize-none rounded-lg border border-slate-700 bg-[#0F172A] px-4 py-3 font-mono text-sm text-white focus:border-[#37AFE1] focus:outline-none"
             spellCheck={false}
           />
 
           {/* Warnings */}
           {warnings.length > 0 && (
-            <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg">
-              <div className="flex items-center gap-2 text-amber-400 mb-2">
-                <AlertTriangle className="w-4 h-4" />
+            <div className="mt-4 rounded-lg border border-amber-500/30 bg-amber-500/10 p-3">
+              <div className="mb-2 flex items-center gap-2 text-amber-400">
+                <AlertTriangle className="h-4 w-4" />
                 <span className="font-medium">Warnings</span>
               </div>
-              <ul className="text-sm text-amber-300 space-y-1">
+              <ul className="space-y-1 text-sm text-amber-300">
                 {warnings.map((warning, i) => (
                   <li key={i}>• {warning}</li>
                 ))}
@@ -170,12 +177,12 @@ Sitemap: ${siteUrl}/sitemap.xml
             <button
               onClick={handleSave}
               disabled={saving}
-              className="flex items-center gap-2 px-6 py-2 bg-[#37AFE1] text-white rounded-lg hover:bg-[#37AFE1]/80 disabled:opacity-50"
+              className="flex items-center gap-2 rounded-lg bg-[#37AFE1] px-6 py-2 text-white hover:bg-[#37AFE1]/80 disabled:opacity-50"
             >
               {saving ? (
-                <RefreshCw className="w-4 h-4 animate-spin" />
+                <RefreshCw className="h-4 w-4 animate-spin" />
               ) : (
-                <Save className="w-4 h-4" />
+                <Save className="h-4 w-4" />
               )}
               Save robots.txt
             </button>
@@ -183,42 +190,67 @@ Sitemap: ${siteUrl}/sitemap.xml
         </div>
 
         {/* Help */}
-        <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 p-6">
-          <h3 className="text-white font-semibold mb-4">Directive Reference</h3>
-          
+        <div className="rounded-xl border border-slate-700/50 bg-[#1E293B] p-6">
+          <h3 className="mb-4 font-semibold text-white">Directive Reference</h3>
+
           <div className="space-y-4 text-sm">
             <div>
               <code className="text-[#37AFE1]">User-agent: *</code>
-              <p className="text-slate-400 mt-1">Applies rules to all crawlers. Use specific names like Googlebot for targeted rules.</p>
+              <p className="mt-1 text-slate-400">
+                Applies rules to all crawlers. Use specific names like Googlebot
+                for targeted rules.
+              </p>
             </div>
 
             <div>
               <code className="text-[#37AFE1]">Allow: /path/</code>
-              <p className="text-slate-400 mt-1">Explicitly allow crawling of a path (useful to override Disallow).</p>
+              <p className="mt-1 text-slate-400">
+                Explicitly allow crawling of a path (useful to override
+                Disallow).
+              </p>
             </div>
 
             <div>
               <code className="text-[#37AFE1]">Disallow: /path/</code>
-              <p className="text-slate-400 mt-1">Block crawlers from accessing this path.</p>
+              <p className="mt-1 text-slate-400">
+                Block crawlers from accessing this path.
+              </p>
             </div>
 
             <div>
               <code className="text-[#37AFE1]">Sitemap: URL</code>
-              <p className="text-slate-400 mt-1">Tell crawlers where to find your XML sitemap.</p>
+              <p className="mt-1 text-slate-400">
+                Tell crawlers where to find your XML sitemap.
+              </p>
             </div>
 
             <div>
               <code className="text-[#37AFE1]">Crawl-delay: 10</code>
-              <p className="text-slate-400 mt-1">Request crawlers wait N seconds between requests (not all respect this).</p>
+              <p className="mt-1 text-slate-400">
+                Request crawlers wait N seconds between requests (not all
+                respect this).
+              </p>
             </div>
 
-            <div className="pt-4 border-t border-slate-700">
-              <h4 className="text-white font-medium mb-2">Common Patterns</h4>
+            <div className="border-t border-slate-700 pt-4">
+              <h4 className="mb-2 font-medium text-white">Common Patterns</h4>
               <div className="space-y-2 text-slate-400">
-                <p><code className="text-slate-300">Disallow: /admin/</code> - Block admin area</p>
-                <p><code className="text-slate-300">Disallow: /api/</code> - Block API routes</p>
-                <p><code className="text-slate-300">Disallow: /*?*</code> - Block query strings</p>
-                <p><code className="text-slate-300">Disallow: /*.pdf$</code> - Block PDF files</p>
+                <p>
+                  <code className="text-slate-300">Disallow: /admin/</code> -
+                  Block admin area
+                </p>
+                <p>
+                  <code className="text-slate-300">Disallow: /api/</code> -
+                  Block API routes
+                </p>
+                <p>
+                  <code className="text-slate-300">Disallow: /*?*</code> - Block
+                  query strings
+                </p>
+                <p>
+                  <code className="text-slate-300">Disallow: /*.pdf$</code> -
+                  Block PDF files
+                </p>
               </div>
             </div>
           </div>

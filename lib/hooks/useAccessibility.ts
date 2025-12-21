@@ -13,25 +13,25 @@ import { prefersReducedMotion } from '../utils/accessibility';
  */
 export function useReducedMotion(): boolean {
   const [reducedMotion, setReducedMotion] = useState(false);
-  
+
   useEffect(() => {
     // Check initial preference
     setReducedMotion(prefersReducedMotion());
-    
+
     // Listen for changes
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    
+
     const handleChange = (e: MediaQueryListEvent) => {
       setReducedMotion(e.matches);
     };
-    
+
     mediaQuery.addEventListener('change', handleChange);
-    
+
     return () => {
       mediaQuery.removeEventListener('change', handleChange);
     };
   }, []);
-  
+
   return reducedMotion;
 }
 
@@ -41,17 +41,17 @@ export function useReducedMotion(): boolean {
 export function useFocusTrap(isActive: boolean) {
   useEffect(() => {
     if (!isActive) return;
-    
+
     const focusableElements = document.querySelectorAll<HTMLElement>(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     );
-    
+
     const firstElement = focusableElements[0];
     const lastElement = focusableElements[focusableElements.length - 1];
-    
+
     const handleTabKey = (e: KeyboardEvent) => {
       if (e.key !== 'Tab') return;
-      
+
       if (e.shiftKey) {
         // Shift + Tab
         if (document.activeElement === firstElement) {
@@ -66,12 +66,12 @@ export function useFocusTrap(isActive: boolean) {
         }
       }
     };
-    
+
     document.addEventListener('keydown', handleTabKey);
-    
+
     // Focus first element when trap activates
     firstElement?.focus();
-    
+
     return () => {
       document.removeEventListener('keydown', handleTabKey);
     };
@@ -83,11 +83,11 @@ export function useFocusTrap(isActive: boolean) {
  */
 export function useAnnouncer() {
   const [announcer, setAnnouncer] = useState<HTMLDivElement | null>(null);
-  
+
   useEffect(() => {
     // Create announcer element if it doesn't exist
     let element = document.getElementById('a11y-announcer') as HTMLDivElement;
-    
+
     if (!element) {
       element = document.createElement('div');
       element.id = 'a11y-announcer';
@@ -101,28 +101,31 @@ export function useAnnouncer() {
       element.style.overflow = 'hidden';
       document.body.appendChild(element);
     }
-    
+
     setAnnouncer(element);
-    
+
     return () => {
       // Don't remove on unmount as other components might use it
     };
   }, []);
-  
-  const announce = useCallback((message: string, priority: 'polite' | 'assertive' = 'polite') => {
-    if (!announcer) return;
-    
-    announcer.setAttribute('aria-live', priority);
-    announcer.textContent = message;
-    
-    // Clear after announcement
-    setTimeout(() => {
-      if (announcer) {
-        announcer.textContent = '';
-      }
-    }, 1000);
-  }, [announcer]);
-  
+
+  const announce = useCallback(
+    (message: string, priority: 'polite' | 'assertive' = 'polite') => {
+      if (!announcer) return;
+
+      announcer.setAttribute('aria-live', priority);
+      announcer.textContent = message;
+
+      // Clear after announcement
+      setTimeout(() => {
+        if (announcer) {
+          announcer.textContent = '';
+        }
+      }, 1000);
+    },
+    [announcer]
+  );
+
   return announce;
 }
 
@@ -162,9 +165,9 @@ export function useKeyboardNavigation(
           break;
       }
     };
-    
+
     document.addEventListener('keydown', handleKeyDown);
-    
+
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
@@ -182,7 +185,7 @@ export function useSkipLink(targetId: string) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [targetId]);
-  
+
   return skipToContent;
 }
 
@@ -191,26 +194,26 @@ export function useSkipLink(targetId: string) {
  */
 export function useKeyboardUser(): boolean {
   const [isKeyboardUser, setIsKeyboardUser] = useState(false);
-  
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Tab') {
         setIsKeyboardUser(true);
       }
     };
-    
+
     const handleMouseDown = () => {
       setIsKeyboardUser(false);
     };
-    
+
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('mousedown', handleMouseDown);
-    
+
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener('mousedown', handleMouseDown);
     };
   }, []);
-  
+
   return isKeyboardUser;
 }

@@ -143,16 +143,31 @@ const ctaSectionArbitrary = fc.record({
  * Arbitrary generator for hero section data
  */
 const heroSectionArbitrary = fc.record({
-  eyebrow: fc.option(fc.string({ minLength: 1, maxLength: 50 }), { nil: undefined }),
+  eyebrow: fc.option(fc.string({ minLength: 1, maxLength: 50 }), {
+    nil: undefined,
+  }),
   title: fc.string({ minLength: 1, maxLength: 100 }),
-  titleHighlight: fc.option(fc.string({ minLength: 1, maxLength: 50 }), { nil: undefined }),
-  highlightedWord: fc.option(fc.string({ minLength: 1, maxLength: 50 }), { nil: undefined }),
-  highlightedWord2: fc.option(fc.string({ minLength: 1, maxLength: 50 }), { nil: undefined }),
+  titleHighlight: fc.option(fc.string({ minLength: 1, maxLength: 50 }), {
+    nil: undefined,
+  }),
+  highlightedWord: fc.option(fc.string({ minLength: 1, maxLength: 50 }), {
+    nil: undefined,
+  }),
+  highlightedWord2: fc.option(fc.string({ minLength: 1, maxLength: 50 }), {
+    nil: undefined,
+  }),
   subtitle: fc.string({ minLength: 1, maxLength: 300 }),
-  ctaText: fc.option(fc.string({ minLength: 1, maxLength: 50 }), { nil: undefined }),
+  ctaText: fc.option(fc.string({ minLength: 1, maxLength: 50 }), {
+    nil: undefined,
+  }),
   ctaHref: fc.option(fc.webUrl(), { nil: undefined }),
-  ctaLabel: fc.option(fc.string({ minLength: 1, maxLength: 50 }), { nil: undefined }),
-  services: fc.option(fc.array(serviceItemArbitrary, { minLength: 0, maxLength: 5 }), { nil: undefined }),
+  ctaLabel: fc.option(fc.string({ minLength: 1, maxLength: 50 }), {
+    nil: undefined,
+  }),
+  services: fc.option(
+    fc.array(serviceItemArbitrary, { minLength: 0, maxLength: 5 }),
+    { nil: undefined }
+  ),
   floatingIcons: fc.option(
     fc.array(
       fc.record({
@@ -281,7 +296,13 @@ describe('Property 1: Service Content Save Round Trip', () => {
     fc.assert(
       fc.property(
         fc.constantFrom(...servicePageSlugs),
-        fc.constantFrom('chatDemo', 'learningAnimation', 'accuracyChart', 'serpRanking', 'keywordCloud'),
+        fc.constantFrom(
+          'chatDemo',
+          'learningAnimation',
+          'accuracyChart',
+          'serpRanking',
+          'keywordCloud'
+        ),
         sectionHeadingArbitrary,
         (page, section, headingContent) => {
           const content: ServicePageContent = {
@@ -434,14 +455,14 @@ describe('Property 2: Case Studies Array Persistence', () => {
     retrieved: CaseStudy[]
   ): boolean {
     if (original.length !== retrieved.length) return false;
-    
+
     for (let i = 0; i < original.length; i++) {
       if (original[i].img !== retrieved[i].img) return false;
       if (original[i].title !== retrieved[i].title) return false;
       if (original[i].desc !== retrieved[i].desc) return false;
       if (original[i].sliderName !== retrieved[i].sliderName) return false;
     }
-    
+
     return true;
   }
 
@@ -465,7 +486,9 @@ describe('Property 2: Case Studies Array Persistence', () => {
 
           const savedData = saveServiceContent(content);
           const retrievedContent = fetchServiceContent(savedData);
-          const retrievedStudies = (retrievedContent.content as { studies: CaseStudy[] }).studies;
+          const retrievedStudies = (
+            retrievedContent.content as { studies: CaseStudy[] }
+          ).studies;
 
           expect(retrievedStudies.length).toBe(studies.length);
         }
@@ -494,7 +517,9 @@ describe('Property 2: Case Studies Array Persistence', () => {
 
           const savedData = saveServiceContent(content);
           const retrievedContent = fetchServiceContent(savedData);
-          const retrievedStudies = (retrievedContent.content as { studies: CaseStudy[] }).studies;
+          const retrievedStudies = (
+            retrievedContent.content as { studies: CaseStudy[] }
+          ).studies;
 
           // Verify order is preserved by checking each position
           for (let i = 0; i < studies.length; i++) {
@@ -526,9 +551,13 @@ describe('Property 2: Case Studies Array Persistence', () => {
 
           const savedData = saveServiceContent(content);
           const retrievedContent = fetchServiceContent(savedData);
-          const retrievedStudies = (retrievedContent.content as { studies: CaseStudy[] }).studies;
+          const retrievedStudies = (
+            retrievedContent.content as { studies: CaseStudy[] }
+          ).studies;
 
-          expect(caseStudyArraysAreEquivalent(studies, retrievedStudies)).toBe(true);
+          expect(caseStudyArraysAreEquivalent(studies, retrievedStudies)).toBe(
+            true
+          );
         }
       ),
       { numRuns: 100 }
@@ -537,28 +566,27 @@ describe('Property 2: Case Studies Array Persistence', () => {
 
   it('should handle empty case studies array', () => {
     fc.assert(
-      fc.property(
-        fc.constantFrom(...servicePageSlugs),
-        (page) => {
-          const content: ServicePageContent = {
-            page,
-            section: 'caseStudies',
-            content: {
-              eyebrow: 'Test Eyebrow',
-              title: 'Test Title',
-              titleHighlight: 'Test Highlight',
-              subtitle: 'Test Subtitle',
-              studies: [],
-            },
-          };
+      fc.property(fc.constantFrom(...servicePageSlugs), (page) => {
+        const content: ServicePageContent = {
+          page,
+          section: 'caseStudies',
+          content: {
+            eyebrow: 'Test Eyebrow',
+            title: 'Test Title',
+            titleHighlight: 'Test Highlight',
+            subtitle: 'Test Subtitle',
+            studies: [],
+          },
+        };
 
-          const savedData = saveServiceContent(content);
-          const retrievedContent = fetchServiceContent(savedData);
-          const retrievedStudies = (retrievedContent.content as { studies: CaseStudy[] }).studies;
+        const savedData = saveServiceContent(content);
+        const retrievedContent = fetchServiceContent(savedData);
+        const retrievedStudies = (
+          retrievedContent.content as { studies: CaseStudy[] }
+        ).studies;
 
-          expect(retrievedStudies).toEqual([]);
-        }
-      ),
+        expect(retrievedStudies).toEqual([]);
+      }),
       { numRuns: 100 }
     );
   });
@@ -591,9 +619,13 @@ describe('Property 2: Case Studies Array Persistence', () => {
 
           const savedData = saveServiceContent(content);
           const retrievedContent = fetchServiceContent(savedData);
-          const retrievedStudies = (retrievedContent.content as { studies: CaseStudy[] }).studies;
+          const retrievedStudies = (
+            retrievedContent.content as { studies: CaseStudy[] }
+          ).studies;
 
-          expect(caseStudyArraysAreEquivalent(studies, retrievedStudies)).toBe(true);
+          expect(caseStudyArraysAreEquivalent(studies, retrievedStudies)).toBe(
+            true
+          );
         }
       ),
       { numRuns: 100 }
@@ -621,21 +653,25 @@ describe('Property 2: Case Studies Array Persistence', () => {
           // First round trip
           const firstSave = saveServiceContent(content);
           const firstFetch = fetchServiceContent(firstSave);
-          const firstStudies = (firstFetch.content as { studies: CaseStudy[] }).studies;
+          const firstStudies = (firstFetch.content as { studies: CaseStudy[] })
+            .studies;
 
           // Second round trip
           const secondSave = saveServiceContent(firstFetch);
           const secondFetch = fetchServiceContent(secondSave);
-          const secondStudies = (secondFetch.content as { studies: CaseStudy[] }).studies;
+          const secondStudies = (
+            secondFetch.content as { studies: CaseStudy[] }
+          ).studies;
 
-          expect(caseStudyArraysAreEquivalent(firstStudies, secondStudies)).toBe(true);
+          expect(
+            caseStudyArraysAreEquivalent(firstStudies, secondStudies)
+          ).toBe(true);
         }
       ),
       { numRuns: 100 }
     );
   });
 });
-
 
 /**
  * Feature: service-pages-cms, Property 4: Section Heading Consistency
@@ -651,110 +687,99 @@ describe('Property 4: Section Heading Consistency', () => {
    */
   function renderSectionHeading(heading: SectionHeading): string {
     let output = '';
-    
+
     // Render eyebrow if provided
     if (heading.eyebrow) {
       output += `<eyebrow>✨ ${heading.eyebrow}</eyebrow>`;
     }
-    
+
     // Render title (always required)
     output += `<title>${heading.title}`;
-    
+
     // Render titleHighlight if provided
     if (heading.titleHighlight) {
       output += ` <highlight>${heading.titleHighlight}</highlight>`;
     }
-    
+
     output += '</title>';
-    
+
     // Render subtitle if provided
     if (heading.subtitle) {
       output += `<subtitle>${heading.subtitle}</subtitle>`;
     }
-    
+
     return output;
   }
 
   /**
    * Checks if all provided heading fields are present in the rendered output
    */
-  function allFieldsRendered(heading: SectionHeading, rendered: string): boolean {
+  function allFieldsRendered(
+    heading: SectionHeading,
+    rendered: string
+  ): boolean {
     // Title must always be present
     if (!rendered.includes(heading.title)) return false;
-    
+
     // Eyebrow must be present if provided
     if (heading.eyebrow && !rendered.includes(heading.eyebrow)) return false;
-    
+
     // TitleHighlight must be present if provided
-    if (heading.titleHighlight && !rendered.includes(heading.titleHighlight)) return false;
-    
+    if (heading.titleHighlight && !rendered.includes(heading.titleHighlight))
+      return false;
+
     // Subtitle must be present if provided
     if (heading.subtitle && !rendered.includes(heading.subtitle)) return false;
-    
+
     return true;
   }
 
   it('should render all provided heading fields from CMS data', () => {
     fc.assert(
-      fc.property(
-        sectionHeadingArbitrary,
-        (heading) => {
-          const rendered = renderSectionHeading(heading);
-          expect(allFieldsRendered(heading, rendered)).toBe(true);
-        }
-      ),
+      fc.property(sectionHeadingArbitrary, (heading) => {
+        const rendered = renderSectionHeading(heading);
+        expect(allFieldsRendered(heading, rendered)).toBe(true);
+      }),
       { numRuns: 100 }
     );
   });
 
   it('should always render the title field', () => {
     fc.assert(
-      fc.property(
-        sectionHeadingArbitrary,
-        (heading) => {
-          const rendered = renderSectionHeading(heading);
-          expect(rendered).toContain(heading.title);
-        }
-      ),
+      fc.property(sectionHeadingArbitrary, (heading) => {
+        const rendered = renderSectionHeading(heading);
+        expect(rendered).toContain(heading.title);
+      }),
       { numRuns: 100 }
     );
   });
 
   it('should render eyebrow when provided', () => {
     fc.assert(
-      fc.property(
-        sectionHeadingArbitrary,
-        (heading) => {
-          const rendered = renderSectionHeading(heading);
-          expect(rendered).toContain(heading.eyebrow);
-        }
-      ),
+      fc.property(sectionHeadingArbitrary, (heading) => {
+        const rendered = renderSectionHeading(heading);
+        expect(rendered).toContain(heading.eyebrow);
+      }),
       { numRuns: 100 }
     );
   });
 
   it('should render titleHighlight when provided', () => {
     fc.assert(
-      fc.property(
-        sectionHeadingArbitrary,
-        (heading) => {
-          const rendered = renderSectionHeading(heading);
-          expect(rendered).toContain(heading.titleHighlight);
-        }
-      ),
+      fc.property(sectionHeadingArbitrary, (heading) => {
+        const rendered = renderSectionHeading(heading);
+        expect(rendered).toContain(heading.titleHighlight);
+      }),
       { numRuns: 100 }
     );
   });
 
   it('should render subtitle when provided', () => {
     fc.assert(
-      fc.property(
-        sectionHeadingArbitrary,
-        (heading) => {
-          const rendered = renderSectionHeading(heading);
-          expect(rendered).toContain(heading.subtitle);
-        }
-      ),
+      fc.property(sectionHeadingArbitrary, (heading) => {
+        const rendered = renderSectionHeading(heading);
+        expect(rendered).toContain(heading.subtitle);
+      }),
       { numRuns: 100 }
     );
   });
@@ -763,7 +788,15 @@ describe('Property 4: Section Heading Consistency', () => {
     fc.assert(
       fc.property(
         fc.constantFrom(...servicePageSlugs),
-        fc.constantFrom('chatDemo', 'learningAnimation', 'accuracyChart', 'serpRanking', 'keywordCloud', 'trafficGrowth', 'competitorAnalysis'),
+        fc.constantFrom(
+          'chatDemo',
+          'learningAnimation',
+          'accuracyChart',
+          'serpRanking',
+          'keywordCloud',
+          'trafficGrowth',
+          'competitorAnalysis'
+        ),
         sectionHeadingArbitrary,
         (page, section, heading) => {
           // Save to CMS
@@ -773,14 +806,15 @@ describe('Property 4: Section Heading Consistency', () => {
             content: heading as unknown as Record<string, unknown>,
           };
           const savedData = saveServiceContent(content);
-          
+
           // Fetch from CMS
           const retrievedContent = fetchServiceContent(savedData);
-          const retrievedHeading = retrievedContent.content as unknown as SectionHeading;
-          
+          const retrievedHeading =
+            retrievedContent.content as unknown as SectionHeading;
+
           // Render the retrieved heading
           const rendered = renderSectionHeading(retrievedHeading);
-          
+
           // All original fields should be present in rendered output
           expect(allFieldsRendered(heading, rendered)).toBe(true);
         }
@@ -791,18 +825,17 @@ describe('Property 4: Section Heading Consistency', () => {
 
   it('should maintain field values exactly as provided (no truncation or modification)', () => {
     fc.assert(
-      fc.property(
-        sectionHeadingArbitrary,
-        (heading) => {
-          const rendered = renderSectionHeading(heading);
-          
-          // Check exact field values are present
-          expect(rendered).toContain(`<title>${heading.title}`);
-          expect(rendered).toContain(`<eyebrow>✨ ${heading.eyebrow}</eyebrow>`);
-          expect(rendered).toContain(`<highlight>${heading.titleHighlight}</highlight>`);
-          expect(rendered).toContain(`<subtitle>${heading.subtitle}</subtitle>`);
-        }
-      ),
+      fc.property(sectionHeadingArbitrary, (heading) => {
+        const rendered = renderSectionHeading(heading);
+
+        // Check exact field values are present
+        expect(rendered).toContain(`<title>${heading.title}`);
+        expect(rendered).toContain(`<eyebrow>✨ ${heading.eyebrow}</eyebrow>`);
+        expect(rendered).toContain(
+          `<highlight>${heading.titleHighlight}</highlight>`
+        );
+        expect(rendered).toContain(`<subtitle>${heading.subtitle}</subtitle>`);
+      }),
       { numRuns: 100 }
     );
   });
@@ -827,14 +860,11 @@ describe('Property 4: Section Heading Consistency', () => {
 
   it('should be idempotent - rendering same heading multiple times produces same output', () => {
     fc.assert(
-      fc.property(
-        sectionHeadingArbitrary,
-        (heading) => {
-          const firstRender = renderSectionHeading(heading);
-          const secondRender = renderSectionHeading(heading);
-          expect(firstRender).toBe(secondRender);
-        }
-      ),
+      fc.property(sectionHeadingArbitrary, (heading) => {
+        const firstRender = renderSectionHeading(heading);
+        const secondRender = renderSectionHeading(heading);
+        expect(firstRender).toBe(secondRender);
+      }),
       { numRuns: 100 }
     );
   });
@@ -859,7 +889,7 @@ describe('Property 3: Services Array Persistence', () => {
     retrieved: ServiceItem[]
   ): boolean {
     if (original.length !== retrieved.length) return false;
-    
+
     for (let i = 0; i < original.length; i++) {
       if (original[i].id !== retrieved[i].id) return false;
       if (original[i].name !== retrieved[i].name) return false;
@@ -867,7 +897,7 @@ describe('Property 3: Services Array Persistence', () => {
       if (original[i].description !== retrieved[i].description) return false;
       if (original[i].imgSrc !== retrieved[i].imgSrc) return false;
     }
-    
+
     return true;
   }
 
@@ -894,7 +924,9 @@ describe('Property 3: Services Array Persistence', () => {
 
           const savedData = saveServiceContent(content);
           const retrievedContent = fetchServiceContent(savedData);
-          const retrievedServices = (retrievedContent.content as { services: ServiceItem[] }).services;
+          const retrievedServices = (
+            retrievedContent.content as { services: ServiceItem[] }
+          ).services;
 
           expect(retrievedServices.length).toBe(services.length);
         }
@@ -926,7 +958,9 @@ describe('Property 3: Services Array Persistence', () => {
 
           const savedData = saveServiceContent(content);
           const retrievedContent = fetchServiceContent(savedData);
-          const retrievedServices = (retrievedContent.content as { services: ServiceItem[] }).services;
+          const retrievedServices = (
+            retrievedContent.content as { services: ServiceItem[] }
+          ).services;
 
           // Verify order is preserved by checking each position
           for (let i = 0; i < services.length; i++) {
@@ -962,9 +996,13 @@ describe('Property 3: Services Array Persistence', () => {
 
           const savedData = saveServiceContent(content);
           const retrievedContent = fetchServiceContent(savedData);
-          const retrievedServices = (retrievedContent.content as { services: ServiceItem[] }).services;
+          const retrievedServices = (
+            retrievedContent.content as { services: ServiceItem[] }
+          ).services;
 
-          expect(serviceItemArraysAreEquivalent(services, retrievedServices)).toBe(true);
+          expect(
+            serviceItemArraysAreEquivalent(services, retrievedServices)
+          ).toBe(true);
         }
       ),
       { numRuns: 100 }
@@ -973,31 +1011,30 @@ describe('Property 3: Services Array Persistence', () => {
 
   it('should handle empty services array', () => {
     fc.assert(
-      fc.property(
-        fc.constantFrom(...servicePageSlugs),
-        (page) => {
-          const content: ServicePageContent = {
-            page,
-            section: 'hero',
-            content: {
-              eyebrow: 'Test Eyebrow',
-              title: 'Test Title',
-              highlightedWord: 'Test',
-              highlightedWord2: 'Highlight',
-              subtitle: 'Test Subtitle',
-              services: [],
-              ctaLabel: 'Test CTA',
-              ctaHref: '/test',
-            },
-          };
+      fc.property(fc.constantFrom(...servicePageSlugs), (page) => {
+        const content: ServicePageContent = {
+          page,
+          section: 'hero',
+          content: {
+            eyebrow: 'Test Eyebrow',
+            title: 'Test Title',
+            highlightedWord: 'Test',
+            highlightedWord2: 'Highlight',
+            subtitle: 'Test Subtitle',
+            services: [],
+            ctaLabel: 'Test CTA',
+            ctaHref: '/test',
+          },
+        };
 
-          const savedData = saveServiceContent(content);
-          const retrievedContent = fetchServiceContent(savedData);
-          const retrievedServices = (retrievedContent.content as { services: ServiceItem[] }).services;
+        const savedData = saveServiceContent(content);
+        const retrievedContent = fetchServiceContent(savedData);
+        const retrievedServices = (
+          retrievedContent.content as { services: ServiceItem[] }
+        ).services;
 
-          expect(retrievedServices).toEqual([]);
-        }
-      ),
+        expect(retrievedServices).toEqual([]);
+      }),
       { numRuns: 100 }
     );
   });
@@ -1025,9 +1062,13 @@ describe('Property 3: Services Array Persistence', () => {
 
           const savedData = saveServiceContent(content);
           const retrievedContent = fetchServiceContent(savedData);
-          const retrievedServices = (retrievedContent.content as { services: ServiceItem[] }).services;
+          const retrievedServices = (
+            retrievedContent.content as { services: ServiceItem[] }
+          ).services;
 
-          expect(serviceItemArraysAreEquivalent(services, retrievedServices)).toBe(true);
+          expect(
+            serviceItemArraysAreEquivalent(services, retrievedServices)
+          ).toBe(true);
         }
       ),
       { numRuns: 100 }
@@ -1058,21 +1099,26 @@ describe('Property 3: Services Array Persistence', () => {
           // First round trip
           const firstSave = saveServiceContent(content);
           const firstFetch = fetchServiceContent(firstSave);
-          const firstServices = (firstFetch.content as { services: ServiceItem[] }).services;
+          const firstServices = (
+            firstFetch.content as { services: ServiceItem[] }
+          ).services;
 
           // Second round trip
           const secondSave = saveServiceContent(firstFetch);
           const secondFetch = fetchServiceContent(secondSave);
-          const secondServices = (secondFetch.content as { services: ServiceItem[] }).services;
+          const secondServices = (
+            secondFetch.content as { services: ServiceItem[] }
+          ).services;
 
-          expect(serviceItemArraysAreEquivalent(firstServices, secondServices)).toBe(true);
+          expect(
+            serviceItemArraysAreEquivalent(firstServices, secondServices)
+          ).toBe(true);
         }
       ),
       { numRuns: 100 }
     );
   });
 });
-
 
 /**
  * Feature: service-pages-cms, Property 5: Fallback Content Display
@@ -1090,7 +1136,8 @@ describe('Property 5: Fallback Content Display', () => {
     'services-chatbot': {
       titleHighlight: 'AI-Powered',
       title: 'Chatbots',
-      subtitle: 'Intelligent conversational AI that connects with your customers 24/7 across all platforms.',
+      subtitle:
+        'Intelligent conversational AI that connects with your customers 24/7 across all platforms.',
       ctaText: 'Build Your Chatbot',
       ctaHref: '/contact',
     },
@@ -1151,7 +1198,7 @@ describe('Property 5: Fallback Content Display', () => {
    */
   const defaultCTAFallback: CTASection = {
     title: 'Ready to Get Started?',
-    subtitle: 'Let\'s build something amazing together.',
+    subtitle: "Let's build something amazing together.",
     ctaText: 'Contact Us',
     ctaHref: '/contact',
   };
@@ -1181,14 +1228,14 @@ describe('Property 5: Fallback Content Display', () => {
     // Title and subtitle are always required
     if (!content.title || typeof content.title !== 'string') return false;
     if (!content.subtitle || typeof content.subtitle !== 'string') return false;
-    
+
     // At least one CTA field should be present
     const hasCTA = content.ctaText || content.ctaLabel;
     if (!hasCTA) return false;
-    
+
     // CTA href should be present
     if (!content.ctaHref || typeof content.ctaHref !== 'string') return false;
-    
+
     return true;
   }
 
@@ -1226,42 +1273,36 @@ describe('Property 5: Fallback Content Display', () => {
 
   it('should provide valid hero fallback content when CMS returns null', () => {
     fc.assert(
-      fc.property(
-        fc.constantFrom(...servicePageSlugs),
-        (page) => {
-          // Simulate CMS returning null
-          const cmsContent: HeroSection | null = null;
-          const fallback = defaultHeroFallbacks[page];
-          
-          // Apply fallback logic
-          const result = applyFallback(cmsContent, fallback);
-          
-          // Verify fallback is valid
-          expect(isValidHeroFallback(result)).toBe(true);
-          expect(result).toBe(fallback);
-        }
-      ),
+      fc.property(fc.constantFrom(...servicePageSlugs), (page) => {
+        // Simulate CMS returning null
+        const cmsContent: HeroSection | null = null;
+        const fallback = defaultHeroFallbacks[page];
+
+        // Apply fallback logic
+        const result = applyFallback(cmsContent, fallback);
+
+        // Verify fallback is valid
+        expect(isValidHeroFallback(result)).toBe(true);
+        expect(result).toBe(fallback);
+      }),
       { numRuns: 100 }
     );
   });
 
   it('should provide valid hero fallback content when CMS returns undefined', () => {
     fc.assert(
-      fc.property(
-        fc.constantFrom(...servicePageSlugs),
-        (page) => {
-          // Simulate CMS returning undefined
-          const cmsContent: HeroSection | undefined = undefined;
-          const fallback = defaultHeroFallbacks[page];
-          
-          // Apply fallback logic
-          const result = applyFallback(cmsContent, fallback);
-          
-          // Verify fallback is valid
-          expect(isValidHeroFallback(result)).toBe(true);
-          expect(result).toBe(fallback);
-        }
-      ),
+      fc.property(fc.constantFrom(...servicePageSlugs), (page) => {
+        // Simulate CMS returning undefined
+        const cmsContent: HeroSection | undefined = undefined;
+        const fallback = defaultHeroFallbacks[page];
+
+        // Apply fallback logic
+        const result = applyFallback(cmsContent, fallback);
+
+        // Verify fallback is valid
+        expect(isValidHeroFallback(result)).toBe(true);
+        expect(result).toBe(fallback);
+      }),
       { numRuns: 100 }
     );
   });
@@ -1273,10 +1314,10 @@ describe('Property 5: Fallback Content Display', () => {
         heroSectionArbitrary,
         (page, cmsContent) => {
           const fallback = defaultHeroFallbacks[page];
-          
+
           // Apply fallback logic with valid CMS content
           const result = applyFallback(cmsContent, fallback);
-          
+
           // Should use CMS content, not fallback
           expect(result).toBe(cmsContent);
           expect(result).not.toBe(fallback);
@@ -1288,40 +1329,34 @@ describe('Property 5: Fallback Content Display', () => {
 
   it('should provide valid video fallback content when CMS returns null', () => {
     fc.assert(
-      fc.property(
-        fc.constantFrom(...servicePageSlugs),
-        () => {
-          // Simulate CMS returning null
-          const cmsContent: VideoSection | null = null;
-          
-          // Apply fallback logic
-          const result = applyFallback(cmsContent, defaultVideoFallback);
-          
-          // Verify fallback is valid
-          expect(isValidVideoFallback(result)).toBe(true);
-          expect(result).toBe(defaultVideoFallback);
-        }
-      ),
+      fc.property(fc.constantFrom(...servicePageSlugs), () => {
+        // Simulate CMS returning null
+        const cmsContent: VideoSection | null = null;
+
+        // Apply fallback logic
+        const result = applyFallback(cmsContent, defaultVideoFallback);
+
+        // Verify fallback is valid
+        expect(isValidVideoFallback(result)).toBe(true);
+        expect(result).toBe(defaultVideoFallback);
+      }),
       { numRuns: 100 }
     );
   });
 
   it('should provide valid CTA fallback content when CMS returns null', () => {
     fc.assert(
-      fc.property(
-        fc.constantFrom(...servicePageSlugs),
-        () => {
-          // Simulate CMS returning null
-          const cmsContent: CTASection | null = null;
-          
-          // Apply fallback logic
-          const result = applyFallback(cmsContent, defaultCTAFallback);
-          
-          // Verify fallback is valid
-          expect(isValidCTAFallback(result)).toBe(true);
-          expect(result).toBe(defaultCTAFallback);
-        }
-      ),
+      fc.property(fc.constantFrom(...servicePageSlugs), () => {
+        // Simulate CMS returning null
+        const cmsContent: CTASection | null = null;
+
+        // Apply fallback logic
+        const result = applyFallback(cmsContent, defaultCTAFallback);
+
+        // Verify fallback is valid
+        expect(isValidCTAFallback(result)).toBe(true);
+        expect(result).toBe(defaultCTAFallback);
+      }),
       { numRuns: 100 }
     );
   });
@@ -1330,14 +1365,23 @@ describe('Property 5: Fallback Content Display', () => {
     fc.assert(
       fc.property(
         fc.constantFrom(...servicePageSlugs),
-        fc.constantFrom('chatDemo', 'learningAnimation', 'accuracyChart', 'serpRanking', 'keywordCloud'),
+        fc.constantFrom(
+          'chatDemo',
+          'learningAnimation',
+          'accuracyChart',
+          'serpRanking',
+          'keywordCloud'
+        ),
         () => {
           // Simulate CMS returning null
           const cmsContent: SectionHeading | null = null;
-          
+
           // Apply fallback logic
-          const result = applyFallback(cmsContent, defaultSectionHeadingFallback);
-          
+          const result = applyFallback(
+            cmsContent,
+            defaultSectionHeadingFallback
+          );
+
           // Verify fallback is valid
           expect(isValidSectionHeadingFallback(result)).toBe(true);
           expect(result).toBe(defaultSectionHeadingFallback);
@@ -1349,98 +1393,91 @@ describe('Property 5: Fallback Content Display', () => {
 
   it('should handle falsy CMS values correctly (empty string should not trigger fallback)', () => {
     fc.assert(
-      fc.property(
-        fc.constantFrom(...servicePageSlugs),
-        (page) => {
-          // Empty object is truthy, should not trigger fallback
-          const cmsContent: Partial<HeroSection> = {};
-          const fallback = defaultHeroFallbacks[page];
-          
-          // Apply fallback logic - empty object is truthy
-          const result = applyFallback(cmsContent as HeroSection, fallback);
-          
-          // Should use CMS content (empty object), not fallback
-          expect(result).toBe(cmsContent);
-        }
-      ),
+      fc.property(fc.constantFrom(...servicePageSlugs), (page) => {
+        // Empty object is truthy, should not trigger fallback
+        const cmsContent: Partial<HeroSection> = {};
+        const fallback = defaultHeroFallbacks[page];
+
+        // Apply fallback logic - empty object is truthy
+        const result = applyFallback(cmsContent as HeroSection, fallback);
+
+        // Should use CMS content (empty object), not fallback
+        expect(result).toBe(cmsContent);
+      }),
       { numRuns: 100 }
     );
   });
 
   it('should ensure fallback content is immutable (not modified by component)', () => {
     fc.assert(
-      fc.property(
-        fc.constantFrom(...servicePageSlugs),
-        (page) => {
-          const originalFallback = { ...defaultHeroFallbacks[page] };
-          const cmsContent: HeroSection | null = null;
-          
-          // Apply fallback logic
-          const result = applyFallback(cmsContent, defaultHeroFallbacks[page]);
-          
-          // Verify original fallback is unchanged
-          expect(defaultHeroFallbacks[page].title).toBe(originalFallback.title);
-          expect(defaultHeroFallbacks[page].subtitle).toBe(originalFallback.subtitle);
-          expect(result).toBe(defaultHeroFallbacks[page]);
-        }
-      ),
+      fc.property(fc.constantFrom(...servicePageSlugs), (page) => {
+        const originalFallback = { ...defaultHeroFallbacks[page] };
+        const cmsContent: HeroSection | null = null;
+
+        // Apply fallback logic
+        const result = applyFallback(cmsContent, defaultHeroFallbacks[page]);
+
+        // Verify original fallback is unchanged
+        expect(defaultHeroFallbacks[page].title).toBe(originalFallback.title);
+        expect(defaultHeroFallbacks[page].subtitle).toBe(
+          originalFallback.subtitle
+        );
+        expect(result).toBe(defaultHeroFallbacks[page]);
+      }),
       { numRuns: 100 }
     );
   });
 
   it('should provide fallback with valid href paths', () => {
     fc.assert(
-      fc.property(
-        fc.constantFrom(...servicePageSlugs),
-        (page) => {
-          const cmsContent: HeroSection | null = null;
-          const fallback = defaultHeroFallbacks[page];
-          
-          const result = applyFallback(cmsContent, fallback);
-          
-          // Verify href is a valid path (starts with /)
-          expect(result.ctaHref).toMatch(/^\//);
-        }
-      ),
+      fc.property(fc.constantFrom(...servicePageSlugs), (page) => {
+        const cmsContent: HeroSection | null = null;
+        const fallback = defaultHeroFallbacks[page];
+
+        const result = applyFallback(cmsContent, fallback);
+
+        // Verify href is a valid path (starts with /)
+        expect(result.ctaHref).toMatch(/^\//);
+      }),
       { numRuns: 100 }
     );
   });
 
   it('should provide fallback with non-empty text content', () => {
     fc.assert(
-      fc.property(
-        fc.constantFrom(...servicePageSlugs),
-        (page) => {
-          const cmsContent: HeroSection | null = null;
-          const fallback = defaultHeroFallbacks[page];
-          
-          const result = applyFallback(cmsContent, fallback);
-          
-          // Verify text content is non-empty
-          expect(result.title.trim().length).toBeGreaterThan(0);
-          expect(result.subtitle.trim().length).toBeGreaterThan(0);
-        }
-      ),
+      fc.property(fc.constantFrom(...servicePageSlugs), (page) => {
+        const cmsContent: HeroSection | null = null;
+        const fallback = defaultHeroFallbacks[page];
+
+        const result = applyFallback(cmsContent, fallback);
+
+        // Verify text content is non-empty
+        expect(result.title.trim().length).toBeGreaterThan(0);
+        expect(result.subtitle.trim().length).toBeGreaterThan(0);
+      }),
       { numRuns: 100 }
     );
   });
 
   it('should handle multiple sections falling back simultaneously', () => {
     fc.assert(
-      fc.property(
-        fc.constantFrom(...servicePageSlugs),
-        (page) => {
-          // Simulate all sections returning null from CMS
-          const heroResult = applyFallback<HeroSection>(null, defaultHeroFallbacks[page]);
-          const videoResult = applyFallback<VideoSection>(null, defaultVideoFallback);
-          const ctaResult = applyFallback<CTASection>(null, defaultCTAFallback);
-          
-          // All should be valid fallbacks
-          expect(isValidHeroFallback(heroResult)).toBe(true);
-          expect(isValidVideoFallback(videoResult)).toBe(true);
-          expect(isValidCTAFallback(ctaResult)).toBe(true);
-        }
-      ),
+      fc.property(fc.constantFrom(...servicePageSlugs), (page) => {
+        // Simulate all sections returning null from CMS
+        const heroResult = applyFallback<HeroSection>(
+          null,
+          defaultHeroFallbacks[page]
+        );
+        const videoResult = applyFallback<VideoSection>(
+          null,
+          defaultVideoFallback
+        );
+        const ctaResult = applyFallback<CTASection>(null, defaultCTAFallback);
+
+        // All should be valid fallbacks
+        expect(isValidHeroFallback(heroResult)).toBe(true);
+        expect(isValidVideoFallback(videoResult)).toBe(true);
+        expect(isValidCTAFallback(ctaResult)).toBe(true);
+      }),
       { numRuns: 100 }
     );
   });
@@ -1451,16 +1488,18 @@ describe('Property 5: Fallback Content Display', () => {
         fc.constantFrom(...servicePageSlugs),
         fc.boolean(),
         (page, useCMS) => {
-          const cmsContent: HeroSection | null = useCMS ? {
-            title: 'CMS Title',
-            subtitle: 'CMS Subtitle',
-            ctaText: 'CMS CTA',
-            ctaHref: '/cms-path',
-          } : null;
+          const cmsContent: HeroSection | null = useCMS
+            ? {
+                title: 'CMS Title',
+                subtitle: 'CMS Subtitle',
+                ctaText: 'CMS CTA',
+                ctaHref: '/cms-path',
+              }
+            : null;
           const fallback = defaultHeroFallbacks[page];
-          
+
           const result = applyFallback(cmsContent, fallback);
-          
+
           // Result should always have the same structure
           expect(typeof result.title).toBe('string');
           expect(typeof result.subtitle).toBe('string');

@@ -27,7 +27,7 @@ export default function DashboardStats() {
       ]);
       const statsData = await statsRes.json();
       const analyticsData = await analyticsRes.json();
-      
+
       setStats({
         ...statsData.stats,
         pageViews: analyticsData.overview?.totalVisits || 0,
@@ -78,12 +78,15 @@ export default function DashboardStats() {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="bg-[#1E293B] rounded-xl border border-slate-700/50 p-6 animate-pulse">
-            <div className="h-4 bg-slate-700 rounded w-24 mb-4" />
-            <div className="h-8 bg-slate-700 rounded w-16 mb-2" />
-            <div className="h-3 bg-slate-700 rounded w-20" />
+          <div
+            key={i}
+            className="animate-pulse rounded-xl border border-slate-700/50 bg-[#1E293B] p-6"
+          >
+            <div className="mb-4 h-4 w-24 rounded bg-slate-700" />
+            <div className="mb-2 h-8 w-16 rounded bg-slate-700" />
+            <div className="h-3 w-20 rounded bg-slate-700" />
           </div>
         ))}
       </div>
@@ -96,28 +99,34 @@ export default function DashboardStats() {
         <button
           onClick={() => fetchStats(true)}
           disabled={refreshing}
-          className="flex items-center gap-2 px-3 py-1.5 text-sm bg-slate-700 text-slate-300 rounded-lg hover:bg-slate-600 transition-colors disabled:opacity-50"
+          className="flex items-center gap-2 rounded-lg bg-slate-700 px-3 py-1.5 text-sm text-slate-300 transition-colors hover:bg-slate-600 disabled:opacity-50"
         >
-          <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
+          <RefreshCw
+            className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`}
+          />
           {refreshing ? 'Refreshing...' : 'Refresh'}
         </button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {statItems.map((stat) => {
           const Icon = stat.icon;
           return (
             <div
               key={stat.name}
-              className="bg-[#1E293B] rounded-xl border border-slate-700/50 p-6 hover:border-slate-600 transition-colors"
+              className="rounded-xl border border-slate-700/50 bg-[#1E293B] p-6 transition-colors hover:border-slate-600"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-400">{stat.name}</p>
-                  <p className="text-3xl font-bold text-white mt-2">{stat.value}</p>
-                  <p className="text-sm text-slate-500 mt-1">{stat.change}</p>
+                  <p className="text-sm font-medium text-slate-400">
+                    {stat.name}
+                  </p>
+                  <p className="mt-2 text-3xl font-bold text-white">
+                    {stat.value}
+                  </p>
+                  <p className="mt-1 text-sm text-slate-500">{stat.change}</p>
                 </div>
-                <div className={`${stat.color} p-3 rounded-lg`}>
-                  <Icon className="w-6 h-6 text-white" />
+                <div className={`${stat.color} rounded-lg p-3`}>
+                  <Icon className="h-6 w-6 text-white" />
                 </div>
               </div>
             </div>

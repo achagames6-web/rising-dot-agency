@@ -8,7 +8,7 @@ export async function GET(request: Request) {
     const parentFolder = searchParams.get('folder') || '';
 
     let folders: any[] = [];
-    
+
     if (!parentFolder) {
       // Get root folders
       const result = await cloudinary.api.root_folders();

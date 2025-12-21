@@ -18,38 +18,47 @@ interface PageMeta {
 const defaultMeta: Record<string, Partial<PageMeta>> = {
   '/': {
     title: 'Rising Dot Agency | Digital Excellence Delivered',
-    description: 'We craft stunning websites, powerful automations, and intelligent chatbots that transform your digital presence.',
+    description:
+      'We craft stunning websites, powerful automations, and intelligent chatbots that transform your digital presence.',
   },
   '/about': {
     title: 'About Us | Rising Dot Agency',
-    description: 'Meet the team behind Rising Dot Agency. We are passionate developers, designers, and strategists dedicated to creating exceptional digital experiences.',
+    description:
+      'Meet the team behind Rising Dot Agency. We are passionate developers, designers, and strategists dedicated to creating exceptional digital experiences.',
   },
   '/services': {
     title: 'Our Services | Rising Dot Agency',
-    description: 'Comprehensive digital solutions including web design, chatbot development, N8N automations, WordPress, Shopify, and SEO services.',
+    description:
+      'Comprehensive digital solutions including web design, chatbot development, N8N automations, WordPress, Shopify, and SEO services.',
   },
   '/portfolio': {
     title: 'Our Work | Rising Dot Agency',
-    description: 'Explore our portfolio of successful projects and see how we have helped businesses transform their digital presence.',
+    description:
+      'Explore our portfolio of successful projects and see how we have helped businesses transform their digital presence.',
   },
   '/contact': {
     title: 'Contact Us | Rising Dot Agency',
-    description: 'Get in touch with Rising Dot Agency. Let us discuss your project and how we can help you achieve your digital goals.',
+    description:
+      'Get in touch with Rising Dot Agency. Let us discuss your project and how we can help you achieve your digital goals.',
   },
   '/blog': {
     title: 'Blog | Rising Dot Agency',
-    description: 'Insights, tips, and news about web development, automation, AI, and digital marketing from the Rising Dot team.',
+    description:
+      'Insights, tips, and news about web development, automation, AI, and digital marketing from the Rising Dot team.',
   },
 };
 
 export async function getMetaTags(path: string): Promise<Metadata> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://risingdot.agency';
-  
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://risingdot.agency';
+
   try {
     const client = await clientPromise;
     const db = client.db('rising-dot');
-    
-    const meta = await db.collection('seoMeta').findOne({ path }) as PageMeta | null;
+
+    const meta = (await db
+      .collection('seoMeta')
+      .findOne({ path })) as PageMeta | null;
     const defaults = defaultMeta[path] || {};
 
     const title = meta?.title || defaults.title || 'Rising Dot Agency';
@@ -95,7 +104,7 @@ export async function getMetaTags(path: string): Promise<Metadata> {
     };
   } catch (error) {
     console.error('Error fetching meta tags:', error);
-    
+
     // Return defaults on error
     const defaults = defaultMeta[path] || {};
     return {

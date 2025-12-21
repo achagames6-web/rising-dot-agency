@@ -12,7 +12,8 @@ interface SchemaMarkup {
   createdAt?: string;
 }
 
-const getSiteUrl = () => process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
+const getSiteUrl = () =>
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
 
 const getSchemaTemplates = () => {
   const siteUrl = getSiteUrl();
@@ -116,7 +117,10 @@ export default function SchemaMarkupGenerator() {
   const [selectedType, setSelectedType] = useState<string>('Organization');
   const [jsonData, setJsonData] = useState<string>('');
   const [selectedPath, setSelectedPath] = useState<string>('/');
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [message, setMessage] = useState<{
+    type: 'success' | 'error';
+    text: string;
+  } | null>(null);
   const [copied, setCopied] = useState(false);
 
   const paths = ['/', '/about', '/services', '/portfolio', '/contact', '/blog'];
@@ -126,7 +130,8 @@ export default function SchemaMarkupGenerator() {
   }, []);
 
   useEffect(() => {
-    const template = schemaTemplates[selectedType as keyof typeof schemaTemplates];
+    const template =
+      schemaTemplates[selectedType as keyof typeof schemaTemplates];
     if (template) {
       setJsonData(JSON.stringify(template, null, 2));
     }
@@ -184,7 +189,9 @@ export default function SchemaMarkupGenerator() {
   const handleDelete = async (id: string) => {
     if (!confirm('Delete this schema markup?')) return;
     try {
-      const res = await fetch(`/api/admin/seo/schema/${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/admin/seo/schema/${id}`, {
+        method: 'DELETE',
+      });
       if (res.ok) {
         setMessage({ type: 'success', text: 'Schema deleted!' });
         fetchSchemas();
@@ -196,7 +203,9 @@ export default function SchemaMarkupGenerator() {
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(`<script type="application/ld+json">\n${jsonData}\n</script>`);
+    navigator.clipboard.writeText(
+      `<script type="application/ld+json">\n${jsonData}\n</script>`
+    );
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -214,7 +223,7 @@ export default function SchemaMarkupGenerator() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="w-8 h-8 border-2 border-[#37AFE1]/30 border-t-[#37AFE1] rounded-full animate-spin" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
       </div>
     );
   }
@@ -222,53 +231,77 @@ export default function SchemaMarkupGenerator() {
   return (
     <div className="space-y-6">
       {message && (
-        <div className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
+        <div
+          className={`rounded-lg p-4 ${message.type === 'success' ? 'border border-green-500/30 bg-green-500/20 text-green-400' : 'border border-red-500/30 bg-red-500/20 text-red-400'}`}
+        >
           {message.text}
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Editor */}
-        <div className="lg:col-span-2 space-y-4">
-          <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 p-6">
-            <h3 className="text-white font-semibold mb-4">Create Schema Markup</h3>
-            
-            <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="space-y-4 lg:col-span-2">
+          <div className="rounded-xl border border-slate-700/50 bg-[#1E293B] p-6">
+            <h3 className="mb-4 font-semibold text-white">
+              Create Schema Markup
+            </h3>
+
+            <div className="mb-4 grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Page</label>
+                <label className="mb-1 block text-sm font-medium text-slate-300">
+                  Page
+                </label>
                 <select
                   value={selectedPath}
                   onChange={(e) => setSelectedPath(e.target.value)}
-                  className="w-full px-3 py-2 bg-[#0F172A] border border-slate-700 rounded-lg text-white"
+                  className="w-full rounded-lg border border-slate-700 bg-[#0F172A] px-3 py-2 text-white"
                 >
-                  {paths.map(p => (
-                    <option key={p} value={p}>{p === '/' ? 'Homepage' : p}</option>
+                  {paths.map((p) => (
+                    <option key={p} value={p}>
+                      {p === '/' ? 'Homepage' : p}
+                    </option>
                   ))}
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Schema Type</label>
+                <label className="mb-1 block text-sm font-medium text-slate-300">
+                  Schema Type
+                </label>
                 <select
                   value={selectedType}
                   onChange={(e) => setSelectedType(e.target.value)}
-                  className="w-full px-3 py-2 bg-[#0F172A] border border-slate-700 rounded-lg text-white"
+                  className="w-full rounded-lg border border-slate-700 bg-[#0F172A] px-3 py-2 text-white"
                 >
-                  {Object.keys(schemaTemplates).map(type => (
-                    <option key={type} value={type}>{type}</option>
+                  {Object.keys(schemaTemplates).map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
                   ))}
                 </select>
               </div>
             </div>
 
             <div className="mb-4">
-              <div className="flex justify-between items-center mb-1">
-                <label className="text-sm font-medium text-slate-300">JSON-LD Data</label>
+              <div className="mb-1 flex items-center justify-between">
+                <label className="text-sm font-medium text-slate-300">
+                  JSON-LD Data
+                </label>
                 <div className="flex gap-2">
-                  <button onClick={validateJson} className="text-xs px-2 py-1 bg-slate-700 text-slate-300 rounded hover:bg-slate-600">
+                  <button
+                    onClick={validateJson}
+                    className="rounded bg-slate-700 px-2 py-1 text-xs text-slate-300 hover:bg-slate-600"
+                  >
                     Validate
                   </button>
-                  <button onClick={copyToClipboard} className="text-xs px-2 py-1 bg-slate-700 text-slate-300 rounded hover:bg-slate-600 flex items-center gap-1">
-                    {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                  <button
+                    onClick={copyToClipboard}
+                    className="flex items-center gap-1 rounded bg-slate-700 px-2 py-1 text-xs text-slate-300 hover:bg-slate-600"
+                  >
+                    {copied ? (
+                      <Check className="h-3 w-3" />
+                    ) : (
+                      <Copy className="h-3 w-3" />
+                    )}
                     {copied ? 'Copied!' : 'Copy'}
                   </button>
                 </div>
@@ -276,7 +309,7 @@ export default function SchemaMarkupGenerator() {
               <textarea
                 value={jsonData}
                 onChange={(e) => setJsonData(e.target.value)}
-                className="w-full h-80 px-4 py-3 bg-[#0F172A] border border-slate-700 rounded-lg text-white font-mono text-sm focus:outline-none focus:border-[#37AFE1]"
+                className="h-80 w-full rounded-lg border border-slate-700 bg-[#0F172A] px-4 py-3 font-mono text-sm text-white focus:border-[#37AFE1] focus:outline-none"
                 spellCheck={false}
               />
             </div>
@@ -284,36 +317,40 @@ export default function SchemaMarkupGenerator() {
             <button
               onClick={handleSave}
               disabled={saving}
-              className="flex items-center gap-2 px-6 py-2 bg-[#37AFE1] text-white rounded-lg hover:bg-[#37AFE1]/80 disabled:opacity-50"
+              className="flex items-center gap-2 rounded-lg bg-[#37AFE1] px-6 py-2 text-white hover:bg-[#37AFE1]/80 disabled:opacity-50"
             >
-              <Save className="w-4 h-4" />
+              <Save className="h-4 w-4" />
               Save Schema
             </button>
           </div>
         </div>
 
         {/* Saved Schemas */}
-        <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 p-6">
-          <h3 className="text-white font-semibold mb-4">Saved Schemas</h3>
-          <div className="space-y-3 max-h-96 overflow-y-auto">
+        <div className="rounded-xl border border-slate-700/50 bg-[#1E293B] p-6">
+          <h3 className="mb-4 font-semibold text-white">Saved Schemas</h3>
+          <div className="max-h-96 space-y-3 overflow-y-auto">
             {schemas.length === 0 ? (
-              <p className="text-slate-400 text-sm">No schemas created yet</p>
+              <p className="text-sm text-slate-400">No schemas created yet</p>
             ) : (
               schemas.map((schema) => (
-                <div key={schema._id} className="p-3 bg-[#0F172A] rounded-lg">
+                <div key={schema._id} className="rounded-lg bg-[#0F172A] p-3">
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="flex items-center gap-2">
-                        <Code className="w-4 h-4 text-[#37AFE1]" />
-                        <span className="text-white font-medium">{schema.type}</span>
+                        <Code className="h-4 w-4 text-[#37AFE1]" />
+                        <span className="font-medium text-white">
+                          {schema.type}
+                        </span>
                       </div>
-                      <p className="text-xs text-slate-400 mt-1">{schema.path}</p>
+                      <p className="mt-1 text-xs text-slate-400">
+                        {schema.path}
+                      </p>
                     </div>
                     <button
                       onClick={() => handleDelete(schema._id!)}
-                      className="p-1.5 hover:bg-red-500/20 rounded text-slate-400 hover:text-red-400"
+                      className="rounded p-1.5 text-slate-400 hover:bg-red-500/20 hover:text-red-400"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="h-4 w-4" />
                     </button>
                   </div>
                 </div>

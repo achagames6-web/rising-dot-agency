@@ -97,9 +97,9 @@ export default function UsersList({
   return (
     <div className="space-y-4">
       {/* Search and Filter Bar */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+      <div className="flex flex-col gap-4 sm:flex-row">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
             placeholder="Search by name or email..."
@@ -108,7 +108,7 @@ export default function UsersList({
               setSearch(e.target.value);
               setPage(1);
             }}
-            className="w-full pl-10 pr-4 py-2 bg-[#1E293B] border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-[#37AFE1]"
+            className="w-full rounded-lg border border-slate-700 bg-[#1E293B] py-2 pl-10 pr-4 text-white placeholder-slate-400 focus:border-[#37AFE1] focus:outline-none"
           />
         </div>
         <div className="flex gap-2">
@@ -118,7 +118,7 @@ export default function UsersList({
               setRoleFilter(e.target.value);
               setPage(1);
             }}
-            className="px-4 py-2 bg-[#1E293B] border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#37AFE1]"
+            className="rounded-lg border border-slate-700 bg-[#1E293B] px-4 py-2 text-white focus:border-[#37AFE1] focus:outline-none"
           >
             <option value="">All Roles</option>
             <option value="admin">Admin</option>
@@ -129,16 +129,16 @@ export default function UsersList({
       </div>
 
       {/* Users Table */}
-      <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 overflow-hidden">
+      <div className="overflow-hidden rounded-xl border border-slate-700/50 bg-[#1E293B]">
         {loading ? (
           <div className="p-12 text-center">
-            <div className="inline-block w-8 h-8 border-4 border-[#37AFE1]/30 border-t-[#37AFE1] rounded-full animate-spin"></div>
+            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-[#37AFE1]/30 border-t-[#37AFE1]"></div>
             <p className="mt-4 text-slate-400">Loading users...</p>
           </div>
         ) : users.length === 0 ? (
           <div className="p-12 text-center">
-            <Users className="w-16 h-16 text-slate-600 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">
+            <Users className="mx-auto mb-4 h-16 w-16 text-slate-600" />
+            <h3 className="mb-2 text-xl font-semibold text-white">
               No users found
             </h3>
             <p className="text-slate-400">
@@ -151,21 +151,21 @@ export default function UsersList({
           <>
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-[#0F172A] border-b border-slate-700">
+                <thead className="border-b border-slate-700 bg-[#0F172A]">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-400">
                       User
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-400">
                       Role
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-400">
                       2FA
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-400">
                       Created
                     </th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-slate-400">
                       Actions
                     </th>
                   </tr>
@@ -185,7 +185,7 @@ export default function UsersList({
                       </td>
                       <td className="px-6 py-4">
                         <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleBadgeColor(
+                          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getRoleBadgeColor(
                             user.role
                           )}`}
                         >
@@ -194,9 +194,9 @@ export default function UsersList({
                       </td>
                       <td className="px-6 py-4">
                         {user.two_factor_enabled ? (
-                          <ShieldCheck className="w-5 h-5 text-green-400" />
+                          <ShieldCheck className="h-5 w-5 text-green-400" />
                         ) : (
-                          <Shield className="w-5 h-5 text-slate-600" />
+                          <Shield className="h-5 w-5 text-slate-600" />
                         )}
                       </td>
                       <td className="px-6 py-4 text-sm text-slate-400">
@@ -210,9 +210,9 @@ export default function UsersList({
                                 activeMenu === user.id ? null : user.id
                               )
                             }
-                            className="p-2 hover:bg-slate-700 rounded-lg transition-colors"
+                            className="rounded-lg p-2 transition-colors hover:bg-slate-700"
                           >
-                            <MoreVertical className="w-5 h-5 text-slate-400" />
+                            <MoreVertical className="h-5 w-5 text-slate-400" />
                           </button>
                           {activeMenu === user.id && (
                             <>
@@ -220,15 +220,15 @@ export default function UsersList({
                                 className="fixed inset-0 z-10"
                                 onClick={() => setActiveMenu(null)}
                               />
-                              <div className="absolute right-0 mt-2 w-48 bg-[#0F172A] rounded-lg shadow-lg border border-slate-700 py-1 z-20">
+                              <div className="absolute right-0 z-20 mt-2 w-48 rounded-lg border border-slate-700 bg-[#0F172A] py-1 shadow-lg">
                                 <button
                                   onClick={() => {
                                     onEditUser(user);
                                     setActiveMenu(null);
                                   }}
-                                  className="w-full px-4 py-2 text-left text-sm text-slate-300 hover:bg-slate-700 flex items-center gap-2"
+                                  className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-slate-300 hover:bg-slate-700"
                                 >
-                                  <Edit className="w-4 h-4" />
+                                  <Edit className="h-4 w-4" />
                                   Edit User
                                 </button>
                                 <button
@@ -236,9 +236,9 @@ export default function UsersList({
                                     onManage2FA(user);
                                     setActiveMenu(null);
                                   }}
-                                  className="w-full px-4 py-2 text-left text-sm text-slate-300 hover:bg-slate-700 flex items-center gap-2"
+                                  className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-slate-300 hover:bg-slate-700"
                                 >
-                                  <Shield className="w-4 h-4" />
+                                  <Shield className="h-4 w-4" />
                                   Manage 2FA
                                 </button>
                                 <button
@@ -246,9 +246,9 @@ export default function UsersList({
                                     onDeleteUser(user);
                                     setActiveMenu(null);
                                   }}
-                                  className="w-full px-4 py-2 text-left text-sm text-red-400 hover:bg-red-500/20 flex items-center gap-2"
+                                  className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-400 hover:bg-red-500/20"
                                 >
-                                  <Trash2 className="w-4 h-4" />
+                                  <Trash2 className="h-4 w-4" />
                                   Delete User
                                 </button>
                               </div>
@@ -264,11 +264,11 @@ export default function UsersList({
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="px-6 py-4 border-t border-slate-700 flex items-center justify-between">
+              <div className="flex items-center justify-between border-t border-slate-700 px-6 py-4">
                 <button
                   onClick={() => setPage(Math.max(1, page - 1))}
                   disabled={page === 1}
-                  className="px-4 py-2 text-sm font-medium text-slate-300 bg-slate-700 border border-slate-600 rounded-lg hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="rounded-lg border border-slate-600 bg-slate-700 px-4 py-2 text-sm font-medium text-slate-300 hover:bg-slate-600 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   Previous
                 </button>
@@ -278,7 +278,7 @@ export default function UsersList({
                 <button
                   onClick={() => setPage(Math.min(totalPages, page + 1))}
                   disabled={page === totalPages}
-                  className="px-4 py-2 text-sm font-medium text-slate-300 bg-slate-700 border border-slate-600 rounded-lg hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="rounded-lg border border-slate-600 bg-slate-700 px-4 py-2 text-sm font-medium text-slate-300 hover:bg-slate-600 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   Next
                 </button>

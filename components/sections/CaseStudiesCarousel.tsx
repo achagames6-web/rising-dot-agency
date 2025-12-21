@@ -79,7 +79,9 @@ interface CaseStudiesCarouselProps {
   page?: 'home' | 'portfolio';
 }
 
-export default function CaseStudiesCarousel({ page = 'home' }: CaseStudiesCarouselProps) {
+export default function CaseStudiesCarousel({
+  page = 'home',
+}: CaseStudiesCarouselProps) {
   // Fetch CMS content based on page prop (Requirements 6.3)
   const { content: sectionContent } = useSiteContent<{
     eyebrow?: string;
@@ -90,18 +92,21 @@ export default function CaseStudiesCarousel({ page = 'home' }: CaseStudiesCarous
   }>(page, 'caseStudies');
 
   // Select default case studies based on page
-  const defaultCaseStudies = page === 'portfolio' ? defaultPortfolioCaseStudies : defaultHomeCaseStudies;
+  const defaultCaseStudies =
+    page === 'portfolio' ? defaultPortfolioCaseStudies : defaultHomeCaseStudies;
 
   // Use CMS data or fallback to defaults
   const eyebrow = sectionContent?.eyebrow || 'Case Studies';
   const title = sectionContent?.title || 'Results That';
   const titleHighlight = sectionContent?.titleHighlight || 'Speak';
-  const subtitle = sectionContent?.subtitle || "Real projects, real impact. See how we've helped businesses transform their digital presence.";
+  const subtitle =
+    sectionContent?.subtitle ||
+    "Real projects, real impact. See how we've helped businesses transform their digital presence.";
   const caseStudies = sectionContent?.studies || defaultCaseStudies;
 
   return (
-    <section className="py-20 md:py-32 bg-transparent">
-      <div className="max-w-6xl mx-auto px-6">
+    <section className="bg-transparent py-20 md:py-32">
+      <div className="mx-auto max-w-6xl px-6">
         {/* Section Header */}
         <SectionHeading
           eyebrow={eyebrow}
@@ -111,13 +116,17 @@ export default function CaseStudiesCarousel({ page = 'home' }: CaseStudiesCarous
         />
 
         {/* Carousel */}
-        <ProgressSlider vertical={false} activeSlider={caseStudies[0]?.sliderName || 'ecommerce'} duration={5000}>
+        <ProgressSlider
+          vertical={false}
+          activeSlider={caseStudies[0]?.sliderName || 'ecommerce'}
+          duration={5000}
+        >
           <SliderContent>
             {caseStudies.map((item, index) => (
               <SliderWrapper key={index} value={item.sliderName}>
-                <div className="relative rounded-2xl overflow-hidden">
+                <div className="relative overflow-hidden rounded-2xl">
                   <Image
-                    className="rounded-2xl h-[400px] md:h-[500px] w-full object-cover"
+                    className="h-[400px] w-full rounded-2xl object-cover md:h-[500px]"
                     src={item.img}
                     width={1200}
                     height={600}
@@ -130,19 +139,19 @@ export default function CaseStudiesCarousel({ page = 'home' }: CaseStudiesCarous
             ))}
           </SliderContent>
 
-          <SliderBtnGroup className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-xl border-t border-white/10 overflow-hidden grid grid-cols-2 md:grid-cols-4 rounded-b-2xl">
+          <SliderBtnGroup className="absolute bottom-0 left-0 right-0 grid grid-cols-2 overflow-hidden rounded-b-2xl border-t border-white/10 bg-black/60 backdrop-blur-xl md:grid-cols-4">
             {caseStudies.map((item, index) => (
               <SliderBtn
                 key={index}
                 value={item.sliderName}
-                className="text-left cursor-pointer p-4 md:p-5 border-r border-white/10 last:border-r-0 transition-all hover:bg-white/5"
+                className="cursor-pointer border-r border-white/10 p-4 text-left transition-all last:border-r-0 hover:bg-white/5 md:p-5"
                 progressBarClass="bg-gradient-to-r from-[#F58122] to-[#37AFE1] h-full"
               >
-                <h3 className="relative inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#F58122] text-white mb-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                <h3 className="relative mb-2 inline-flex items-center gap-2 rounded-full bg-[#F58122] px-3 py-1 text-xs font-semibold text-white">
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
                   {item.title}
                 </h3>
-                <p className="text-sm text-white/80 font-medium line-clamp-2">
+                <p className="line-clamp-2 text-sm font-medium text-white/80">
                   {item.desc}
                 </p>
               </SliderBtn>

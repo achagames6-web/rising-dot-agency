@@ -14,28 +14,44 @@ export async function PUT(
     const db = client.db('rising-dot');
 
     const updateData: any = { updatedAt: new Date() };
-    const allowedFields = ['title', 'description', 'type', 'fileUrl', 'thumbnailUrl', 'landingPage', 'enabled'];
-    
+    const allowedFields = [
+      'title',
+      'description',
+      'type',
+      'fileUrl',
+      'thumbnailUrl',
+      'landingPage',
+      'enabled',
+    ];
+
     for (const field of allowedFields) {
       if (body[field] !== undefined) {
         updateData[field] = body[field];
       }
     }
 
-    const result = await db.collection('seoLeadMagnets').findOneAndUpdate(
-      { _id: new ObjectId(params.id) },
-      { $set: updateData },
-      { returnDocument: 'after' }
-    );
+    const result = await db
+      .collection('seoLeadMagnets')
+      .findOneAndUpdate(
+        { _id: new ObjectId(params.id) },
+        { $set: updateData },
+        { returnDocument: 'after' }
+      );
 
     if (!result) {
-      return NextResponse.json({ error: 'Lead magnet not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Lead magnet not found' },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json(result);
   } catch (error) {
     console.error('Error updating lead magnet:', error);
-    return NextResponse.json({ error: 'Failed to update lead magnet' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to update lead magnet' },
+      { status: 500 }
+    );
   }
 }
 
@@ -53,12 +69,18 @@ export async function DELETE(
     });
 
     if (result.deletedCount === 0) {
-      return NextResponse.json({ error: 'Lead magnet not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Lead magnet not found' },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting lead magnet:', error);
-    return NextResponse.json({ error: 'Failed to delete lead magnet' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to delete lead magnet' },
+      { status: 500 }
+    );
   }
 }

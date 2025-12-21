@@ -1,6 +1,6 @@
 /**
  * Google Analytics 4 Integration
- * 
+ *
  * Implements Requirements 25.1-25.10
  * Integrates with existing analytics tracker for comprehensive tracking
  */
@@ -75,7 +75,11 @@ class GA4Tracker {
    * Track animation engagement
    * Requirement 25.1
    */
-  trackAnimationEngagement(animationType: string, engagementTime: number, interactionDepth: number) {
+  trackAnimationEngagement(
+    animationType: string,
+    engagementTime: number,
+    interactionDepth: number
+  ) {
     this.trackEvent({
       eventName: 'animation_engagement',
       eventParams: {
@@ -104,9 +108,15 @@ class GA4Tracker {
    * Track form submission with source attribution
    * Requirement 25.3
    */
-  trackFormSubmission(formName: string, success: boolean, sourceAttribution: Record<string, any>) {
+  trackFormSubmission(
+    formName: string,
+    success: boolean,
+    sourceAttribution: Record<string, any>
+  ) {
     this.trackEvent({
-      eventName: success ? 'form_submission_success' : 'form_submission_failure',
+      eventName: success
+        ? 'form_submission_success'
+        : 'form_submission_failure',
       eventParams: {
         form_name: formName,
         ...sourceAttribution,
@@ -161,7 +171,10 @@ class GA4Tracker {
    * Track device-specific behavior
    * Requirement 25.5
    */
-  trackDeviceBehavior(deviceType: 'desktop' | 'tablet' | 'mobile', behavior: Record<string, any>) {
+  trackDeviceBehavior(
+    deviceType: 'desktop' | 'tablet' | 'mobile',
+    behavior: Record<string, any>
+  ) {
     this.trackEvent({
       eventName: 'device_behavior',
       eventParams: {

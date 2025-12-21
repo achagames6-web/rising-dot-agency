@@ -8,7 +8,9 @@ export async function GET() {
     const db = client.db('rising-dot');
 
     // Get sitemap config
-    const config = await db.collection('seoConfig').findOne({ type: 'sitemap' });
+    const config = await db
+      .collection('seoConfig')
+      .findOne({ type: 'sitemap' });
 
     // Get cached URLs
     const urlsDoc = await db.collection('seoSitemap').findOne({ type: 'urls' });
@@ -25,6 +27,9 @@ export async function GET() {
     });
   } catch (error) {
     console.error('Error fetching sitemap data:', error);
-    return NextResponse.json({ error: 'Failed to fetch sitemap data' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch sitemap data' },
+      { status: 500 }
+    );
   }
 }

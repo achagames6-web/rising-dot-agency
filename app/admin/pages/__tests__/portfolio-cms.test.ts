@@ -29,7 +29,10 @@ const projectArbitrary = fc.record({
   client: fc.string({ minLength: 1, maxLength: 100 }),
   description: fc.string({ minLength: 1, maxLength: 500 }),
   thumbnailUrl: fc.webUrl(),
-  tags: fc.array(fc.string({ minLength: 1, maxLength: 50 }), { minLength: 1, maxLength: 10 }),
+  tags: fc.array(fc.string({ minLength: 1, maxLength: 50 }), {
+    minLength: 1,
+    maxLength: 10,
+  }),
   metrics: fc.array(
     fc.record({
       label: fc.string({ minLength: 1, maxLength: 50 }),
@@ -98,8 +101,10 @@ function projectsAreEquivalent(original: Project, retrieved: Project): boolean {
   for (let i = 0; i < original.hotspots.length; i++) {
     if (original.hotspots[i].x !== retrieved.hotspots[i].x) return false;
     if (original.hotspots[i].y !== retrieved.hotspots[i].y) return false;
-    if (original.hotspots[i].title !== retrieved.hotspots[i].title) return false;
-    if (original.hotspots[i].description !== retrieved.hotspots[i].description) return false;
+    if (original.hotspots[i].title !== retrieved.hotspots[i].title)
+      return false;
+    if (original.hotspots[i].description !== retrieved.hotspots[i].description)
+      return false;
   }
 
   return true;
@@ -233,7 +238,6 @@ describe('Property 1: Project Save Round Trip', () => {
   });
 });
 
-
 /**
  * Interface for featured slide data
  */
@@ -281,7 +285,10 @@ const featuredSlideArbitrary = fc.record({
   id: fc.uuid(),
   title: fc.string({ minLength: 1, maxLength: 100 }),
   description: fc.string({ minLength: 1, maxLength: 300 }),
-  services: fc.array(fc.string({ minLength: 1, maxLength: 50 }), { minLength: 1, maxLength: 5 }),
+  services: fc.array(fc.string({ minLength: 1, maxLength: 50 }), {
+    minLength: 1,
+    maxLength: 5,
+  }),
   type: fc.string({ minLength: 1, maxLength: 50 }),
   imageUrl: fc.webUrl(),
 });
@@ -543,9 +550,18 @@ describe('Property 4: CMS Data Rendering Consistency', () => {
       fc.assert(
         fc.property(
           fc.record({
-            slides: fc.array(featuredSlideArbitrary, { minLength: 1, maxLength: 5 }),
-            studies: fc.array(caseStudyArbitrary, { minLength: 1, maxLength: 5 }),
-            features: fc.array(advantageFeatureArbitrary, { minLength: 1, maxLength: 5 }),
+            slides: fc.array(featuredSlideArbitrary, {
+              minLength: 1,
+              maxLength: 5,
+            }),
+            studies: fc.array(caseStudyArbitrary, {
+              minLength: 1,
+              maxLength: 5,
+            }),
+            features: fc.array(advantageFeatureArbitrary, {
+              minLength: 1,
+              maxLength: 5,
+            }),
           }),
           ({ slides, studies, features }) => {
             // All sections should render their respective item counts
@@ -559,7 +575,6 @@ describe('Property 4: CMS Data Rendering Consistency', () => {
     });
   });
 });
-
 
 /**
  * Interface for hotspot data
@@ -591,7 +606,10 @@ const projectWithHotspotsArbitrary = fc.record({
   client: fc.string({ minLength: 1, maxLength: 100 }),
   description: fc.string({ minLength: 1, maxLength: 500 }),
   thumbnailUrl: fc.webUrl(),
-  tags: fc.array(fc.string({ minLength: 1, maxLength: 50 }), { minLength: 1, maxLength: 10 }),
+  tags: fc.array(fc.string({ minLength: 1, maxLength: 50 }), {
+    minLength: 1,
+    maxLength: 10,
+  }),
   metrics: fc.array(
     fc.record({
       label: fc.string({ minLength: 1, maxLength: 50 }),
@@ -740,7 +758,9 @@ describe('Property 5: Project Detail Hotspot Display', () => {
           const renderedHotspots = renderProjectDetailHotspots(project);
 
           renderedHotspots.forEach((rendered, index) => {
-            expect(rendered.hotspot.description).toBe(project.hotspots[index].description);
+            expect(rendered.hotspot.description).toBe(
+              project.hotspots[index].description
+            );
           });
         }),
         { numRuns: 100 }
@@ -769,8 +789,12 @@ describe('Property 5: Project Detail Hotspot Display', () => {
           for (let i = 0; i < project.hotspots.length; i++) {
             expect(renderedHotspots[i].hotspot.x).toBe(project.hotspots[i].x);
             expect(renderedHotspots[i].hotspot.y).toBe(project.hotspots[i].y);
-            expect(renderedHotspots[i].hotspot.title).toBe(project.hotspots[i].title);
-            expect(renderedHotspots[i].hotspot.description).toBe(project.hotspots[i].description);
+            expect(renderedHotspots[i].hotspot.title).toBe(
+              project.hotspots[i].title
+            );
+            expect(renderedHotspots[i].hotspot.description).toBe(
+              project.hotspots[i].description
+            );
           }
         }),
         { numRuns: 100 }
@@ -786,7 +810,10 @@ describe('Property 5: Project Detail Hotspot Display', () => {
             client: fc.string({ minLength: 1, maxLength: 100 }),
             description: fc.string({ minLength: 1, maxLength: 500 }),
             thumbnailUrl: fc.webUrl(),
-            tags: fc.array(fc.string({ minLength: 1, maxLength: 50 }), { minLength: 1, maxLength: 10 }),
+            tags: fc.array(fc.string({ minLength: 1, maxLength: 50 }), {
+              minLength: 1,
+              maxLength: 10,
+            }),
             metrics: fc.array(
               fc.record({
                 label: fc.string({ minLength: 1, maxLength: 50 }),
@@ -795,7 +822,10 @@ describe('Property 5: Project Detail Hotspot Display', () => {
               { minLength: 0, maxLength: 5 }
             ),
             images: fc.array(fc.webUrl(), { minLength: 1, maxLength: 10 }),
-            hotspots: fc.array(hotspotArbitrary, { minLength: 1, maxLength: 1 }),
+            hotspots: fc.array(hotspotArbitrary, {
+              minLength: 1,
+              maxLength: 1,
+            }),
           }),
           (project) => {
             const renderedHotspots = renderProjectDetailHotspots(project);
@@ -816,7 +846,10 @@ describe('Property 5: Project Detail Hotspot Display', () => {
             client: fc.string({ minLength: 1, maxLength: 100 }),
             description: fc.string({ minLength: 1, maxLength: 500 }),
             thumbnailUrl: fc.webUrl(),
-            tags: fc.array(fc.string({ minLength: 1, maxLength: 50 }), { minLength: 1, maxLength: 10 }),
+            tags: fc.array(fc.string({ minLength: 1, maxLength: 50 }), {
+              minLength: 1,
+              maxLength: 10,
+            }),
             metrics: fc.array(
               fc.record({
                 label: fc.string({ minLength: 1, maxLength: 50 }),
@@ -825,7 +858,10 @@ describe('Property 5: Project Detail Hotspot Display', () => {
               { minLength: 0, maxLength: 5 }
             ),
             images: fc.array(fc.webUrl(), { minLength: 1, maxLength: 10 }),
-            hotspots: fc.array(hotspotArbitrary, { minLength: 10, maxLength: 10 }),
+            hotspots: fc.array(hotspotArbitrary, {
+              minLength: 10,
+              maxLength: 10,
+            }),
           }),
           (project) => {
             const renderedHotspots = renderProjectDetailHotspots(project);
@@ -847,7 +883,10 @@ describe('Property 5: Project Detail Hotspot Display', () => {
             client: fc.string({ minLength: 1, maxLength: 100 }),
             description: fc.string({ minLength: 1, maxLength: 500 }),
             thumbnailUrl: fc.webUrl(),
-            tags: fc.array(fc.string({ minLength: 1, maxLength: 50 }), { minLength: 1, maxLength: 10 }),
+            tags: fc.array(fc.string({ minLength: 1, maxLength: 50 }), {
+              minLength: 1,
+              maxLength: 10,
+            }),
             metrics: fc.array(
               fc.record({
                 label: fc.string({ minLength: 1, maxLength: 50 }),
@@ -869,7 +908,6 @@ describe('Property 5: Project Detail Hotspot Display', () => {
   });
 });
 
-
 /**
  * Feature: portfolio-cms-enhancement, Property 3: Tag Addition Persistence
  * Validates: Requirements 2.2, 2.3
@@ -882,12 +920,17 @@ describe('Property 5: Project Detail Hotspot Display', () => {
  * Arbitrary generator for valid tag strings
  * Tags should be non-empty strings representing technologies/skills
  */
-const tagArbitrary = fc.string({ minLength: 1, maxLength: 50 }).filter((s) => s.trim().length > 0);
+const tagArbitrary = fc
+  .string({ minLength: 1, maxLength: 50 })
+  .filter((s) => s.trim().length > 0);
 
 /**
  * Arbitrary generator for a set of existing tags
  */
-const existingTagsArbitrary = fc.array(tagArbitrary, { minLength: 0, maxLength: 20 });
+const existingTagsArbitrary = fc.array(tagArbitrary, {
+  minLength: 0,
+  maxLength: 20,
+});
 
 /**
  * Simulates saving tags to the CMS - serializes to JSON
@@ -933,38 +976,46 @@ describe('Property 3: Tag Addition Persistence', () => {
   describe('Tag addition (Requirements 2.2)', () => {
     it('should include added tag in filter options after save', () => {
       fc.assert(
-        fc.property(existingTagsArbitrary, tagArbitrary, (existingTags, newTag) => {
-          // Add the new tag
-          const updatedTags = addTag(existingTags, newTag);
+        fc.property(
+          existingTagsArbitrary,
+          tagArbitrary,
+          (existingTags, newTag) => {
+            // Add the new tag
+            const updatedTags = addTag(existingTags, newTag);
 
-          // Save to CMS
-          const savedData = saveTags(updatedTags);
+            // Save to CMS
+            const savedData = saveTags(updatedTags);
 
-          // Fetch from CMS
-          const fetchedTags = fetchTags(savedData);
+            // Fetch from CMS
+            const fetchedTags = fetchTags(savedData);
 
-          // The new tag should be present in the fetched tags
-          expect(tagExistsInFilters(fetchedTags, newTag)).toBe(true);
-        }),
+            // The new tag should be present in the fetched tags
+            expect(tagExistsInFilters(fetchedTags, newTag)).toBe(true);
+          }
+        ),
         { numRuns: 100 }
       );
     });
 
     it('should preserve all existing tags when adding a new tag', () => {
       fc.assert(
-        fc.property(existingTagsArbitrary, tagArbitrary, (existingTags, newTag) => {
-          // Add the new tag
-          const updatedTags = addTag(existingTags, newTag);
+        fc.property(
+          existingTagsArbitrary,
+          tagArbitrary,
+          (existingTags, newTag) => {
+            // Add the new tag
+            const updatedTags = addTag(existingTags, newTag);
 
-          // Save and fetch
-          const savedData = saveTags(updatedTags);
-          const fetchedTags = fetchTags(savedData);
+            // Save and fetch
+            const savedData = saveTags(updatedTags);
+            const fetchedTags = fetchTags(savedData);
 
-          // All existing tags should still be present
-          existingTags.forEach((tag) => {
-            expect(tagExistsInFilters(fetchedTags, tag)).toBe(true);
-          });
-        }),
+            // All existing tags should still be present
+            existingTags.forEach((tag) => {
+              expect(tagExistsInFilters(fetchedTags, tag)).toBe(true);
+            });
+          }
+        ),
         { numRuns: 100 }
       );
     });
@@ -985,7 +1036,9 @@ describe('Property 3: Tag Addition Persistence', () => {
             const fetchedTags = fetchTags(savedData);
 
             // Count occurrences of the tag
-            const occurrences = fetchedTags.filter((t) => t === tagToAddAgain).length;
+            const occurrences = fetchedTags.filter(
+              (t) => t === tagToAddAgain
+            ).length;
 
             // Should only appear once (no duplicates)
             expect(occurrences).toBe(1);
@@ -997,27 +1050,31 @@ describe('Property 3: Tag Addition Persistence', () => {
 
     it('should maintain tag order after addition', () => {
       fc.assert(
-        fc.property(existingTagsArbitrary, tagArbitrary, (existingTags, newTag) => {
-          // Skip if newTag already exists (would not be added)
-          if (existingTags.includes(newTag)) {
-            return true;
+        fc.property(
+          existingTagsArbitrary,
+          tagArbitrary,
+          (existingTags, newTag) => {
+            // Skip if newTag already exists (would not be added)
+            if (existingTags.includes(newTag)) {
+              return true;
+            }
+
+            // Add the new tag
+            const updatedTags = addTag(existingTags, newTag);
+
+            // Save and fetch
+            const savedData = saveTags(updatedTags);
+            const fetchedTags = fetchTags(savedData);
+
+            // Existing tags should maintain their relative order
+            for (let i = 0; i < existingTags.length; i++) {
+              expect(fetchedTags[i]).toBe(existingTags[i]);
+            }
+
+            // New tag should be at the end
+            expect(fetchedTags[fetchedTags.length - 1]).toBe(newTag);
           }
-
-          // Add the new tag
-          const updatedTags = addTag(existingTags, newTag);
-
-          // Save and fetch
-          const savedData = saveTags(updatedTags);
-          const fetchedTags = fetchTags(savedData);
-
-          // Existing tags should maintain their relative order
-          for (let i = 0; i < existingTags.length; i++) {
-            expect(fetchedTags[i]).toBe(existingTags[i]);
-          }
-
-          // New tag should be at the end
-          expect(fetchedTags[fetchedTags.length - 1]).toBe(newTag);
-        }),
+        ),
         { numRuns: 100 }
       );
     });
@@ -1078,23 +1135,27 @@ describe('Property 3: Tag Addition Persistence', () => {
 
     it('should handle removing non-existent tag gracefully', () => {
       fc.assert(
-        fc.property(existingTagsArbitrary, tagArbitrary, (existingTags, nonExistentTag) => {
-          // Skip if the tag actually exists
-          if (existingTags.includes(nonExistentTag)) {
-            return true;
+        fc.property(
+          existingTagsArbitrary,
+          tagArbitrary,
+          (existingTags, nonExistentTag) => {
+            // Skip if the tag actually exists
+            if (existingTags.includes(nonExistentTag)) {
+              return true;
+            }
+
+            // Try to remove non-existent tag
+            const updatedTags = removeTag(existingTags, nonExistentTag);
+
+            // Save and fetch
+            const savedData = saveTags(updatedTags);
+            const fetchedTags = fetchTags(savedData);
+
+            // Tags should remain unchanged
+            expect(fetchedTags.length).toBe(existingTags.length);
+            expect(fetchedTags).toEqual(existingTags);
           }
-
-          // Try to remove non-existent tag
-          const updatedTags = removeTag(existingTags, nonExistentTag);
-
-          // Save and fetch
-          const savedData = saveTags(updatedTags);
-          const fetchedTags = fetchTags(savedData);
-
-          // Tags should remain unchanged
-          expect(fetchedTags.length).toBe(existingTags.length);
-          expect(fetchedTags).toEqual(existingTags);
-        }),
+        ),
         { numRuns: 100 }
       );
     });
@@ -1167,7 +1228,6 @@ describe('Property 3: Tag Addition Persistence', () => {
   });
 });
 
-
 /**
  * Admin Workflow Integration Tests
  * Validates: Requirements 1.1, 1.2, 1.3, 1.4, 1.5
@@ -1191,8 +1251,17 @@ describe('Admin Workflow Integration', () => {
 
   describe('Portfolio sections configuration (Requirements 1.1)', () => {
     it('should have all required portfolio sections defined', () => {
-      const requiredSections = ['hero', 'featuredWork', 'filters', 'projects', 'caseStudies', 'advantages'];
-      const configuredSections = portfolioPageStructure.sections.map((s) => s.key);
+      const requiredSections = [
+        'hero',
+        'featuredWork',
+        'filters',
+        'projects',
+        'caseStudies',
+        'advantages',
+      ];
+      const configuredSections = portfolioPageStructure.sections.map(
+        (s) => s.key
+      );
 
       requiredSections.forEach((section) => {
         expect(configuredSections).toContain(section);
@@ -1200,38 +1269,58 @@ describe('Admin Workflow Integration', () => {
     });
 
     it('should have projects section for full project management', () => {
-      const projectsSection = portfolioPageStructure.sections.find((s) => s.key === 'projects');
+      const projectsSection = portfolioPageStructure.sections.find(
+        (s) => s.key === 'projects'
+      );
       expect(projectsSection).toBeDefined();
       expect(projectsSection?.label).toContain('Projects');
     });
 
     it('should have featuredWork section for carousel management', () => {
-      const featuredWorkSection = portfolioPageStructure.sections.find((s) => s.key === 'featuredWork');
+      const featuredWorkSection = portfolioPageStructure.sections.find(
+        (s) => s.key === 'featuredWork'
+      );
       expect(featuredWorkSection).toBeDefined();
       expect(featuredWorkSection?.label).toContain('Featured Work');
     });
 
     it('should have caseStudies section for case study management', () => {
-      const caseStudiesSection = portfolioPageStructure.sections.find((s) => s.key === 'caseStudies');
+      const caseStudiesSection = portfolioPageStructure.sections.find(
+        (s) => s.key === 'caseStudies'
+      );
       expect(caseStudiesSection).toBeDefined();
       expect(caseStudiesSection?.label).toContain('Case Studies');
     });
 
     it('should have advantages section for features management', () => {
-      const advantagesSection = portfolioPageStructure.sections.find((s) => s.key === 'advantages');
+      const advantagesSection = portfolioPageStructure.sections.find(
+        (s) => s.key === 'advantages'
+      );
       expect(advantagesSection).toBeDefined();
       expect(advantagesSection?.label).toContain('Advantages');
     });
 
     it('should have filters section for tag management', () => {
-      const filtersSection = portfolioPageStructure.sections.find((s) => s.key === 'filters');
+      const filtersSection = portfolioPageStructure.sections.find(
+        (s) => s.key === 'filters'
+      );
       expect(filtersSection).toBeDefined();
       expect(filtersSection?.label).toContain('Technologies');
     });
   });
 
   describe('Project field editing (Requirements 1.2)', () => {
-    const projectFields = ['id', 'title', 'client', 'description', 'thumbnailUrl', 'tags', 'metrics', 'images', 'hotspots'];
+    const projectFields = [
+      'id',
+      'title',
+      'client',
+      'description',
+      'thumbnailUrl',
+      'tags',
+      'metrics',
+      'images',
+      'hotspots',
+    ];
 
     it('should support all required project fields', () => {
       fc.assert(
@@ -1346,7 +1435,6 @@ describe('Admin Workflow Integration', () => {
     });
   });
 });
-
 
 /**
  * Feature: portfolio-cms-enhancement, Property 2: Project Delete Removes Data
@@ -1486,7 +1574,10 @@ describe('Property 2: Project Delete Removes Data', () => {
           fc.array(projectArbitrary, { minLength: 2, maxLength: 10 }),
           (projects) => {
             // Ensure unique IDs
-            const uniqueProjects = projects.map((p, i) => ({ ...p, id: `${p.id}-${i}` }));
+            const uniqueProjects = projects.map((p, i) => ({
+              ...p,
+              id: `${p.id}-${i}`,
+            }));
 
             // Add all projects to store
             uniqueProjects.forEach((p) => store.add(p));
@@ -1514,7 +1605,10 @@ describe('Property 2: Project Delete Removes Data', () => {
           fc.array(projectArbitrary, { minLength: 2, maxLength: 5 }),
           (projects) => {
             // Ensure unique IDs
-            const uniqueProjects = projects.map((p, i) => ({ ...p, id: `${p.id}-${i}` }));
+            const uniqueProjects = projects.map((p, i) => ({
+              ...p,
+              id: `${p.id}-${i}`,
+            }));
 
             // Add all projects to store
             uniqueProjects.forEach((p) => store.add(p));
@@ -1531,7 +1625,9 @@ describe('Property 2: Project Delete Removes Data', () => {
               expect(retrieved?.title).toBe(originalProject.title);
               expect(retrieved?.client).toBe(originalProject.client);
               expect(retrieved?.description).toBe(originalProject.description);
-              expect(retrieved?.thumbnailUrl).toBe(originalProject.thumbnailUrl);
+              expect(retrieved?.thumbnailUrl).toBe(
+                originalProject.thumbnailUrl
+              );
               expect(retrieved?.tags).toEqual(originalProject.tags);
               expect(retrieved?.metrics).toEqual(originalProject.metrics);
               expect(retrieved?.images).toEqual(originalProject.images);
@@ -1613,7 +1709,10 @@ describe('Property 2: Project Delete Removes Data', () => {
           fc.array(projectArbitrary, { minLength: 3, maxLength: 10 }),
           (projects) => {
             // Ensure unique IDs
-            const uniqueProjects = projects.map((p, i) => ({ ...p, id: `${p.id}-${i}` }));
+            const uniqueProjects = projects.map((p, i) => ({
+              ...p,
+              id: `${p.id}-${i}`,
+            }));
 
             // Add all projects
             uniqueProjects.forEach((p) => store.add(p));

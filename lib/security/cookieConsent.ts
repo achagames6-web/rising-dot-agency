@@ -95,9 +95,7 @@ export function setCookieConsent(preferences: CookiePreferences): void {
  * @param category Cookie category to check
  * @returns True if consent given, false otherwise
  */
-export function hasConsent(
-  category: keyof CookiePreferences
-): boolean {
+export function hasConsent(category: keyof CookiePreferences): boolean {
   const consent = getCookieConsent();
 
   if (!consent) {

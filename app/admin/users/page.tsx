@@ -19,14 +19,20 @@ interface User {
 }
 
 export default function UsersPage() {
-  const [activeTab, setActiveTab] = useState<'users' | 'permissions' | 'activity'>('users');
+  const [activeTab, setActiveTab] = useState<
+    'users' | 'permissions' | 'activity'
+  >('users');
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [creatingUser, setCreatingUser] = useState(false);
   const [managing2FA, setManaging2FA] = useState<User | null>(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const handleDeleteUser = async (user: User) => {
-    if (!confirm(`Are you sure you want to delete ${user.name}? This action cannot be undone.`)) {
+    if (
+      !confirm(
+        `Are you sure you want to delete ${user.name}? This action cannot be undone.`
+      )
+    ) {
       return;
     }
 
@@ -36,7 +42,7 @@ export default function UsersPage() {
       });
 
       if (response.ok) {
-        setRefreshTrigger(prev => prev + 1);
+        setRefreshTrigger((prev) => prev + 1);
       } else {
         const data = await response.json();
         alert(data.error || 'Failed to delete user');
@@ -48,11 +54,11 @@ export default function UsersPage() {
   };
 
   const handleSaveUser = () => {
-    setRefreshTrigger(prev => prev + 1);
+    setRefreshTrigger((prev) => prev + 1);
   };
 
   const handleUpdate2FA = () => {
-    setRefreshTrigger(prev => prev + 1);
+    setRefreshTrigger((prev) => prev + 1);
   };
 
   return (
@@ -61,16 +67,16 @@ export default function UsersPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-white">User Management</h1>
-          <p className="text-slate-400 mt-1">
+          <p className="mt-1 text-slate-400">
             Manage users, roles, and permissions
           </p>
         </div>
         {activeTab === 'users' && (
           <button
             onClick={() => setCreatingUser(true)}
-            className="px-4 py-2 bg-[#37AFE1] text-white rounded-lg hover:bg-[#37AFE1]/80 transition-colors flex items-center gap-2"
+            className="flex items-center gap-2 rounded-lg bg-[#37AFE1] px-4 py-2 text-white transition-colors hover:bg-[#37AFE1]/80"
           >
-            <Plus className="w-5 h-5" />
+            <Plus className="h-5 w-5" />
             Add User
           </button>
         )}
@@ -81,7 +87,7 @@ export default function UsersPage() {
         <nav className="flex gap-8">
           <button
             onClick={() => setActiveTab('users')}
-            className={`pb-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+            className={`border-b-2 px-1 pb-4 text-sm font-medium transition-colors ${
               activeTab === 'users'
                 ? 'border-[#37AFE1] text-[#37AFE1]'
                 : 'border-transparent text-slate-400 hover:text-white'
@@ -91,24 +97,24 @@ export default function UsersPage() {
           </button>
           <button
             onClick={() => setActiveTab('permissions')}
-            className={`pb-4 px-1 border-b-2 font-medium text-sm transition-colors flex items-center gap-2 ${
+            className={`flex items-center gap-2 border-b-2 px-1 pb-4 text-sm font-medium transition-colors ${
               activeTab === 'permissions'
                 ? 'border-[#37AFE1] text-[#37AFE1]'
                 : 'border-transparent text-slate-400 hover:text-white'
             }`}
           >
-            <Shield className="w-4 h-4" />
+            <Shield className="h-4 w-4" />
             Permissions
           </button>
           <button
             onClick={() => setActiveTab('activity')}
-            className={`pb-4 px-1 border-b-2 font-medium text-sm transition-colors flex items-center gap-2 ${
+            className={`flex items-center gap-2 border-b-2 px-1 pb-4 text-sm font-medium transition-colors ${
               activeTab === 'activity'
                 ? 'border-[#37AFE1] text-[#37AFE1]'
                 : 'border-transparent text-slate-400 hover:text-white'
             }`}
           >
-            <Activity className="w-4 h-4" />
+            <Activity className="h-4 w-4" />
             Activity Log
           </button>
         </nav>

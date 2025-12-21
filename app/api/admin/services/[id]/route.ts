@@ -23,7 +23,10 @@ export async function GET(
     return NextResponse.json(service);
   } catch (error) {
     console.error('Error fetching service:', error);
-    return NextResponse.json({ error: 'Failed to fetch service' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch service' },
+      { status: 500 }
+    );
   }
 }
 
@@ -43,18 +46,29 @@ export async function PUT(
       updatedAt: new Date(),
     };
 
-    const allowedFields = ['name', 'slug', 'description', 'shortDescription', 'icon', 'features', 'published', 'order'];
-    allowedFields.forEach(field => {
+    const allowedFields = [
+      'name',
+      'slug',
+      'description',
+      'shortDescription',
+      'icon',
+      'features',
+      'published',
+      'order',
+    ];
+    allowedFields.forEach((field) => {
       if (body[field] !== undefined) {
         updateData[field] = body[field];
       }
     });
 
-    const result = await db.collection('services').findOneAndUpdate(
-      { _id: new ObjectId(id) },
-      { $set: updateData },
-      { returnDocument: 'after' }
-    );
+    const result = await db
+      .collection('services')
+      .findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        { $set: updateData },
+        { returnDocument: 'after' }
+      );
 
     if (!result) {
       return NextResponse.json({ error: 'Service not found' }, { status: 404 });
@@ -63,7 +77,10 @@ export async function PUT(
     return NextResponse.json(result);
   } catch (error) {
     console.error('Error updating service:', error);
-    return NextResponse.json({ error: 'Failed to update service' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to update service' },
+      { status: 500 }
+    );
   }
 }
 
@@ -88,6 +105,9 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting service:', error);
-    return NextResponse.json({ error: 'Failed to delete service' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to delete service' },
+      { status: 500 }
+    );
   }
 }

@@ -1,6 +1,6 @@
 /**
  * Analytics Configuration
- * 
+ *
  * Centralized configuration for analytics and monitoring services
  */
 

@@ -43,28 +43,30 @@ const activities = [
 
 export default function RecentActivity() {
   return (
-    <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 p-6">
-      <h2 className="text-xl font-bold text-white mb-4">
-        Recent Activity
-      </h2>
+    <div className="rounded-xl border border-slate-700/50 bg-[#1E293B] p-6">
+      <h2 className="mb-4 text-xl font-bold text-white">Recent Activity</h2>
       <div className="space-y-4">
         {activities.map((activity) => {
           const Icon = activity.icon;
           return (
             <div
               key={activity.id}
-              className="flex items-start space-x-4 p-4 rounded-lg hover:bg-slate-700/30 transition-colors"
+              className="flex items-start space-x-4 rounded-lg p-4 transition-colors hover:bg-slate-700/30"
             >
-              <div className="p-2 bg-slate-700 rounded-lg">
-                <Icon className="w-5 h-5 text-slate-300" />
+              <div className="rounded-lg bg-slate-700 p-2">
+                <Icon className="h-5 w-5 text-slate-300" />
               </div>
-              <div className="flex-1 min-w-0">
+              <div className="min-w-0 flex-1">
                 <p className="text-sm text-slate-300">
-                  <span className="font-medium text-white">{activity.user}</span>{' '}
+                  <span className="font-medium text-white">
+                    {activity.user}
+                  </span>{' '}
                   {activity.action}{' '}
-                  <span className="font-medium text-white">{activity.target}</span>
+                  <span className="font-medium text-white">
+                    {activity.target}
+                  </span>
                 </p>
-                <p className="text-xs text-slate-500 mt-1">{activity.time}</p>
+                <p className="mt-1 text-xs text-slate-500">{activity.time}</p>
               </div>
             </div>
           );

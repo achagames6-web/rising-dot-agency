@@ -2,7 +2,14 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
-import { Quote, Star, ArrowLeft, ArrowRight, Sparkles, PenLine } from 'lucide-react';
+import {
+  Quote,
+  Star,
+  ArrowLeft,
+  ArrowRight,
+  Sparkles,
+  PenLine,
+} from 'lucide-react';
 import { useTestimonials, useSiteContent } from '@/lib/hooks/useSiteContent';
 import SubmitTestimonialModal from '@/components/testimonials/SubmitTestimonialModal';
 import { StarButton } from '@/components/ui/star-button';
@@ -25,7 +32,11 @@ const defaultTestimonials = [
     avatar: '/media/home/testimonials/marcus-johnson.jpg',
     rating: 5,
     text: 'The AI chatbot solution is revolutionary. Our customer satisfaction increased by 40% while reducing response time from hours to seconds. Incredible ROI on our investment.',
-    results: ['40% satisfaction boost', 'Instant responses', 'Seamless integration'],
+    results: [
+      '40% satisfaction boost',
+      'Instant responses',
+      'Seamless integration',
+    ],
   },
   {
     name: 'Elena Rodriguez',
@@ -76,14 +87,17 @@ export function PremiumTestimonials() {
   const eyebrow = sectionContent?.eyebrow || '✨ Client Success Stories';
   const title = sectionContent?.title || 'Trusted by';
   const titleHighlight = sectionContent?.titleHighlight || 'Industry Leaders';
-  const subtitle = sectionContent?.subtitle || 'Join businesses already transforming their digital presence with Rising Starter.';
+  const subtitle =
+    sectionContent?.subtitle ||
+    'Join businesses already transforming their digital presence with Rising Starter.';
   const stats = sectionContent?.stats || [
     { number: '500+', label: 'Happy Clients' },
     { number: '98%', label: 'Satisfaction Rate' },
     { number: '$10M+', label: 'Revenue Generated' },
     { number: '99.9%', label: 'Uptime SLA' },
   ];
-  const testimonials = cmsTestimonials.length > 0 ? cmsTestimonials : defaultTestimonials;
+  const testimonials =
+    cmsTestimonials.length > 0 ? cmsTestimonials : defaultTestimonials;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -143,27 +157,32 @@ export function PremiumTestimonials() {
 
   const prevTestimonial = () => {
     setDirection(-1);
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    setCurrentIndex(
+      (prev) => (prev - 1 + testimonials.length) % testimonials.length
+    );
   };
 
   return (
     <section
       id="testimonials"
-      className="relative py-32 bg-transparent text-white overflow-hidden"
+      className="relative overflow-hidden bg-transparent py-32 text-white"
     >
       <motion.div
         ref={containerRef}
-        className="relative z-10 max-w-7xl mx-auto px-6"
+        className="relative z-10 mx-auto max-w-7xl px-6"
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-100px' }}
       >
         {/* Header */}
-        <motion.div className="text-center mb-20" variants={fadeInUp}>
+        <motion.div className="mb-20 text-center" variants={fadeInUp}>
           <motion.div
-            className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/[0.08] border border-white/[0.15] backdrop-blur-sm mb-6"
-            whileHover={{ scale: 1.05, borderColor: 'rgba(255, 255, 255, 0.3)' }}
+            className="mb-6 inline-flex items-center gap-3 rounded-full border border-white/[0.15] bg-white/[0.08] px-4 py-2 backdrop-blur-sm"
+            whileHover={{
+              scale: 1.05,
+              borderColor: 'rgba(255, 255, 255, 0.3)',
+            }}
           >
             <motion.div
               animate={{ rotate: 360 }}
@@ -172,19 +191,19 @@ export function PremiumTestimonials() {
               <Sparkles className="h-4 w-4 text-[#F58122]" />
             </motion.div>
             <span className="text-sm font-medium text-white/80">{eyebrow}</span>
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+            <div className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
           </motion.div>
 
           <motion.h2
-            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 tracking-tight"
+            className="mb-8 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl"
             variants={fadeInUp}
           >
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
+            <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
               {title}
             </span>
             <br />
             <motion.span
-              className="bg-clip-text text-transparent bg-gradient-to-r from-[#F58122] via-[#37AFE1] to-[#F58122]"
+              className="bg-gradient-to-r from-[#F58122] via-[#37AFE1] to-[#F58122] bg-clip-text text-transparent"
               animate={{
                 backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
               }}
@@ -202,7 +221,7 @@ export function PremiumTestimonials() {
           </motion.h2>
 
           <motion.p
-            className="text-xl sm:text-2xl text-white/60 max-w-4xl mx-auto leading-relaxed"
+            className="mx-auto max-w-4xl text-xl leading-relaxed text-white/60 sm:text-2xl"
             variants={fadeInUp}
           >
             {subtitle}
@@ -210,8 +229,11 @@ export function PremiumTestimonials() {
         </motion.div>
 
         {/* Main Testimonial Display */}
-        <div className="relative max-w-6xl mx-auto mb-16">
-          <div className="relative h-[500px] md:h-[400px]" style={{ perspective: '1000px' }}>
+        <div className="relative mx-auto mb-16 max-w-6xl">
+          <div
+            className="relative h-[500px] md:h-[400px]"
+            style={{ perspective: '1000px' }}
+          >
             <AnimatePresence initial={false} custom={direction}>
               <motion.div
                 key={currentIndex}
@@ -228,10 +250,10 @@ export function PremiumTestimonials() {
                 }}
                 className="absolute inset-0"
               >
-                <div className="relative h-full bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-xl rounded-3xl border border-white/[0.15] p-8 md:p-12 overflow-hidden group">
+                <div className="group relative h-full overflow-hidden rounded-3xl border border-white/[0.15] bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-8 backdrop-blur-xl md:p-12">
                   {/* Animated background gradient */}
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-br from-[#F58122]/[0.08] via-[#37AFE1]/[0.05] to-[#F58122]/[0.08] rounded-3xl"
+                    className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#F58122]/[0.08] via-[#37AFE1]/[0.05] to-[#F58122]/[0.08]"
                     animate={{
                       backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
                     }}
@@ -247,14 +269,14 @@ export function PremiumTestimonials() {
 
                   {/* Quote icon */}
                   <motion.div
-                    className="absolute top-8 right-8 opacity-20"
+                    className="absolute right-8 top-8 opacity-20"
                     animate={{ rotate: [0, 10, 0] }}
                     transition={{ duration: 4, repeat: Infinity }}
                   >
-                    <Quote className="w-16 h-16 text-[#F58122]" />
+                    <Quote className="h-16 w-16 text-[#F58122]" />
                   </motion.div>
 
-                  <div className="relative z-10 h-full flex flex-col md:flex-row items-center gap-8">
+                  <div className="relative z-10 flex h-full flex-col items-center gap-8 md:flex-row">
                     {/* User Info */}
                     <div className="flex-shrink-0 text-center md:text-left">
                       <motion.div
@@ -262,11 +284,11 @@ export function PremiumTestimonials() {
                         whileHover={{ scale: 1.1 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <div className="w-24 h-24 mx-auto md:mx-0 rounded-full overflow-hidden border-4 border-[#F58122]/30 relative">
+                        <div className="relative mx-auto h-24 w-24 overflow-hidden rounded-full border-4 border-[#F58122]/30 md:mx-0">
                           <img
                             src={testimonials[currentIndex].avatar}
                             alt={testimonials[currentIndex].name}
-                            className="w-full h-full object-cover"
+                            className="h-full w-full object-cover"
                           />
                           <motion.div
                             className="absolute inset-0 bg-gradient-to-br from-[#F58122]/20 to-[#37AFE1]/20"
@@ -276,7 +298,7 @@ export function PremiumTestimonials() {
                         </div>
                         {/* Floating ring animation */}
                         <motion.div
-                          className="absolute inset-0 border-2 border-[#F58122]/30 rounded-full"
+                          className="absolute inset-0 rounded-full border-2 border-[#F58122]/30"
                           animate={{
                             scale: [1, 1.4, 1],
                             opacity: [0.5, 0, 0.5],
@@ -285,33 +307,37 @@ export function PremiumTestimonials() {
                         />
                       </motion.div>
 
-                      <h3 className="text-2xl font-bold text-white mb-2">
+                      <h3 className="mb-2 text-2xl font-bold text-white">
                         {testimonials[currentIndex].name}
                       </h3>
-                      <p className="text-[#F58122] mb-1 font-medium">
+                      <p className="mb-1 font-medium text-[#F58122]">
                         {testimonials[currentIndex].role}
                       </p>
-                      <p className="text-white/60 mb-4">{testimonials[currentIndex].company}</p>
+                      <p className="mb-4 text-white/60">
+                        {testimonials[currentIndex].company}
+                      </p>
 
                       {/* Star Rating */}
-                      <div className="flex justify-center md:justify-start gap-1 mb-6">
-                        {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
-                          <motion.div
-                            key={i}
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: i * 0.1, duration: 0.3 }}
-                          >
-                            <Star className="w-5 h-5 fill-[#F58122] text-[#F58122]" />
-                          </motion.div>
-                        ))}
+                      <div className="mb-6 flex justify-center gap-1 md:justify-start">
+                        {[...Array(testimonials[currentIndex].rating)].map(
+                          (_, i) => (
+                            <motion.div
+                              key={i}
+                              initial={{ opacity: 0, scale: 0 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: i * 0.1, duration: 0.3 }}
+                            >
+                              <Star className="h-5 w-5 fill-[#F58122] text-[#F58122]" />
+                            </motion.div>
+                          )
+                        )}
                       </div>
                     </div>
 
                     {/* Content */}
                     <div className="flex-1">
                       <motion.blockquote
-                        className="text-xl md:text-2xl text-white/90 leading-relaxed mb-8 font-light italic"
+                        className="mb-8 text-xl font-light italic leading-relaxed text-white/90 md:text-2xl"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.3, duration: 0.8 }}
@@ -320,19 +346,28 @@ export function PremiumTestimonials() {
                       </motion.blockquote>
 
                       {/* Results */}
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        {(testimonials[currentIndex].results || []).map((result: string, i: number) => (
-                          <motion.div
-                            key={i}
-                            className="bg-white/[0.05] rounded-lg p-3 border border-white/[0.1] backdrop-blur-sm"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.5 + i * 0.1, duration: 0.5 }}
-                            whileHover={{ backgroundColor: 'rgba(245, 129, 34, 0.1)' }}
-                          >
-                            <span className="text-sm text-white/70 font-medium">{result}</span>
-                          </motion.div>
-                        ))}
+                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                        {(testimonials[currentIndex].results || []).map(
+                          (result: string, i: number) => (
+                            <motion.div
+                              key={i}
+                              className="rounded-lg border border-white/[0.1] bg-white/[0.05] p-3 backdrop-blur-sm"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{
+                                delay: 0.5 + i * 0.1,
+                                duration: 0.5,
+                              }}
+                              whileHover={{
+                                backgroundColor: 'rgba(245, 129, 34, 0.1)',
+                              }}
+                            >
+                              <span className="text-sm font-medium text-white/70">
+                                {result}
+                              </span>
+                            </motion.div>
+                          )
+                        )}
                       </div>
                     </div>
                   </div>
@@ -342,14 +377,17 @@ export function PremiumTestimonials() {
           </div>
 
           {/* Navigation Controls */}
-          <div className="flex justify-center items-center gap-6 mt-8">
+          <div className="mt-8 flex items-center justify-center gap-6">
             <motion.button
               onClick={prevTestimonial}
-              className="p-3 rounded-full bg-white/[0.08] border border-white/[0.15] backdrop-blur-sm text-white hover:bg-[#F58122]/20 transition-all"
-              whileHover={{ scale: 1.1, backgroundColor: 'rgba(245, 129, 34, 0.2)' }}
+              className="rounded-full border border-white/[0.15] bg-white/[0.08] p-3 text-white backdrop-blur-sm transition-all hover:bg-[#F58122]/20"
+              whileHover={{
+                scale: 1.1,
+                backgroundColor: 'rgba(245, 129, 34, 0.2)',
+              }}
               whileTap={{ scale: 0.95 }}
             >
-              <ArrowLeft className="w-5 h-5" />
+              <ArrowLeft className="h-5 w-5" />
             </motion.button>
 
             {/* Dots Indicator */}
@@ -361,9 +399,9 @@ export function PremiumTestimonials() {
                     setDirection(index > currentIndex ? 1 : -1);
                     setCurrentIndex(index);
                   }}
-                  className={`w-3 h-3 rounded-full transition-all ${
+                  className={`h-3 w-3 rounded-full transition-all ${
                     index === currentIndex
-                      ? 'bg-[#F58122] scale-125'
+                      ? 'scale-125 bg-[#F58122]'
                       : 'bg-white/30 hover:bg-white/50'
                   }`}
                   whileHover={{ scale: 1.2 }}
@@ -374,32 +412,42 @@ export function PremiumTestimonials() {
 
             <motion.button
               onClick={nextTestimonial}
-              className="p-3 rounded-full bg-white/[0.08] border border-white/[0.15] backdrop-blur-sm text-white hover:bg-[#F58122]/20 transition-all"
-              whileHover={{ scale: 1.1, backgroundColor: 'rgba(245, 129, 34, 0.2)' }}
+              className="rounded-full border border-white/[0.15] bg-white/[0.08] p-3 text-white backdrop-blur-sm transition-all hover:bg-[#F58122]/20"
+              whileHover={{
+                scale: 1.1,
+                backgroundColor: 'rgba(245, 129, 34, 0.2)',
+              }}
               whileTap={{ scale: 0.95 }}
             >
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="h-5 w-5" />
             </motion.button>
           </div>
         </div>
 
         {/* Stats Section */}
-        <motion.div className="grid grid-cols-2 md:grid-cols-4 gap-8" variants={staggerContainer}>
+        <motion.div
+          className="grid grid-cols-2 gap-8 md:grid-cols-4"
+          variants={staggerContainer}
+        >
           {stats.map((stat, index) => (
             <motion.div
               key={index}
-              className="text-center group"
+              className="group text-center"
               variants={fadeInUp}
               whileHover={{ scale: 1.05 }}
             >
               <motion.div
-                className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#F58122] to-[#37AFE1] bg-clip-text text-transparent mb-2"
+                className="mb-2 bg-gradient-to-r from-[#F58122] to-[#37AFE1] bg-clip-text text-3xl font-bold text-transparent md:text-4xl"
                 animate={{ opacity: [0.7, 1, 0.7] }}
-                transition={{ duration: 2, repeat: Infinity, delay: index * 0.5 }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  delay: index * 0.5,
+                }}
               >
                 {stat.number}
               </motion.div>
-              <div className="text-white/60 text-sm font-medium group-hover:text-white/80 transition-colors">
+              <div className="text-sm font-medium text-white/60 transition-colors group-hover:text-white/80">
                 {stat.label}
               </div>
             </motion.div>
@@ -407,18 +455,20 @@ export function PremiumTestimonials() {
         </motion.div>
 
         {/* Leave a Review Button */}
-        <motion.div className="text-center mt-12" variants={fadeInUp}>
+        <motion.div className="mt-12 text-center" variants={fadeInUp}>
           <ParticleWrapper>
             <StarButton
               onClick={() => setShowSubmitModal(true)}
-              className="h-12 px-8 text-base font-semibold hover:scale-105 transition-transform"
+              className="h-12 px-8 text-base font-semibold transition-transform hover:scale-105"
               duration={2.5}
             >
-              <PenLine className="w-5 h-5" />
+              <PenLine className="h-5 w-5" />
               Leave a Review
             </StarButton>
           </ParticleWrapper>
-          <p className="text-white/50 text-sm mt-3">Share your experience working with us</p>
+          <p className="mt-3 text-sm text-white/50">
+            Share your experience working with us
+          </p>
         </motion.div>
       </motion.div>
 

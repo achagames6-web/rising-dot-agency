@@ -105,7 +105,9 @@ interface ComponentPaletteProps {
   onDragStart: (component: ComponentDefinition) => void;
 }
 
-export default function ComponentPalette({ onDragStart }: ComponentPaletteProps) {
+export default function ComponentPalette({
+  onDragStart,
+}: ComponentPaletteProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   const categories = ['all', 'layout', 'content', 'media', 'interactive'];
@@ -115,23 +117,26 @@ export default function ComponentPalette({ onDragStart }: ComponentPaletteProps)
       ? AVAILABLE_COMPONENTS
       : AVAILABLE_COMPONENTS.filter((c) => c.category === selectedCategory);
 
-  const handleDragStart = (e: React.DragEvent, component: ComponentDefinition) => {
+  const handleDragStart = (
+    e: React.DragEvent,
+    component: ComponentDefinition
+  ) => {
     e.dataTransfer.effectAllowed = 'copy';
     e.dataTransfer.setData('application/json', JSON.stringify(component));
     onDragStart(component);
   };
 
   return (
-    <div className="w-64 bg-[#1E293B] border-r border-slate-700 p-4 overflow-y-auto">
-      <h2 className="text-lg font-semibold text-white mb-4">Components</h2>
+    <div className="w-64 overflow-y-auto border-r border-slate-700 bg-[#1E293B] p-4">
+      <h2 className="mb-4 text-lg font-semibold text-white">Components</h2>
 
       {/* Category Filter */}
-      <div className="flex flex-wrap gap-2 mb-4">
+      <div className="mb-4 flex flex-wrap gap-2">
         {categories.map((category) => (
           <button
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={`px-3 py-1 rounded text-sm capitalize transition-colors ${
+            className={`rounded px-3 py-1 text-sm capitalize transition-colors ${
               selectedCategory === category
                 ? 'bg-[#2563EB] text-white'
                 : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
@@ -149,15 +154,19 @@ export default function ComponentPalette({ onDragStart }: ComponentPaletteProps)
             key={component.id}
             draggable
             onDragStart={(e) => handleDragStart(e as any, component)}
-            className="bg-slate-700 p-3 rounded cursor-move hover:bg-slate-600 transition-colors"
+            className="cursor-move rounded bg-slate-700 p-3 transition-colors hover:bg-slate-600"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
             <div className="flex items-center gap-2">
               <span className="text-2xl">{component.icon}</span>
               <div>
-                <div className="text-white text-sm font-medium">{component.name}</div>
-                <div className="text-slate-400 text-xs capitalize">{component.category}</div>
+                <div className="text-sm font-medium text-white">
+                  {component.name}
+                </div>
+                <div className="text-xs capitalize text-slate-400">
+                  {component.category}
+                </div>
               </div>
             </div>
           </motion.div>

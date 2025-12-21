@@ -169,7 +169,10 @@ describe('ValueProposition Component', () => {
   test('Service icon entrance animations are properly staggered', () => {
     fc.assert(
       fc.property(
-        fc.array(fc.integer({ min: 0, max: 5 }), { minLength: 2, maxLength: 6 }),
+        fc.array(fc.integer({ min: 0, max: 5 }), {
+          minLength: 2,
+          maxLength: 6,
+        }),
         (iconIndices) => {
           const delays = iconIndices.map((index) => {
             const animation = simulateServiceIconAnimation({

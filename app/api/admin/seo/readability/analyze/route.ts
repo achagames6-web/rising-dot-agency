@@ -53,12 +53,15 @@ const pageContent: Record<string, any> = {
   },
 };
 
-function calculateFleschScore(avgSentenceLength: number, avgWordLength: number): number {
+function calculateFleschScore(
+  avgSentenceLength: number,
+  avgWordLength: number
+): number {
   // Flesch Reading Ease formula approximation
   // 206.835 - 1.015 * (words/sentences) - 84.6 * (syllables/words)
   // Using avgWordLength as proxy for syllables
   const syllablesPerWord = avgWordLength / 2.5;
-  const score = 206.835 - (1.015 * avgSentenceLength) - (84.6 * syllablesPerWord);
+  const score = 206.835 - 1.015 * avgSentenceLength - 84.6 * syllablesPerWord;
   return Math.max(0, Math.min(100, Math.round(score)));
 }
 
@@ -76,26 +79,41 @@ function getFleschGrade(score: number): string {
 }
 
 function analyzeReadability(page: string, data: any) {
-  const fleschScore = calculateFleschScore(data.avgSentenceLength, data.avgWordLength);
+  const fleschScore = calculateFleschScore(
+    data.avgSentenceLength,
+    data.avgWordLength
+  );
   const fleschGrade = getFleschGrade(fleschScore);
   const readingTime = Math.ceil(data.wordCount / 200); // 200 words per minute
 
   const issues: { type: 'warning' | 'error'; message: string }[] = [];
 
   if (data.avgSentenceLength > 20) {
-    issues.push({ type: 'warning', message: 'Sentences are too long on average. Try to keep under 20 words.' });
+    issues.push({
+      type: 'warning',
+      message: 'Sentences are too long on average. Try to keep under 20 words.',
+    });
   }
 
   if (fleschScore < 50) {
-    issues.push({ type: 'warning', message: 'Content may be difficult to read. Consider simplifying.' });
+    issues.push({
+      type: 'warning',
+      message: 'Content may be difficult to read. Consider simplifying.',
+    });
   }
 
   if (data.wordCount < 300) {
-    issues.push({ type: 'warning', message: 'Content is thin. Consider adding more valuable content.' });
+    issues.push({
+      type: 'warning',
+      message: 'Content is thin. Consider adding more valuable content.',
+    });
   }
 
   if (data.paragraphCount < 3) {
-    issues.push({ type: 'warning', message: 'Few paragraphs. Break up content for better readability.' });
+    issues.push({
+      type: 'warning',
+      message: 'Few paragraphs. Break up content for better readability.',
+    });
   }
 
   return {
@@ -119,7 +137,7 @@ export async function POST() {
     const client = await clientPromise;
     const db = client.db('rising-dot');
 
-    const results = Object.entries(pageContent).map(([page, data]) => 
+    const results = Object.entries(pageContent).map(([page, data]) =>
       analyzeReadability(page, data)
     );
 
@@ -130,6 +148,9 @@ export async function POST() {
     return NextResponse.json(results);
   } catch (error) {
     console.error('Error analyzing readability:', error);
-    return NextResponse.json({ error: 'Failed to analyze readability' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to analyze readability' },
+      { status: 500 }
+    );
   }
 }

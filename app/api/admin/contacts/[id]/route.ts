@@ -41,10 +41,12 @@ export async function PATCH(
     }
 
     const db = await getDatabase();
-    await db.collection(COLLECTIONS.CONTACTS).updateOne(
-      { _id: new ObjectId(params.id) },
-      { $set: { status, updatedAt: new Date() } }
-    );
+    await db
+      .collection(COLLECTIONS.CONTACTS)
+      .updateOne(
+        { _id: new ObjectId(params.id) },
+        { $set: { status, updatedAt: new Date() } }
+      );
 
     return NextResponse.json({ success: true });
   } catch (error) {

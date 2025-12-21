@@ -45,14 +45,14 @@ export function Web3MediaHero({
   return (
     <section
       className={cn(
-        'relative w-full min-h-screen flex flex-col overflow-hidden bg-black',
+        'relative flex min-h-screen w-full flex-col overflow-hidden bg-black',
         className
       )}
       role="banner"
       aria-label="Hero section"
     >
       {/* Radial Glow Background */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div
           className="absolute"
           style={{
@@ -70,11 +70,11 @@ export function Web3MediaHero({
 
       {/* Main Content */}
       {children ? (
-        <div className="relative z-10 flex-1 flex items-center justify-center w-full">
+        <div className="relative z-10 flex w-full flex-1 items-center justify-center">
           {children}
         </div>
       ) : (
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 pt-24">
+        <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 pt-24">
           {/* Floating Icons */}
           {floatingIcons.map((item, index) => (
             <motion.div
@@ -101,7 +101,7 @@ export function Web3MediaHero({
               }}
             >
               <div
-                className="flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-full"
+                className="flex h-16 w-16 items-center justify-center rounded-full md:h-20 md:w-20"
                 style={{
                   background: 'rgba(55, 175, 225, 0.1)',
                   backdropFilter: 'blur(10px)',
@@ -111,7 +111,7 @@ export function Web3MediaHero({
               >
                 {item.icon}
               </div>
-              <span className="text-xs font-semibold text-white uppercase tracking-wide">
+              <span className="text-xs font-semibold uppercase tracking-wide text-white">
                 {item.label}
               </span>
             </motion.div>
@@ -121,14 +121,15 @@ export function Web3MediaHero({
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-col items-center text-center max-w-4xl gap-8"
+            className="flex max-w-4xl flex-col items-center gap-8 text-center"
           >
             {/* Title */}
-            <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight">
-              <span 
+            <h1 className="text-3xl font-bold leading-tight tracking-tight md:text-5xl">
+              <span
                 className="bg-clip-text text-transparent"
                 style={{
-                  backgroundImage: 'linear-gradient(90deg, #37AFE1, #F58122, #37AFE1, #F58122)',
+                  backgroundImage:
+                    'linear-gradient(90deg, #37AFE1, #F58122, #37AFE1, #F58122)',
                   backgroundSize: '300% 100%',
                   animation: 'gradient-shift 4s ease-in-out infinite',
                 }}
@@ -144,7 +145,7 @@ export function Web3MediaHero({
             </h1>
 
             {/* Subtitle */}
-            <p className="text-lg md:text-xl text-gray-400 max-w-2xl">
+            <p className="max-w-2xl text-lg text-gray-400 md:text-xl">
               {subtitle}
             </p>
 
@@ -159,12 +160,12 @@ export function Web3MediaHero({
                 <ParticleWrapper>
                   <Link href={ctaButton.href}>
                     <StarButton
-                      className="h-12 px-6 text-sm font-semibold hover:scale-105 transition-transform"
+                      className="h-12 px-6 text-sm font-semibold transition-transform hover:scale-105"
                       duration={2.5}
                     >
                       {ctaButton.label}
                       <svg
-                        className="w-5 h-5 ml-2"
+                        className="ml-2 h-5 w-5"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -194,23 +195,25 @@ export function Web3MediaHero({
           className="relative z-10 w-full overflow-hidden py-16"
         >
           {/* "Trusted by" Text */}
-          <div className="text-center mb-8">
-            <span className="text-xs font-normal text-gray-500 uppercase tracking-widest">
+          <div className="mb-8 text-center">
+            <span className="text-xs font-normal uppercase tracking-widest text-gray-500">
               {trustedByText}
             </span>
           </div>
 
           {/* Gradient Overlays */}
           <div
-            className="absolute left-0 top-0 bottom-0 z-10 pointer-events-none w-48"
+            className="pointer-events-none absolute bottom-0 left-0 top-0 z-10 w-48"
             style={{
-              background: 'linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0) 100%)',
+              background:
+                'linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0) 100%)',
             }}
           />
           <div
-            className="absolute right-0 top-0 bottom-0 z-10 pointer-events-none w-48"
+            className="pointer-events-none absolute bottom-0 right-0 top-0 z-10 w-48"
             style={{
-              background: 'linear-gradient(270deg, #000000 0%, rgba(0, 0, 0, 0) 100%)',
+              background:
+                'linear-gradient(270deg, #000000 0%, rgba(0, 0, 0, 0) 100%)',
             }}
           />
 
@@ -233,7 +236,7 @@ export function Web3MediaHero({
             {[...brands, ...brands].map((brand, index) => (
               <div
                 key={index}
-                className="flex-shrink-0 flex items-center justify-center w-28 h-10 opacity-40 hover:opacity-70 transition-opacity"
+                className="flex h-10 w-28 flex-shrink-0 items-center justify-center opacity-40 transition-opacity hover:opacity-70"
               >
                 {brand.logo}
               </div>

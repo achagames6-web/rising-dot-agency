@@ -1,6 +1,6 @@
 /**
  * Analytics Tracker
- * 
+ *
  * Client-side utility for tracking user interactions and behavior
  * Implements Requirements 25.1-25.10
  */
@@ -67,12 +67,16 @@ class AnalyticsTracker {
     });
 
     // Track magnetic cursor usage
-    document.addEventListener('mouseenter', (e) => {
-      const target = e.target as HTMLElement;
-      if (target.hasAttribute('data-magnetic')) {
-        this.incrementInteraction('magnetic-cursor');
-      }
-    }, true);
+    document.addEventListener(
+      'mouseenter',
+      (e) => {
+        const target = e.target as HTMLElement;
+        if (target.hasAttribute('data-magnetic')) {
+          this.incrementInteraction('magnetic-cursor');
+        }
+      },
+      true
+    );
   }
 
   private incrementInteraction(type: string) {
@@ -91,12 +95,16 @@ class AnalyticsTracker {
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
       const scrollTop = window.scrollY;
-      const scrollPercentage = (scrollTop / (documentHeight - windowHeight)) * 100;
+      const scrollPercentage =
+        (scrollTop / (documentHeight - windowHeight)) * 100;
 
       // Track at 25%, 50%, 75%, 100%
       const milestones = [25, 50, 75, 100];
       milestones.forEach((milestone) => {
-        if (scrollPercentage >= milestone && !this.scrollDepthTracked.has(milestone)) {
+        if (
+          scrollPercentage >= milestone &&
+          !this.scrollDepthTracked.has(milestone)
+        ) {
           this.scrollDepthTracked.add(milestone);
           this.track('scroll_depth', {
             depth: milestone,
@@ -149,11 +157,14 @@ class AnalyticsTracker {
     if ('performance' in window && 'PerformanceObserver' in window) {
       // Track page load time
       window.addEventListener('load', () => {
-        const perfData = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
-        
+        const perfData = performance.getEntriesByType(
+          'navigation'
+        )[0] as PerformanceNavigationTiming;
+
         this.track('performance', {
           loadTime: perfData.loadEventEnd - perfData.fetchStart,
-          domContentLoaded: perfData.domContentLoadedEventEnd - perfData.fetchStart,
+          domContentLoaded:
+            perfData.domContentLoadedEventEnd - perfData.fetchStart,
           firstPaint: this.getFirstPaint(),
           largestContentfulPaint: this.getLCP(),
         });
@@ -166,7 +177,9 @@ class AnalyticsTracker {
 
   private getFirstPaint(): number {
     const paintEntries = performance.getEntriesByType('paint');
-    const firstPaint = paintEntries.find((entry) => entry.name === 'first-paint');
+    const firstPaint = paintEntries.find(
+      (entry) => entry.name === 'first-paint'
+    );
     return firstPaint ? firstPaint.startTime : 0;
   }
 
@@ -214,7 +227,11 @@ class AnalyticsTracker {
    * Track form submissions with source attribution
    * Requirement 25.3
    */
-  trackFormSubmission(formName: string, success: boolean, sourceAttribution?: Record<string, any>) {
+  trackFormSubmission(
+    formName: string,
+    success: boolean,
+    sourceAttribution?: Record<string, any>
+  ) {
     this.track('form_submission', {
       formName,
       success,
@@ -248,7 +265,11 @@ class AnalyticsTracker {
   /**
    * Track animation-specific events
    */
-  trackAnimationEvent(animationType: string, eventName: string, data?: Record<string, any>) {
+  trackAnimationEvent(
+    animationType: string,
+    eventName: string,
+    data?: Record<string, any>
+  ) {
     this.track('animation_event', {
       animationType,
       eventName,

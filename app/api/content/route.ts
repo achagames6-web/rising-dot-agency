@@ -14,14 +14,17 @@ export async function GET(request: NextRequest) {
 
     const client = await clientPromise;
     const db = client.db('rising-dot');
-    
+
     const query: Record<string, any> = {};
     if (page) query.page = page;
     if (section) query.section = section;
-    
+
     // Support batch sections query for better performance
     if (sections && !section) {
-      const sectionList = sections.split(',').map(s => s.trim()).filter(Boolean);
+      const sectionList = sections
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean);
       if (sectionList.length > 0) {
         query.section = { $in: sectionList };
       }
@@ -38,7 +41,7 @@ export async function GET(request: NextRequest) {
     content.forEach((item) => {
       // Check if section is visible (default to true if not set)
       const isVisible = item.visible !== false;
-      
+
       if (isVisible || includeHidden) {
         const key = page ? item.section : `${item.page}_${item.section}`;
         contentMap[key] = {
@@ -53,9 +56,14 @@ export async function GET(request: NextRequest) {
       'Cache-Control': 'public, s-maxage=10, stale-while-revalidate=30',
     };
 
-    return NextResponse.json(section ? contentMap[section] : contentMap, { headers });
+    return NextResponse.json(section ? contentMap[section] : contentMap, {
+      headers,
+    });
   } catch (error) {
     console.error('Error fetching content:', error);
-    return NextResponse.json({ error: 'Failed to fetch content' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch content' },
+      { status: 500 }
+    );
   }
 }

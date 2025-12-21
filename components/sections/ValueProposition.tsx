@@ -110,16 +110,20 @@ export default function ValueProposition() {
   const eyebrow = sectionContent?.eyebrow || 'Digital Excellence';
   const title = sectionContent?.title || 'Transform Your';
   const titleHighlight = sectionContent?.titleHighlight || 'Digital Presence';
-  const subtitle = sectionContent?.subtitle || 'Premium digital solutions powered by cutting-edge technology';
+  const subtitle =
+    sectionContent?.subtitle ||
+    'Premium digital solutions powered by cutting-edge technology';
   const services = sectionContent?.services || defaultServices;
-  
+
   // Color configuration from CMS
   const colors = {
     cardBackground: sectionContent?.colors?.cardBackground || '#1E293B',
     cardAccentColor: sectionContent?.colors?.cardAccentColor || '#37AFE1',
-    cardHoverAccentColor: sectionContent?.colors?.cardHoverAccentColor || '#F58122',
+    cardHoverAccentColor:
+      sectionContent?.colors?.cardHoverAccentColor || '#F58122',
     particleColor: sectionContent?.colors?.particleColor || '#37AFE1',
-    connectionLineStart: sectionContent?.colors?.connectionLineStart || '#37AFE1',
+    connectionLineStart:
+      sectionContent?.colors?.connectionLineStart || '#37AFE1',
     connectionLineEnd: sectionContent?.colors?.connectionLineEnd || '#F58122',
   };
 
@@ -203,14 +207,16 @@ export default function ValueProposition() {
     // Draw particles - convert hex to rgba
     const hexToRgb = (hex: string) => {
       const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-      return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-      } : { r: 55, g: 175, b: 225 };
+      return result
+        ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16),
+          }
+        : { r: 55, g: 175, b: 225 };
     };
     const particleRgb = hexToRgb(colors.particleColor);
-    
+
     particles.forEach((particle) => {
       const opacity = particle.life / particle.maxLife;
       ctx.fillStyle = `rgba(${particleRgb.r}, ${particleRgb.g}, ${particleRgb.b}, ${opacity * 0.8})`;
@@ -239,15 +245,21 @@ export default function ValueProposition() {
               // Draw gradient line - convert hex to rgba
               const startRgb = hexToRgb(colors.connectionLineStart);
               const endRgb = hexToRgb(colors.connectionLineEnd);
-              
+
               const gradient = ctx.createLinearGradient(
                 hoveredCenterX,
                 hoveredCenterY,
                 relatedCenterX,
                 relatedCenterY
               );
-              gradient.addColorStop(0, `rgba(${startRgb.r}, ${startRgb.g}, ${startRgb.b}, 0.9)`);
-              gradient.addColorStop(1, `rgba(${endRgb.r}, ${endRgb.g}, ${endRgb.b}, 0.9)`);
+              gradient.addColorStop(
+                0,
+                `rgba(${startRgb.r}, ${startRgb.g}, ${startRgb.b}, 0.9)`
+              );
+              gradient.addColorStop(
+                1,
+                `rgba(${endRgb.r}, ${endRgb.g}, ${endRgb.b}, 0.9)`
+              );
 
               ctx.strokeStyle = gradient;
               ctx.lineWidth = 2;
@@ -282,18 +294,16 @@ export default function ValueProposition() {
   return (
     <section
       ref={sectionRef}
-      className="relative pt-20 pb-44 px-6 bg-transparent"
+      className="relative bg-transparent px-6 pb-44 pt-20"
     >
-
-
       {/* Particle canvas */}
       <canvas
         ref={canvasRef}
-        className="fixed inset-0 pointer-events-none z-10"
+        className="pointer-events-none fixed inset-0 z-10"
         style={{ mixBlendMode: 'screen' }}
       />
 
-      <div className="max-w-7xl mx-auto relative z-20">
+      <div className="relative z-20 mx-auto max-w-7xl">
         {/* Headline */}
         <SectionHeading
           eyebrow={eyebrow}
@@ -303,7 +313,7 @@ export default function ValueProposition() {
         />
 
         {/* Service icons grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="mx-auto grid max-w-5xl grid-cols-2 gap-8 md:grid-cols-3">
           {services.map((service, index) => (
             <motion.div
               key={service.id}
@@ -312,9 +322,7 @@ export default function ValueProposition() {
               }}
               initial={{ scale: 0, opacity: 0 }}
               animate={
-                isInView
-                  ? { scale: 1, opacity: 1 }
-                  : { scale: 0, opacity: 0 }
+                isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }
               }
               transition={{
                 duration: 0.3,
@@ -327,23 +335,27 @@ export default function ValueProposition() {
                 trackParticleInteraction();
               }}
               onMouseLeave={() => setHoveredService(null)}
-              className="relative group"
+              className="group relative"
             >
               {/* Icon container - no blinking animations */}
               <GlowCard
                 backgroundColor={colors.cardBackground}
-                accentColor={hoveredService === service.id ? colors.cardHoverAccentColor : colors.cardAccentColor}
+                accentColor={
+                  hoveredService === service.id
+                    ? colors.cardHoverAccentColor
+                    : colors.cardAccentColor
+                }
                 borderRadius="1rem"
                 borderWidth="2px"
-                className={`p-10 cursor-pointer transition-all duration-200
-                           ${hoveredService === service.id ? 'shadow-[0_0_20px_rgba(55,175,225,0.3)] scale-105' : 'shadow-lg'}`}
+                className={`cursor-pointer p-10 transition-all duration-200
+                           ${hoveredService === service.id ? 'scale-105 shadow-[0_0_20px_rgba(55,175,225,0.3)]' : 'shadow-lg'}`}
               >
                 <div className="flex flex-col items-center">
-                  <div className="text-7xl mb-5">{service.icon}</div>
-                  <h3 className="text-2xl font-semibold text-white font-montserrat text-center">
+                  <div className="mb-5 text-7xl">{service.icon}</div>
+                  <h3 className="text-center font-montserrat text-2xl font-semibold text-white">
                     {service.name}
                   </h3>
-                  <p className="text-base text-[#64748B] mt-3 text-center font-inter">
+                  <p className="mt-3 text-center font-inter text-base text-[#64748B]">
                     {service.description}
                   </p>
                 </div>

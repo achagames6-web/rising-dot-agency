@@ -26,7 +26,9 @@ export default function SimpleCTA() {
   const eyebrow = ctaContent?.eyebrow || 'Ready to Start?';
   const title = ctaContent?.title || "Let's Build Something";
   const titleHighlight = ctaContent?.titleHighlight || 'Extraordinary';
-  const subtitle = ctaContent?.subtitle || "Transform your vision into reality with our expert team. We're ready to bring your ideas to life.";
+  const subtitle =
+    ctaContent?.subtitle ||
+    "Transform your vision into reality with our expert team. We're ready to bring your ideas to life.";
   const ctaText = ctaContent?.ctaText || 'Get Started Today';
   const ctaLink = ctaContent?.ctaLink || '/contact';
   const secondaryCtaText = ctaContent?.secondaryCtaText || 'View Our Work';
@@ -39,25 +41,27 @@ export default function SimpleCTA() {
   ];
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent">
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-transparent">
       {/* Background gradient */}
       <div className="absolute inset-0">
-        <div 
-          className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full opacity-20 blur-[100px]"
+        <div
+          className="absolute left-1/4 top-1/4 h-[600px] w-[600px] rounded-full opacity-20 blur-[100px]"
           style={{
-            background: 'radial-gradient(circle, rgba(55, 175, 225, 0.5) 0%, transparent 70%)',
+            background:
+              'radial-gradient(circle, rgba(55, 175, 225, 0.5) 0%, transparent 70%)',
           }}
         />
-        <div 
-          className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full opacity-20 blur-[100px]"
+        <div
+          className="absolute bottom-1/4 right-1/4 h-[500px] w-[500px] rounded-full opacity-20 blur-[100px]"
           style={{
-            background: 'radial-gradient(circle, rgba(245, 129, 34, 0.4) 0%, transparent 70%)',
+            background:
+              'radial-gradient(circle, rgba(245, 129, 34, 0.4) 0%, transparent 70%)',
           }}
         />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-4xl mx-auto px-4 md:px-6 text-center">
+      <div className="relative z-10 mx-auto max-w-4xl px-4 text-center md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -73,7 +77,7 @@ export default function SimpleCTA() {
 
           <div className="mb-12" />
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <ParticleWrapper>
               <motion.div
                 whileHover={{ scale: 1.05 }}
@@ -109,7 +113,7 @@ export default function SimpleCTA() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20">
+          <div className="mt-20 grid grid-cols-2 gap-8 md:grid-cols-4">
             {stats.map((stat, index) => (
               <motion.div
                 key={index}
@@ -119,10 +123,10 @@ export default function SimpleCTA() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="text-center"
               >
-                <div className="text-3xl md:text-4xl font-bold text-white mb-2">
+                <div className="mb-2 text-3xl font-bold text-white md:text-4xl">
                   {stat.number}
                 </div>
-                <div className="text-[#64748B] text-sm md:text-base">
+                <div className="text-sm text-[#64748B] md:text-base">
                   {stat.label}
                 </div>
               </motion.div>
@@ -137,7 +141,9 @@ export default function SimpleCTA() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="mt-16"
           >
-            <p className="text-[#64748B] text-sm mb-4">Follow us on social media</p>
+            <p className="mb-4 text-sm text-[#64748B]">
+              Follow us on social media
+            </p>
             <SocialLinks socials={defaultSocials} />
           </motion.div>
         </motion.div>

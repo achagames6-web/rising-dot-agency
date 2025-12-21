@@ -29,42 +29,60 @@ export interface StructuredData {
  */
 export function generateMetaTags(meta: MetaTags): string {
   const tags: string[] = [];
-  
+
   // Basic meta tags
   tags.push(`<title>${escapeHtml(meta.title)}</title>`);
-  tags.push(`<meta name="description" content="${escapeHtml(meta.description)}" />`);
-  
+  tags.push(
+    `<meta name="description" content="${escapeHtml(meta.description)}" />`
+  );
+
   if (meta.keywords) {
-    tags.push(`<meta name="keywords" content="${escapeHtml(meta.keywords)}" />`);
+    tags.push(
+      `<meta name="keywords" content="${escapeHtml(meta.keywords)}" />`
+    );
   }
-  
+
   if (meta.canonical) {
     tags.push(`<link rel="canonical" href="${escapeHtml(meta.canonical)}" />`);
   }
-  
+
   // Open Graph tags
-  tags.push(`<meta property="og:title" content="${escapeHtml(meta.ogTitle || meta.title)}" />`);
-  tags.push(`<meta property="og:description" content="${escapeHtml(meta.ogDescription || meta.description)}" />`);
-  
+  tags.push(
+    `<meta property="og:title" content="${escapeHtml(meta.ogTitle || meta.title)}" />`
+  );
+  tags.push(
+    `<meta property="og:description" content="${escapeHtml(meta.ogDescription || meta.description)}" />`
+  );
+
   if (meta.ogImage) {
-    tags.push(`<meta property="og:image" content="${escapeHtml(meta.ogImage)}" />`);
+    tags.push(
+      `<meta property="og:image" content="${escapeHtml(meta.ogImage)}" />`
+    );
   }
-  
+
   if (meta.ogUrl) {
     tags.push(`<meta property="og:url" content="${escapeHtml(meta.ogUrl)}" />`);
   }
-  
+
   tags.push(`<meta property="og:type" content="website" />`);
-  
+
   // Twitter Card tags
-  tags.push(`<meta name="twitter:card" content="${meta.twitterCard || 'summary_large_image'}" />`);
-  tags.push(`<meta name="twitter:title" content="${escapeHtml(meta.twitterTitle || meta.title)}" />`);
-  tags.push(`<meta name="twitter:description" content="${escapeHtml(meta.twitterDescription || meta.description)}" />`);
-  
+  tags.push(
+    `<meta name="twitter:card" content="${meta.twitterCard || 'summary_large_image'}" />`
+  );
+  tags.push(
+    `<meta name="twitter:title" content="${escapeHtml(meta.twitterTitle || meta.title)}" />`
+  );
+  tags.push(
+    `<meta name="twitter:description" content="${escapeHtml(meta.twitterDescription || meta.description)}" />`
+  );
+
   if (meta.twitterImage || meta.ogImage) {
-    tags.push(`<meta name="twitter:image" content="${escapeHtml(meta.twitterImage || meta.ogImage || '')}" />`);
+    tags.push(
+      `<meta name="twitter:image" content="${escapeHtml(meta.twitterImage || meta.ogImage || '')}" />`
+    );
   }
-  
+
   return tags.join('\n');
 }
 
@@ -103,33 +121,33 @@ export function createOrganizationSchema(org: {
     name: org.name,
     url: org.url,
   };
-  
+
   if (org.logo) {
     schema.logo = org.logo;
   }
-  
+
   if (org.description) {
     schema.description = org.description;
   }
-  
+
   if (org.address) {
     schema.address = {
       '@type': 'PostalAddress',
       ...org.address,
     };
   }
-  
+
   if (org.contactPoint) {
     schema.contactPoint = {
       '@type': 'ContactPoint',
       ...org.contactPoint,
     };
   }
-  
+
   if (org.sameAs) {
     schema.sameAs = org.sameAs;
   }
-  
+
   return schema;
 }
 
@@ -203,31 +221,42 @@ export function createReviewSchema(review: {
 /**
  * Generates XML sitemap
  */
-export function generateSitemap(urls: {
-  loc: string;
-  lastmod?: string;
-  changefreq?: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
-  priority?: number;
-}[]): string {
-  const urlEntries = urls.map((url) => {
-    let entry = `  <url>\n    <loc>${escapeXml(url.loc)}</loc>`;
-    
-    if (url.lastmod) {
-      entry += `\n    <lastmod>${url.lastmod}</lastmod>`;
-    }
-    
-    if (url.changefreq) {
-      entry += `\n    <changefreq>${url.changefreq}</changefreq>`;
-    }
-    
-    if (url.priority !== undefined) {
-      entry += `\n    <priority>${url.priority}</priority>`;
-    }
-    
-    entry += '\n  </url>';
-    return entry;
-  }).join('\n');
-  
+export function generateSitemap(
+  urls: {
+    loc: string;
+    lastmod?: string;
+    changefreq?:
+      | 'always'
+      | 'hourly'
+      | 'daily'
+      | 'weekly'
+      | 'monthly'
+      | 'yearly'
+      | 'never';
+    priority?: number;
+  }[]
+): string {
+  const urlEntries = urls
+    .map((url) => {
+      let entry = `  <url>\n    <loc>${escapeXml(url.loc)}</loc>`;
+
+      if (url.lastmod) {
+        entry += `\n    <lastmod>${url.lastmod}</lastmod>`;
+      }
+
+      if (url.changefreq) {
+        entry += `\n    <changefreq>${url.changefreq}</changefreq>`;
+      }
+
+      if (url.priority !== undefined) {
+        entry += `\n    <priority>${url.priority}</priority>`;
+      }
+
+      entry += '\n  </url>';
+      return entry;
+    })
+    .join('\n');
+
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urlEntries}
@@ -245,30 +274,30 @@ export function generateRobotsTxt(config: {
   crawlDelay?: number;
 }): string {
   const lines: string[] = [];
-  
+
   lines.push(`User-agent: ${config.userAgent || '*'}`);
-  
+
   if (config.allow) {
     config.allow.forEach((path) => {
       lines.push(`Allow: ${path}`);
     });
   }
-  
+
   if (config.disallow) {
     config.disallow.forEach((path) => {
       lines.push(`Disallow: ${path}`);
     });
   }
-  
+
   if (config.crawlDelay) {
     lines.push(`Crawl-delay: ${config.crawlDelay}`);
   }
-  
+
   if (config.sitemap) {
     lines.push('');
     lines.push(`Sitemap: ${config.sitemap}`);
   }
-  
+
   return lines.join('\n');
 }
 
@@ -282,19 +311,19 @@ export function generateImageAlt(context: {
   keywords?: string[];
 }): string {
   const parts: string[] = [];
-  
+
   if (context.action) {
     parts.push(context.action);
   }
-  
+
   parts.push(context.subject);
-  
+
   if (context.location) {
     parts.push(`in ${context.location}`);
   }
-  
+
   let alt = parts.join(' ');
-  
+
   // Add keywords naturally if provided
   if (context.keywords && context.keywords.length > 0) {
     const keyword = context.keywords[0];
@@ -302,7 +331,7 @@ export function generateImageAlt(context: {
       alt += ` - ${keyword}`;
     }
   }
-  
+
   return alt;
 }
 
@@ -318,7 +347,7 @@ export function validateSEO(html: string): {
   const errors: string[] = [];
   const warnings: string[] = [];
   let score = 100;
-  
+
   // Check for title tag
   const titleMatch = html.match(/<title>(.*?)<\/title>/i);
   if (!titleMatch) {
@@ -334,9 +363,11 @@ export function validateSEO(html: string): {
       score -= 5;
     }
   }
-  
+
   // Check for meta description
-  const descMatch = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i);
+  const descMatch = html.match(
+    /<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i
+  );
   if (!descMatch) {
     errors.push('Missing meta description');
     score -= 20;
@@ -350,35 +381,35 @@ export function validateSEO(html: string): {
       score -= 5;
     }
   }
-  
+
   // Check for canonical URL
   if (!html.match(/<link\s+rel=["']canonical["']/i)) {
     warnings.push('Missing canonical URL');
     score -= 5;
   }
-  
+
   // Check for Open Graph tags
   if (!html.match(/<meta\s+property=["']og:title["']/i)) {
     warnings.push('Missing Open Graph title');
     score -= 5;
   }
-  
+
   if (!html.match(/<meta\s+property=["']og:description["']/i)) {
     warnings.push('Missing Open Graph description');
     score -= 5;
   }
-  
+
   if (!html.match(/<meta\s+property=["']og:image["']/i)) {
     warnings.push('Missing Open Graph image');
     score -= 5;
   }
-  
+
   // Check for structured data
   if (!html.match(/<script\s+type=["']application\/ld\+json["']/i)) {
     warnings.push('Missing structured data (Schema.org)');
     score -= 10;
   }
-  
+
   // Check for images without alt text
   const imgMatches = html.match(/<img[^>]*>/gi);
   if (imgMatches) {
@@ -389,10 +420,10 @@ export function validateSEO(html: string): {
       }
     });
   }
-  
+
   // Ensure score doesn't go below 0
   score = Math.max(0, score);
-  
+
   return {
     isValid: errors.length === 0,
     errors,

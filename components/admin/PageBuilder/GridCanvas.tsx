@@ -35,9 +35,10 @@ export default function GridCanvas({
   draggingComponent,
 }: GridCanvasProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
-  const [dragOverPosition, setDragOverPosition] = useState<{ col: number; row: number } | null>(
-    null
-  );
+  const [dragOverPosition, setDragOverPosition] = useState<{
+    col: number;
+    row: number;
+  } | null>(null);
 
   // Spring physics for dragging (0.3 strength as per requirements)
   const springConfig = { stiffness: 170, damping: 26, mass: 0.3 };
@@ -53,7 +54,10 @@ export default function GridCanvas({
     const y = e.clientY - rect.top;
 
     // Snap to 12-column grid
-    const col = Math.max(1, Math.min(GRID_COLUMNS, Math.floor(x / COLUMN_WIDTH) + 1));
+    const col = Math.max(
+      1,
+      Math.min(GRID_COLUMNS, Math.floor(x / COLUMN_WIDTH) + 1)
+    );
     const row = Math.max(1, Math.floor(y / ROW_HEIGHT) + 1);
 
     setDragOverPosition({ col, row });
@@ -94,10 +98,10 @@ export default function GridCanvas({
   };
 
   return (
-    <div className="flex-1 bg-slate-800 p-8 overflow-auto">
+    <div className="flex-1 overflow-auto bg-slate-800 p-8">
       <div
         ref={canvasRef}
-        className="relative bg-slate-900 rounded-lg min-h-[800px]"
+        className="relative min-h-[800px] rounded-lg bg-slate-900"
         style={{
           backgroundImage: `
             linear-gradient(to right, rgba(100, 116, 139, 0.1) 1px, transparent 1px),
@@ -110,11 +114,11 @@ export default function GridCanvas({
         onDrop={handleDrop}
       >
         {/* Grid column indicators */}
-        <div className="absolute top-0 left-0 right-0 h-8 flex">
+        <div className="absolute left-0 right-0 top-0 flex h-8">
           {Array.from({ length: GRID_COLUMNS }).map((_, i) => (
             <div
               key={i}
-              className="flex-1 text-center text-xs text-slate-500 border-r border-slate-700"
+              className="flex-1 border-r border-slate-700 text-center text-xs text-slate-500"
               style={{ width: COLUMN_WIDTH }}
             >
               {i + 1}
@@ -125,7 +129,7 @@ export default function GridCanvas({
         {/* Drag over indicator */}
         {dragOverPosition && (
           <div
-            className="absolute bg-[#2563EB] bg-opacity-20 border-2 border-[#2563EB] rounded pointer-events-none"
+            className="pointer-events-none absolute rounded border-2 border-[#2563EB] bg-[#2563EB] bg-opacity-20"
             style={{
               left: (dragOverPosition.col - 1) * COLUMN_WIDTH,
               top: (dragOverPosition.row - 1) * ROW_HEIGHT + 32,
@@ -206,9 +210,15 @@ function DraggableComponent({
 
       const newCol = Math.max(
         1,
-        Math.min(GRID_COLUMNS, dragStartPos.current.gridCol + Math.round(deltaX / COLUMN_WIDTH))
+        Math.min(
+          GRID_COLUMNS,
+          dragStartPos.current.gridCol + Math.round(deltaX / COLUMN_WIDTH)
+        )
       );
-      const newRow = Math.max(1, dragStartPos.current.gridRow + Math.round(deltaY / ROW_HEIGHT));
+      const newRow = Math.max(
+        1,
+        dragStartPos.current.gridRow + Math.round(deltaY / ROW_HEIGHT)
+      );
 
       x.set((newCol - 1) * COLUMN_WIDTH);
       y.set((newRow - 1) * ROW_HEIGHT);
@@ -248,22 +258,24 @@ function DraggableComponent({
       }}
       className={`absolute cursor-move rounded-lg p-4 transition-colors ${
         isSelected
-          ? 'bg-[#2563EB] bg-opacity-20 border-2 border-[#2563EB]'
-          : 'bg-slate-700 border-2 border-slate-600 hover:border-slate-500'
+          ? 'border-2 border-[#2563EB] bg-[#2563EB] bg-opacity-20'
+          : 'border-2 border-slate-600 bg-slate-700 hover:border-slate-500'
       }`}
       onMouseDown={handleMouseDown}
       whileHover={{ scale: 1.02 }}
     >
-      <div className="flex items-center justify-between mb-2">
+      <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-xl">{component.componentDef.icon}</span>
-          <span className="text-white text-sm font-medium">{component.componentDef.name}</span>
+          <span className="text-sm font-medium text-white">
+            {component.componentDef.name}
+          </span>
         </div>
         <div className="text-xs text-slate-400">
           Col {component.gridColumn}, Row {component.gridRow}
         </div>
       </div>
-      <div className="text-slate-300 text-xs">
+      <div className="text-xs text-slate-300">
         {JSON.stringify(component.props, null, 2).slice(0, 100)}...
       </div>
     </motion.div>

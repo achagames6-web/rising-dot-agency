@@ -20,7 +20,11 @@ const initialTestimonials = [
     avatar: '/media/home/testimonials/marcus-johnson.jpg',
     rating: 5,
     text: 'The AI chatbot solution is revolutionary. Our customer satisfaction increased by 40% while reducing response time from hours to seconds. Incredible ROI on our investment.',
-    results: ['40% satisfaction boost', 'Instant responses', 'Seamless integration'],
+    results: [
+      '40% satisfaction boost',
+      'Instant responses',
+      'Seamless integration',
+    ],
     featured: false,
     order: 2,
   },
@@ -67,11 +71,14 @@ export async function GET() {
 
     const existingCount = await collection.countDocuments();
     if (existingCount > 0) {
-      return NextResponse.json({ message: 'Testimonials already seeded', count: existingCount });
+      return NextResponse.json({
+        message: 'Testimonials already seeded',
+        count: existingCount,
+      });
     }
 
     const now = new Date();
-    const testimonialsWithTimestamps = initialTestimonials.map(item => ({
+    const testimonialsWithTimestamps = initialTestimonials.map((item) => ({
       ...item,
       published: true,
       createdAt: now,
@@ -80,9 +87,15 @@ export async function GET() {
 
     const result = await collection.insertMany(testimonialsWithTimestamps);
 
-    return NextResponse.json({ message: 'Testimonials seeded successfully', count: result.insertedCount });
+    return NextResponse.json({
+      message: 'Testimonials seeded successfully',
+      count: result.insertedCount,
+    });
   } catch (error) {
     console.error('Error seeding testimonials:', error);
-    return NextResponse.json({ error: 'Failed to seed testimonials' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to seed testimonials' },
+      { status: 500 }
+    );
   }
 }

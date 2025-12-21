@@ -1,6 +1,6 @@
 /**
  * Case Study Component Tests
- * 
+ *
  * Basic tests to verify the CaseStudy component renders correctly
  * and implements the required features.
  */
@@ -20,7 +20,7 @@ describe('CaseStudy Component', () => {
 
     // Verify easing function is power2.out
     const easeFunction = (progress: number) => 1 - Math.pow(1 - progress, 2);
-    
+
     // Test easing at key points
     expect(easeFunction(0)).toBe(0); // Start
     expect(easeFunction(1)).toBe(1); // End
@@ -31,7 +31,7 @@ describe('CaseStudy Component', () => {
     // Auto-rotation should complete in 2 seconds
     const rotationSpeed = (Math.PI * 2) / 2; // 2 seconds per rotation
     expect(rotationSpeed).toBeCloseTo(Math.PI, 2);
-    
+
     // At 60fps, each frame should rotate by rotationSpeed / 60
     const frameRotation = rotationSpeed / 60;
     expect(frameRotation).toBeGreaterThan(0);
@@ -41,9 +41,10 @@ describe('CaseStudy Component', () => {
     // Zoom should be constrained between 0.5x and 2x
     const minZoom = 0.5;
     const maxZoom = 2.0;
-    
-    const clampZoom = (zoom: number) => Math.max(minZoom, Math.min(maxZoom, zoom));
-    
+
+    const clampZoom = (zoom: number) =>
+      Math.max(minZoom, Math.min(maxZoom, zoom));
+
     expect(clampZoom(0.3)).toBe(0.5); // Below minimum
     expect(clampZoom(1.0)).toBe(1.0); // Within range
     expect(clampZoom(2.5)).toBe(2.0); // Above maximum
@@ -53,7 +54,7 @@ describe('CaseStudy Component', () => {
     // Momentum should use 0.95 damping
     const dampingFactor = 0.95;
     expect(dampingFactor).toBe(0.95);
-    
+
     // After 10 frames, momentum should be significantly reduced
     let momentum = 1.0;
     for (let i = 0; i < 10; i++) {
@@ -63,8 +64,9 @@ describe('CaseStudy Component', () => {
   });
 
   test('Slider position is constrained between 0 and 100', () => {
-    const clampSlider = (position: number) => Math.max(0, Math.min(100, position));
-    
+    const clampSlider = (position: number) =>
+      Math.max(0, Math.min(100, position));
+
     expect(clampSlider(-10)).toBe(0);
     expect(clampSlider(50)).toBe(50);
     expect(clampSlider(150)).toBe(100);

@@ -25,7 +25,7 @@ export async function PUT(
 
     const now = new Date();
     const history = existing.history || [];
-    
+
     // Add current rank to history if it changed
     if (existing.currentRank !== null && existing.currentRank !== currentRank) {
       history.push({
@@ -51,7 +51,10 @@ export async function PUT(
     return NextResponse.json(result);
   } catch (error) {
     console.error('Error updating keyword:', error);
-    return NextResponse.json({ error: 'Failed to update keyword' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to update keyword' },
+      { status: 500 }
+    );
   }
 }
 
@@ -75,6 +78,9 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting keyword:', error);
-    return NextResponse.json({ error: 'Failed to delete keyword' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to delete keyword' },
+      { status: 500 }
+    );
   }
 }

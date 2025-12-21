@@ -13,7 +13,7 @@ cloudinary.config({
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
-    
+
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;
     const company = formData.get('company') as string;
@@ -33,7 +33,10 @@ export async function POST(request: NextRequest) {
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Invalid email address' },
+        { status: 400 }
+      );
     }
 
     let avatarUrl = '/media/home/testimonials/placeholder.jpg';
@@ -43,22 +46,24 @@ export async function POST(request: NextRequest) {
       try {
         const bytes = await image.arrayBuffer();
         const buffer = Buffer.from(bytes);
-        
+
         // Upload to Cloudinary
         const uploadResult = await new Promise<any>((resolve, reject) => {
-          cloudinary.uploader.upload_stream(
-            {
-              folder: 'testimonials',
-              transformation: [
-                { width: 200, height: 200, crop: 'fill', gravity: 'face' },
-                { quality: 'auto', fetch_format: 'auto' }
-              ],
-            },
-            (error, result) => {
-              if (error) reject(error);
-              else resolve(result);
-            }
-          ).end(buffer);
+          cloudinary.uploader
+            .upload_stream(
+              {
+                folder: 'testimonials',
+                transformation: [
+                  { width: 200, height: 200, crop: 'fill', gravity: 'face' },
+                  { quality: 'auto', fetch_format: 'auto' },
+                ],
+              },
+              (error, result) => {
+                if (error) reject(error);
+                else resolve(result);
+              }
+            )
+            .end(buffer);
         });
 
         avatarUrl = uploadResult.secure_url;
@@ -93,7 +98,10 @@ export async function POST(request: NextRequest) {
     await db.collection('testimonials').insertOne(newTestimonial);
 
     return NextResponse.json(
-      { success: true, message: 'Thank you! Your testimonial has been submitted for review.' },
+      {
+        success: true,
+        message: 'Thank you! Your testimonial has been submitted for review.',
+      },
       { status: 201 }
     );
   } catch (error) {

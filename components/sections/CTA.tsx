@@ -9,9 +9,18 @@ import { StarButton } from '@/components/ui/star-button';
 // Simplex noise implementation
 class SimplexNoise {
   private grad3 = [
-    [1, 1, 0], [-1, 1, 0], [1, -1, 0], [-1, -1, 0],
-    [1, 0, 1], [-1, 0, 1], [1, 0, -1], [-1, 0, -1],
-    [0, 1, 1], [0, -1, 1], [0, 1, -1], [0, -1, -1]
+    [1, 1, 0],
+    [-1, 1, 0],
+    [1, -1, 0],
+    [-1, -1, 0],
+    [1, 0, 1],
+    [-1, 0, 1],
+    [1, 0, -1],
+    [-1, 0, -1],
+    [0, 1, 1],
+    [0, -1, 1],
+    [0, 1, -1],
+    [0, -1, -1],
   ];
   private p: number[];
   private perm: number[];
@@ -52,13 +61,51 @@ class SimplexNoise {
     let i2, j2, k2;
 
     if (x0 >= y0) {
-      if (y0 >= z0) { i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 1; k2 = 0; }
-      else if (x0 >= z0) { i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 0; k2 = 1; }
-      else { i1 = 0; j1 = 0; k1 = 1; i2 = 1; j2 = 0; k2 = 1; }
+      if (y0 >= z0) {
+        i1 = 1;
+        j1 = 0;
+        k1 = 0;
+        i2 = 1;
+        j2 = 1;
+        k2 = 0;
+      } else if (x0 >= z0) {
+        i1 = 1;
+        j1 = 0;
+        k1 = 0;
+        i2 = 1;
+        j2 = 0;
+        k2 = 1;
+      } else {
+        i1 = 0;
+        j1 = 0;
+        k1 = 1;
+        i2 = 1;
+        j2 = 0;
+        k2 = 1;
+      }
     } else {
-      if (y0 < z0) { i1 = 0; j1 = 0; k1 = 1; i2 = 0; j2 = 1; k2 = 1; }
-      else if (x0 < z0) { i1 = 0; j1 = 1; k1 = 0; i2 = 0; j2 = 1; k2 = 1; }
-      else { i1 = 0; j1 = 1; k1 = 0; i2 = 1; j2 = 1; k2 = 0; }
+      if (y0 < z0) {
+        i1 = 0;
+        j1 = 0;
+        k1 = 1;
+        i2 = 0;
+        j2 = 1;
+        k2 = 1;
+      } else if (x0 < z0) {
+        i1 = 0;
+        j1 = 1;
+        k1 = 0;
+        i2 = 0;
+        j2 = 1;
+        k2 = 1;
+      } else {
+        i1 = 0;
+        j1 = 1;
+        k1 = 0;
+        i2 = 1;
+        j2 = 1;
+        k2 = 0;
+      }
     }
 
     const x1 = x0 - i1 + G3;
@@ -76,8 +123,10 @@ class SimplexNoise {
     const kk = k & 255;
 
     const gi0 = this.perm[ii + this.perm[jj + this.perm[kk]]] % 12;
-    const gi1 = this.perm[ii + i1 + this.perm[jj + j1 + this.perm[kk + k1]]] % 12;
-    const gi2 = this.perm[ii + i2 + this.perm[jj + j2 + this.perm[kk + k2]]] % 12;
+    const gi1 =
+      this.perm[ii + i1 + this.perm[jj + j1 + this.perm[kk + k1]]] % 12;
+    const gi2 =
+      this.perm[ii + i2 + this.perm[jj + j2 + this.perm[kk + k2]]] % 12;
     const gi3 = this.perm[ii + 1 + this.perm[jj + 1 + this.perm[kk + 1]]] % 12;
 
     let t0 = 0.6 - x0 * x0 - y0 * y0 - z0 * z0;
@@ -252,7 +301,7 @@ interface GradientMeshProps {
 function GradientMesh({ mousePosition }: GradientMeshProps) {
   const meshRef = useRef<THREE.Mesh>(null);
   const { size } = useThree();
-  
+
   const uniforms = useRef({
     uTime: { value: 0 },
     uMouse: { value: new THREE.Vector2(0, 0) },
@@ -379,19 +428,20 @@ export default function CTA({
   return (
     <div
       ref={containerRef}
-      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative flex min-h-screen w-full items-center justify-center overflow-hidden"
       style={{ backgroundColor: '#000000' }}
     >
       {/* Animated gradient orbs background - base layer */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
-          className="absolute rounded-full animate-pulse"
+          className="absolute animate-pulse rounded-full"
           style={{
             left: '10%',
             top: '30%',
             width: '450px',
             height: '450px',
-            background: 'radial-gradient(circle, rgba(55, 175, 225, 0.4) 0%, rgba(49, 164, 219, 0.18) 40%, transparent 70%)',
+            background:
+              'radial-gradient(circle, rgba(55, 175, 225, 0.4) 0%, rgba(49, 164, 219, 0.18) 40%, transparent 70%)',
             filter: 'blur(50px)',
             transform: 'translate(-50%, -50%)',
             animation: 'float1 20s ease-in-out infinite',
@@ -404,7 +454,8 @@ export default function CTA({
             top: '25%',
             width: '380px',
             height: '380px',
-            background: 'radial-gradient(circle, rgba(49, 164, 219, 0.35) 0%, rgba(55, 175, 225, 0.15) 50%, transparent 70%)',
+            background:
+              'radial-gradient(circle, rgba(49, 164, 219, 0.35) 0%, rgba(55, 175, 225, 0.15) 50%, transparent 70%)',
             filter: 'blur(45px)',
             transform: 'translate(50%, -50%)',
             animation: 'float2 25s ease-in-out infinite',
@@ -417,7 +468,8 @@ export default function CTA({
             bottom: '20%',
             width: '500px',
             height: '500px',
-            background: 'radial-gradient(circle, rgba(245, 129, 34, 0.35) 0%, rgba(245, 129, 34, 0.15) 50%, transparent 70%)',
+            background:
+              'radial-gradient(circle, rgba(245, 129, 34, 0.35) 0%, rgba(245, 129, 34, 0.15) 50%, transparent 70%)',
             filter: 'blur(55px)',
             transform: 'translate(-50%, 50%)',
             animation: 'float3 22s ease-in-out infinite',
@@ -426,7 +478,7 @@ export default function CTA({
       </div>
 
       {/* WebGL Gradient Background - overlay */}
-      <div className="absolute inset-0 w-full h-full" style={{ opacity: 0.7 }}>
+      <div className="absolute inset-0 h-full w-full" style={{ opacity: 0.7 }}>
         <Canvas
           camera={{ position: [0, 0, 5], fov: 75 }}
           style={{ width: '100%', height: '100%' }}
@@ -438,24 +490,24 @@ export default function CTA({
       {/* Particle burst canvas */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full pointer-events-none"
+        className="pointer-events-none absolute inset-0 h-full w-full"
         width={typeof window !== 'undefined' ? window.innerWidth : 1920}
         height={typeof window !== 'undefined' ? window.innerHeight : 1080}
       />
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center gap-8 px-4">
-        <h2 className="text-3xl md:text-5xl font-bold text-white text-center font-montserrat">
+        <h2 className="text-center font-montserrat text-3xl font-bold text-white md:text-5xl">
           Ready to Transform Your Business?
         </h2>
-        <p className="text-xl md:text-2xl text-white/80 text-center max-w-2xl font-inter">
+        <p className="max-w-2xl text-center font-inter text-xl text-white/80 md:text-2xl">
           Let's create something extraordinary together
         </p>
 
         {/* CTA Button */}
         <ParticleWrapper>
           <StarButton
-            className="h-12 px-8 text-base font-semibold font-montserrat hover:scale-105 transition-transform"
+            className="h-12 px-8 font-montserrat text-base font-semibold transition-transform hover:scale-105"
             duration={2.5}
             onClick={handleButtonClick}
             onMouseEnter={() => setIsHovered(true)}

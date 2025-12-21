@@ -8,8 +8,11 @@ export async function GET(
 ) {
   try {
     const session = await getServerSession();
-    
-    if (!session || !['admin', 'editor'].includes((session.user as any)?.role)) {
+
+    if (
+      !session ||
+      !['admin', 'editor'].includes((session.user as any)?.role)
+    ) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -29,7 +32,10 @@ export async function GET(
     return NextResponse.json({ page: rows[0], sections });
   } catch (error) {
     console.error('Error fetching page:', error);
-    return NextResponse.json({ error: 'Failed to fetch page' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch page' },
+      { status: 500 }
+    );
   }
 }
 
@@ -39,8 +45,11 @@ export async function PUT(
 ) {
   try {
     const session = await getServerSession();
-    
-    if (!session || !['admin', 'editor'].includes((session.user as any)?.role)) {
+
+    if (
+      !session ||
+      !['admin', 'editor'].includes((session.user as any)?.role)
+    ) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -67,7 +76,10 @@ export async function PUT(
     return NextResponse.json({ page: rows[0] });
   } catch (error) {
     console.error('Error updating page:', error);
-    return NextResponse.json({ error: 'Failed to update page' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to update page' },
+      { status: 500 }
+    );
   }
 }
 
@@ -77,7 +89,7 @@ export async function DELETE(
 ) {
   try {
     const session = await getServerSession();
-    
+
     if (!session || (session.user as any)?.role !== 'admin') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -87,6 +99,9 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting page:', error);
-    return NextResponse.json({ error: 'Failed to delete page' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to delete page' },
+      { status: 500 }
+    );
   }
 }

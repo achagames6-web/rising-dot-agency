@@ -47,7 +47,7 @@ export const defaultAutomatedProcess: ProcessConfig = {
 /**
  * Resolves process config with fallback to defaults
  * This function mirrors the component's fallback logic for testing
- * 
+ *
  * @param manualProcess - Optional manual process config from CMS
  * @param automatedProcess - Optional automated process config from CMS
  * @returns Resolved process configs with defaults applied
@@ -64,20 +64,20 @@ export function resolveProcessConfigs(
 
 /**
  * Validates that a ProcessConfig has all required fields
- * 
+ *
  * @param config - The process config to validate
  * @returns true if valid, false otherwise
  */
 export function isValidProcessConfig(config: unknown): config is ProcessConfig {
   if (!config || typeof config !== 'object') return false;
-  
+
   const c = config as Record<string, unknown>;
-  
+
   if (typeof c.title !== 'string' || c.title.length === 0) return false;
   if (typeof c.totalTime !== 'string' || c.totalTime.length === 0) return false;
   if (typeof c.summary !== 'string' || c.summary.length === 0) return false;
   if (!Array.isArray(c.steps) || c.steps.length === 0) return false;
-  
+
   // Validate each step
   for (const step of c.steps) {
     if (!step || typeof step !== 'object') return false;
@@ -86,6 +86,6 @@ export function isValidProcessConfig(config: unknown): config is ProcessConfig {
     if (typeof s.text !== 'string' || s.text.length === 0) return false;
     if (typeof s.time !== 'string' || s.time.length === 0) return false;
   }
-  
+
   return true;
 }

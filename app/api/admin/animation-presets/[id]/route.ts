@@ -18,10 +18,7 @@ export async function GET(
     );
 
     if (result.length === 0) {
-      return NextResponse.json(
-        { error: 'Preset not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Preset not found' }, { status: 404 });
     }
 
     return NextResponse.json(result[0]);
@@ -72,16 +69,13 @@ export async function PUT(
     );
 
     if (result.length === 0) {
-      return NextResponse.json(
-        { error: 'Preset not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Preset not found' }, { status: 404 });
     }
 
     return NextResponse.json(result[0]);
   } catch (error: any) {
     console.error('Failed to update animation preset:', error);
-    
+
     // Handle unique constraint violation
     if (error.code === '23505') {
       return NextResponse.json(
@@ -113,10 +107,7 @@ export async function DELETE(
     );
 
     if (result.length === 0) {
-      return NextResponse.json(
-        { error: 'Preset not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Preset not found' }, { status: 404 });
     }
 
     return NextResponse.json({ success: true });

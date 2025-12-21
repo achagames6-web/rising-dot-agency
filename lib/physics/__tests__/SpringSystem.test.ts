@@ -5,7 +5,11 @@
  */
 
 import * as fc from 'fast-check';
-import { EnterpriseSpringSystem, SPRING_PRESETS, SpringConfig } from '../SpringSystem';
+import {
+  EnterpriseSpringSystem,
+  SPRING_PRESETS,
+  SpringConfig,
+} from '../SpringSystem';
 
 describe('Spring Physics System', () => {
   describe('Property 3: Spring Physics Consistency', () => {
@@ -26,7 +30,7 @@ describe('Spring Physics System', () => {
           ({ mass, tension, friction, initialPosition, targetPosition }) => {
             const config: SpringConfig = { mass, tension, friction };
             const spring = new EnterpriseSpringSystem(config);
-            
+
             spring.setPosition(initialPosition);
             spring.setTarget(targetPosition);
 
@@ -48,7 +52,7 @@ describe('Spring Physics System', () => {
               // Position change should be reasonable for 1/60 second
               // Max velocity is clamped at 10000, so max position change is 10000/60 ≈ 166
               expect(positionDelta).toBeLessThan(200);
-              
+
               // Velocity change should be smooth (no sudden jumps)
               // Calculate expected max acceleration: a = F/m = (tension * displacement + friction * velocity) / mass
               // With low mass (0.5), high tension (300), and large displacement (200), max acceleration ≈ 120000
@@ -73,8 +77,10 @@ describe('Spring Physics System', () => {
     });
 
     test('spring presets produce consistent behavior', () => {
-      const presets = Object.keys(SPRING_PRESETS) as Array<keyof typeof SPRING_PRESETS>;
-      
+      const presets = Object.keys(SPRING_PRESETS) as Array<
+        keyof typeof SPRING_PRESETS
+      >;
+
       presets.forEach((preset) => {
         const spring = new EnterpriseSpringSystem(preset);
         spring.setPosition(0);
@@ -90,7 +96,7 @@ describe('Spring Physics System', () => {
 
         // Spring should move toward target
         expect(positions[positions.length - 1]).toBeGreaterThan(positions[0]);
-        
+
         // All positions should be finite
         positions.forEach((pos) => {
           expect(isFinite(pos)).toBe(true);
@@ -130,7 +136,7 @@ describe('Spring Physics System', () => {
       );
     });
 
-    test('spring respects Hooke\'s law force relationship', () => {
+    test("spring respects Hooke's law force relationship", () => {
       fc.assert(
         fc.property(
           fc.record({
@@ -143,7 +149,7 @@ describe('Spring Physics System', () => {
               tension: tension,
               friction: 20,
             });
-            
+
             const spring2 = new EnterpriseSpringSystem({
               mass: 1.0,
               tension: tension * 2, // Double the tension
@@ -152,7 +158,7 @@ describe('Spring Physics System', () => {
 
             spring1.setPosition(0);
             spring1.setTarget(displacement);
-            
+
             spring2.setPosition(0);
             spring2.setTarget(displacement);
 
@@ -186,7 +192,7 @@ describe('Spring Physics System', () => {
               tension: 170,
               friction: 26,
             });
-            
+
             const heavyMass = new EnterpriseSpringSystem({
               mass: mass2,
               tension: 170,
@@ -195,7 +201,7 @@ describe('Spring Physics System', () => {
 
             lightMass.setPosition(0);
             lightMass.setTarget(displacement);
-            
+
             heavyMass.setPosition(0);
             heavyMass.setTarget(displacement);
 
@@ -242,9 +248,9 @@ describe('Spring Physics System', () => {
       spring.setPosition(50);
       spring.setTarget(100);
       spring.update(1 / 60);
-      
+
       spring.reset();
-      
+
       expect(spring.getCurrentPosition()).toBe(0);
       expect(spring.getCurrentVelocity()).toBe(0);
       expect(spring.state.target).toBe(0);
@@ -254,7 +260,7 @@ describe('Spring Physics System', () => {
       const spring = new EnterpriseSpringSystem('STIFF');
       spring.setPosition(100);
       spring.setTarget(100);
-      
+
       expect(spring.isSettled()).toBe(true);
     });
 
@@ -263,7 +269,7 @@ describe('Spring Physics System', () => {
       spring.setPosition(0);
       spring.setTarget(100);
       spring.update(1 / 60);
-      
+
       expect(spring.isSettled()).toBe(false);
     });
 

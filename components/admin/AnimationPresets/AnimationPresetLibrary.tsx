@@ -48,10 +48,14 @@ export interface ConditionConfig {
 
 export function AnimationPresetLibrary() {
   const [presets, setPresets] = useState<AnimationPreset[]>([]);
-  const [selectedPreset, setSelectedPreset] = useState<AnimationPreset | null>(null);
+  const [selectedPreset, setSelectedPreset] = useState<AnimationPreset | null>(
+    null
+  );
   const [isEditing, setIsEditing] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
-  const [activeTab, setActiveTab] = useState<'presets' | 'timeline' | 'easing' | 'triggers' | 'conditions' | 'debug'>('presets');
+  const [activeTab, setActiveTab] = useState<
+    'presets' | 'timeline' | 'easing' | 'triggers' | 'conditions' | 'debug'
+  >('presets');
   const [loading, setLoading] = useState(true);
   const [debugMode, setDebugMode] = useState(false);
 
@@ -85,10 +89,10 @@ export function AnimationPresetLibrary() {
         properties: {},
         timeline: [],
         triggers: [],
-        conditions: { operator: 'AND', conditions: [] }
+        conditions: { operator: 'AND', conditions: [] },
       },
       created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
+      updated_at: new Date().toISOString(),
     });
     setIsCreating(true);
     setIsEditing(true);
@@ -96,16 +100,17 @@ export function AnimationPresetLibrary() {
 
   const handleSavePreset = async (preset: AnimationPreset) => {
     try {
-      const url = preset.id === 0 
-        ? '/api/admin/animation-presets'
-        : `/api/admin/animation-presets/${preset.id}`;
-      
+      const url =
+        preset.id === 0
+          ? '/api/admin/animation-presets'
+          : `/api/admin/animation-presets/${preset.id}`;
+
       const method = preset.id === 0 ? 'POST' : 'PUT';
-      
+
       const response = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(preset)
+        body: JSON.stringify(preset),
       });
 
       if (response.ok) {
@@ -124,7 +129,7 @@ export function AnimationPresetLibrary() {
 
     try {
       const response = await fetch(`/api/admin/animation-presets/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
       });
 
       if (response.ok) {
@@ -144,7 +149,7 @@ export function AnimationPresetLibrary() {
       id: 0,
       name: `${preset.name} (Copy)`,
       created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
+      updated_at: new Date().toISOString(),
     };
     setSelectedPreset(duplicated);
     setIsCreating(true);
@@ -153,13 +158,13 @@ export function AnimationPresetLibrary() {
 
   const filterPresetsByType = (type: string) => {
     if (type === 'all') return presets;
-    return presets.filter(p => p.preset_type === type);
+    return presets.filter((p) => p.preset_type === type);
   };
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2563EB]"></div>
+      <div className="flex h-64 items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-[#2563EB]"></div>
       </div>
     );
   }
@@ -169,15 +174,17 @@ export function AnimationPresetLibrary() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Animation Presets</h1>
-          <p className="text-slate-600 mt-1">
+          <h1 className="text-3xl font-bold text-slate-900">
+            Animation Presets
+          </h1>
+          <p className="mt-1 text-slate-600">
             Create and manage animation presets with visual timeline editor
           </p>
         </div>
         <div className="flex gap-3">
           <button
             onClick={() => setDebugMode(!debugMode)}
-            className={`px-4 py-2 rounded-lg transition-colors ${
+            className={`rounded-lg px-4 py-2 transition-colors ${
               debugMode
                 ? 'bg-[#8B5CF6] text-white'
                 : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
@@ -187,36 +194,48 @@ export function AnimationPresetLibrary() {
           </button>
           <button
             onClick={handleCreatePreset}
-            className="flex items-center gap-2 px-4 py-2 bg-[#2563EB] text-white rounded-lg hover:bg-[#1d4ed8] transition-colors"
+            className="flex items-center gap-2 rounded-lg bg-[#2563EB] px-4 py-2 text-white transition-colors hover:bg-[#1d4ed8]"
           >
-            <Plus className="w-5 h-5" />
+            <Plus className="h-5 w-5" />
             New Preset
           </button>
         </div>
       </div>
 
       {/* Tab Navigation */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+      <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
         <div className="border-b border-slate-200">
           <nav className="flex gap-1 p-2">
             {[
               { id: 'presets', label: 'Presets' },
-              { id: 'timeline', label: 'Timeline Editor', disabled: !selectedPreset },
-              { id: 'easing', label: 'Easing Curves', disabled: !selectedPreset },
+              {
+                id: 'timeline',
+                label: 'Timeline Editor',
+                disabled: !selectedPreset,
+              },
+              {
+                id: 'easing',
+                label: 'Easing Curves',
+                disabled: !selectedPreset,
+              },
               { id: 'triggers', label: 'Triggers', disabled: !selectedPreset },
-              { id: 'conditions', label: 'Conditions', disabled: !selectedPreset },
-              { id: 'debug', label: 'Debug', disabled: !debugMode }
-            ].map(tab => (
+              {
+                id: 'conditions',
+                label: 'Conditions',
+                disabled: !selectedPreset,
+              },
+              { id: 'debug', label: 'Debug', disabled: !debugMode },
+            ].map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => !tab.disabled && setActiveTab(tab.id as any)}
                 disabled={tab.disabled}
-                className={`px-4 py-2 rounded-lg transition-colors ${
+                className={`rounded-lg px-4 py-2 transition-colors ${
                   activeTab === tab.id
                     ? 'bg-[#2563EB] text-white'
                     : tab.disabled
-                    ? 'text-slate-400 cursor-not-allowed'
-                    : 'text-slate-700 hover:bg-slate-100'
+                      ? 'cursor-not-allowed text-slate-400'
+                      : 'text-slate-700 hover:bg-slate-100'
                 }`}
               >
                 {tab.label}
@@ -231,24 +250,30 @@ export function AnimationPresetLibrary() {
             <div className="space-y-6">
               {/* Filter Tabs */}
               <div className="flex gap-2">
-                {['all', 'scroll', 'hover', 'entrance'].map(type => (
+                {['all', 'scroll', 'hover', 'entrance'].map((type) => (
                   <button
                     key={type}
-                    className="px-4 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors capitalize"
+                    className="rounded-lg bg-slate-100 px-4 py-2 capitalize text-slate-700 transition-colors hover:bg-slate-200"
                   >
-                    {type} ({type === 'all' ? presets.length : filterPresetsByType(type).length})
+                    {type} (
+                    {type === 'all'
+                      ? presets.length
+                      : filterPresetsByType(type).length}
+                    )
                   </button>
                 ))}
               </div>
 
               {/* Preset Grid */}
               {presets.length === 0 ? (
-                <div className="text-center py-12">
-                  <p className="text-slate-600">No presets yet. Create your first preset!</p>
+                <div className="py-12 text-center">
+                  <p className="text-slate-600">
+                    No presets yet. Create your first preset!
+                  </p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {presets.map(preset => (
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {presets.map((preset) => (
                     <PresetCard
                       key={preset.id}
                       preset={preset}

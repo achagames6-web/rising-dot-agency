@@ -2,7 +2,11 @@ import { withAuth } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
 
 // Cache for redirects (refreshed periodically)
-let redirectsCache: Array<{ source: string; destination: string; type: number }> = [];
+let redirectsCache: Array<{
+  source: string;
+  destination: string;
+  type: number;
+}> = [];
 let lastFetch = 0;
 const CACHE_DURATION = 300000; // 5 minutes - reduces API calls significantly
 
@@ -54,12 +58,13 @@ export default withAuth(
     const pathname = req.nextUrl.pathname;
 
     // Skip redirects check for static assets and API routes (major performance boost)
-    const isStaticAsset = pathname.startsWith('/_next') || 
-                         pathname.startsWith('/static') ||
-                         pathname.startsWith('/media') ||
-                         pathname.startsWith('/public') ||
-                         pathname.includes('.') && !pathname.endsWith('.html'); // Files with extensions except .html
-    
+    const isStaticAsset =
+      pathname.startsWith('/_next') ||
+      pathname.startsWith('/static') ||
+      pathname.startsWith('/media') ||
+      pathname.startsWith('/public') ||
+      (pathname.includes('.') && !pathname.endsWith('.html')); // Files with extensions except .html
+
     const isApiRoute = pathname.startsWith('/api');
     const isAdminRoute = pathname.startsWith('/admin');
 
@@ -68,12 +73,12 @@ export default withAuth(
       const baseUrl = req.nextUrl.origin;
       const redirects = await getRedirects(baseUrl);
       const redirect = matchRedirect(pathname, redirects);
-      
+
       if (redirect) {
         const destination = redirect.destination.startsWith('http')
           ? redirect.destination
           : new URL(redirect.destination, req.url).toString();
-        
+
         return NextResponse.redirect(destination, {
           status: redirect.type,
         });

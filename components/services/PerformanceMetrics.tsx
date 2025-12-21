@@ -59,10 +59,22 @@ const defaultMetrics: Metric[] = [
 ];
 
 const defaultBenefits: Benefit[] = [
-  { title: '24/7 Automation', description: 'Workflows run continuously without human intervention' },
-  { title: 'Zero Human Error', description: 'Consistent execution eliminates manual mistakes' },
-  { title: 'Instant Scalability', description: 'Handle 10x volume without additional resources' },
-  { title: 'Real-time Monitoring', description: 'Track performance and identify issues instantly' },
+  {
+    title: '24/7 Automation',
+    description: 'Workflows run continuously without human intervention',
+  },
+  {
+    title: 'Zero Human Error',
+    description: 'Consistent execution eliminates manual mistakes',
+  },
+  {
+    title: 'Instant Scalability',
+    description: 'Handle 10x volume without additional resources',
+  },
+  {
+    title: 'Real-time Monitoring',
+    description: 'Track performance and identify issues instantly',
+  },
 ];
 
 export const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({
@@ -72,7 +84,9 @@ export const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({
 }) => {
   const ref = React.useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
-  const [animatedValues, setAnimatedValues] = useState<Record<string, number>>({});
+  const [animatedValues, setAnimatedValues] = useState<Record<string, number>>(
+    {}
+  );
 
   useEffect(() => {
     if (isInView) {
@@ -80,42 +94,45 @@ export const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({
       const duration = 2000;
       const steps = 60;
       const interval = duration / steps;
-      
+
       let currentStep = 0;
       const timer = setInterval(() => {
         currentStep++;
         const progress = currentStep / steps;
-        
+
         const newValues: Record<string, number> = {};
-        metrics.forEach(metric => {
+        metrics.forEach((metric) => {
           // Ease out animation
           const easedProgress = 1 - Math.pow(1 - progress, 3);
           newValues[metric.label] = Math.floor(metric.target * easedProgress);
         });
-        
+
         setAnimatedValues(newValues);
-        
+
         if (currentStep >= steps) {
           clearInterval(timer);
           // Set final values
           const finalValues: Record<string, number> = {};
-          metrics.forEach(metric => {
+          metrics.forEach((metric) => {
             finalValues[metric.label] = metric.target;
           });
           setAnimatedValues(finalValues);
         }
       }, interval);
-      
+
       return () => clearInterval(timer);
     }
   }, [isInView]);
 
   return (
-    <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div
+      ref={ref}
+      className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
+    >
       {metrics.map((metric, index) => (
         <motion.div
           key={metric.label}
-          className="relative p-8 rounded-lg bg-gradient-to-br from-[#1E293B] to-[#0F172A] border border-[#64748B]/20 overflow-hidden"
+          className="relative overflow-hidden rounded-lg border border-[#64748B]/20 bg-gradient-to-br from-[#1E293B] to-[#0F172A] p-8"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{
@@ -134,7 +151,7 @@ export const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({
 
           {/* Content */}
           <div className="relative z-10">
-            <div className="text-4xl mb-4">{metric.icon}</div>
+            <div className="mb-4 text-4xl">{metric.icon}</div>
             <div className="mb-2">
               <motion.span
                 className="text-5xl font-bold"
@@ -142,11 +159,11 @@ export const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({
               >
                 {animatedValues[metric.label] || 0}
               </motion.span>
-              <span className="text-3xl font-bold text-white ml-1">
+              <span className="ml-1 text-3xl font-bold text-white">
                 {metric.unit}
               </span>
             </div>
-            <p className="text-[#64748B] text-lg font-medium">{metric.label}</p>
+            <p className="text-lg font-medium text-[#64748B]">{metric.label}</p>
           </div>
 
           {/* Animated border */}
@@ -175,23 +192,29 @@ export const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({
 
       {/* Additional Details */}
       <motion.div
-        className="col-span-1 md:col-span-2 lg:col-span-4 mt-8 p-8 rounded-lg bg-gradient-to-r from-[#2563EB]/10 to-[#37AFE1]/10 border border-[#2563EB]/20"
+        className="col-span-1 mt-8 rounded-lg border border-[#2563EB]/20 bg-gradient-to-r from-[#2563EB]/10 to-[#37AFE1]/10 p-8 md:col-span-2 lg:col-span-4"
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, delay: 0.5 }}
       >
-        <h3 className="text-2xl font-bold text-white mb-4">{benefitsTitle}</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <h3 className="mb-4 text-2xl font-bold text-white">{benefitsTitle}</h3>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {benefits.map((benefit, idx) => (
             <div key={idx} className="flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full bg-[#37AFE1] flex items-center justify-center flex-shrink-0 mt-1">
+              <div className="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[#37AFE1]">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M3 8L6 11L13 4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path
+                    d="M3 8L6 11L13 4"
+                    stroke="white"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </div>
               <div>
-                <p className="text-white font-medium">{benefit.title}</p>
-                <p className="text-[#64748B] text-sm">{benefit.description}</p>
+                <p className="font-medium text-white">{benefit.title}</p>
+                <p className="text-sm text-[#64748B]">{benefit.description}</p>
               </div>
             </div>
           ))}

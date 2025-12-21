@@ -20,14 +20,19 @@ export async function PUT(
     if (type !== undefined) updateData.type = type;
     if (enabled !== undefined) updateData.enabled = enabled;
 
-    const result = await db.collection('seoRedirects').findOneAndUpdate(
-      { _id: new ObjectId(params.id) },
-      { $set: updateData },
-      { returnDocument: 'after' }
-    );
+    const result = await db
+      .collection('seoRedirects')
+      .findOneAndUpdate(
+        { _id: new ObjectId(params.id) },
+        { $set: updateData },
+        { returnDocument: 'after' }
+      );
 
     if (!result) {
-      return NextResponse.json({ error: 'Redirect not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Redirect not found' },
+        { status: 404 }
+      );
     }
 
     // Update config
@@ -36,7 +41,10 @@ export async function PUT(
     return NextResponse.json(result);
   } catch (error) {
     console.error('Error updating redirect:', error);
-    return NextResponse.json({ error: 'Failed to update redirect' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to update redirect' },
+      { status: 500 }
+    );
   }
 }
 
@@ -54,7 +62,10 @@ export async function DELETE(
     });
 
     if (result.deletedCount === 0) {
-      return NextResponse.json({ error: 'Redirect not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Redirect not found' },
+        { status: 404 }
+      );
     }
 
     // Update config
@@ -63,22 +74,28 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting redirect:', error);
-    return NextResponse.json({ error: 'Failed to delete redirect' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to delete redirect' },
+      { status: 500 }
+    );
   }
 }
 
 // Helper to update redirects config
 async function updateRedirectsConfig(db: any) {
   try {
-    const redirects = await db.collection('seoRedirects')
+    const redirects = await db
+      .collection('seoRedirects')
       .find({ enabled: true })
       .toArray();
 
-    await db.collection('seoConfig').updateOne(
-      { type: 'redirects' },
-      { $set: { data: redirects, updatedAt: new Date() } },
-      { upsert: true }
-    );
+    await db
+      .collection('seoConfig')
+      .updateOne(
+        { type: 'redirects' },
+        { $set: { data: redirects, updatedAt: new Date() } },
+        { upsert: true }
+      );
   } catch (error) {
     console.error('Error updating redirects config:', error);
   }

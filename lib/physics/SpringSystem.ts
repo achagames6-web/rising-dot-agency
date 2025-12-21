@@ -17,7 +17,12 @@ export interface SpringState {
   target: number;
 }
 
-export type SpringPreset = 'GENTLE' | 'BOUNCY' | 'STIFF' | 'MAGNETIC' | 'ELASTIC';
+export type SpringPreset =
+  | 'GENTLE'
+  | 'BOUNCY'
+  | 'STIFF'
+  | 'MAGNETIC'
+  | 'ELASTIC';
 
 /**
  * Predefined spring physics presets

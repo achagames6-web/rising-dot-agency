@@ -19,7 +19,7 @@ const teamMembers: TeamMember[] = [
     role: 'CEO & Founder',
     bio: 'Visionary leader with 15+ years in digital innovation. Passionate about creating transformative digital experiences.',
     avatar: '👨‍💼',
-    skills: ['Strategy', 'Leadership', 'Innovation']
+    skills: ['Strategy', 'Leadership', 'Innovation'],
   },
   {
     id: '2',
@@ -27,7 +27,7 @@ const teamMembers: TeamMember[] = [
     role: 'Lead Designer',
     bio: 'Award-winning designer specializing in UI/UX and motion design. Creates beautiful, functional interfaces.',
     avatar: '👩‍🎨',
-    skills: ['UI/UX', 'Motion Design', 'Branding']
+    skills: ['UI/UX', 'Motion Design', 'Branding'],
   },
   {
     id: '3',
@@ -35,7 +35,7 @@ const teamMembers: TeamMember[] = [
     role: 'Senior Developer',
     bio: 'Full-stack wizard with expertise in React, Node.js, and cloud architecture. Builds scalable solutions.',
     avatar: '👨‍💻',
-    skills: ['React', 'Node.js', 'AWS']
+    skills: ['React', 'Node.js', 'AWS'],
   },
   {
     id: '4',
@@ -43,7 +43,7 @@ const teamMembers: TeamMember[] = [
     role: 'SEO Specialist',
     bio: 'Data-driven SEO expert who consistently delivers top rankings. Passionate about organic growth.',
     avatar: '👩‍💼',
-    skills: ['SEO', 'Analytics', 'Content Strategy']
+    skills: ['SEO', 'Analytics', 'Content Strategy'],
   },
   {
     id: '5',
@@ -51,7 +51,7 @@ const teamMembers: TeamMember[] = [
     role: 'Automation Engineer',
     bio: 'N8N and workflow automation specialist. Streamlines processes and saves countless hours.',
     avatar: '👨‍🔧',
-    skills: ['N8N', 'Automation', 'Integration']
+    skills: ['N8N', 'Automation', 'Integration'],
   },
   {
     id: '6',
@@ -59,8 +59,8 @@ const teamMembers: TeamMember[] = [
     role: 'AI/ML Engineer',
     bio: 'Chatbot and AI specialist. Creates intelligent conversational experiences that delight users.',
     avatar: '👩‍🔬',
-    skills: ['AI/ML', 'NLP', 'Chatbots']
-  }
+    skills: ['AI/ML', 'NLP', 'Chatbots'],
+  },
 ];
 
 interface Particle {
@@ -85,7 +85,7 @@ export default function TeamGrid() {
       const rect = containerRef.current.getBoundingClientRect();
       setMousePosition({
         x: e.clientX - rect.left,
-        y: e.clientY - rect.top
+        y: e.clientY - rect.top,
       });
     };
 
@@ -98,15 +98,15 @@ export default function TeamGrid() {
     if (particles.length === 0) return;
 
     const animate = () => {
-      setParticles(prev =>
+      setParticles((prev) =>
         prev
-          .map(p => ({
+          .map((p) => ({
             ...p,
             x: p.x + p.vx,
             y: p.y + p.vy,
-            life: p.life - 0.02
+            life: p.life - 0.02,
           }))
-          .filter(p => p.life > 0)
+          .filter((p) => p.life > 0)
       );
     };
 
@@ -128,16 +128,16 @@ export default function TeamGrid() {
         y,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
-        life: 1.0
+        life: 1.0,
       });
     }
 
-    setParticles(prev => [...prev, ...newParticles]);
+    setParticles((prev) => [...prev, ...newParticles]);
   };
 
   const handleCardClick = (id: string, e: React.MouseEvent) => {
     setFlippedCard(flippedCard === id ? null : id);
-    
+
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -147,22 +147,22 @@ export default function TeamGrid() {
   return (
     <div ref={containerRef} className="relative">
       {/* Particle overlay */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
-        {particles.map(particle => (
+      <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
+        {particles.map((particle) => (
           <div
             key={particle.id}
-            className="absolute w-2 h-2 rounded-full bg-[#2563EB]"
+            className="absolute h-2 w-2 rounded-full bg-[#2563EB]"
             style={{
               left: particle.x,
               top: particle.y,
               opacity: particle.life,
-              boxShadow: `0 0 ${particle.life * 10}px rgba(37, 99, 235, ${particle.life})`
+              boxShadow: `0 0 ${particle.life * 10}px rgba(37, 99, 235, ${particle.life})`,
             }}
           />
         ))}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {teamMembers.map((member, index) => (
           <TeamCard
             key={member.id}
@@ -186,7 +186,13 @@ interface TeamCardProps {
   index: number;
 }
 
-function TeamCard({ member, isFlipped, onClick, mousePosition, index }: TeamCardProps) {
+function TeamCard({
+  member,
+  isFlipped,
+  onClick,
+  mousePosition,
+  index,
+}: TeamCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
@@ -198,8 +204,12 @@ function TeamCard({ member, isFlipped, onClick, mousePosition, index }: TeamCard
     const cardCenterY = rect.top + rect.height / 2;
 
     // Calculate distance from mouse to card center
-    const dx = mousePosition.x - (rect.left - cardRef.current.offsetParent!.getBoundingClientRect().left);
-    const dy = mousePosition.y - (rect.top - cardRef.current.offsetParent!.getBoundingClientRect().top);
+    const dx =
+      mousePosition.x -
+      (rect.left - cardRef.current.offsetParent!.getBoundingClientRect().left);
+    const dy =
+      mousePosition.y -
+      (rect.top - cardRef.current.offsetParent!.getBoundingClientRect().top);
     const distance = Math.sqrt(dx * dx + dy * dy);
 
     // Apply magnetic rotation toward cursor
@@ -208,7 +218,7 @@ function TeamCard({ member, isFlipped, onClick, mousePosition, index }: TeamCard
       const strength = (200 - distance) / 200;
       setTilt({
         x: Math.sin(angle) * strength * 5,
-        y: -Math.cos(angle) * strength * 5
+        y: -Math.cos(angle) * strength * 5,
       });
     } else {
       setTilt({ x: 0, y: 0 });
@@ -226,59 +236,64 @@ function TeamCard({ member, isFlipped, onClick, mousePosition, index }: TeamCard
       onClick={onClick}
     >
       <motion.div
-        className="relative w-full h-[400px]"
+        className="relative h-[400px] w-full"
         style={{
           transformStyle: 'preserve-3d',
-          transition: 'transform 0.6s'
+          transition: 'transform 0.6s',
         }}
         animate={{
           rotateY: isFlipped ? 180 : 0,
           rotateX: tilt.x,
-          rotateZ: tilt.y
+          rotateZ: tilt.y,
         }}
       >
         {/* Front side */}
         <div
-          className="absolute inset-0 backface-hidden rounded-lg overflow-hidden bg-[#0F172A] border border-[#64748B]/20"
+          className="backface-hidden absolute inset-0 overflow-hidden rounded-lg border border-[#64748B]/20 bg-[#0F172A]"
           style={{ backfaceVisibility: 'hidden' }}
         >
-          <div className="p-8 h-full flex flex-col items-center justify-center text-center">
-            <div className="text-8xl mb-4">{member.avatar}</div>
-            <h3 className="text-2xl font-bold mb-2 text-white">{member.name}</h3>
-            <p className="text-[#2563EB] mb-4">{member.role}</p>
+          <div className="flex h-full flex-col items-center justify-center p-8 text-center">
+            <div className="mb-4 text-8xl">{member.avatar}</div>
+            <h3 className="mb-2 text-2xl font-bold text-white">
+              {member.name}
+            </h3>
+            <p className="mb-4 text-[#2563EB]">{member.role}</p>
             <p className="text-sm text-[#64748B]">Click to view bio</p>
           </div>
 
           {/* Hover glow */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-br from-[#2563EB]/0 to-[#37AFE1]/0 pointer-events-none"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#2563EB]/0 to-[#37AFE1]/0"
             whileHover={{
-              background: 'linear-gradient(to bottom right, rgba(37, 99, 235, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%)'
+              background:
+                'linear-gradient(to bottom right, rgba(37, 99, 235, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%)',
             }}
           />
         </div>
 
         {/* Back side */}
         <div
-          className="absolute inset-0 backface-hidden rounded-lg overflow-hidden bg-[#0F172A] border border-[#2563EB]/30"
+          className="backface-hidden absolute inset-0 overflow-hidden rounded-lg border border-[#2563EB]/30 bg-[#0F172A]"
           style={{
             backfaceVisibility: 'hidden',
-            transform: 'rotateY(180deg)'
+            transform: 'rotateY(180deg)',
           }}
         >
-          <div className="p-8 h-full flex flex-col justify-center">
-            <h3 className="text-2xl font-bold mb-2 text-white">{member.name}</h3>
-            <p className="text-[#2563EB] mb-4">{member.role}</p>
-            <p className="text-[#64748B] mb-6 leading-relaxed">{member.bio}</p>
+          <div className="flex h-full flex-col justify-center p-8">
+            <h3 className="mb-2 text-2xl font-bold text-white">
+              {member.name}
+            </h3>
+            <p className="mb-4 text-[#2563EB]">{member.role}</p>
+            <p className="mb-6 leading-relaxed text-[#64748B]">{member.bio}</p>
 
             {/* Skills */}
             <div className="space-y-2">
-              <p className="text-sm text-[#64748B] mb-2">Key Skills:</p>
+              <p className="mb-2 text-sm text-[#64748B]">Key Skills:</p>
               <div className="flex flex-wrap gap-2">
-                {member.skills.map(skill => (
+                {member.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="px-3 py-1 text-xs rounded-full bg-[#2563EB]/20 text-[#2563EB] border border-[#2563EB]/30"
+                    className="rounded-full border border-[#2563EB]/30 bg-[#2563EB]/20 px-3 py-1 text-xs text-[#2563EB]"
                   >
                     {skill}
                   </span>

@@ -34,7 +34,7 @@ export async function POST(
       { _id: new ObjectId(id) },
       {
         $push: { messages: adminMessage } as any,
-        $set: { 
+        $set: {
           status: 'human',
           updatedAt: new Date(),
         },

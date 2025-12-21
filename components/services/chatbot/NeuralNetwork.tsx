@@ -20,14 +20,14 @@ interface Connection {
 }
 
 // Neuron sphere component
-function NeuronSphere({ 
-  position, 
-  activation, 
-  isActive, 
-  layerType 
-}: { 
-  position: [number, number, number]; 
-  activation: number; 
+function NeuronSphere({
+  position,
+  activation,
+  isActive,
+  layerType,
+}: {
+  position: [number, number, number];
+  activation: number;
   isActive: boolean;
   layerType: 'input' | 'hidden' | 'output';
 }) {
@@ -45,7 +45,8 @@ function NeuronSphere({
 
   useFrame((state) => {
     if (meshRef.current) {
-      const pulse = Math.sin(state.clock.elapsedTime * 3 + activation * 10) * 0.15 + 1;
+      const pulse =
+        Math.sin(state.clock.elapsedTime * 3 + activation * 10) * 0.15 + 1;
       meshRef.current.scale.setScalar(isActive ? pulse : 0.9);
     }
     if (glowRef.current) {
@@ -76,22 +77,20 @@ function NeuronSphere({
           roughness={0.2}
         />
       </mesh>
-      {isActive && (
-        <pointLight color={color} intensity={3} distance={4} />
-      )}
+      {isActive && <pointLight color={color} intensity={3} distance={4} />}
     </group>
   );
 }
 
 // Connection line component with animated particles
-function ConnectionLine({ 
-  from, 
-  to, 
+function ConnectionLine({
+  from,
+  to,
   isActive,
   fromLayer,
-}: { 
-  from: [number, number, number]; 
-  to: [number, number, number]; 
+}: {
+  from: [number, number, number];
+  to: [number, number, number];
   isActive: boolean;
   fromLayer: 'input' | 'hidden' | 'output';
 }) {
@@ -115,7 +114,9 @@ function ConnectionLine({
 // Floating particles for data flow effect
 function DataParticles() {
   const particlesRef = useRef<THREE.Points>(null);
-  const [positions, setPositions] = useState<Float32Array>(new Float32Array(300));
+  const [positions, setPositions] = useState<Float32Array>(
+    new Float32Array(300)
+  );
 
   useEffect(() => {
     const newPositions = new Float32Array(300);
@@ -130,7 +131,8 @@ function DataParticles() {
   useFrame((state) => {
     if (particlesRef.current) {
       particlesRef.current.rotation.y = state.clock.elapsedTime * 0.05;
-      particlesRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.1) * 0.1;
+      particlesRef.current.rotation.x =
+        Math.sin(state.clock.elapsedTime * 0.1) * 0.1;
     }
   });
 
@@ -195,26 +197,31 @@ function NetworkScene() {
       activation: Math.random(),
     }));
 
-    const allNeurons = [...inputLayer, ...hiddenLayer1, ...hiddenLayer2, ...outputLayer];
+    const allNeurons = [
+      ...inputLayer,
+      ...hiddenLayer1,
+      ...hiddenLayer2,
+      ...outputLayer,
+    ];
     setNeurons(allNeurons);
 
     // Create connections
     const conns: Connection[] = [];
-    
-    inputLayer.forEach(input => {
-      hiddenLayer1.forEach(hidden => {
+
+    inputLayer.forEach((input) => {
+      hiddenLayer1.forEach((hidden) => {
         conns.push({ from: input.id, to: hidden.id, strength: Math.random() });
       });
     });
 
-    hiddenLayer1.forEach(h1 => {
-      hiddenLayer2.forEach(h2 => {
+    hiddenLayer1.forEach((h1) => {
+      hiddenLayer2.forEach((h2) => {
         conns.push({ from: h1.id, to: h2.id, strength: Math.random() });
       });
     });
 
-    hiddenLayer2.forEach(hidden => {
-      outputLayer.forEach(output => {
+    hiddenLayer2.forEach((hidden) => {
+      outputLayer.forEach((output) => {
         conns.push({ from: hidden.id, to: output.id, strength: Math.random() });
       });
     });
@@ -223,7 +230,7 @@ function NetworkScene() {
 
     // Animate through layers
     const interval = setInterval(() => {
-      setActiveLayer(prev => (prev + 1) % 4);
+      setActiveLayer((prev) => (prev + 1) % 4);
     }, 800);
 
     return () => clearInterval(interval);
@@ -247,13 +254,14 @@ function NetworkScene() {
 
       {/* Render connections */}
       {connections.map((conn, idx) => {
-        const fromNeuron = neurons.find(n => n.id === conn.from);
-        const toNeuron = neurons.find(n => n.id === conn.to);
-        
+        const fromNeuron = neurons.find((n) => n.id === conn.from);
+        const toNeuron = neurons.find((n) => n.id === conn.to);
+
         if (!fromNeuron || !toNeuron) return null;
-        
-        const isActive = fromNeuron.layer === activeLayer || toNeuron.layer === activeLayer;
-        
+
+        const isActive =
+          fromNeuron.layer === activeLayer || toNeuron.layer === activeLayer;
+
         return (
           <ConnectionLine
             key={`${conn.from}-${conn.to}-${idx}`}
@@ -266,7 +274,7 @@ function NetworkScene() {
       })}
 
       {/* Render neurons */}
-      {neurons.map(neuron => (
+      {neurons.map((neuron) => (
         <NeuronSphere
           key={neuron.id}
           position={neuron.position}
@@ -291,9 +299,12 @@ function NetworkScene() {
 
 export const NeuralNetwork: React.FC = () => {
   return (
-    <div className="w-full h-[550px] bg-black rounded-2xl border border-[#37AFE1]/30 overflow-hidden relative">
-      <div tabIndex={-1} style={{ outline: 'none', width: '100%', height: '100%' }}>
-        <Canvas 
+    <div className="relative h-[550px] w-full overflow-hidden rounded-2xl border border-[#37AFE1]/30 bg-black">
+      <div
+        tabIndex={-1}
+        style={{ outline: 'none', width: '100%', height: '100%' }}
+      >
+        <Canvas
           camera={{ position: [0, 0, 14], fov: 50 }}
           tabIndex={-1}
           style={{ outline: 'none', background: 'black' }}
@@ -306,32 +317,42 @@ export const NeuralNetwork: React.FC = () => {
           <NetworkScene />
         </Canvas>
       </div>
-      
+
       {/* Layer labels */}
-      <div className="absolute bottom-6 left-0 right-0 flex justify-around px-8 pointer-events-none">
+      <div className="pointer-events-none absolute bottom-6 left-0 right-0 flex justify-around px-8">
         <div className="text-center">
-          <div className="text-[#F58122] font-semibold text-base">Input Layer</div>
-          <div className="text-[#64748B] text-xs">User Message</div>
+          <div className="text-base font-semibold text-[#F58122]">
+            Input Layer
+          </div>
+          <div className="text-xs text-[#64748B]">User Message</div>
         </div>
         <div className="text-center">
-          <div className="text-[#37AFE1] font-semibold text-base">Hidden Layer 1</div>
-          <div className="text-[#64748B] text-xs">Understanding</div>
+          <div className="text-base font-semibold text-[#37AFE1]">
+            Hidden Layer 1
+          </div>
+          <div className="text-xs text-[#64748B]">Understanding</div>
         </div>
         <div className="text-center">
-          <div className="text-[#37AFE1] font-semibold text-base">Hidden Layer 2</div>
-          <div className="text-[#64748B] text-xs">Processing</div>
+          <div className="text-base font-semibold text-[#37AFE1]">
+            Hidden Layer 2
+          </div>
+          <div className="text-xs text-[#64748B]">Processing</div>
         </div>
         <div className="text-center">
-          <div className="text-[#31A4DB] font-semibold text-base">Output Layer</div>
-          <div className="text-[#64748B] text-xs">AI Response</div>
+          <div className="text-base font-semibold text-[#31A4DB]">
+            Output Layer
+          </div>
+          <div className="text-xs text-[#64748B]">AI Response</div>
         </div>
       </div>
 
       {/* Animated indicator */}
-      <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-sm rounded-lg px-4 py-2 border border-[#37AFE1]/30">
+      <div className="absolute left-4 top-4 rounded-lg border border-[#37AFE1]/30 bg-black/80 px-4 py-2 backdrop-blur-sm">
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-[#37AFE1] animate-pulse" />
-          <span className="text-white text-sm font-medium">Neural Processing Active</span>
+          <div className="h-2 w-2 animate-pulse rounded-full bg-[#37AFE1]" />
+          <span className="text-sm font-medium text-white">
+            Neural Processing Active
+          </span>
         </div>
       </div>
     </div>

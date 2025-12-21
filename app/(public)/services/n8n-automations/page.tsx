@@ -14,13 +14,19 @@ import DatabaseWithRestApi from '@/components/ui/database-with-rest-api';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
 
-const StackFeatureSection = dynamic(() => import('@/components/ui/stack-feature-section'), {
-  ssr: false,
-});
+const StackFeatureSection = dynamic(
+  () => import('@/components/ui/stack-feature-section'),
+  {
+    ssr: false,
+  }
+);
 
-const ServiceVideoSection = dynamic(() => import('@/components/sections/ServiceVideoSection'), {
-  ssr: false,
-});
+const ServiceVideoSection = dynamic(
+  () => import('@/components/sections/ServiceVideoSection'),
+  {
+    ssr: false,
+  }
+);
 
 // Define interfaces for CMS content types
 interface CardConfig {
@@ -171,7 +177,8 @@ const defaultHeroContent: HeroContent = {
   title: 'N8N Automation, Efficiency Amplified',
   highlightedWord: 'N8N',
   highlightedWord2: 'Efficiency',
-  subtitle: 'Transform manual workflows into intelligent automation systems. Connect apps, sync data, and automate repetitive tasks with powerful N8N workflows.',
+  subtitle:
+    'Transform manual workflows into intelligent automation systems. Connect apps, sync data, and automate repetitive tasks with powerful N8N workflows.',
   ctaButton: {
     label: 'Start Automating',
     href: '/contact',
@@ -214,7 +221,8 @@ const defaultVideoContent: VideoContent = {
   eyebrow: 'See Automation In Action',
   title: 'Watch How We Build',
   titleHighlight: 'Powerful Workflows',
-  subtitle: 'Experience our automation process and see the intelligent N8N workflows we create for our clients.',
+  subtitle:
+    'Experience our automation process and see the intelligent N8N workflows we create for our clients.',
   videoSrc: '/media/services/n8n-automations/video/hero-video.mp4',
   ctaText: 'Start Automating',
   ctaHref: '/contact',
@@ -225,18 +233,47 @@ const defaultWorkflowBuilderContent: WorkflowBuilderContent = {
   eyebrow: 'Visual Builder',
   title: 'Interactive Workflow',
   titleHighlight: 'Builder',
-  subtitle: 'Design and visualize your automation workflows with our intuitive builder.',
+  subtitle:
+    'Design and visualize your automation workflows with our intuitive builder.',
   nodes: [
-    { id: 'trigger-1', type: 'trigger', label: 'Webhook Trigger', x: 100, y: 200, connections: ['action-1'] },
-    { id: 'action-1', type: 'action', label: 'Process Data', x: 300, y: 200, connections: ['condition-1'] },
-    { id: 'condition-1', type: 'condition', label: 'Check Status', x: 500, y: 200, connections: ['output-1'] },
-    { id: 'output-1', type: 'output', label: 'Send Email', x: 700, y: 200, connections: [] },
+    {
+      id: 'trigger-1',
+      type: 'trigger',
+      label: 'Webhook Trigger',
+      x: 100,
+      y: 200,
+      connections: ['action-1'],
+    },
+    {
+      id: 'action-1',
+      type: 'action',
+      label: 'Process Data',
+      x: 300,
+      y: 200,
+      connections: ['condition-1'],
+    },
+    {
+      id: 'condition-1',
+      type: 'condition',
+      label: 'Check Status',
+      x: 500,
+      y: 200,
+      connections: ['output-1'],
+    },
+    {
+      id: 'output-1',
+      type: 'output',
+      label: 'Send Email',
+      x: 700,
+      y: 200,
+      connections: [],
+    },
   ],
   nodeColors: {
-    trigger: '#2563EB',   // Primary Blue
-    action: '#37AFE1',    // Brand Blue
+    trigger: '#2563EB', // Primary Blue
+    action: '#37AFE1', // Brand Blue
     condition: '#F59E0B', // Warning Amber
-    output: '#31A4DB',    // Brand Cyan
+    output: '#31A4DB', // Brand Cyan
   },
 };
 
@@ -245,7 +282,8 @@ const defaultBeforeAfterContent: BeforeAfterContent = {
   eyebrow: 'Comparison',
   title: 'Manual vs',
   titleHighlight: 'Automated',
-  subtitle: 'See the dramatic difference between manual processes and automated workflows.',
+  subtitle:
+    'See the dramatic difference between manual processes and automated workflows.',
   manualProcess: {
     title: 'Manual Process',
     steps: [
@@ -276,18 +314,59 @@ const defaultPerformanceMetricsContent: PerformanceMetricsContent = {
   eyebrow: 'Analytics',
   title: 'Performance',
   titleHighlight: 'Impact',
-  subtitle: 'Track the measurable impact of automation on your business operations.',
+  subtitle:
+    'Track the measurable impact of automation on your business operations.',
   metrics: [
-    { label: 'Time Saved', value: '95', target: 95, unit: '%', color: '#F97316', icon: '⏱️' },
-    { label: 'Cost Reduction', value: '80', target: 80, unit: '%', color: '#2563EB', icon: '💰' },
-    { label: 'Error Reduction', value: '99', target: 99, unit: '%', color: '#31A4DB', icon: '✓' },
-    { label: 'Scalability', value: '10', target: 10, unit: 'x', color: '#F58122', icon: '📈' },
+    {
+      label: 'Time Saved',
+      value: '95',
+      target: 95,
+      unit: '%',
+      color: '#F97316',
+      icon: '⏱️',
+    },
+    {
+      label: 'Cost Reduction',
+      value: '80',
+      target: 80,
+      unit: '%',
+      color: '#2563EB',
+      icon: '💰',
+    },
+    {
+      label: 'Error Reduction',
+      value: '99',
+      target: 99,
+      unit: '%',
+      color: '#31A4DB',
+      icon: '✓',
+    },
+    {
+      label: 'Scalability',
+      value: '10',
+      target: 10,
+      unit: 'x',
+      color: '#F58122',
+      icon: '📈',
+    },
   ],
   benefits: [
-    { title: '24/7 Automation', description: 'Workflows run continuously without human intervention' },
-    { title: 'Zero Human Error', description: 'Consistent execution eliminates manual mistakes' },
-    { title: 'Instant Scalability', description: 'Handle 10x volume without additional resources' },
-    { title: 'Real-time Monitoring', description: 'Track performance and identify issues instantly' },
+    {
+      title: '24/7 Automation',
+      description: 'Workflows run continuously without human intervention',
+    },
+    {
+      title: 'Zero Human Error',
+      description: 'Consistent execution eliminates manual mistakes',
+    },
+    {
+      title: 'Instant Scalability',
+      description: 'Handle 10x volume without additional resources',
+    },
+    {
+      title: 'Real-time Monitoring',
+      description: 'Track performance and identify issues instantly',
+    },
   ],
   benefitsTitle: 'Key Benefits',
 };
@@ -317,7 +396,8 @@ const defaultCaseStudiesContent: CaseStudiesContent = {
   eyebrow: 'Automation Success Stories',
   title: 'Workflows That',
   titleHighlight: 'Scale',
-  subtitle: 'See how we\'ve helped businesses automate repetitive tasks and boost efficiency.',
+  subtitle:
+    "See how we've helped businesses automate repetitive tasks and boost efficiency.",
   studies: [
     {
       img: '/media/services/n8n-automations/case-studies/data-sync.jpg',
@@ -350,7 +430,8 @@ const defaultCTAContent: CTAContent = {
   eyebrow: 'Automate Everything',
   title: 'Start Your',
   titleHighlight: 'Automation',
-  subtitle: 'Let\'s build powerful N8N automations that save time and boost efficiency',
+  subtitle:
+    "Let's build powerful N8N automations that save time and boost efficiency",
   ctaText: 'Start Automating',
   ctaHref: '/contact',
 };
@@ -358,22 +439,45 @@ const defaultCTAContent: CTAContent = {
 export default function N8NAutomationsPage() {
   // Fetch CMS content for all sections
   // Requirements: 6.1, 6.2, 6.3, 7.1
-  const { content: heroContent } = useSiteContent<HeroContent>('services-n8n', 'hero');
-  const { content: videoContent } = useSiteContent<VideoContent>('services-n8n', 'video');
-  const { content: workflowBuilderContent } = useSiteContent<WorkflowBuilderContent>('services-n8n', 'workflowBuilder');
-  const { content: beforeAfterContent } = useSiteContent<BeforeAfterContent>('services-n8n', 'beforeAfter');
-  const { content: performanceMetricsContent } = useSiteContent<PerformanceMetricsContent>('services-n8n', 'performanceMetrics');
+  const { content: heroContent } = useSiteContent<HeroContent>(
+    'services-n8n',
+    'hero'
+  );
+  const { content: videoContent } = useSiteContent<VideoContent>(
+    'services-n8n',
+    'video'
+  );
+  const { content: workflowBuilderContent } =
+    useSiteContent<WorkflowBuilderContent>('services-n8n', 'workflowBuilder');
+  const { content: beforeAfterContent } = useSiteContent<BeforeAfterContent>(
+    'services-n8n',
+    'beforeAfter'
+  );
+  const { content: performanceMetricsContent } =
+    useSiteContent<PerformanceMetricsContent>(
+      'services-n8n',
+      'performanceMetrics'
+    );
   // Requirements: 4.4 - Fetch API integration content from CMS
-  const { content: apiIntegrationContent } = useSiteContent<ApiIntegrationContent>('services-n8n', 'apiIntegration');
-  const { content: caseStudiesContent } = useSiteContent<CaseStudiesContent>('services-n8n', 'caseStudies');
-  const { content: ctaContent } = useSiteContent<CTAContent>('services-n8n', 'cta');
+  const { content: apiIntegrationContent } =
+    useSiteContent<ApiIntegrationContent>('services-n8n', 'apiIntegration');
+  const { content: caseStudiesContent } = useSiteContent<CaseStudiesContent>(
+    'services-n8n',
+    'caseStudies'
+  );
+  const { content: ctaContent } = useSiteContent<CTAContent>(
+    'services-n8n',
+    'cta'
+  );
 
   // Use CMS content with fallback to defaults
   const hero = heroContent || defaultHeroContent;
   const video = videoContent || defaultVideoContent;
-  const workflowBuilder = workflowBuilderContent || defaultWorkflowBuilderContent;
+  const workflowBuilder =
+    workflowBuilderContent || defaultWorkflowBuilderContent;
   const beforeAfter = beforeAfterContent || defaultBeforeAfterContent;
-  const performanceMetrics = performanceMetricsContent || defaultPerformanceMetricsContent;
+  const performanceMetrics =
+    performanceMetricsContent || defaultPerformanceMetricsContent;
   const apiIntegration = apiIntegrationContent || defaultApiIntegrationContent;
   const caseStudies = caseStudiesContent || defaultCaseStudiesContent;
   const cta = ctaContent || defaultCTAContent;
@@ -385,7 +489,8 @@ export default function N8NAutomationsPage() {
       <FluxCardHero
         title={
           <>
-            <span className="text-[#37AFE1]">{hero.highlightedWord}</span> Automation,
+            <span className="text-[#37AFE1]">{hero.highlightedWord}</span>{' '}
+            Automation,
             <br />
             {hero.highlightedWord2} Amplified
           </>
@@ -411,8 +516,8 @@ export default function N8NAutomationsPage() {
 
       {/* Workflow Builder Section - Uses CMS content with fallback */}
       {/* Requirements: 2.3, 2.4 - Pass nodes and colors from CMS to WorkflowBuilder */}
-      <section className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
+      <section className="px-6 py-24">
+        <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow={workflowBuilder.eyebrow}
             title={workflowBuilder.title}
@@ -428,8 +533,8 @@ export default function N8NAutomationsPage() {
 
       {/* Before/After Section - Uses CMS content with fallback */}
       {/* Requirements: 3.4 - Pass process configs from CMS to BeforeAfterSlider */}
-      <section className="py-24 px-6 bg-black">
-        <div className="max-w-6xl mx-auto">
+      <section className="bg-black px-6 py-24">
+        <div className="mx-auto max-w-6xl">
           <SectionHeading
             eyebrow={beforeAfter.eyebrow}
             title={beforeAfter.title}
@@ -444,8 +549,8 @@ export default function N8NAutomationsPage() {
       </section>
 
       {/* Performance Metrics Section - Uses CMS content with fallback */}
-      <section className="py-24 px-6">
-        <div className="max-w-6xl mx-auto">
+      <section className="px-6 py-24">
+        <div className="mx-auto max-w-6xl">
           <SectionHeading
             eyebrow={performanceMetrics.eyebrow}
             title={performanceMetrics.title}
@@ -462,8 +567,8 @@ export default function N8NAutomationsPage() {
 
       {/* REST API Integration Section - Uses CMS content with fallback */}
       {/* Requirements: 4.1, 4.2, 4.3, 4.4 - Pass all props from CMS to DatabaseWithRestApi */}
-      <section className="py-24 px-6 bg-black">
-        <div className="max-w-6xl mx-auto">
+      <section className="bg-black px-6 py-24">
+        <div className="mx-auto max-w-6xl">
           <SectionHeading
             eyebrow={apiIntegration.eyebrow}
             title={apiIntegration.title}

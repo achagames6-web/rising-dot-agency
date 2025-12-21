@@ -2,7 +2,12 @@
 
 import React from 'react';
 import dynamic from 'next/dynamic';
-import { SERPRanking, KeywordCloud, TrafficGrowth, CompetitorAnalysis } from '@/components/services/seo';
+import {
+  SERPRanking,
+  KeywordCloud,
+  TrafficGrowth,
+  CompetitorAnalysis,
+} from '@/components/services/seo';
 import { Web3MediaHero } from '@/components/ui/web3media-hero';
 import { Search, TrendingUp, Target, BarChart3 } from 'lucide-react';
 import ServiceCaseStudies from '@/components/sections/ServiceCaseStudies';
@@ -10,13 +15,19 @@ import ServiceCTA from '@/components/sections/ServiceCTA';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
 
-const StackFeatureSection = dynamic(() => import('@/components/ui/stack-feature-section'), {
-  ssr: false,
-});
+const StackFeatureSection = dynamic(
+  () => import('@/components/ui/stack-feature-section'),
+  {
+    ssr: false,
+  }
+);
 
-const ServiceVideoSection = dynamic(() => import('@/components/sections/ServiceVideoSection'), {
-  ssr: false,
-});
+const ServiceVideoSection = dynamic(
+  () => import('@/components/sections/ServiceVideoSection'),
+  {
+    ssr: false,
+  }
+);
 
 // Define interfaces for CMS content types
 interface HeroContent {
@@ -153,7 +164,8 @@ interface CTAContent {
 const defaultHeroContent: HeroContent = {
   title: 'Dominate Search',
   highlightedText: 'Drive Organic Growth',
-  subtitle: 'Strategic SEO solutions that boost your rankings, increase organic traffic, and convert visitors into customers. Data-driven optimization for measurable results.',
+  subtitle:
+    'Strategic SEO solutions that boost your rankings, increase organic traffic, and convert visitors into customers. Data-driven optimization for measurable results.',
   ctaButton: {
     label: 'Get SEO Audit',
     href: '/contact',
@@ -164,7 +176,8 @@ const defaultVideoContent: VideoContent = {
   eyebrow: 'See SEO In Action',
   title: 'Watch How We Drive',
   titleHighlight: 'Organic Growth',
-  subtitle: 'Experience our SEO process and see the ranking improvements we achieve for our clients.',
+  subtitle:
+    'Experience our SEO process and see the ranking improvements we achieve for our clients.',
   videoSrc: '/media/services/seo/video/hero-video.mp4',
   ctaText: 'Start Your SEO Journey',
   ctaHref: '/contact',
@@ -174,18 +187,44 @@ const defaultSerpRankingContent: SERPRankingContent = {
   eyebrow: 'SERP Tracking',
   title: 'Search Engine',
   titleHighlight: 'Rankings',
-  subtitle: 'Watch your keywords climb from page 2 to the top of search results.',
+  subtitle:
+    'Watch your keywords climb from page 2 to the top of search results.',
   keywords: [
-    { keyword: 'Web Design Agency', startPosition: 10, endPosition: 1, color: '#31A4DB' },
-    { keyword: 'Custom Chatbots', startPosition: 8, endPosition: 2, color: '#31A4DB' },
-    { keyword: 'N8N Automation', startPosition: 12, endPosition: 3, color: '#31A4DB' },
-    { keyword: 'Shopify Development', startPosition: 15, endPosition: 4, color: '#31A4DB' },
-    { keyword: 'WordPress Solutions', startPosition: 9, endPosition: 5, color: '#31A4DB' }
+    {
+      keyword: 'Web Design Agency',
+      startPosition: 10,
+      endPosition: 1,
+      color: '#31A4DB',
+    },
+    {
+      keyword: 'Custom Chatbots',
+      startPosition: 8,
+      endPosition: 2,
+      color: '#31A4DB',
+    },
+    {
+      keyword: 'N8N Automation',
+      startPosition: 12,
+      endPosition: 3,
+      color: '#31A4DB',
+    },
+    {
+      keyword: 'Shopify Development',
+      startPosition: 15,
+      endPosition: 4,
+      color: '#31A4DB',
+    },
+    {
+      keyword: 'WordPress Solutions',
+      startPosition: 9,
+      endPosition: 5,
+      color: '#31A4DB',
+    },
   ],
   competitors: [
     { position: 6, name: 'Competitor A' },
     { position: 7, name: 'Competitor B' },
-    { position: 8, name: 'Competitor C' }
+    { position: 8, name: 'Competitor C' },
   ],
   yourRankingsLabel: 'Your Rankings',
   competitorsLabel: 'Competitors',
@@ -196,7 +235,8 @@ const defaultKeywordCloudContent: KeywordCloudContent = {
   eyebrow: 'Keyword Strategy',
   title: 'Strategic Keyword',
   titleHighlight: 'Targeting',
-  subtitle: 'Explore our comprehensive keyword strategy tailored to your business.',
+  subtitle:
+    'Explore our comprehensive keyword strategy tailored to your business.',
   keywords: [
     { text: 'Web Design', importance: 10, category: 'design' },
     { text: 'SEO', importance: 9, category: 'marketing' },
@@ -207,7 +247,7 @@ const defaultKeywordCloudContent: KeywordCloudContent = {
     { text: 'Shopify', importance: 7, category: 'ecommerce' },
     { text: 'N8N', importance: 6, category: 'automation' },
     { text: 'AI', importance: 6, category: 'ai' },
-    { text: 'Conversion', importance: 6, category: 'marketing' }
+    { text: 'Conversion', importance: 6, category: 'marketing' },
   ],
   categories: [
     { id: 'all', name: 'All Keywords', color: '#2563EB' },
@@ -217,7 +257,7 @@ const defaultKeywordCloudContent: KeywordCloudContent = {
     { id: 'automation', name: 'Automation', color: '#F97316' },
     { id: 'ecommerce', name: 'E-commerce', color: '#F59E0B' },
     { id: 'cms', name: 'CMS', color: '#EF4444' },
-    { id: 'technical', name: 'Technical', color: '#64748B' }
+    { id: 'technical', name: 'Technical', color: '#64748B' },
   ],
   totalKeywordsLabel: 'Total Keywords',
   avgImportanceLabel: 'Avg Importance',
@@ -241,13 +281,13 @@ const defaultTrafficGrowthContent: TrafficGrowthContent = {
     { month: 'Sep', traffic: 10200, conversions: 204 },
     { month: 'Oct', traffic: 12500, conversions: 250 },
     { month: 'Nov', traffic: 15000, conversions: 300 },
-    { month: 'Dec', traffic: 18000, conversions: 360 }
+    { month: 'Dec', traffic: 18000, conversions: 360 },
   ],
   milestones: [
     { index: 2, label: '2.5K Visitors', icon: '🎯' },
     { index: 5, label: '5K Visitors', icon: '🚀' },
     { index: 8, label: '10K Visitors', icon: '⭐' },
-    { index: 11, label: '18K Visitors', icon: '🎉' }
+    { index: 11, label: '18K Visitors', icon: '🎉' },
   ],
   totalGrowthLabel: 'Total Growth',
   monthlyVisitorsLabel: 'Monthly Visitors',
@@ -266,13 +306,41 @@ const defaultCompetitorAnalysisContent: CompetitorAnalysisContent = {
     traffic: 18000,
     keywords: 250,
     backlinks: 1200,
-    color: '#31A4DB'
+    color: '#31A4DB',
   },
   competitors: [
-    { name: 'Competitor A', rank: 2, traffic: 15000, keywords: 220, backlinks: 980, color: '#F59E0B' },
-    { name: 'Competitor B', rank: 3, traffic: 12000, keywords: 180, backlinks: 850, color: '#F59E0B' },
-    { name: 'Competitor C', rank: 4, traffic: 9500, keywords: 150, backlinks: 720, color: '#F59E0B' },
-    { name: 'Competitor D', rank: 5, traffic: 7200, keywords: 120, backlinks: 580, color: '#F59E0B' }
+    {
+      name: 'Competitor A',
+      rank: 2,
+      traffic: 15000,
+      keywords: 220,
+      backlinks: 980,
+      color: '#F59E0B',
+    },
+    {
+      name: 'Competitor B',
+      rank: 3,
+      traffic: 12000,
+      keywords: 180,
+      backlinks: 850,
+      color: '#F59E0B',
+    },
+    {
+      name: 'Competitor C',
+      rank: 4,
+      traffic: 9500,
+      keywords: 150,
+      backlinks: 720,
+      color: '#F59E0B',
+    },
+    {
+      name: 'Competitor D',
+      rank: 5,
+      traffic: 7200,
+      keywords: 120,
+      backlinks: 580,
+      color: '#F59E0B',
+    },
   ],
   monthlyTrafficLabel: 'Monthly Traffic',
   rankingKeywordsLabel: 'Ranking Keywords',
@@ -283,7 +351,8 @@ const defaultCaseStudiesContent: CaseStudiesContent = {
   eyebrow: 'SEO Success Stories',
   title: 'Rankings That',
   titleHighlight: 'Dominate',
-  subtitle: 'See how we\'ve helped businesses climb to the top of search results and drive organic growth.',
+  subtitle:
+    "See how we've helped businesses climb to the top of search results and drive organic growth.",
   studies: [
     {
       img: '/media/services/seo/case-studies/local-business.jpg',
@@ -316,7 +385,7 @@ const defaultCTAContent: CTAContent = {
   eyebrow: 'Dominate Search',
   title: 'Boost Your',
   titleHighlight: 'Rankings',
-  subtitle: 'Let\'s create an SEO strategy that drives real business results',
+  subtitle: "Let's create an SEO strategy that drives real business results",
   ctaText: 'Start Your SEO Journey',
   ctaHref: '/contact',
 };
@@ -324,14 +393,37 @@ const defaultCTAContent: CTAContent = {
 export default function SEOPage() {
   // Fetch CMS content for all sections
   // Requirements: 2.2, 2.3, 2.4, 7.1
-  const { content: heroContent } = useSiteContent<HeroContent>('services-seo', 'hero');
-  const { content: videoContent } = useSiteContent<VideoContent>('services-seo', 'video');
-  const { content: serpRankingContent } = useSiteContent<SERPRankingContent>('services-seo', 'serpRanking');
-  const { content: keywordCloudContent } = useSiteContent<KeywordCloudContent>('services-seo', 'keywordCloud');
-  const { content: trafficGrowthContent } = useSiteContent<TrafficGrowthContent>('services-seo', 'trafficGrowth');
-  const { content: competitorAnalysisContent } = useSiteContent<CompetitorAnalysisContent>('services-seo', 'competitorAnalysis');
-  const { content: caseStudiesContent } = useSiteContent<CaseStudiesContent>('services-seo', 'caseStudies');
-  const { content: ctaContent } = useSiteContent<CTAContent>('services-seo', 'cta');
+  const { content: heroContent } = useSiteContent<HeroContent>(
+    'services-seo',
+    'hero'
+  );
+  const { content: videoContent } = useSiteContent<VideoContent>(
+    'services-seo',
+    'video'
+  );
+  const { content: serpRankingContent } = useSiteContent<SERPRankingContent>(
+    'services-seo',
+    'serpRanking'
+  );
+  const { content: keywordCloudContent } = useSiteContent<KeywordCloudContent>(
+    'services-seo',
+    'keywordCloud'
+  );
+  const { content: trafficGrowthContent } =
+    useSiteContent<TrafficGrowthContent>('services-seo', 'trafficGrowth');
+  const { content: competitorAnalysisContent } =
+    useSiteContent<CompetitorAnalysisContent>(
+      'services-seo',
+      'competitorAnalysis'
+    );
+  const { content: caseStudiesContent } = useSiteContent<CaseStudiesContent>(
+    'services-seo',
+    'caseStudies'
+  );
+  const { content: ctaContent } = useSiteContent<CTAContent>(
+    'services-seo',
+    'cta'
+  );
 
   // Use CMS content with fallback to defaults
   const hero = heroContent || defaultHeroContent;
@@ -339,7 +431,8 @@ export default function SEOPage() {
   const serpRanking = serpRankingContent || defaultSerpRankingContent;
   const keywordCloud = keywordCloudContent || defaultKeywordCloudContent;
   const trafficGrowth = trafficGrowthContent || defaultTrafficGrowthContent;
-  const competitorAnalysis = competitorAnalysisContent || defaultCompetitorAnalysisContent;
+  const competitorAnalysis =
+    competitorAnalysisContent || defaultCompetitorAnalysisContent;
   const caseStudies = caseStudiesContent || defaultCaseStudiesContent;
   const cta = ctaContent || defaultCTAContent;
 
@@ -356,22 +449,22 @@ export default function SEOPage() {
         }}
         floatingIcons={[
           {
-            icon: <Search className="w-8 h-8 text-[#37AFE1]" />,
+            icon: <Search className="h-8 w-8 text-[#37AFE1]" />,
             label: 'Keywords',
             position: { x: '8%', y: '25%' },
           },
           {
-            icon: <TrendingUp className="w-8 h-8 text-[#37AFE1]" />,
+            icon: <TrendingUp className="h-8 w-8 text-[#37AFE1]" />,
             label: 'Rankings',
             position: { x: '12%', y: '60%' },
           },
           {
-            icon: <Target className="w-8 h-8 text-[#F58122]" />,
+            icon: <Target className="h-8 w-8 text-[#F58122]" />,
             label: 'Traffic',
             position: { x: '82%', y: '20%' },
           },
           {
-            icon: <BarChart3 className="w-8 h-8 text-[#F58122]" />,
+            icon: <BarChart3 className="h-8 w-8 text-[#F58122]" />,
             label: 'Analytics',
             position: { x: '78%', y: '55%' },
           },
@@ -390,15 +483,15 @@ export default function SEOPage() {
       />
 
       {/* SERP Ranking Section - Uses CMS content with fallback */}
-      <section className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
+      <section className="px-6 py-24">
+        <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow={serpRanking.eyebrow}
             title={serpRanking.title}
             titleHighlight={serpRanking.titleHighlight}
             subtitle={serpRanking.subtitle}
           />
-          <SERPRanking 
+          <SERPRanking
             keywords={serpRanking.keywords}
             competitors={serpRanking.competitors}
             yourRankingsLabel={serpRanking.yourRankingsLabel}
@@ -409,15 +502,15 @@ export default function SEOPage() {
       </section>
 
       {/* Keyword Cloud Section - Uses CMS content with fallback */}
-      <section className="py-24 px-6 bg-black">
-        <div className="max-w-7xl mx-auto">
+      <section className="bg-black px-6 py-24">
+        <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow={keywordCloud.eyebrow}
             title={keywordCloud.title}
             titleHighlight={keywordCloud.titleHighlight}
             subtitle={keywordCloud.subtitle}
           />
-          <KeywordCloud 
+          <KeywordCloud
             keywords={keywordCloud.keywords}
             categories={keywordCloud.categories}
             totalKeywordsLabel={keywordCloud.totalKeywordsLabel}
@@ -428,15 +521,15 @@ export default function SEOPage() {
       </section>
 
       {/* Traffic Growth Section - Uses CMS content with fallback */}
-      <section className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
+      <section className="px-6 py-24">
+        <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow={trafficGrowth.eyebrow}
             title={trafficGrowth.title}
             titleHighlight={trafficGrowth.titleHighlight}
             subtitle={trafficGrowth.subtitle}
           />
-          <TrafficGrowth 
+          <TrafficGrowth
             data={trafficGrowth.data}
             milestones={trafficGrowth.milestones}
             totalGrowthLabel={trafficGrowth.totalGrowthLabel}
@@ -448,15 +541,15 @@ export default function SEOPage() {
       </section>
 
       {/* Competitor Analysis Section - Uses CMS content with fallback */}
-      <section className="py-24 px-6 bg-black">
-        <div className="max-w-7xl mx-auto">
+      <section className="bg-black px-6 py-24">
+        <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow={competitorAnalysis.eyebrow}
             title={competitorAnalysis.title}
             titleHighlight={competitorAnalysis.titleHighlight}
             subtitle={competitorAnalysis.subtitle}
           />
-          <CompetitorAnalysis 
+          <CompetitorAnalysis
             yourSite={competitorAnalysis.yourSite}
             competitors={competitorAnalysis.competitors}
             monthlyTrafficLabel={competitorAnalysis.monthlyTrafficLabel}

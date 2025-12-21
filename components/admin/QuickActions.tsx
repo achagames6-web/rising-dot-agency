@@ -51,8 +51,8 @@ const actions = [
 
 export default function QuickActions() {
   return (
-    <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 p-6">
-      <h2 className="text-xl font-bold text-white mb-4">Quick Actions</h2>
+    <div className="rounded-xl border border-slate-700/50 bg-[#1E293B] p-6">
+      <h2 className="mb-4 text-xl font-bold text-white">Quick Actions</h2>
       <div className="space-y-3">
         {actions.map((action) => {
           const Icon = action.icon;
@@ -61,13 +61,13 @@ export default function QuickActions() {
               key={action.name}
               href={action.href}
               className={`
-                flex items-center space-x-3 p-4 rounded-lg
-                ${action.color} text-white
-                transition-all duration-200
-                hover:shadow-lg transform hover:scale-105
+                flex items-center space-x-3 rounded-lg p-4
+                ${action.color} transform
+                text-white transition-all
+                duration-200 hover:scale-105 hover:shadow-lg
               `}
             >
-              <Icon className="w-5 h-5" />
+              <Icon className="h-5 w-5" />
               <span className="font-medium">{action.name}</span>
             </Link>
           );

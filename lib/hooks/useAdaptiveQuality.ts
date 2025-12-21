@@ -6,7 +6,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getAdaptiveQualityEngine, QualitySettings, QualityLevel } from '../utils/adaptiveQuality';
+import {
+  getAdaptiveQualityEngine,
+  QualitySettings,
+  QualityLevel,
+} from '../utils/adaptiveQuality';
 
 export function useAdaptiveQuality() {
   const [settings, setSettings] = useState<QualitySettings>({

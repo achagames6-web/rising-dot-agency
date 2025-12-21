@@ -15,7 +15,7 @@ import { useReducedMotion } from '@/lib/hooks/useAccessibility';
  */
 export function ReducedMotionStyles() {
   const reducedMotion = useReducedMotion();
-  
+
   useEffect(() => {
     if (reducedMotion) {
       document.body.classList.add('reduce-motion');
@@ -23,7 +23,7 @@ export function ReducedMotionStyles() {
       document.body.classList.remove('reduce-motion');
     }
   }, [reducedMotion]);
-  
+
   return (
     <style jsx global>{`
       /* Disable animations for users who prefer reduced motion */
@@ -37,19 +37,19 @@ export function ReducedMotionStyles() {
           scroll-behavior: auto !important;
         }
       }
-      
+
       /* Additional reduced motion styles */
       .reduce-motion * {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
       }
-      
+
       /* Disable particle systems */
       .reduce-motion .particle-system {
         display: none;
       }
-      
+
       /* Disable complex animations */
       .reduce-motion .liquid-image,
       .reduce-motion .magnetic-cursor,
@@ -57,11 +57,13 @@ export function ReducedMotionStyles() {
         animation: none !important;
         transform: none !important;
       }
-      
+
       /* Keep essential transitions for usability */
       .reduce-motion button:hover,
       .reduce-motion a:hover {
-        transition: background-color 0.1s ease, color 0.1s ease;
+        transition:
+          background-color 0.1s ease,
+          color 0.1s ease;
       }
     `}</style>
   );
@@ -76,16 +78,19 @@ interface ConditionalAnimationProps {
   fallback?: React.ReactNode;
 }
 
-export function ConditionalAnimation({ children, fallback }: ConditionalAnimationProps) {
+export function ConditionalAnimation({
+  children,
+  fallback,
+}: ConditionalAnimationProps) {
   const reducedMotion = useReducedMotion();
-  
+
   if (reducedMotion && fallback) {
     return <>{fallback}</>;
   }
-  
+
   if (reducedMotion) {
     return null;
   }
-  
+
   return <>{children}</>;
 }

@@ -63,46 +63,40 @@ describe('Frame Rate Maintenance - Property Tests', () => {
 
     test('target FPS is always within reasonable bounds', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 320, max: 3840 }),
-          (viewportWidth) => {
-            const deviceType = getDeviceType(viewportWidth);
-            const targetFPS = getTargetFPS(deviceType);
+        fc.property(fc.integer({ min: 320, max: 3840 }), (viewportWidth) => {
+          const deviceType = getDeviceType(viewportWidth);
+          const targetFPS = getTargetFPS(deviceType);
 
-            // FPS should be between 30 and 60
-            expect(targetFPS).toBeGreaterThanOrEqual(30);
-            expect(targetFPS).toBeLessThanOrEqual(60);
+          // FPS should be between 30 and 60
+          expect(targetFPS).toBeGreaterThanOrEqual(30);
+          expect(targetFPS).toBeLessThanOrEqual(60);
 
-            // FPS should be one of the valid targets
-            expect([45, 50, 60]).toContain(targetFPS);
-          }
-        ),
+          // FPS should be one of the valid targets
+          expect([45, 50, 60]).toContain(targetFPS);
+        }),
         { numRuns: 100 }
       );
     });
 
     test('frame time is inversely proportional to FPS', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 320, max: 3840 }),
-          (viewportWidth) => {
-            const deviceType = getDeviceType(viewportWidth);
-            const targetFPS = getTargetFPS(deviceType);
-            const frameTime = 1000 / targetFPS; // milliseconds per frame
+        fc.property(fc.integer({ min: 320, max: 3840 }), (viewportWidth) => {
+          const deviceType = getDeviceType(viewportWidth);
+          const targetFPS = getTargetFPS(deviceType);
+          const frameTime = 1000 / targetFPS; // milliseconds per frame
 
-            // Verify frame time calculation
-            if (targetFPS === 60) {
-              expect(frameTime).toBeCloseTo(16.67, 1); // ~16.67ms per frame
-            } else if (targetFPS === 50) {
-              expect(frameTime).toBeCloseTo(20, 1); // 20ms per frame
-            } else if (targetFPS === 45) {
-              expect(frameTime).toBeCloseTo(22.22, 1); // ~22.22ms per frame
-            }
-
-            // Frame time should be positive
-            expect(frameTime).toBeGreaterThan(0);
+          // Verify frame time calculation
+          if (targetFPS === 60) {
+            expect(frameTime).toBeCloseTo(16.67, 1); // ~16.67ms per frame
+          } else if (targetFPS === 50) {
+            expect(frameTime).toBeCloseTo(20, 1); // 20ms per frame
+          } else if (targetFPS === 45) {
+            expect(frameTime).toBeCloseTo(22.22, 1); // ~22.22ms per frame
           }
-        ),
+
+          // Frame time should be positive
+          expect(frameTime).toBeGreaterThan(0);
+        }),
         { numRuns: 100 }
       );
     });
@@ -200,7 +194,11 @@ describe('Frame Rate Maintenance - Property Tests', () => {
     test('frame budget is sufficient for rendering', () => {
       fc.assert(
         fc.property(
-          fc.constantFrom('mobile' as const, 'tablet' as const, 'desktop' as const),
+          fc.constantFrom(
+            'mobile' as const,
+            'tablet' as const,
+            'desktop' as const
+          ),
           (deviceType) => {
             const targetFPS = getTargetFPS(deviceType);
             const frameBudget = 1000 / targetFPS; // ms per frame

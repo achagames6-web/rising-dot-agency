@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect, useId, useState } from "react";
-import Particles, { initParticlesEngine } from "@tsparticles/react";
-import { loadSlim } from "@tsparticles/slim";
+import { useEffect, useId, useState } from 'react';
+import Particles, { initParticlesEngine } from '@tsparticles/react';
+import { loadSlim } from '@tsparticles/slim';
 
 interface SparklesProps {
   className?: string;
@@ -29,8 +29,8 @@ export function Sparkles({
   opacity = 1,
   opacitySpeed = 3,
   minOpacity = null,
-  color = "#FFFFFF",
-  background = "transparent",
+  color = '#FFFFFF',
+  background = 'transparent',
   options = {},
 }: SparklesProps) {
   const [isReady, setIsReady] = useState(false);
@@ -62,7 +62,7 @@ export function Sparkles({
       },
       move: {
         enable: true,
-        direction: "none" as const,
+        direction: 'none' as const,
         speed: {
           min: minSpeed || speed / 10,
           max: speed,

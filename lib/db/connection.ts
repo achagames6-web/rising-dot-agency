@@ -2,7 +2,7 @@ import { sql } from '@vercel/postgres';
 
 /**
  * Database connection utility using Vercel Postgres
- * 
+ *
  * This module provides a simple interface to interact with the Vercel Postgres database.
  * The connection is automatically configured using environment variables:
  * - POSTGRES_URL
@@ -46,7 +46,7 @@ export async function initializeDatabase() {
     const path = require('path');
     const schemaPath = path.join(process.cwd(), 'lib/db/schema.sql');
     const schema = fs.readFileSync(schemaPath, 'utf-8');
-    
+
     await sql.query(schema);
     console.log('Database schema initialized successfully');
   } catch (error) {

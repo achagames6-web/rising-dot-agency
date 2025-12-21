@@ -63,7 +63,8 @@ export function ServicesHeroSection({
     if (!highlightedWord) return title;
 
     const animatedGradientStyle = {
-      backgroundImage: 'linear-gradient(90deg, #37AFE1, #F58122, #37AFE1, #F58122)',
+      backgroundImage:
+        'linear-gradient(90deg, #37AFE1, #F58122, #37AFE1, #F58122)',
       backgroundSize: '300% 100%',
       animation: 'gradient-shift 4s ease-in-out infinite',
     };
@@ -72,8 +73,8 @@ export function ServicesHeroSection({
     return (
       <>
         {parts[0]}
-        <span 
-          className="font-semibold bg-clip-text text-transparent"
+        <span
+          className="bg-clip-text font-semibold text-transparent"
           style={animatedGradientStyle}
         >
           {highlightedWord}
@@ -81,8 +82,8 @@ export function ServicesHeroSection({
         {highlightedWord2 ? (
           <>
             {parts[1]?.split(highlightedWord2)[0]}
-            <span 
-              className="font-semibold bg-clip-text text-transparent"
+            <span
+              className="bg-clip-text font-semibold text-transparent"
               style={animatedGradientStyle}
             >
               {highlightedWord2}
@@ -98,8 +99,8 @@ export function ServicesHeroSection({
 
   return (
     <main ref={timelineRef} className="bg-black">
-      <div className="pt-28 pb-5 max-w-screen-2xl mx-auto min-h-screen px-4">
-        <article className="w-fit mx-auto 2xl:max-w-5xl xl:max-w-4xl max-w-2xl text-center space-y-6">
+      <div className="mx-auto min-h-screen max-w-screen-2xl px-4 pb-5 pt-28">
+        <article className="mx-auto w-fit max-w-2xl space-y-6 text-center xl:max-w-4xl 2xl:max-w-5xl">
           {/* Eyebrow */}
           {eyebrow && (
             <TimelineContent
@@ -108,12 +109,12 @@ export function ServicesHeroSection({
               animationNum={1}
               timelineRef={timelineRef}
               customVariants={revealVariants}
-              className="flex w-fit mx-auto items-center gap-1 rounded-full bg-[#37AFE1]/20 border-2 border-[#37AFE1]/30 py-0.5 pl-0.5 pr-3 text-xs"
+              className="mx-auto flex w-fit items-center gap-1 rounded-full border-2 border-[#37AFE1]/30 bg-[#37AFE1]/20 py-0.5 pl-0.5 pr-3 text-xs"
             >
-              <div className="rounded-full bg-[#37AFE1] px-2 py-1 text-xs text-white font-medium">
+              <div className="rounded-full bg-[#37AFE1] px-2 py-1 text-xs font-medium text-white">
                 New
               </div>
-              <p className="text-white sm:text-base text-xs inline-block">
+              <p className="inline-block text-xs text-white sm:text-base">
                 ✨ {eyebrow}
               </p>
               <svg
@@ -137,7 +138,7 @@ export function ServicesHeroSection({
             animationNum={2}
             timelineRef={timelineRef}
             customVariants={revealVariants}
-            className="2xl:text-6xl text-white xl:text-5xl sm:text-4xl text-3xl leading-[100%]"
+            className="text-3xl leading-[100%] text-white sm:text-4xl xl:text-5xl 2xl:text-6xl"
           >
             {renderTitle()}
           </TimelineContent>
@@ -148,7 +149,7 @@ export function ServicesHeroSection({
             animationNum={3}
             timelineRef={timelineRef}
             customVariants={revealVariants}
-            className="lg:text-xl text-gray-400 sm:text-lg text-sm max-w-2xl mx-auto"
+            className="mx-auto max-w-2xl text-sm text-gray-400 sm:text-lg lg:text-xl"
           >
             {subtitle}
           </TimelineContent>
@@ -163,7 +164,7 @@ export function ServicesHeroSection({
             <ParticleWrapper>
               <Link href={ctaHref}>
                 <StarButton
-                  className="h-12 px-6 text-sm font-semibold hover:scale-105 transition-transform"
+                  className="h-12 px-6 text-sm font-semibold transition-transform hover:scale-105"
                   duration={2.5}
                 >
                   {ctaLabel}
@@ -174,7 +175,7 @@ export function ServicesHeroSection({
         </article>
 
         {/* Services Grid */}
-        <div className="grid md:grid-cols-3 grid-cols-2 gap-6 pt-20">
+        <div className="grid grid-cols-2 gap-6 pt-20 md:grid-cols-3">
           {services.map((service, index) => (
             <TimelineContent
               as="div"
@@ -182,7 +183,7 @@ export function ServicesHeroSection({
               timelineRef={timelineRef}
               key={service.id}
               customVariants={revealVariants}
-              className="group transition-all aspect-video rounded-xl backdrop-blur-sm overflow-hidden relative border border-white/10 hover:border-[#37AFE1]/50 cursor-default"
+              className="group relative aspect-video cursor-default overflow-hidden rounded-xl border border-white/10 backdrop-blur-sm transition-all hover:border-[#37AFE1]/50"
             >
               <figure className="relative h-full w-full">
                 <Image
@@ -190,20 +191,20 @@ export function ServicesHeroSection({
                   alt={service.name}
                   width={400}
                   height={300}
-                  className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-500"
+                  className="h-full w-full rounded-xl object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </figure>
               {/* Dark overlay */}
-              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-300 rounded-xl" />
+              <div className="absolute inset-0 rounded-xl bg-black/40 transition-colors duration-300 group-hover:bg-black/30" />
               <ProgressiveBlur
                 className="pointer-events-none absolute bottom-0 left-0 h-[50%] w-full"
                 blurIntensity={0.5}
               />
-              <div className="sm:py-2 py-1 sm:px-4 px-2 absolute bottom-2 left-2">
-                <h3 className="2xl:text-xl xl:text-xl md:text-lg text-sm font-medium leading-[140%] capitalize text-white">
+              <div className="absolute bottom-2 left-2 px-2 py-1 sm:px-4 sm:py-2">
+                <h3 className="text-sm font-medium capitalize leading-[140%] text-white md:text-lg xl:text-xl 2xl:text-xl">
                   {service.name}
                 </h3>
-                <p className="text-gray-400 text-xs md:text-sm mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <p className="mt-1 text-xs text-gray-400 opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:text-sm">
                   {service.description}
                 </p>
               </div>

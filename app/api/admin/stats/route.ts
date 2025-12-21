@@ -13,12 +13,13 @@ export async function GET(request: NextRequest) {
     const db = await getDatabase();
 
     // Get counts
-    const [projectsCount, contactsCount, newContactsCount, servicesCount] = await Promise.all([
-      db.collection(COLLECTIONS.PROJECTS).countDocuments(),
-      db.collection(COLLECTIONS.CONTACTS).countDocuments(),
-      db.collection(COLLECTIONS.CONTACTS).countDocuments({ status: 'new' }),
-      db.collection(COLLECTIONS.SERVICES).countDocuments(),
-    ]);
+    const [projectsCount, contactsCount, newContactsCount, servicesCount] =
+      await Promise.all([
+        db.collection(COLLECTIONS.PROJECTS).countDocuments(),
+        db.collection(COLLECTIONS.CONTACTS).countDocuments(),
+        db.collection(COLLECTIONS.CONTACTS).countDocuments({ status: 'new' }),
+        db.collection(COLLECTIONS.SERVICES).countDocuments(),
+      ]);
 
     // Get recent contacts
     const recentContacts = await db
@@ -55,6 +56,9 @@ export async function GET(request: NextRequest) {
     );
   } catch (error) {
     console.error('Error fetching stats:', error);
-    return NextResponse.json({ error: 'Failed to fetch stats' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch stats' },
+      { status: 500 }
+    );
   }
 }

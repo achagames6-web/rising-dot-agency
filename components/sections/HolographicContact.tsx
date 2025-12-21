@@ -30,7 +30,10 @@ function CustomDropdown({
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -38,18 +41,31 @@ function CustomDropdown({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const selectedLabel = options.find(o => o.value === value)?.label || placeholder;
+  const selectedLabel =
+    options.find((o) => o.value === value)?.label || placeholder;
 
   return (
     <div ref={dropdownRef} className="relative inline-block">
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-transparent border-b-2 border-[#37AFE1]/50 hover:border-[#F58122] focus:border-[#F58122] outline-none px-2 py-1 text-[#37AFE1] min-w-[180px] transition-colors cursor-pointer flex items-center gap-2"
+        className="flex min-w-[180px] cursor-pointer items-center gap-2 border-b-2 border-[#37AFE1]/50 bg-transparent px-2 py-1 text-[#37AFE1] outline-none transition-colors hover:border-[#F58122] focus:border-[#F58122]"
       >
-        <span className={value ? 'text-[#37AFE1]' : 'text-[#64748B]/50'}>{selectedLabel}</span>
-        <svg className={`w-4 h-4 text-[#37AFE1] transition-transform ${isOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        <span className={value ? 'text-[#37AFE1]' : 'text-[#64748B]/50'}>
+          {selectedLabel}
+        </span>
+        <svg
+          className={`h-4 w-4 text-[#37AFE1] transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </button>
       <AnimatePresence>
@@ -59,11 +75,12 @@ function CustomDropdown({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-full left-0 mt-2 min-w-full z-50 rounded-lg overflow-hidden"
+            className="absolute left-0 top-full z-50 mt-2 min-w-full overflow-hidden rounded-lg"
             style={{
               backgroundColor: '#1E293B',
               border: '1px solid #37AFE1',
-              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(55, 175, 225, 0.2)',
+              boxShadow:
+                '0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(55, 175, 225, 0.2)',
             }}
           >
             {options.map((option) => (
@@ -75,7 +92,9 @@ function CustomDropdown({
                   setIsOpen(false);
                 }}
                 className={`w-full px-4 py-3 text-left text-base transition-colors hover:bg-[#37AFE1]/20 ${
-                  value === option.value ? 'bg-[#37AFE1]/30 text-[#37AFE1]' : 'text-white'
+                  value === option.value
+                    ? 'bg-[#37AFE1]/30 text-[#37AFE1]'
+                    : 'text-white'
                 }`}
               >
                 {option.label}
@@ -98,8 +117,11 @@ const CITIES = [
   { name: 'Sydney', lat: -33.8688, lng: 151.2093, isHQ: false },
 ];
 
-
-function latLngToVector3(lat: number, lng: number, radius: number): THREE.Vector3 {
+function latLngToVector3(
+  lat: number,
+  lng: number,
+  radius: number
+): THREE.Vector3 {
   const phi = (90 - lat) * (Math.PI / 180);
   const theta = (lng + 180) * (Math.PI / 180);
   const x = -(radius * Math.sin(phi) * Math.cos(theta));
@@ -108,18 +130,33 @@ function latLngToVector3(lat: number, lng: number, radius: number): THREE.Vector
   return new THREE.Vector3(x, y, z);
 }
 
-function createArcPoints(start: THREE.Vector3, end: THREE.Vector3, segments: number = 50): THREE.Vector3[] {
+function createArcPoints(
+  start: THREE.Vector3,
+  end: THREE.Vector3,
+  segments: number = 50
+): THREE.Vector3[] {
   const points: THREE.Vector3[] = [];
-  const midPoint = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5);
+  const midPoint = new THREE.Vector3()
+    .addVectors(start, end)
+    .multiplyScalar(0.5);
   const distance = start.distanceTo(end);
   midPoint.normalize().multiplyScalar(start.length() + distance * 0.3);
-  
+
   for (let i = 0; i <= segments; i++) {
     const t = i / segments;
     const point = new THREE.Vector3();
-    point.x = (1 - t) * (1 - t) * start.x + 2 * (1 - t) * t * midPoint.x + t * t * end.x;
-    point.y = (1 - t) * (1 - t) * start.y + 2 * (1 - t) * t * midPoint.y + t * t * end.y;
-    point.z = (1 - t) * (1 - t) * start.z + 2 * (1 - t) * t * midPoint.z + t * t * end.z;
+    point.x =
+      (1 - t) * (1 - t) * start.x +
+      2 * (1 - t) * t * midPoint.x +
+      t * t * end.x;
+    point.y =
+      (1 - t) * (1 - t) * start.y +
+      2 * (1 - t) * t * midPoint.y +
+      t * t * end.y;
+    point.z =
+      (1 - t) * (1 - t) * start.z +
+      2 * (1 - t) * t * midPoint.z +
+      t * t * end.z;
     points.push(point);
   }
   return points;
@@ -144,8 +181,9 @@ export default function HolographicContact() {
   const eyebrow = sectionContent?.eyebrow || 'Get In Touch';
   const title = sectionContent?.title || "Let's Build Something";
   const titleHighlight = sectionContent?.titleHighlight || 'Amazing';
-  const subtitle = sectionContent?.subtitle || 'Connect with us from anywhere in the world';
-  
+  const subtitle =
+    sectionContent?.subtitle || 'Connect with us from anywhere in the world';
+
   const [formData, setFormData] = useState({
     name: '',
     company: '',
@@ -173,7 +211,11 @@ export default function HolographicContact() {
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.z = 4;
 
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      alpha: true,
+      antialias: true,
+    });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     rendererRef.current = renderer;
@@ -192,9 +234,12 @@ export default function HolographicContact() {
       positions[i * 3 + 2] = globeRadius * Math.cos(phi);
     }
 
-    pointsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    pointsGeometry.setAttribute(
+      'position',
+      new THREE.BufferAttribute(positions, 3)
+    );
     const pointsMaterial = new THREE.PointsMaterial({
-      color: 0x37AFE1,
+      color: 0x37afe1,
       size: 0.02,
       transparent: true,
       opacity: 0.6,
@@ -204,19 +249,31 @@ export default function HolographicContact() {
 
     // City markers
     const markerGroup = new THREE.Group();
-    const pakistan = CITIES.find(c => c.isHQ)!;
-    const pakistanPos = latLngToVector3(pakistan.lat, pakistan.lng, globeRadius);
+    const pakistan = CITIES.find((c) => c.isHQ)!;
+    const pakistanPos = latLngToVector3(
+      pakistan.lat,
+      pakistan.lng,
+      globeRadius
+    );
 
     // HQ Beacon (pulsing)
     const beaconGeometry = new THREE.SphereGeometry(0.05, 16, 16);
-    const beaconMaterial = new THREE.MeshBasicMaterial({ color: 0xF58122, transparent: true });
+    const beaconMaterial = new THREE.MeshBasicMaterial({
+      color: 0xf58122,
+      transparent: true,
+    });
     const beacon = new THREE.Mesh(beaconGeometry, beaconMaterial);
     beacon.position.copy(pakistanPos);
     markerGroup.add(beacon);
 
     // Pulse ring
     const ringGeometry = new THREE.RingGeometry(0.06, 0.08, 32);
-    const ringMaterial = new THREE.MeshBasicMaterial({ color: 0xF58122, transparent: true, opacity: 0.5, side: THREE.DoubleSide });
+    const ringMaterial = new THREE.MeshBasicMaterial({
+      color: 0xf58122,
+      transparent: true,
+      opacity: 0.5,
+      side: THREE.DoubleSide,
+    });
     const ring = new THREE.Mesh(ringGeometry, ringMaterial);
     ring.position.copy(pakistanPos);
     ring.lookAt(new THREE.Vector3(0, 0, 0));
@@ -224,18 +281,22 @@ export default function HolographicContact() {
 
     // Arcs to other cities
     const arcGroup = new THREE.Group();
-    CITIES.filter(c => !c.isHQ).forEach(city => {
+    CITIES.filter((c) => !c.isHQ).forEach((city) => {
       const cityPos = latLngToVector3(city.lat, city.lng, globeRadius);
       const arcPoints = createArcPoints(pakistanPos, cityPos);
       const arcGeometry = new THREE.BufferGeometry().setFromPoints(arcPoints);
-      const arcMaterial = new THREE.LineBasicMaterial({ color: 0x37AFE1, transparent: true, opacity: 0.6 });
+      const arcMaterial = new THREE.LineBasicMaterial({
+        color: 0x37afe1,
+        transparent: true,
+        opacity: 0.6,
+      });
       const arc = new THREE.Line(arcGeometry, arcMaterial);
       arcGroup.add(arc);
 
       // City marker
       const cityMarker = new THREE.Mesh(
         new THREE.SphereGeometry(0.03, 8, 8),
-        new THREE.MeshBasicMaterial({ color: 0x31A4DB })
+        new THREE.MeshBasicMaterial({ color: 0x31a4db })
       );
       cityMarker.position.copy(cityPos);
       markerGroup.add(cityMarker);
@@ -256,7 +317,8 @@ export default function HolographicContact() {
       const scale = 1 + Math.sin(time * 3) * 0.3;
       beacon.scale.setScalar(scale);
       ring.scale.setScalar(1 + Math.sin(time * 2) * 0.5);
-      (ringMaterial as THREE.MeshBasicMaterial).opacity = 0.5 - Math.sin(time * 2) * 0.3;
+      (ringMaterial as THREE.MeshBasicMaterial).opacity =
+        0.5 - Math.sin(time * 2) * 0.3;
 
       renderer.render(scene, camera);
       frameRef.current = requestAnimationFrame(animate);
@@ -283,43 +345,47 @@ export default function HolographicContact() {
   }, []);
 
   const handleInputChange = useCallback((field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   }, []);
 
-  const handleSubmit = useCallback(async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          company: formData.company || null,
-          service: formData.service ? `${formData.service} (Budget: ${formData.budget || 'Not specified'})` : null,
-          message: formData.message,
-        }),
-      });
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      setIsSubmitting(true);
 
-      if (!response.ok) {
-        throw new Error('Failed to submit');
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            company: formData.company || null,
+            service: formData.service
+              ? `${formData.service} (Budget: ${formData.budget || 'Not specified'})`
+              : null,
+            message: formData.message,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to submit');
+        }
+
+        setIsSubmitted(true);
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        alert('Failed to send message. Please try again.');
+      } finally {
+        setIsSubmitting(false);
       }
-
-      setIsSubmitted(true);
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      alert('Failed to send message. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  }, [formData]);
-
+    },
+    [formData]
+  );
 
   return (
-    <section className="relative min-h-screen py-20 overflow-hidden bg-transparent">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
+    <section className="relative min-h-screen overflow-hidden bg-transparent py-20">
+      <div className="mx-auto max-w-7xl px-4 md:px-6">
         <SectionHeading
           eyebrow={eyebrow}
           title={title}
@@ -327,7 +393,7 @@ export default function HolographicContact() {
           subtitle={subtitle}
         />
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid items-center gap-12 lg:grid-cols-2">
           {/* Globe */}
           <motion.div
             ref={containerRef}
@@ -337,10 +403,10 @@ export default function HolographicContact() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative h-[400px] md:h-[500px]"
           >
-            <canvas ref={canvasRef} className="w-full h-full" />
+            <canvas ref={canvasRef} className="h-full w-full" />
             <div className="absolute bottom-4 left-4 flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-[#F58122] animate-pulse" />
-              <span className="text-[#64748B] text-sm">Global Reach</span>
+              <div className="h-3 w-3 animate-pulse rounded-full bg-[#F58122]" />
+              <span className="text-sm text-[#64748B]">Global Reach</span>
             </div>
           </motion.div>
 
@@ -353,35 +419,53 @@ export default function HolographicContact() {
             className="order-1 lg:order-2"
           >
             {isSubmitted ? (
-              <div className="text-center py-12">
-                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#37AFE1]/20 flex items-center justify-center">
-                  <svg className="w-10 h-10 text-[#37AFE1]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              <div className="py-12 text-center">
+                <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[#37AFE1]/20">
+                  <svg
+                    className="h-10 w-10 text-[#37AFE1]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2">Message Sent!</h3>
-                <p className="text-[#64748B]">We&apos;ll get back to you within 24 hours.</p>
+                <h3 className="mb-2 text-2xl font-bold text-white">
+                  Message Sent!
+                </h3>
+                <p className="text-[#64748B]">
+                  We&apos;ll get back to you within 24 hours.
+                </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-8">
-                <div className="text-xl md:text-2xl text-white leading-relaxed font-inter">
+                <div className="font-inter text-xl leading-relaxed text-white md:text-2xl">
                   <p className="mb-6">
                     Hi, my name is{' '}
                     <input
                       type="text"
                       value={formData.name}
-                      onChange={(e) => handleInputChange('name', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange('name', e.target.value)
+                      }
                       placeholder="Your Name"
                       required
-                      className="bg-transparent border-b-2 border-[#37AFE1]/50 focus:border-[#F58122] outline-none px-2 py-1 text-[#37AFE1] placeholder-[#64748B]/50 min-w-[150px] transition-colors"
+                      className="min-w-[150px] border-b-2 border-[#37AFE1]/50 bg-transparent px-2 py-1 text-[#37AFE1] placeholder-[#64748B]/50 outline-none transition-colors focus:border-[#F58122]"
                     />
                     {formData.company && ' from '}
                     <input
                       type="text"
                       value={formData.company}
-                      onChange={(e) => handleInputChange('company', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange('company', e.target.value)
+                      }
                       placeholder="Company (optional)"
-                      className="bg-transparent border-b-2 border-[#37AFE1]/50 focus:border-[#F58122] outline-none px-2 py-1 text-[#37AFE1] placeholder-[#64748B]/50 min-w-[150px] transition-colors"
+                      className="min-w-[150px] border-b-2 border-[#37AFE1]/50 bg-transparent px-2 py-1 text-[#37AFE1] placeholder-[#64748B]/50 outline-none transition-colors focus:border-[#F58122]"
                     />
                   </p>
 
@@ -390,10 +474,12 @@ export default function HolographicContact() {
                     <input
                       type="email"
                       value={formData.email}
-                      onChange={(e) => handleInputChange('email', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange('email', e.target.value)
+                      }
                       placeholder="your@email.com"
                       required
-                      className="bg-transparent border-b-2 border-[#37AFE1]/50 focus:border-[#F58122] outline-none px-2 py-1 text-[#37AFE1] placeholder-[#64748B]/50 min-w-[200px] transition-colors"
+                      className="min-w-[200px] border-b-2 border-[#37AFE1]/50 bg-transparent px-2 py-1 text-[#37AFE1] placeholder-[#64748B]/50 outline-none transition-colors focus:border-[#F58122]"
                     />
                   </p>
 
@@ -433,11 +519,13 @@ export default function HolographicContact() {
                     Here&apos;s what I have in mind:{' '}
                     <textarea
                       value={formData.message}
-                      onChange={(e) => handleInputChange('message', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange('message', e.target.value)
+                      }
                       placeholder="Tell us about your project..."
                       required
                       rows={3}
-                      className="w-full mt-2 bg-transparent border-2 border-[#37AFE1]/30 focus:border-[#F58122] rounded-xl outline-none px-4 py-3 text-[#37AFE1] placeholder-[#64748B]/50 text-base transition-colors resize-none"
+                      className="mt-2 w-full resize-none rounded-xl border-2 border-[#37AFE1]/30 bg-transparent px-4 py-3 text-base text-[#37AFE1] placeholder-[#64748B]/50 outline-none transition-colors focus:border-[#F58122]"
                     />
                   </p>
                 </div>
@@ -446,12 +534,12 @@ export default function HolographicContact() {
                   <StarButton
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full h-14 text-base font-semibold hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="h-14 w-full text-base font-semibold transition-transform hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50"
                     duration={2.5}
                   >
                     {isSubmitting ? (
                       <span className="flex items-center justify-center gap-2">
-                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        <div className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
                         Sending...
                       </span>
                     ) : (

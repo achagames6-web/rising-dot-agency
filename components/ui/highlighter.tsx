@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import type { PropsWithChildren } from "react";
-import React, { useEffect, useRef, useState } from "react";
+import type { PropsWithChildren } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface MousePosition {
   x: number;
@@ -19,10 +19,10 @@ export default function useMousePosition(): MousePosition {
       setMousePosition({ x: event.clientX, y: event.clientY });
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 
@@ -37,7 +37,7 @@ interface HighlightGroupProps {
 
 export const HighlightGroup: React.FC<HighlightGroupProps> = ({
   children,
-  className = "",
+  className = '',
   refresh = false,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -55,10 +55,10 @@ export const HighlightGroup: React.FC<HighlightGroupProps> = ({
 
   useEffect(() => {
     initContainer();
-    window.addEventListener("resize", initContainer);
+    window.addEventListener('resize', initContainer);
 
     return () => {
-      window.removeEventListener("resize", initContainer);
+      window.removeEventListener('resize', initContainer);
     };
   }, [setBoxes]);
 
@@ -94,8 +94,8 @@ export const HighlightGroup: React.FC<HighlightGroupProps> = ({
             -(box.getBoundingClientRect().left - rect.left) + mouse.current.x;
           const boxY =
             -(box.getBoundingClientRect().top - rect.top) + mouse.current.y;
-          box.style.setProperty("--mouse-x", `${boxX}px`);
-          box.style.setProperty("--mouse-y", `${boxY}px`);
+          box.style.setProperty('--mouse-x', `${boxX}px`);
+          box.style.setProperty('--mouse-y', `${boxY}px`);
         });
       }
     }
@@ -115,7 +115,7 @@ interface HighlighterItemProps {
 
 export const HighlighterItem: React.FC<
   PropsWithChildren<HighlighterItemProps>
-> = ({ children, className = "" }) => {
+> = ({ children, className = '' }) => {
   return (
     <div
       className={`relative overflow-hidden p-px before:pointer-events-none before:absolute before:-left-48 before:-top-48 before:z-30 before:h-96 before:w-96 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:rounded-full before:bg-lime-500 before:opacity-0 before:blur-[100px] before:transition-opacity before:duration-500 after:absolute after:inset-0 after:z-10 after:rounded-3xl after:opacity-0 after:transition-opacity after:duration-500 before:hover:opacity-20 after:group-hover:opacity-100 dark:before:bg-white/50 ${className}`}
@@ -124,7 +124,6 @@ export const HighlighterItem: React.FC<
     </div>
   );
 };
-
 
 interface ParticlesProps {
   className?: string;
@@ -138,7 +137,7 @@ interface ParticlesProps {
 }
 
 function hexToRgb(hex: string): number[] {
-  hex = hex.replace("#", "");
+  hex = hex.replace('#', '');
   const hexInt = parseInt(hex, 16);
   const red = (hexInt >> 16) & 255;
   const green = (hexInt >> 8) & 255;
@@ -147,12 +146,12 @@ function hexToRgb(hex: string): number[] {
 }
 
 export const Particles: React.FC<ParticlesProps> = ({
-  className = "",
+  className = '',
   quantity = 30,
   staticity = 50,
   ease = 50,
   refresh = false,
-  color = "#ffffff",
+  color = '#ffffff',
   vx = 0,
   vy = 0,
 }) => {
@@ -163,7 +162,7 @@ export const Particles: React.FC<ParticlesProps> = ({
   const mousePosition = useMousePosition();
   const mouse = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const canvasSize = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
-  const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
+  const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
 
   type Circle = {
     x: number;
@@ -180,7 +179,6 @@ export const Particles: React.FC<ParticlesProps> = ({
 
   const rgb = hexToRgb(color);
 
-
   const circleParams = (): Circle => {
     const x = Math.floor(Math.random() * canvasSize.current.w);
     const y = Math.floor(Math.random() * canvasSize.current.h);
@@ -192,7 +190,18 @@ export const Particles: React.FC<ParticlesProps> = ({
     const dx = (Math.random() - 0.5) * 0.2;
     const dy = (Math.random() - 0.5) * 0.2;
     const magnetism = 0.1 + Math.random() * 4;
-    return { x, y, translateX, translateY, size, alpha, targetAlpha, dx, dy, magnetism };
+    return {
+      x,
+      y,
+      translateX,
+      translateY,
+      size,
+      alpha,
+      targetAlpha,
+      dx,
+      dy,
+      magnetism,
+    };
   };
 
   const drawCircle = (circle: Circle, update = false) => {
@@ -201,7 +210,7 @@ export const Particles: React.FC<ParticlesProps> = ({
       context.current.translate(translateX, translateY);
       context.current.beginPath();
       context.current.arc(x, y, size, 0, 2 * Math.PI);
-      context.current.fillStyle = `rgba(${rgb.join(", ")}, ${alpha})`;
+      context.current.fillStyle = `rgba(${rgb.join(', ')}, ${alpha})`;
       context.current.fill();
       context.current.setTransform(dpr, 0, 0, dpr, 0, 0);
       if (!update) {
@@ -212,7 +221,12 @@ export const Particles: React.FC<ParticlesProps> = ({
 
   const clearContext = () => {
     if (context.current) {
-      context.current.clearRect(0, 0, canvasSize.current.w, canvasSize.current.h);
+      context.current.clearRect(
+        0,
+        0,
+        canvasSize.current.w,
+        canvasSize.current.h
+      );
     }
   };
 
@@ -238,7 +252,6 @@ export const Particles: React.FC<ParticlesProps> = ({
     }
   };
 
-
   const remapValue = (
     value: number,
     start1: number,
@@ -246,7 +259,8 @@ export const Particles: React.FC<ParticlesProps> = ({
     start2: number,
     end2: number
   ): number => {
-    const remapped = ((value - start1) * (end2 - start2)) / (end1 - start1) + start2;
+    const remapped =
+      ((value - start1) * (end2 - start2)) / (end1 - start1) + start2;
     return remapped > 0 ? remapped : 0;
   };
 
@@ -279,7 +293,9 @@ export const Particles: React.FC<ParticlesProps> = ({
         canvasSize.current.h - circle.y - circle.translateY - circle.size,
       ];
       const closestEdge = edge.reduce((a, b) => Math.min(a, b));
-      const remapClosestEdge = parseFloat(remapValue(closestEdge, 0, 20, 0, 1).toFixed(2));
+      const remapClosestEdge = parseFloat(
+        remapValue(closestEdge, 0, 20, 0, 1).toFixed(2)
+      );
       if (remapClosestEdge > 1) {
         circle.alpha += 0.02;
         if (circle.alpha > circle.targetAlpha) {
@@ -291,9 +307,11 @@ export const Particles: React.FC<ParticlesProps> = ({
       circle.x += circle.dx + vx;
       circle.y += circle.dy + vy;
       circle.translateX +=
-        (mouse.current.x / (staticity / circle.magnetism) - circle.translateX) / ease;
+        (mouse.current.x / (staticity / circle.magnetism) - circle.translateX) /
+        ease;
       circle.translateY +=
-        (mouse.current.y / (staticity / circle.magnetism) - circle.translateY) / ease;
+        (mouse.current.y / (staticity / circle.magnetism) - circle.translateY) /
+        ease;
       if (
         circle.x < -circle.size ||
         circle.x > canvasSize.current.w + circle.size ||
@@ -305,7 +323,14 @@ export const Particles: React.FC<ParticlesProps> = ({
         drawCircle(newCircle);
       } else {
         drawCircle(
-          { ...circle, x: circle.x, y: circle.y, translateX: circle.translateX, translateY: circle.translateY, alpha: circle.alpha },
+          {
+            ...circle,
+            x: circle.x,
+            y: circle.y,
+            translateX: circle.translateX,
+            translateY: circle.translateY,
+            alpha: circle.alpha,
+          },
           true
         );
       }
@@ -313,17 +338,16 @@ export const Particles: React.FC<ParticlesProps> = ({
     window.requestAnimationFrame(animate);
   };
 
-
   useEffect(() => {
     if (canvasRef.current) {
-      context.current = canvasRef.current.getContext("2d");
+      context.current = canvasRef.current.getContext('2d');
     }
     initCanvas();
     animate();
-    window.addEventListener("resize", initCanvas);
+    window.addEventListener('resize', initCanvas);
 
     return () => {
-      window.removeEventListener("resize", initCanvas);
+      window.removeEventListener('resize', initCanvas);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

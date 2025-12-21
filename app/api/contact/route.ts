@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     }
 
     const db = await getDatabase();
-    
+
     const contact: Omit<Contact, '_id'> = {
       name,
       email,

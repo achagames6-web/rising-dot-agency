@@ -10,90 +10,114 @@ import OptimizedSectionWrapper from '@/components/sections/OptimizedSectionWrapp
 const Connect = dynamic(() => import('@/components/sections/Connect'), {
   ssr: false,
   loading: () => (
-    <section className="py-20 bg-black flex items-center justify-center">
-      <div className="w-12 h-12 border-2 border-[#37AFE1]/30 border-t-[#37AFE1] rounded-full animate-spin" />
+    <section className="flex items-center justify-center bg-black py-20">
+      <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
     </section>
   ),
 });
 
 // HolographicContact - dynamic import for WebGL globe (SSR disabled)
-const HolographicContact = dynamic(() => import('@/components/sections/HolographicContact'), {
-  ssr: false,
-  loading: () => (
-    <section className="min-h-screen py-20 bg-[#0A0F1E] flex items-center justify-center">
-      <div className="w-12 h-12 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin" />
-    </section>
-  ),
-});
-
-// Cinematic Showreel - dynamic import for GSAP ScrollTrigger
-const CinematicShowreel = dynamic(() => import('@/components/sections/CinematicShowreel'), {
-  ssr: false,
-  loading: () => (
-    <section className="h-[70vh] md:h-[85vh] bg-[#0A0F1E] flex items-center justify-center">
-      <div className="w-12 h-12 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin" />
-    </section>
-  ),
-});
-
-// Featured Services - Sticky scroll cards for each service
-const FeaturedServices = dynamic(() => import('@/components/sections/FeaturedServices'), {
-  ssr: false,
-  loading: () => (
-    <section className="py-20 md:py-32 bg-black flex items-center justify-center">
-      <div className="w-12 h-12 border-2 border-[#37AFE1]/30 border-t-[#37AFE1] rounded-full animate-spin" />
-    </section>
-  ),
-});
-
-// HolographicTeam - Team carousel section
-const HolographicTeam = dynamic(() => import('@/components/sections/HolographicTeam'), {
-  ssr: false,
-  loading: () => (
-    <section className="min-h-screen py-12 bg-[#0A0F1E] flex items-center justify-center">
-      <div className="w-12 h-12 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin" />
-    </section>
-  ),
-});
-
-// TechStackMarquee - Infinite scrolling tech logos
-const TechStackMarquee = dynamic(() => import('@/components/sections/TechStackMarquee'), {
-  ssr: false,
-  loading: () => (
-    <section className="py-16 md:py-24 bg-black flex items-center justify-center">
-      <div className="w-12 h-12 border-2 border-[#37AFE1]/30 border-t-[#37AFE1] rounded-full animate-spin" />
-    </section>
-  ),
-});
-
-// StackFeatureSection - Tech stack orbit animation
-const StackFeatureSection = dynamic(() => import('@/components/ui/stack-feature-section'), {
-  ssr: false,
-  loading: () => (
-    <section className="py-16 md:py-24 bg-black flex items-center justify-center">
-      <div className="w-12 h-12 border-2 border-[#37AFE1]/30 border-t-[#37AFE1] rounded-full animate-spin" />
-    </section>
-  ),
-});
-
-// CaseStudiesCarousel - Progressive auto-advancing carousel
-const CaseStudiesCarousel = dynamic(() => import('@/components/sections/CaseStudiesCarousel'), {
-  ssr: false,
-  loading: () => (
-    <section className="py-20 md:py-32 bg-black flex items-center justify-center">
-      <div className="w-12 h-12 border-2 border-[#F58122]/30 border-t-[#F58122] rounded-full animate-spin" />
-    </section>
-  ),
-});
-
-// PremiumTestimonials - Premium testimonials with animations
-const PremiumTestimonials = dynamic(
-  () => import('@/components/ui/premium-testimonials').then((mod) => ({ default: mod.PremiumTestimonials })),
+const HolographicContact = dynamic(
+  () => import('@/components/sections/HolographicContact'),
   {
     ssr: false,
     loading: () => (
-      <section className="py-32 bg-gradient-to-br from-black via-[#0F172A] to-black flex items-center justify-center">
-        <div className="w-12 h-12 border-2 border-[#F58122]/30 border-t-[#F58122] rounded-full animate-spin" />
+      <section className="flex min-h-screen items-center justify-center bg-[#0A0F1E] py-20">
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-purple-500/30 border-t-purple-500" />
+      </section>
+    ),
+  }
+);
+
+// Cinematic Showreel - dynamic import for GSAP ScrollTrigger
+const CinematicShowreel = dynamic(
+  () => import('@/components/sections/CinematicShowreel'),
+  {
+    ssr: false,
+    loading: () => (
+      <section className="flex h-[70vh] items-center justify-center bg-[#0A0F1E] md:h-[85vh]">
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-purple-500/30 border-t-purple-500" />
+      </section>
+    ),
+  }
+);
+
+// Featured Services - Sticky scroll cards for each service
+const FeaturedServices = dynamic(
+  () => import('@/components/sections/FeaturedServices'),
+  {
+    ssr: false,
+    loading: () => (
+      <section className="flex items-center justify-center bg-black py-20 md:py-32">
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
+      </section>
+    ),
+  }
+);
+
+// HolographicTeam - Team carousel section
+const HolographicTeam = dynamic(
+  () => import('@/components/sections/HolographicTeam'),
+  {
+    ssr: false,
+    loading: () => (
+      <section className="flex min-h-screen items-center justify-center bg-[#0A0F1E] py-12">
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-purple-500/30 border-t-purple-500" />
+      </section>
+    ),
+  }
+);
+
+// TechStackMarquee - Infinite scrolling tech logos
+const TechStackMarquee = dynamic(
+  () => import('@/components/sections/TechStackMarquee'),
+  {
+    ssr: false,
+    loading: () => (
+      <section className="flex items-center justify-center bg-black py-16 md:py-24">
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
+      </section>
+    ),
+  }
+);
+
+// StackFeatureSection - Tech stack orbit animation
+const StackFeatureSection = dynamic(
+  () => import('@/components/ui/stack-feature-section'),
+  {
+    ssr: false,
+    loading: () => (
+      <section className="flex items-center justify-center bg-black py-16 md:py-24">
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
+      </section>
+    ),
+  }
+);
+
+// CaseStudiesCarousel - Progressive auto-advancing carousel
+const CaseStudiesCarousel = dynamic(
+  () => import('@/components/sections/CaseStudiesCarousel'),
+  {
+    ssr: false,
+    loading: () => (
+      <section className="flex items-center justify-center bg-black py-20 md:py-32">
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#F58122]/30 border-t-[#F58122]" />
+      </section>
+    ),
+  }
+);
+
+// PremiumTestimonials - Premium testimonials with animations
+const PremiumTestimonials = dynamic(
+  () =>
+    import('@/components/ui/premium-testimonials').then((mod) => ({
+      default: mod.PremiumTestimonials,
+    })),
+  {
+    ssr: false,
+    loading: () => (
+      <section className="flex items-center justify-center bg-gradient-to-br from-black via-[#0F172A] to-black py-32">
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#F58122]/30 border-t-[#F58122]" />
       </section>
     ),
   }
@@ -103,8 +127,8 @@ const PremiumTestimonials = dynamic(
 const BlogSection = dynamic(() => import('@/components/sections/BlogSection'), {
   ssr: false,
   loading: () => (
-    <section className="py-24 bg-black flex items-center justify-center">
-      <div className="w-12 h-12 border-2 border-[#37AFE1]/30 border-t-[#37AFE1] rounded-full animate-spin" />
+    <section className="flex items-center justify-center bg-black py-24">
+      <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
     </section>
   ),
 });
@@ -114,9 +138,20 @@ export const revalidate = 30;
 
 // All sections on homepage
 const HOME_SECTIONS = [
-  'hero', 'showreel', 'featuredServices', 'valueProposition', 
-  'serviceCards', 'stackFeature', 'techStack', 'caseStudies',
-  'testimonials', 'blog', 'connect', 'team', 'contact', 'cta'
+  'hero',
+  'showreel',
+  'featuredServices',
+  'valueProposition',
+  'serviceCards',
+  'stackFeature',
+  'techStack',
+  'caseStudies',
+  'testimonials',
+  'blog',
+  'connect',
+  'team',
+  'contact',
+  'cta',
 ];
 
 export default function Home() {

@@ -20,7 +20,13 @@ export function getOptimizedImageUrl(
     crop?: 'fill' | 'fit' | 'scale' | 'thumb';
   } = {}
 ): string {
-  const { width, height, quality = 'auto', format = 'auto', crop = 'fill' } = options;
+  const {
+    width,
+    height,
+    quality = 'auto',
+    format = 'auto',
+    crop = 'fill',
+  } = options;
 
   const transformations: string[] = [];
 
@@ -85,7 +91,12 @@ export async function uploadToCloudinary(
   file: string | Buffer,
   options: UploadOptions = {}
 ): Promise<UploadResult> {
-  const { folder = 'rising-dot', publicId, resourceType = 'auto', transformation } = options;
+  const {
+    folder = 'rising-dot',
+    publicId,
+    resourceType = 'auto',
+    transformation,
+  } = options;
 
   const uploadOptions: any = {
     folder,
@@ -147,14 +158,14 @@ export async function listCloudinaryFiles(
     if (folder) {
       // Search for files in this specific folder (not subfolders)
       const searchExpression = `folder="${folder}" AND resource_type:${resourceType}`;
-      
+
       do {
         const result: any = await cloudinary.search
           .expression(searchExpression)
           .max_results(Math.min(maxResults - allResources.length, 500))
           .next_cursor(nextCursor || '')
           .execute();
-        
+
         allResources = allResources.concat(result.resources || []);
         nextCursor = result.next_cursor;
       } while (nextCursor && allResources.length < maxResults);
@@ -165,12 +176,16 @@ export async function listCloudinaryFiles(
         resource_type: resourceType,
         max_results: maxResults,
       });
-      
+
       // Filter to only root-level files (no folder in public_id)
-      allResources = (result.resources || []).filter((r: any) => !r.public_id.includes('/'));
+      allResources = (result.resources || []).filter(
+        (r: any) => !r.public_id.includes('/')
+      );
     }
-    
-    console.log(`Cloudinary found ${allResources.length} ${resourceType}s in folder: ${folder || 'root'}`);
+
+    console.log(
+      `Cloudinary found ${allResources.length} ${resourceType}s in folder: ${folder || 'root'}`
+    );
     return allResources;
   } catch (error) {
     console.error('Error listing Cloudinary files:', error);

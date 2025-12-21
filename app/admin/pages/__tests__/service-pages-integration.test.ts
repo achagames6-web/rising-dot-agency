@@ -1,10 +1,10 @@
 /**
  * Integration Tests for Service Pages CMS Enhancement
  * Feature: service-pages-cms
- * 
+ *
  * Task 12.1: Test full admin workflow for all service pages
  * Task 12.2: Verify fallback content works when CMS unavailable
- * 
+ *
  * Requirements: 1.1, 2.1, 3.1, 4.1, 5.1, 6.1, 7.2
  */
 
@@ -14,27 +14,79 @@
 const servicePageConfigs = {
   'services-chatbot': {
     label: 'Chatbot Development',
-    sections: ['hero', 'video', 'chatDemo', 'learningAnimation', 'accuracyChart', 'caseStudies', 'cta'],
+    sections: [
+      'hero',
+      'video',
+      'chatDemo',
+      'learningAnimation',
+      'accuracyChart',
+      'caseStudies',
+      'cta',
+    ],
   },
   'services-seo': {
     label: 'SEO Services',
-    sections: ['hero', 'video', 'serpRanking', 'keywordCloud', 'trafficGrowth', 'competitorAnalysis', 'caseStudies', 'cta'],
+    sections: [
+      'hero',
+      'video',
+      'serpRanking',
+      'keywordCloud',
+      'trafficGrowth',
+      'competitorAnalysis',
+      'caseStudies',
+      'cta',
+    ],
   },
   'services-shopify': {
     label: 'Shopify Services',
-    sections: ['hero', 'video', 'conversionFunnel', 'productPreview', 'dashboard', 'mobileExperience', 'caseStudies', 'cta'],
+    sections: [
+      'hero',
+      'video',
+      'conversionFunnel',
+      'productPreview',
+      'dashboard',
+      'mobileExperience',
+      'caseStudies',
+      'cta',
+    ],
   },
   'services-wordpress': {
     label: 'WordPress Services',
-    sections: ['hero', 'video', 'modularGrid', 'metrics', 'pluginConstellation', 'caseStudies', 'cta'],
+    sections: [
+      'hero',
+      'video',
+      'modularGrid',
+      'metrics',
+      'pluginConstellation',
+      'caseStudies',
+      'cta',
+    ],
   },
   'services-webdesign': {
     label: 'Web Design Services',
-    sections: ['hero', 'video', 'wireframeMorph', 'designTimeline', 'styleShowcase', 'responsivePreview', 'caseStudies', 'cta'],
+    sections: [
+      'hero',
+      'video',
+      'wireframeMorph',
+      'designTimeline',
+      'styleShowcase',
+      'responsivePreview',
+      'caseStudies',
+      'cta',
+    ],
   },
   'services-n8n': {
     label: 'N8N Automations',
-    sections: ['hero', 'video', 'workflowBuilder', 'beforeAfter', 'performanceMetrics', 'apiIntegration', 'caseStudies', 'cta'],
+    sections: [
+      'hero',
+      'video',
+      'workflowBuilder',
+      'beforeAfter',
+      'performanceMetrics',
+      'apiIntegration',
+      'caseStudies',
+      'cta',
+    ],
   },
 };
 
@@ -79,18 +131,19 @@ function simulateAdminContentAPI(
     section,
     content,
   };
-  
+
   // Validate that the page exists in our config
   if (!servicePageConfigs[page as keyof typeof servicePageConfigs]) {
     return { success: false, data: sectionContent };
   }
-  
+
   // Validate that the section exists for this page
-  const pageConfig = servicePageConfigs[page as keyof typeof servicePageConfigs];
+  const pageConfig =
+    servicePageConfigs[page as keyof typeof servicePageConfigs];
   if (!pageConfig.sections.includes(section)) {
     return { success: false, data: sectionContent };
   }
-  
+
   return { success: true, data: sectionContent };
 }
 
@@ -109,15 +162,15 @@ describe('Task 12.1: Admin Workflow for Service Pages', () => {
         'services-webdesign',
         'services-n8n',
       ];
-      
-      requiredPages.forEach(page => {
+
+      requiredPages.forEach((page) => {
         expect(servicePageConfigs).toHaveProperty(page);
       });
     });
 
     it('should have common sections for all service pages', () => {
       Object.entries(servicePageConfigs).forEach(([pageKey, pageConfig]) => {
-        commonSections.forEach(section => {
+        commonSections.forEach((section) => {
           expect(pageConfig.sections).toContain(section);
         });
       });
@@ -125,51 +178,95 @@ describe('Task 12.1: Admin Workflow for Service Pages', () => {
 
     it('should have unique service-specific sections', () => {
       // Chatbot-specific sections
-      expect(servicePageConfigs['services-chatbot'].sections).toContain('chatDemo');
-      expect(servicePageConfigs['services-chatbot'].sections).toContain('learningAnimation');
-      expect(servicePageConfigs['services-chatbot'].sections).toContain('accuracyChart');
-      
+      expect(servicePageConfigs['services-chatbot'].sections).toContain(
+        'chatDemo'
+      );
+      expect(servicePageConfigs['services-chatbot'].sections).toContain(
+        'learningAnimation'
+      );
+      expect(servicePageConfigs['services-chatbot'].sections).toContain(
+        'accuracyChart'
+      );
+
       // SEO-specific sections
-      expect(servicePageConfigs['services-seo'].sections).toContain('serpRanking');
-      expect(servicePageConfigs['services-seo'].sections).toContain('keywordCloud');
-      expect(servicePageConfigs['services-seo'].sections).toContain('trafficGrowth');
-      expect(servicePageConfigs['services-seo'].sections).toContain('competitorAnalysis');
-      
+      expect(servicePageConfigs['services-seo'].sections).toContain(
+        'serpRanking'
+      );
+      expect(servicePageConfigs['services-seo'].sections).toContain(
+        'keywordCloud'
+      );
+      expect(servicePageConfigs['services-seo'].sections).toContain(
+        'trafficGrowth'
+      );
+      expect(servicePageConfigs['services-seo'].sections).toContain(
+        'competitorAnalysis'
+      );
+
       // Shopify-specific sections
-      expect(servicePageConfigs['services-shopify'].sections).toContain('conversionFunnel');
-      expect(servicePageConfigs['services-shopify'].sections).toContain('productPreview');
-      expect(servicePageConfigs['services-shopify'].sections).toContain('dashboard');
-      expect(servicePageConfigs['services-shopify'].sections).toContain('mobileExperience');
-      
+      expect(servicePageConfigs['services-shopify'].sections).toContain(
+        'conversionFunnel'
+      );
+      expect(servicePageConfigs['services-shopify'].sections).toContain(
+        'productPreview'
+      );
+      expect(servicePageConfigs['services-shopify'].sections).toContain(
+        'dashboard'
+      );
+      expect(servicePageConfigs['services-shopify'].sections).toContain(
+        'mobileExperience'
+      );
+
       // WordPress-specific sections
-      expect(servicePageConfigs['services-wordpress'].sections).toContain('modularGrid');
-      expect(servicePageConfigs['services-wordpress'].sections).toContain('metrics');
-      expect(servicePageConfigs['services-wordpress'].sections).toContain('pluginConstellation');
-      
+      expect(servicePageConfigs['services-wordpress'].sections).toContain(
+        'modularGrid'
+      );
+      expect(servicePageConfigs['services-wordpress'].sections).toContain(
+        'metrics'
+      );
+      expect(servicePageConfigs['services-wordpress'].sections).toContain(
+        'pluginConstellation'
+      );
+
       // Web Design-specific sections
-      expect(servicePageConfigs['services-webdesign'].sections).toContain('wireframeMorph');
-      expect(servicePageConfigs['services-webdesign'].sections).toContain('designTimeline');
-      expect(servicePageConfigs['services-webdesign'].sections).toContain('styleShowcase');
-      expect(servicePageConfigs['services-webdesign'].sections).toContain('responsivePreview');
-      
+      expect(servicePageConfigs['services-webdesign'].sections).toContain(
+        'wireframeMorph'
+      );
+      expect(servicePageConfigs['services-webdesign'].sections).toContain(
+        'designTimeline'
+      );
+      expect(servicePageConfigs['services-webdesign'].sections).toContain(
+        'styleShowcase'
+      );
+      expect(servicePageConfigs['services-webdesign'].sections).toContain(
+        'responsivePreview'
+      );
+
       // N8N-specific sections
-      expect(servicePageConfigs['services-n8n'].sections).toContain('workflowBuilder');
-      expect(servicePageConfigs['services-n8n'].sections).toContain('beforeAfter');
-      expect(servicePageConfigs['services-n8n'].sections).toContain('performanceMetrics');
-      expect(servicePageConfigs['services-n8n'].sections).toContain('apiIntegration');
+      expect(servicePageConfigs['services-n8n'].sections).toContain(
+        'workflowBuilder'
+      );
+      expect(servicePageConfigs['services-n8n'].sections).toContain(
+        'beforeAfter'
+      );
+      expect(servicePageConfigs['services-n8n'].sections).toContain(
+        'performanceMetrics'
+      );
+      expect(servicePageConfigs['services-n8n'].sections).toContain(
+        'apiIntegration'
+      );
     });
   });
 
   describe('Admin Content Save/Load Workflow', () => {
     it('should successfully save and load hero section content for all service pages', () => {
-      Object.keys(servicePageConfigs).forEach(pageKey => {
+      Object.keys(servicePageConfigs).forEach((pageKey) => {
         const heroContent = {
           title: `Test Hero Title for ${pageKey}`,
           subtitle: 'Test subtitle content',
           ctaText: 'Get Started',
           ctaHref: '/contact',
         };
-        
+
         const result = simulateAdminContentAPI(pageKey, 'hero', heroContent);
         expect(result.success).toBe(true);
         expect(result.data.page).toBe(pageKey);
@@ -179,7 +276,7 @@ describe('Task 12.1: Admin Workflow for Service Pages', () => {
     });
 
     it('should successfully save and load video section content for all service pages', () => {
-      Object.keys(servicePageConfigs).forEach(pageKey => {
+      Object.keys(servicePageConfigs).forEach((pageKey) => {
         const videoContent = {
           eyebrow: 'See It In Action',
           title: 'Watch Our Process',
@@ -189,41 +286,57 @@ describe('Task 12.1: Admin Workflow for Service Pages', () => {
           ctaText: 'Start Your Project',
           ctaHref: '/contact',
         };
-        
+
         const result = simulateAdminContentAPI(pageKey, 'video', videoContent);
         expect(result.success).toBe(true);
-        expect(result.data.content.videoSrc).toBe(`/media/services/${pageKey}/video.mp4`);
+        expect(result.data.content.videoSrc).toBe(
+          `/media/services/${pageKey}/video.mp4`
+        );
       });
     });
 
     it('should successfully save and load case studies section for all service pages', () => {
-      Object.keys(servicePageConfigs).forEach(pageKey => {
+      Object.keys(servicePageConfigs).forEach((pageKey) => {
         const caseStudiesContent = {
           eyebrow: 'Success Stories',
           title: 'Our Work',
           titleHighlight: 'Speaks',
           subtitle: 'See what we have achieved',
           studies: [
-            { img: '/case1.jpg', title: 'Case 1', desc: 'Description 1', sliderName: 'case1' },
-            { img: '/case2.jpg', title: 'Case 2', desc: 'Description 2', sliderName: 'case2' },
+            {
+              img: '/case1.jpg',
+              title: 'Case 1',
+              desc: 'Description 1',
+              sliderName: 'case1',
+            },
+            {
+              img: '/case2.jpg',
+              title: 'Case 2',
+              desc: 'Description 2',
+              sliderName: 'case2',
+            },
           ],
         };
-        
-        const result = simulateAdminContentAPI(pageKey, 'caseStudies', caseStudiesContent);
+
+        const result = simulateAdminContentAPI(
+          pageKey,
+          'caseStudies',
+          caseStudiesContent
+        );
         expect(result.success).toBe(true);
         expect(result.data.content.studies).toHaveLength(2);
       });
     });
 
     it('should successfully save and load CTA section for all service pages', () => {
-      Object.keys(servicePageConfigs).forEach(pageKey => {
+      Object.keys(servicePageConfigs).forEach((pageKey) => {
         const ctaContent = {
           title: 'Ready to Get Started?',
           subtitle: 'Let us help you achieve your goals',
           ctaText: 'Contact Us',
           ctaHref: '/contact',
         };
-        
+
         const result = simulateAdminContentAPI(pageKey, 'cta', ctaContent);
         expect(result.success).toBe(true);
         expect(result.data.content.ctaHref).toBe('/contact');
@@ -231,12 +344,18 @@ describe('Task 12.1: Admin Workflow for Service Pages', () => {
     });
 
     it('should reject invalid page keys', () => {
-      const result = simulateAdminContentAPI('invalid-page', 'hero', { title: 'Test' });
+      const result = simulateAdminContentAPI('invalid-page', 'hero', {
+        title: 'Test',
+      });
       expect(result.success).toBe(false);
     });
 
     it('should reject invalid section keys for valid pages', () => {
-      const result = simulateAdminContentAPI('services-chatbot', 'invalidSection', { title: 'Test' });
+      const result = simulateAdminContentAPI(
+        'services-chatbot',
+        'invalidSection',
+        { title: 'Test' }
+      );
       expect(result.success).toBe(false);
     });
   });
@@ -258,10 +377,10 @@ describe('Task 12.1: Admin Workflow for Service Pages', () => {
           ],
         },
       };
-      
+
       const saved = saveContentToCMS(testContent);
       const fetched = fetchContentFromCMS(saved);
-      
+
       expect(fetched.page).toBe(testContent.page);
       expect(fetched.section).toBe(testContent.section);
       expect(fetched.content).toEqual(testContent.content);
@@ -277,18 +396,43 @@ describe('Task 12.1: Admin Workflow for Service Pages', () => {
           titleHighlight: 'Dominate',
           subtitle: 'See our results',
           studies: [
-            { img: '/img1.jpg', title: 'Case 1', desc: 'Desc 1', sliderName: 'case1' },
-            { img: '/img2.jpg', title: 'Case 2', desc: 'Desc 2', sliderName: 'case2' },
-            { img: '/img3.jpg', title: 'Case 3', desc: 'Desc 3', sliderName: 'case3' },
-            { img: '/img4.jpg', title: 'Case 4', desc: 'Desc 4', sliderName: 'case4' },
+            {
+              img: '/img1.jpg',
+              title: 'Case 1',
+              desc: 'Desc 1',
+              sliderName: 'case1',
+            },
+            {
+              img: '/img2.jpg',
+              title: 'Case 2',
+              desc: 'Desc 2',
+              sliderName: 'case2',
+            },
+            {
+              img: '/img3.jpg',
+              title: 'Case 3',
+              desc: 'Desc 3',
+              sliderName: 'case3',
+            },
+            {
+              img: '/img4.jpg',
+              title: 'Case 4',
+              desc: 'Desc 4',
+              sliderName: 'case4',
+            },
           ],
         },
       };
-      
+
       const saved = saveContentToCMS(testContent);
       const fetched = fetchContentFromCMS(saved);
-      
-      const studies = fetched.content.studies as Array<{ img: string; title: string; desc: string; sliderName: string }>;
+
+      const studies = fetched.content.studies as Array<{
+        img: string;
+        title: string;
+        desc: string;
+        sliderName: string;
+      }>;
       expect(studies).toHaveLength(4);
       expect(studies[0].title).toBe('Case 1');
       expect(studies[3].sliderName).toBe('case4');
@@ -305,25 +449,39 @@ describe('Task 12.1: Admin Workflow for Service Pages', () => {
           highlightedWord2: 'Development',
           subtitle: 'Build powerful stores',
           services: [
-            { id: '1', name: 'Store Setup', url: '/setup', description: 'Full setup', imgSrc: '/img1.jpg' },
-            { id: '2', name: 'Theme Dev', url: '/theme', description: 'Custom themes', imgSrc: '/img2.jpg' },
+            {
+              id: '1',
+              name: 'Store Setup',
+              url: '/setup',
+              description: 'Full setup',
+              imgSrc: '/img1.jpg',
+            },
+            {
+              id: '2',
+              name: 'Theme Dev',
+              url: '/theme',
+              description: 'Custom themes',
+              imgSrc: '/img2.jpg',
+            },
           ],
           ctaLabel: 'Start Your Store',
           ctaHref: '/contact',
         },
       };
-      
+
       const saved = saveContentToCMS(testContent);
       const fetched = fetchContentFromCMS(saved);
-      
-      const services = fetched.content.services as Array<{ id: string; name: string }>;
+
+      const services = fetched.content.services as Array<{
+        id: string;
+        name: string;
+      }>;
       expect(services).toHaveLength(2);
       expect(services[0].name).toBe('Store Setup');
       expect(services[1].id).toBe('2');
     });
   });
 });
-
 
 /**
  * Task 12.2: Verify fallback content works when CMS unavailable
@@ -338,7 +496,8 @@ describe('Task 12.2: Fallback Content Verification', () => {
       hero: {
         titleHighlight: 'AI-Powered',
         title: 'Chatbots',
-        subtitle: 'Intelligent conversational AI that connects with your customers 24/7 across all platforms.',
+        subtitle:
+          'Intelligent conversational AI that connects with your customers 24/7 across all platforms.',
         ctaText: 'Build Your Chatbot',
         ctaHref: '/contact',
       },
@@ -353,7 +512,8 @@ describe('Task 12.2: Fallback Content Verification', () => {
       },
       cta: {
         title: 'Ready to Build Your AI Chatbot?',
-        subtitle: "Let's create an intelligent chatbot that engages your customers 24/7",
+        subtitle:
+          "Let's create an intelligent chatbot that engages your customers 24/7",
         ctaText: 'Start Your Project',
         ctaHref: '/contact',
       },
@@ -376,7 +536,8 @@ describe('Task 12.2: Fallback Content Verification', () => {
       },
       cta: {
         title: 'Ready to Dominate Search Results?',
-        subtitle: "Let's create an SEO strategy that drives real business results",
+        subtitle:
+          "Let's create an SEO strategy that drives real business results",
         ctaText: 'Start Your SEO Journey',
         ctaHref: '/contact',
       },
@@ -459,15 +620,16 @@ describe('Task 12.2: Fallback Content Verification', () => {
     // Title and subtitle are always required
     if (!content.title || typeof content.title !== 'string') return false;
     if (!content.subtitle || typeof content.subtitle !== 'string') return false;
-    
+
     // At least one CTA field should be present
     const hasCTA = content.ctaText || content.ctaLabel || content.ctaButton;
     if (!hasCTA) return false;
-    
+
     // CTA href should be present (either directly or in ctaButton)
-    const hasHref = content.ctaHref || (content.ctaButton as { href?: string })?.href;
+    const hasHref =
+      content.ctaHref || (content.ctaButton as { href?: string })?.href;
     if (!hasHref) return false;
-    
+
     return true;
   }
 
@@ -499,7 +661,7 @@ describe('Task 12.2: Fallback Content Verification', () => {
         // Check hero
         expect(pageFallbacks.hero.title.trim().length).toBeGreaterThan(0);
         expect(pageFallbacks.hero.subtitle.trim().length).toBeGreaterThan(0);
-        
+
         // Check CTA
         expect(pageFallbacks.cta.title.trim().length).toBeGreaterThan(0);
         expect(pageFallbacks.cta.subtitle.trim().length).toBeGreaterThan(0);
@@ -517,7 +679,7 @@ describe('Task 12.2: Fallback Content Verification', () => {
         } else if (hero.ctaHref !== undefined) {
           expect(hero.ctaHref).toMatch(/^\//);
         }
-        
+
         // Check CTA href
         expect(pageFallbacks.cta.ctaHref).toMatch(/^\//);
       });
@@ -529,7 +691,7 @@ describe('Task 12.2: Fallback Content Verification', () => {
       Object.entries(defaultFallbacks).forEach(([pageKey, pageFallbacks]) => {
         const cmsContent: Record<string, unknown> | null = null;
         const result = applyFallback(cmsContent, pageFallbacks.hero);
-        
+
         expect(result).toBe(pageFallbacks.hero);
         expect(result.title).toBe(pageFallbacks.hero.title);
       });
@@ -539,7 +701,7 @@ describe('Task 12.2: Fallback Content Verification', () => {
       Object.entries(defaultFallbacks).forEach(([pageKey, pageFallbacks]) => {
         const cmsContent: Record<string, unknown> | undefined = undefined;
         const result = applyFallback(cmsContent, pageFallbacks.cta);
-        
+
         expect(result).toBe(pageFallbacks.cta);
         expect(result.ctaText).toBe(pageFallbacks.cta.ctaText);
       });
@@ -552,10 +714,10 @@ describe('Task 12.2: Fallback Content Verification', () => {
         ctaText: 'Custom CTA',
         ctaHref: '/custom-path',
       };
-      
+
       const fallback = defaultFallbacks['services-chatbot'].hero;
       const result = applyFallback(cmsContent, fallback);
-      
+
       expect(result).toBe(cmsContent);
       expect(result.title).toBe('Custom CMS Title');
       expect(result).not.toBe(fallback);
@@ -565,7 +727,7 @@ describe('Task 12.2: Fallback Content Verification', () => {
       const cmsContent = {};
       const fallback = defaultFallbacks['services-seo'].hero;
       const result = applyFallback(cmsContent, fallback);
-      
+
       // Empty object is truthy, should not trigger fallback
       expect(result).toBe(cmsContent);
     });
@@ -575,13 +737,19 @@ describe('Task 12.2: Fallback Content Verification', () => {
     it('should handle all sections falling back at once', () => {
       Object.entries(defaultFallbacks).forEach(([pageKey, pageFallbacks]) => {
         // Simulate all CMS content being unavailable
-        const heroResult = applyFallback<Record<string, unknown>>(null, pageFallbacks.hero);
-        const ctaResult = applyFallback<Record<string, unknown>>(null, pageFallbacks.cta);
-        
+        const heroResult = applyFallback<Record<string, unknown>>(
+          null,
+          pageFallbacks.hero
+        );
+        const ctaResult = applyFallback<Record<string, unknown>>(
+          null,
+          pageFallbacks.cta
+        );
+
         // All should use fallbacks
         expect(heroResult).toBe(pageFallbacks.hero);
         expect(ctaResult).toBe(pageFallbacks.cta);
-        
+
         // All should have valid content
         expect(hasRequiredHeroFields(heroResult)).toBe(true);
         expect(hasRequiredCTAFields(ctaResult)).toBe(true);
@@ -591,7 +759,7 @@ describe('Task 12.2: Fallback Content Verification', () => {
     it('should handle mixed CMS and fallback content', () => {
       const pageKey = 'services-chatbot';
       const pageFallbacks = defaultFallbacks[pageKey];
-      
+
       // Hero from CMS, CTA from fallback
       const cmsHero = {
         titleHighlight: 'Custom',
@@ -600,10 +768,13 @@ describe('Task 12.2: Fallback Content Verification', () => {
         ctaText: 'Custom CTA',
         ctaHref: '/custom',
       };
-      
+
       const heroResult = applyFallback(cmsHero, pageFallbacks.hero);
-      const ctaResult = applyFallback<Record<string, unknown>>(null, pageFallbacks.cta);
-      
+      const ctaResult = applyFallback<Record<string, unknown>>(
+        null,
+        pageFallbacks.cta
+      );
+
       expect(heroResult).toBe(cmsHero);
       expect(ctaResult).toBe(pageFallbacks.cta);
     });
@@ -614,11 +785,17 @@ describe('Task 12.2: Fallback Content Verification', () => {
       const pageKey = 'services-seo';
       const originalTitle = defaultFallbacks[pageKey].hero.title;
       const originalSubtitle = defaultFallbacks[pageKey].hero.subtitle;
-      
+
       // Apply fallback multiple times
-      applyFallback<Record<string, unknown>>(null, defaultFallbacks[pageKey].hero);
-      applyFallback<Record<string, unknown>>(undefined, defaultFallbacks[pageKey].hero);
-      
+      applyFallback<Record<string, unknown>>(
+        null,
+        defaultFallbacks[pageKey].hero
+      );
+      applyFallback<Record<string, unknown>>(
+        undefined,
+        defaultFallbacks[pageKey].hero
+      );
+
       // Original should be unchanged
       expect(defaultFallbacks[pageKey].hero.title).toBe(originalTitle);
       expect(defaultFallbacks[pageKey].hero.subtitle).toBe(originalSubtitle);

@@ -40,14 +40,14 @@ export function GradientHero({
   return (
     <div className="relative min-h-screen overflow-hidden bg-black">
       {/* Gradient background with blur effect */}
-      <div className="flex flex-col items-end absolute -right-60 -top-10 blur-xl z-0">
-        <div className="h-[10rem] rounded-full w-[60rem] z-1 bg-gradient-to-b blur-[6rem] from-[#37AFE1] to-[#31A4DB]"></div>
-        <div className="h-[10rem] rounded-full w-[90rem] z-1 bg-gradient-to-b blur-[6rem] from-[#F58122] to-[#37AFE1]"></div>
-        <div className="h-[10rem] rounded-full w-[60rem] z-1 bg-gradient-to-b blur-[6rem] from-[#31A4DB] to-[#F58122]"></div>
+      <div className="absolute -right-60 -top-10 z-0 flex flex-col items-end blur-xl">
+        <div className="z-1 h-[10rem] w-[60rem] rounded-full bg-gradient-to-b from-[#37AFE1] to-[#31A4DB] blur-[6rem]"></div>
+        <div className="z-1 h-[10rem] w-[90rem] rounded-full bg-gradient-to-b from-[#F58122] to-[#37AFE1] blur-[6rem]"></div>
+        <div className="z-1 h-[10rem] w-[60rem] rounded-full bg-gradient-to-b from-[#31A4DB] to-[#F58122] blur-[6rem]"></div>
       </div>
 
       {/* Noise texture overlay */}
-      <div className="absolute inset-0 z-0 opacity-30 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuMDUiLz48L3N2Zz4=')]"></div>
+      <div className="absolute inset-0 z-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuMDUiLz48L3N2Zz4=')] opacity-30"></div>
 
       {/* Content container */}
       <div className="relative z-10 pt-32">
@@ -57,7 +57,7 @@ export function GradientHero({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mx-auto flex max-w-fit items-center justify-center space-x-2 rounded-full bg-white/10 px-4 py-2 backdrop-blur-sm border border-white/10"
+            className="mx-auto flex max-w-fit items-center justify-center space-x-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 backdrop-blur-sm"
           >
             <span className="text-sm font-medium text-white">{badge}</span>
             <ArrowRight className="h-4 w-4 text-[#37AFE1]" />
@@ -70,14 +70,15 @@ export function GradientHero({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mx-auto max-w-4xl text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl font-montserrat"
+            className="mx-auto max-w-4xl font-montserrat text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl"
           >
             {titleHighlight ? (
               <>
-                <span 
+                <span
                   className="bg-clip-text text-transparent"
                   style={{
-                    backgroundImage: 'linear-gradient(90deg, #37AFE1, #F58122, #37AFE1, #F58122)',
+                    backgroundImage:
+                      'linear-gradient(90deg, #37AFE1, #F58122, #37AFE1, #F58122)',
                     backgroundSize: '300% 100%',
                     animation: 'gradient-shift 4s ease-in-out infinite',
                   }}
@@ -95,7 +96,7 @@ export function GradientHero({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mx-auto mt-6 max-w-2xl text-lg text-gray-400 font-inter"
+            className="mx-auto mt-6 max-w-2xl font-inter text-lg text-gray-400"
           >
             {description}
           </motion.p>
@@ -110,7 +111,7 @@ export function GradientHero({
               <ParticleWrapper>
                 <Link href={primaryCta.href}>
                   <StarButton
-                    className="h-12 px-8 text-base font-medium hover:scale-105 transition-transform"
+                    className="h-12 px-8 text-base font-medium transition-transform hover:scale-105"
                     duration={2.5}
                   >
                     {primaryCta.text}
@@ -123,7 +124,7 @@ export function GradientHero({
                 <Link href={secondaryCta.href}>
                   <StarButton
                     variant="secondary"
-                    className="h-12 px-8 text-base font-medium hover:scale-105 transition-transform"
+                    className="h-12 px-8 text-base font-medium transition-transform hover:scale-105"
                     duration={3}
                   >
                     {secondaryCta.text}
@@ -141,7 +142,7 @@ export function GradientHero({
               transition={{ duration: 0.8, delay: 0.4 }}
               className="relative mx-auto my-16 w-full max-w-5xl"
             >
-              <div className="absolute inset-0 rounded-2xl bg-[#37AFE1] blur-[8rem] opacity-20" />
+              <div className="absolute inset-0 rounded-2xl bg-[#37AFE1] opacity-20 blur-[8rem]" />
               {video ? (
                 <video
                   src={video}
@@ -150,13 +151,13 @@ export function GradientHero({
                   muted
                   loop
                   playsInline
-                  className="relative w-full max-h-[550px] object-cover shadow-2xl rounded-2xl border border-white/10"
+                  className="relative max-h-[550px] w-full rounded-2xl border border-white/10 object-cover shadow-2xl"
                 />
               ) : (
                 <img
                   src={image}
                   alt={imageAlt}
-                  className="relative w-full max-h-[550px] object-cover shadow-2xl rounded-2xl border border-white/10"
+                  className="relative max-h-[550px] w-full rounded-2xl border border-white/10 object-cover shadow-2xl"
                 />
               )}
             </motion.div>

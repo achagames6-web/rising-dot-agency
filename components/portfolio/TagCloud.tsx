@@ -27,11 +27,17 @@ interface TagCloudProps {
   tags: string[];
 }
 
-const tagConfig: Record<string, { icon: React.ComponentType<{ className?: string }>; color: string }> = {
+const tagConfig: Record<
+  string,
+  { icon: React.ComponentType<{ className?: string }>; color: string }
+> = {
   'Web Design': { icon: HiOutlineGlobeAlt, color: '#37AFE1' },
   Shopify: { icon: SiShopify, color: '#95BF47' },
   SEO: { icon: HiOutlineChartBar, color: '#F58122' },
-  'Chatbot Development': { icon: HiOutlineChatBubbleLeftRight, color: '#37AFE1' },
+  'Chatbot Development': {
+    icon: HiOutlineChatBubbleLeftRight,
+    color: '#37AFE1',
+  },
   'N8N Automations': { icon: SiN8N, color: '#EA4B71' },
   WordPress: { icon: SiWordpress, color: '#21759B' },
   React: { icon: SiReact, color: '#61DAFB' },
@@ -63,32 +69,40 @@ export default function TagCloud({ tags }: TagCloudProps) {
   const animationRef = useRef<number | null>(null);
   const initializedRef = useRef(false);
   const dragIndexRef = useRef<number | null>(null);
-  const dragStartRef = useRef<{ x: number; y: number; posX: number; posY: number } | null>(null);
+  const dragStartRef = useRef<{
+    x: number;
+    y: number;
+    posX: number;
+    posY: number;
+  } | null>(null);
 
   // Initialize positions when container width is known
-  const initializePositions = useCallback((width: number) => {
-    if (width <= 0 || tags.length === 0) return;
-    
-    const height = 400;
-    const cols = Math.ceil(Math.sqrt(tags.length));
-    const rows = Math.ceil(tags.length / cols);
-    const cellW = (width - 160) / Math.max(cols, 1);
-    const cellH = (height - 100) / Math.max(rows, 1);
-    
-    positionsRef.current = tags.map((_, i) => {
-      const row = Math.floor(i / cols);
-      const col = i % cols;
-      return {
-        x: 80 + col * cellW + cellW / 2 + (Math.random() - 0.5) * 30,
-        y: 50 + row * cellH + cellH / 2 + (Math.random() - 0.5) * 20,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-      };
-    });
-    
-    initializedRef.current = true;
-    setRenderKey(k => k + 1);
-  }, [tags]);
+  const initializePositions = useCallback(
+    (width: number) => {
+      if (width <= 0 || tags.length === 0) return;
+
+      const height = 400;
+      const cols = Math.ceil(Math.sqrt(tags.length));
+      const rows = Math.ceil(tags.length / cols);
+      const cellW = (width - 160) / Math.max(cols, 1);
+      const cellH = (height - 100) / Math.max(rows, 1);
+
+      positionsRef.current = tags.map((_, i) => {
+        const row = Math.floor(i / cols);
+        const col = i % cols;
+        return {
+          x: 80 + col * cellW + cellW / 2 + (Math.random() - 0.5) * 30,
+          y: 50 + row * cellH + cellH / 2 + (Math.random() - 0.5) * 20,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+        };
+      });
+
+      initializedRef.current = true;
+      setRenderKey((k) => k + 1);
+    },
+    [tags]
+  );
 
   // Get container width using ResizeObserver
   useEffect(() => {
@@ -139,18 +153,18 @@ export default function TagCloud({ tags }: TagCloudProps) {
         for (let j = i + 1; j < positions.length; j++) {
           const posA = positions[i];
           const posB = positions[j];
-          
+
           const dx = posB.x - posA.x;
           const dy = posB.y - posA.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          
+
           if (dist < collisionRadius && dist > 0) {
             // Calculate push force (stronger when closer)
             const overlap = collisionRadius - dist;
             const force = overlap * 0.15;
             const nx = dx / dist;
             const ny = dy / dist;
-            
+
             // If one is being dragged, only push the other
             if (dragIndexRef.current === i) {
               positions[j].vx += nx * force * 2;
@@ -182,10 +196,22 @@ export default function TagCloud({ tags }: TagCloudProps) {
         y += vy;
 
         // Bounce off walls
-        if (x < padding) { x = padding; vx = Math.abs(vx) * 0.7; }
-        if (x > containerWidth - padding) { x = containerWidth - padding; vx = -Math.abs(vx) * 0.7; }
-        if (y < padding) { y = padding; vy = Math.abs(vy) * 0.7; }
-        if (y > height - padding) { y = height - padding; vy = -Math.abs(vy) * 0.7; }
+        if (x < padding) {
+          x = padding;
+          vx = Math.abs(vx) * 0.7;
+        }
+        if (x > containerWidth - padding) {
+          x = containerWidth - padding;
+          vx = -Math.abs(vx) * 0.7;
+        }
+        if (y < padding) {
+          y = padding;
+          vy = Math.abs(vy) * 0.7;
+        }
+        if (y > height - padding) {
+          y = height - padding;
+          vy = -Math.abs(vy) * 0.7;
+        }
 
         // Random drift
         vx += (Math.random() - 0.5) * 0.01;
@@ -204,7 +230,7 @@ export default function TagCloud({ tags }: TagCloudProps) {
       }
 
       // Trigger re-render
-      setRenderKey(k => k + 1);
+      setRenderKey((k) => k + 1);
       animationRef.current = requestAnimationFrame(animate);
     };
 
@@ -216,68 +242,83 @@ export default function TagCloud({ tags }: TagCloudProps) {
   }, [containerWidth]);
 
   // Mouse handlers
-  const handleMouseDown = useCallback((index: number, e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const pos = positionsRef.current[index];
-    if (!pos) return;
+  const handleMouseDown = useCallback(
+    (index: number, e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-    dragIndexRef.current = index;
-    dragStartRef.current = {
-      x: e.clientX,
-      y: e.clientY,
-      posX: pos.x,
-      posY: pos.y,
-    };
+      const pos = positionsRef.current[index];
+      if (!pos) return;
 
-    const handleMouseMove = (moveEvent: MouseEvent) => {
-      if (dragIndexRef.current === null || !dragStartRef.current) return;
-      
-      const dx = moveEvent.clientX - dragStartRef.current.x;
-      const dy = moveEvent.clientY - dragStartRef.current.y;
-      
-      const newX = Math.max(70, Math.min(containerWidth - 70, dragStartRef.current.posX + dx));
-      const newY = Math.max(50, Math.min(350, dragStartRef.current.posY + dy));
-      
-      positionsRef.current[dragIndexRef.current] = {
-        x: newX,
-        y: newY,
-        vx: 0,
-        vy: 0,
+      dragIndexRef.current = index;
+      dragStartRef.current = {
+        x: e.clientX,
+        y: e.clientY,
+        posX: pos.x,
+        posY: pos.y,
       };
-      setRenderKey(k => k + 1);
-    };
 
-    const handleMouseUp = () => {
-      if (dragIndexRef.current !== null) {
-        positionsRef.current[dragIndexRef.current].vx = (Math.random() - 0.5) * 1.5;
-        positionsRef.current[dragIndexRef.current].vy = (Math.random() - 0.5) * 1.5;
-      }
-      dragIndexRef.current = null;
-      dragStartRef.current = null;
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
+      const handleMouseMove = (moveEvent: MouseEvent) => {
+        if (dragIndexRef.current === null || !dragStartRef.current) return;
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  }, [containerWidth]);
+        const dx = moveEvent.clientX - dragStartRef.current.x;
+        const dy = moveEvent.clientY - dragStartRef.current.y;
+
+        const newX = Math.max(
+          70,
+          Math.min(containerWidth - 70, dragStartRef.current.posX + dx)
+        );
+        const newY = Math.max(
+          50,
+          Math.min(350, dragStartRef.current.posY + dy)
+        );
+
+        positionsRef.current[dragIndexRef.current] = {
+          x: newX,
+          y: newY,
+          vx: 0,
+          vy: 0,
+        };
+        setRenderKey((k) => k + 1);
+      };
+
+      const handleMouseUp = () => {
+        if (dragIndexRef.current !== null) {
+          positionsRef.current[dragIndexRef.current].vx =
+            (Math.random() - 0.5) * 1.5;
+          positionsRef.current[dragIndexRef.current].vy =
+            (Math.random() - 0.5) * 1.5;
+        }
+        dragIndexRef.current = null;
+        dragStartRef.current = null;
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    },
+    [containerWidth]
+  );
 
   const positions = positionsRef.current;
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[400px] overflow-hidden rounded-2xl"
+      className="relative h-[400px] w-full overflow-hidden rounded-2xl"
       data-no-magnetic="true"
       style={{
-        background: 'radial-gradient(circle at 30% 40%, rgba(245, 129, 34, 0.1) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(55, 175, 225, 0.1) 0%, transparent 50%)',
+        background:
+          'radial-gradient(circle at 30% 40%, rgba(245, 129, 34, 0.1) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(55, 175, 225, 0.1) 0%, transparent 50%)',
         border: '1px solid rgba(55, 175, 225, 0.2)',
       }}
     >
       {tags.map((tag, index) => {
-        const cfg = tagConfig[tag] || { icon: HiOutlineGlobeAlt, color: '#37AFE1' };
+        const cfg = tagConfig[tag] || {
+          icon: HiOutlineGlobeAlt,
+          color: '#37AFE1',
+        };
         const Icon = cfg.icon;
         const color = cfg.color;
         const hovered = hoveredTag === tag;
@@ -297,14 +338,17 @@ export default function TagCloud({ tags }: TagCloudProps) {
               transform: `translate(-50%, -50%) scale(${hovered ? 1.08 : 1})`,
               zIndex: hovered ? 50 : 10,
               cursor: 'grab',
-              transition: dragIndexRef.current === index ? 'none' : 'transform 0.15s ease-out',
+              transition:
+                dragIndexRef.current === index
+                  ? 'none'
+                  : 'transform 0.15s ease-out',
             }}
             onMouseDown={(e) => handleMouseDown(index, e)}
             onMouseEnter={() => setHoveredTag(tag)}
             onMouseLeave={() => setHoveredTag(null)}
           >
             <div
-              className="flex items-center gap-3 px-5 py-3 rounded-2xl font-semibold text-sm backdrop-blur-md"
+              className="flex items-center gap-3 rounded-2xl px-5 py-3 text-sm font-semibold backdrop-blur-md"
               style={{
                 background: hovered
                   ? `linear-gradient(135deg, ${color}40, ${color}20)`
@@ -317,10 +361,12 @@ export default function TagCloud({ tags }: TagCloudProps) {
               }}
             >
               <div
-                className="flex items-center justify-center w-9 h-9 rounded-xl"
-                style={{ background: hovered ? 'rgba(255,255,255,0.2)' : `${color}20` }}
+                className="flex h-9 w-9 items-center justify-center rounded-xl"
+                style={{
+                  background: hovered ? 'rgba(255,255,255,0.2)' : `${color}20`,
+                }}
               >
-                <Icon className="w-5 h-5" />
+                <Icon className="h-5 w-5" />
               </div>
               <span className="whitespace-nowrap">{tag}</span>
             </div>

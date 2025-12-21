@@ -214,9 +214,9 @@ export default function MediaLibrary() {
 
   // Get file icon
   const getFileIcon = (mimeType: string) => {
-    if (mimeType.startsWith('image/')) return <ImageIcon className="w-6 h-6" />;
-    if (mimeType.startsWith('video/')) return <Video className="w-6 h-6" />;
-    return <File className="w-6 h-6" />;
+    if (mimeType.startsWith('image/')) return <ImageIcon className="h-6 w-6" />;
+    if (mimeType.startsWith('video/')) return <Video className="h-6 w-6" />;
+    return <File className="h-6 w-6" />;
   };
 
   // Format file size
@@ -232,7 +232,7 @@ export default function MediaLibrary() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-slate-900">Media Library</h1>
-          <p className="text-slate-600 mt-1">
+          <p className="mt-1 text-slate-600">
             {total} file{total !== 1 ? 's' : ''} total
           </p>
         </div>
@@ -240,9 +240,9 @@ export default function MediaLibrary() {
         <button
           onClick={() => fileInputRef.current?.click()}
           disabled={uploading}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center space-x-2"
+          className="flex items-center space-x-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
         >
-          <Upload className="w-5 h-5" />
+          <Upload className="h-5 w-5" />
           <span>{uploading ? 'Uploading...' : 'Upload Files'}</span>
         </button>
 
@@ -259,8 +259,8 @@ export default function MediaLibrary() {
       {/* Toolbar */}
       <div className="flex items-center space-x-4">
         {/* Search */}
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
             placeholder="Search by filename or alt text..."
@@ -269,7 +269,7 @@ export default function MediaLibrary() {
               setSearchQuery(e.target.value);
               setOffset(0);
             }}
-            className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full rounded-lg border border-slate-300 py-2 pl-10 pr-4 focus:border-transparent focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
@@ -280,7 +280,7 @@ export default function MediaLibrary() {
             setFilterType(e.target.value);
             setOffset(0);
           }}
-          className="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500"
         >
           <option value="">All Types</option>
           <option value="image">Images</option>
@@ -295,9 +295,9 @@ export default function MediaLibrary() {
             </span>
             <button
               onClick={handleDelete}
-              className="px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-1"
+              className="flex items-center space-x-1 rounded-lg bg-red-600 px-3 py-2 text-white transition-colors hover:bg-red-700"
             >
-              <Trash2 className="w-4 h-4" />
+              <Trash2 className="h-4 w-4" />
               <span>Delete</span>
             </button>
           </div>
@@ -311,7 +311,7 @@ export default function MediaLibrary() {
             type="checkbox"
             checked={selectedItems.size === media.length}
             onChange={selectAll}
-            className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+            className="h-4 w-4 rounded text-blue-600 focus:ring-2 focus:ring-blue-500"
           />
           <label className="text-sm text-slate-600">Select All</label>
         </div>
@@ -324,54 +324,56 @@ export default function MediaLibrary() {
         onDragOver={handleDragOver}
         onDrop={handleDrop}
         className={`
-          relative border-2 border-dashed rounded-lg p-8 transition-colors
+          relative rounded-lg border-2 border-dashed p-8 transition-colors
           ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-slate-300'}
         `}
       >
         {isDragging && (
-          <div className="absolute inset-0 bg-blue-50 bg-opacity-90 flex items-center justify-center rounded-lg z-10">
+          <div className="absolute inset-0 z-10 flex items-center justify-center rounded-lg bg-blue-50 bg-opacity-90">
             <div className="text-center">
-              <Upload className="w-12 h-12 text-blue-600 mx-auto mb-2" />
-              <p className="text-lg font-medium text-blue-600">Drop files here</p>
+              <Upload className="mx-auto mb-2 h-12 w-12 text-blue-600" />
+              <p className="text-lg font-medium text-blue-600">
+                Drop files here
+              </p>
             </div>
           </div>
         )}
 
         {/* Media Grid */}
         {loading ? (
-          <div className="text-center py-12">
-            <div className="inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
-            <p className="text-slate-600 mt-4">Loading media...</p>
+          <div className="py-12 text-center">
+            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
+            <p className="mt-4 text-slate-600">Loading media...</p>
           </div>
         ) : media.length === 0 ? (
-          <div className="text-center py-12">
-            <Upload className="w-12 h-12 text-slate-400 mx-auto mb-4" />
+          <div className="py-12 text-center">
+            <Upload className="mx-auto mb-4 h-12 w-12 text-slate-400" />
             <p className="text-slate-600">No media files yet</p>
-            <p className="text-sm text-slate-500 mt-1">
+            <p className="mt-1 text-sm text-slate-500">
               Upload files or drag and drop them here
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {media.map((item) => (
               <div
                 key={item.id}
                 className={`
-                  relative group bg-white rounded-lg border-2 overflow-hidden cursor-pointer
+                  group relative cursor-pointer overflow-hidden rounded-lg border-2 bg-white
                   transition-all hover:shadow-lg
                   ${selectedItems.has(item.id) ? 'border-blue-500 ring-2 ring-blue-200' : 'border-slate-200'}
                 `}
                 onClick={() => toggleSelection(item.id)}
               >
                 {/* Thumbnail */}
-                <div className="aspect-square bg-slate-100 flex items-center justify-center">
+                <div className="flex aspect-square items-center justify-center bg-slate-100">
                   {item.mime_type.startsWith('image/') ? (
                     <Image
                       src={item.url}
                       alt={item.alternative_text || 'Media'}
                       width={200}
                       height={200}
-                      className="w-full h-full object-cover"
+                      className="h-full w-full object-cover"
                     />
                   ) : (
                     <div className="text-slate-400">
@@ -381,56 +383,59 @@ export default function MediaLibrary() {
                 </div>
 
                 {/* Selection checkbox */}
-                <div className="absolute top-2 left-2">
+                <div className="absolute left-2 top-2">
                   <input
                     type="checkbox"
                     checked={selectedItems.has(item.id)}
                     onChange={() => toggleSelection(item.id)}
                     onClick={(e) => e.stopPropagation()}
-                    className="w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                    className="h-5 w-5 rounded text-blue-600 focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
                 {/* Actions */}
-                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex space-x-1">
+                <div className="absolute right-2 top-2 flex space-x-1 opacity-0 transition-opacity group-hover:opacity-100">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       setEditingItem(item);
                       setEditAltText(item.alternative_text);
                     }}
-                    className="p-1.5 bg-white rounded shadow-lg hover:bg-slate-50"
+                    className="rounded bg-white p-1.5 shadow-lg hover:bg-slate-50"
                     title="Edit alt text"
                   >
-                    <Edit2 className="w-4 h-4 text-slate-600" />
+                    <Edit2 className="h-4 w-4 text-slate-600" />
                   </button>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       copyUrl(item.url);
                     }}
-                    className="p-1.5 bg-white rounded shadow-lg hover:bg-slate-50"
+                    className="rounded bg-white p-1.5 shadow-lg hover:bg-slate-50"
                     title="Copy URL"
                   >
-                    <Copy className="w-4 h-4 text-slate-600" />
+                    <Copy className="h-4 w-4 text-slate-600" />
                   </button>
                   <a
                     href={item.url}
                     download
                     onClick={(e) => e.stopPropagation()}
-                    className="p-1.5 bg-white rounded shadow-lg hover:bg-slate-50"
+                    className="rounded bg-white p-1.5 shadow-lg hover:bg-slate-50"
                     title="Download"
                   >
-                    <Download className="w-4 h-4 text-slate-600" />
+                    <Download className="h-4 w-4 text-slate-600" />
                   </a>
                 </div>
 
                 {/* Info */}
-                <div className="p-2 bg-white">
-                  <p className="text-xs text-slate-600 truncate" title={item.alternative_text}>
+                <div className="bg-white p-2">
+                  <p
+                    className="truncate text-xs text-slate-600"
+                    title={item.alternative_text}
+                  >
                     {item.alternative_text || 'No alt text'}
                   </p>
-                  <p className="text-xs text-slate-400 mt-0.5">
+                  <p className="mt-0.5 text-xs text-slate-400">
                     {formatFileSize(item.size)}
                   </p>
                 </div>
@@ -446,7 +451,7 @@ export default function MediaLibrary() {
           <button
             onClick={() => setOffset(Math.max(0, offset - limit))}
             disabled={offset === 0}
-            className="px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="rounded-lg border border-slate-300 px-4 py-2 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Previous
           </button>
@@ -456,7 +461,7 @@ export default function MediaLibrary() {
           <button
             onClick={() => setOffset(offset + limit)}
             disabled={offset + limit >= total}
-            className="px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="rounded-lg border border-slate-300 px-4 py-2 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Next
           </button>
@@ -465,18 +470,20 @@ export default function MediaLibrary() {
 
       {/* Edit Modal */}
       {editingItem && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-2xl w-full p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-slate-900">Edit Alt Text</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="w-full max-w-2xl rounded-lg bg-white p-6">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-slate-900">
+                Edit Alt Text
+              </h2>
               <button
                 onClick={() => {
                   setEditingItem(null);
                   setEditAltText('');
                 }}
-                className="p-1 hover:bg-slate-100 rounded"
+                className="rounded p-1 hover:bg-slate-100"
               >
-                <X className="w-5 h-5" />
+                <X className="h-5 w-5" />
               </button>
             </div>
 
@@ -488,10 +495,10 @@ export default function MediaLibrary() {
                   alt={editingItem.alternative_text}
                   width={400}
                   height={300}
-                  className="w-full h-48 object-contain bg-slate-100 rounded"
+                  className="h-48 w-full rounded bg-slate-100 object-contain"
                 />
               ) : (
-                <div className="w-full h-48 bg-slate-100 rounded flex items-center justify-center">
+                <div className="flex h-48 w-full items-center justify-center rounded bg-slate-100">
                   {getFileIcon(editingItem.mime_type)}
                 </div>
               )}
@@ -499,7 +506,7 @@ export default function MediaLibrary() {
 
             {/* Alt text input */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="mb-2 block text-sm font-medium text-slate-700">
                 Alternative Text
               </label>
               <input
@@ -507,9 +514,9 @@ export default function MediaLibrary() {
                 value={editAltText}
                 onChange={(e) => setEditAltText(e.target.value)}
                 placeholder="Describe this image..."
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500"
               />
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="mt-1 text-xs text-slate-500">
                 Provide a description for accessibility and SEO
               </p>
             </div>
@@ -521,15 +528,15 @@ export default function MediaLibrary() {
                   setEditingItem(null);
                   setEditAltText('');
                 }}
-                className="px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50"
+                className="rounded-lg border border-slate-300 px-4 py-2 hover:bg-slate-50"
               >
                 Cancel
               </button>
               <button
                 onClick={handleUpdateAltText}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center space-x-2"
+                className="flex items-center space-x-2 rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
               >
-                <Check className="w-4 h-4" />
+                <Check className="h-4 w-4" />
                 <span>Save</span>
               </button>
             </div>

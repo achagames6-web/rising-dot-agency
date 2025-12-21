@@ -34,7 +34,7 @@ export default function ContactForm() {
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [focusedField, setFocusedField] = useState<string | null>(null);
@@ -49,16 +49,16 @@ export default function ContactForm() {
     if (particles.length === 0) return;
 
     const animate = () => {
-      setParticles(prev =>
+      setParticles((prev) =>
         prev
-          .map(p => ({
+          .map((p) => ({
             ...p,
             x: p.x + p.vx,
             y: p.y + p.vy,
             vy: p.vy - 0.2, // upward movement
-            life: p.life - 0.01
+            life: p.life - 0.01,
           }))
-          .filter(p => p.life > 0)
+          .filter((p) => p.life > 0)
       );
     };
 
@@ -66,7 +66,12 @@ export default function ContactForm() {
     return () => clearInterval(intervalId);
   }, [particles.length]);
 
-  const emitParticles = (x: number, y: number, color: string, count: number = 15) => {
+  const emitParticles = (
+    x: number,
+    y: number,
+    color: string,
+    count: number = 15
+  ) => {
     const newParticles: Particle[] = [];
 
     for (let i = 0; i < count; i++) {
@@ -80,11 +85,11 @@ export default function ContactForm() {
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
         life: 1.0,
-        color
+        color,
       });
     }
 
-    setParticles(prev => [...prev, ...newParticles]);
+    setParticles((prev) => [...prev, ...newParticles]);
   };
 
   const emitConfetti = () => {
@@ -108,50 +113,59 @@ export default function ContactForm() {
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed - 2,
         life: 1.0,
-        color: ['#31A4DB', '#2563EB', '#37AFE1', '#F97316'][Math.floor(Math.random() * 4)]
+        color: ['#31A4DB', '#2563EB', '#37AFE1', '#F97316'][
+          Math.floor(Math.random() * 4)
+        ],
       });
     }
 
-    setParticles(prev => [...prev, ...newParticles]);
+    setParticles((prev) => [...prev, ...newParticles]);
   };
 
   const validateField = (name: string, value: string): string | undefined => {
     switch (name) {
       case 'name':
         if (!value.trim()) return 'Name is required';
-        if (value.trim().length < 2) return 'Name must be at least 2 characters';
+        if (value.trim().length < 2)
+          return 'Name must be at least 2 characters';
         break;
       case 'email':
         if (!value.trim()) return 'Email is required';
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Invalid email address';
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+          return 'Invalid email address';
         break;
       case 'subject':
         if (!value.trim()) return 'Subject is required';
         break;
       case 'message':
         if (!value.trim()) return 'Message is required';
-        if (value.trim().length < 10) return 'Message must be at least 10 characters';
+        if (value.trim().length < 10)
+          return 'Message must be at least 10 characters';
         break;
     }
     return undefined;
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
 
     // Clear error when user starts typing
     if (errors[name as keyof FormErrors]) {
-      setErrors(prev => ({ ...prev, [name]: undefined }));
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
   };
 
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleBlur = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     const error = validateField(name, value);
 
     if (error) {
-      setErrors(prev => ({ ...prev, [name]: error }));
+      setErrors((prev) => ({ ...prev, [name]: error }));
       // Emit error particles
       const rect = e.target.getBoundingClientRect();
       emitParticles(rect.width / 2, rect.height / 2, '#EF4444', 8);
@@ -169,7 +183,7 @@ export default function ContactForm() {
 
     // Validate all fields
     const newErrors: FormErrors = {};
-    Object.keys(formData).forEach(key => {
+    Object.keys(formData).forEach((key) => {
       const error = validateField(key, formData[key as keyof FormData]);
       if (error) newErrors[key as keyof FormErrors] = error;
     });
@@ -216,17 +230,17 @@ export default function ContactForm() {
   return (
     <div className="relative">
       {/* Particle overlay */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
-        {particles.map(particle => (
+      <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
+        {particles.map((particle) => (
           <div
             key={particle.id}
-            className="absolute w-2 h-2 rounded-full"
+            className="absolute h-2 w-2 rounded-full"
             style={{
               left: particle.x,
               top: particle.y,
               opacity: particle.life,
               backgroundColor: particle.color,
-              boxShadow: `0 0 ${particle.life * 10}px ${particle.color}`
+              boxShadow: `0 0 ${particle.life * 10}px ${particle.color}`,
             }}
           />
         ))}
@@ -291,7 +305,7 @@ export default function ContactForm() {
             type="submit"
             disabled={isSubmitting || submitSuccess}
             backgroundColor={submitSuccess ? '#31A4DB' : undefined}
-            className="w-full h-14 text-lg font-semibold hover:scale-102 transition-transform disabled:opacity-70"
+            className="hover:scale-102 h-14 w-full text-lg font-semibold transition-transform disabled:opacity-70"
             duration={2.5}
           >
             {isSubmitting ? (
@@ -325,12 +339,24 @@ interface FormFieldProps {
   value: string;
   error?: string;
   isFocused: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
   onFocus: () => void;
   onBlur: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
-function FormField({ name, label, type, value, error, isFocused, onChange, onFocus, onBlur }: FormFieldProps) {
+function FormField({
+  name,
+  label,
+  type,
+  value,
+  error,
+  isFocused,
+  onChange,
+  onFocus,
+  onBlur,
+}: FormFieldProps) {
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
 
   return (
@@ -338,11 +364,11 @@ function FormField({ name, label, type, value, error, isFocused, onChange, onFoc
       {/* Animated label */}
       <motion.label
         htmlFor={name}
-        className="absolute left-4 pointer-events-none transition-all duration-200"
+        className="pointer-events-none absolute left-4 transition-all duration-200"
         animate={{
           top: isFocused || value ? '0.5rem' : '1rem',
           fontSize: isFocused || value ? '0.75rem' : '1rem',
-          color: error ? '#EF4444' : isFocused ? '#37AFE1' : '#64748B'
+          color: error ? '#EF4444' : isFocused ? '#37AFE1' : '#64748B',
         }}
         transition={{ type: 'spring', stiffness: 170, damping: 26 }}
       >
@@ -360,18 +386,18 @@ function FormField({ name, label, type, value, error, isFocused, onChange, onFoc
           onFocus={onFocus}
           onBlur={onBlur}
           rows={5}
-          className={`w-full pt-6 pb-3 px-4 bg-[#0F172A] border-2 rounded-lg text-white outline-none transition-all ${
+          className={`w-full rounded-lg border-2 bg-[#0F172A] px-4 pb-3 pt-6 text-white outline-none transition-all ${
             error
               ? 'border-[#EF4444]'
               : isFocused
-              ? 'border-[#37AFE1] shadow-lg shadow-[#37AFE1]/20'
-              : 'border-[#64748B]/30'
+                ? 'border-[#37AFE1] shadow-lg shadow-[#37AFE1]/20'
+                : 'border-[#64748B]/30'
           }`}
           animate={
             error
               ? {
                   x: [0, -10, 10, -10, 10, 0],
-                  transition: { duration: 0.4 }
+                  transition: { duration: 0.4 },
                 }
               : {}
           }
@@ -386,18 +412,18 @@ function FormField({ name, label, type, value, error, isFocused, onChange, onFoc
           onChange={onChange}
           onFocus={onFocus}
           onBlur={onBlur}
-          className={`w-full pt-6 pb-3 px-4 bg-[#0F172A] border-2 rounded-lg text-white outline-none transition-all ${
+          className={`w-full rounded-lg border-2 bg-[#0F172A] px-4 pb-3 pt-6 text-white outline-none transition-all ${
             error
               ? 'border-[#EF4444]'
               : isFocused
-              ? 'border-[#37AFE1] shadow-lg shadow-[#37AFE1]/20'
-              : 'border-[#64748B]/30'
+                ? 'border-[#37AFE1] shadow-lg shadow-[#37AFE1]/20'
+                : 'border-[#64748B]/30'
           }`}
           animate={
             error
               ? {
                   x: [0, -10, 10, -10, 10, 0],
-                  transition: { duration: 0.4 }
+                  transition: { duration: 0.4 },
                 }
               : {}
           }
@@ -421,13 +447,14 @@ function FormField({ name, label, type, value, error, isFocused, onChange, onFoc
       {/* Liquid ripple effect on focus */}
       {isFocused && (
         <motion.div
-          className="absolute inset-0 rounded-lg pointer-events-none"
+          className="pointer-events-none absolute inset-0 rounded-lg"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           style={{
-            background: 'radial-gradient(circle at center, rgba(139, 92, 246, 0.1) 0%, transparent 70%)',
-            filter: 'blur(10px)'
+            background:
+              'radial-gradient(circle at center, rgba(139, 92, 246, 0.1) 0%, transparent 70%)',
+            filter: 'blur(10px)',
           }}
         />
       )}

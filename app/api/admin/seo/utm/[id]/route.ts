@@ -16,12 +16,18 @@ export async function DELETE(
     });
 
     if (result.deletedCount === 0) {
-      return NextResponse.json({ error: 'UTM link not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'UTM link not found' },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting UTM link:', error);
-    return NextResponse.json({ error: 'Failed to delete UTM link' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to delete UTM link' },
+      { status: 500 }
+    );
   }
 }

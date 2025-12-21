@@ -1,6 +1,6 @@
 /**
  * Performance Monitoring Hook
- * 
+ *
  * React hook for accessing Sentry performance monitoring
  * Implements Requirements 21.10, 40.7
  */
@@ -33,12 +33,20 @@ export function usePerformanceMonitoring() {
     return () => clearInterval(interval);
   }, []);
 
-  const trackAnimationPerformance = (animationName: string, duration: number, fps: number) => {
+  const trackAnimationPerformance = (
+    animationName: string,
+    duration: number,
+    fps: number
+  ) => {
     const monitor = getSentryMonitor();
     monitor?.trackAnimationPerformance(animationName, duration, fps);
   };
 
-  const trackCustomMetric = (name: string, value: number, unit: string = 'ms') => {
+  const trackCustomMetric = (
+    name: string,
+    value: number,
+    unit: string = 'ms'
+  ) => {
     const monitor = getSentryMonitor();
     monitor?.trackPerformanceMetric(name, value, unit);
   };

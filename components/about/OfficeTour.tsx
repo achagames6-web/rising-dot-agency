@@ -24,44 +24,102 @@ const defaultTourStops: TourStop[] = [
   {
     id: '1',
     name: 'Reception Area',
-    description: 'Welcome to Rising Dot! Our modern reception area sets the tone for innovation.',
+    description:
+      'Welcome to Rising Dot! Our modern reception area sets the tone for innovation.',
     image: '🏢',
     hotspots: [
-      { id: '1-1', x: 30, y: 40, title: 'Digital Display', description: 'Real-time project showcase' },
-      { id: '1-2', x: 70, y: 50, title: 'Lounge', description: 'Comfortable waiting area' }
-    ]
+      {
+        id: '1-1',
+        x: 30,
+        y: 40,
+        title: 'Digital Display',
+        description: 'Real-time project showcase',
+      },
+      {
+        id: '1-2',
+        x: 70,
+        y: 50,
+        title: 'Lounge',
+        description: 'Comfortable waiting area',
+      },
+    ],
   },
   {
     id: '2',
     name: 'Open Workspace',
-    description: 'Collaborative environment where creativity flows and ideas come to life.',
+    description:
+      'Collaborative environment where creativity flows and ideas come to life.',
     image: '💻',
     hotspots: [
-      { id: '2-1', x: 25, y: 35, title: 'Dev Stations', description: 'Dual-monitor setups for developers' },
-      { id: '2-2', x: 50, y: 60, title: 'Standing Desks', description: 'Ergonomic workstations' },
-      { id: '2-3', x: 75, y: 45, title: 'Collaboration Zone', description: 'Whiteboard brainstorming area' }
-    ]
+      {
+        id: '2-1',
+        x: 25,
+        y: 35,
+        title: 'Dev Stations',
+        description: 'Dual-monitor setups for developers',
+      },
+      {
+        id: '2-2',
+        x: 50,
+        y: 60,
+        title: 'Standing Desks',
+        description: 'Ergonomic workstations',
+      },
+      {
+        id: '2-3',
+        x: 75,
+        y: 45,
+        title: 'Collaboration Zone',
+        description: 'Whiteboard brainstorming area',
+      },
+    ],
   },
   {
     id: '3',
     name: 'Meeting Rooms',
-    description: 'State-of-the-art meeting spaces equipped with the latest technology.',
+    description:
+      'State-of-the-art meeting spaces equipped with the latest technology.',
     image: '🎯',
     hotspots: [
-      { id: '3-1', x: 40, y: 50, title: 'Video Conferencing', description: '4K cameras and audio' },
-      { id: '3-2', x: 70, y: 40, title: 'Smart Board', description: 'Interactive presentation display' }
-    ]
+      {
+        id: '3-1',
+        x: 40,
+        y: 50,
+        title: 'Video Conferencing',
+        description: '4K cameras and audio',
+      },
+      {
+        id: '3-2',
+        x: 70,
+        y: 40,
+        title: 'Smart Board',
+        description: 'Interactive presentation display',
+      },
+    ],
   },
   {
     id: '4',
     name: 'Break Room',
-    description: 'Recharge and connect with teammates in our fully-stocked break area.',
+    description:
+      'Recharge and connect with teammates in our fully-stocked break area.',
     image: '☕',
     hotspots: [
-      { id: '4-1', x: 30, y: 45, title: 'Coffee Bar', description: 'Premium espresso machine' },
-      { id: '4-2', x: 60, y: 55, title: 'Game Zone', description: 'Ping pong and arcade games' }
-    ]
-  }
+      {
+        id: '4-1',
+        x: 30,
+        y: 45,
+        title: 'Coffee Bar',
+        description: 'Premium espresso machine',
+      },
+      {
+        id: '4-2',
+        x: 60,
+        y: 55,
+        title: 'Game Zone',
+        description: 'Ping pong and arcade games',
+      },
+    ],
+  },
 ];
 
 export default function OfficeTour() {
@@ -93,7 +151,7 @@ export default function OfficeTour() {
   return (
     <div className="relative">
       {/* Main viewer */}
-      <div className="relative h-[600px] bg-[#0F172A] rounded-2xl overflow-hidden border border-[#64748B]/20">
+      <div className="relative h-[600px] overflow-hidden rounded-2xl border border-[#64748B]/20 bg-[#0F172A]">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentStop}
@@ -104,7 +162,7 @@ export default function OfficeTour() {
             className="absolute inset-0 flex items-center justify-center"
           >
             {/* 360° view simulation */}
-            <div className="relative w-full h-full">
+            <div className="relative h-full w-full">
               {/* Background gradient */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#2563EB]/20 to-[#37AFE1]/20" />
 
@@ -121,7 +179,7 @@ export default function OfficeTour() {
                   style={{
                     left: `${hotspot.x}%`,
                     top: `${hotspot.y}%`,
-                    transform: 'translate(-50%, -50%)'
+                    transform: 'translate(-50%, -50%)',
                   }}
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
@@ -130,18 +188,18 @@ export default function OfficeTour() {
                   onClick={() => setSelectedHotspot(hotspot.id)}
                 >
                   <motion.div
-                    className="w-10 h-10 rounded-full bg-[#2563EB] border-2 border-white shadow-lg flex items-center justify-center text-white font-bold"
+                    className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-[#2563EB] font-bold text-white shadow-lg"
                     animate={{
                       boxShadow: [
                         '0 0 0 0 rgba(37, 99, 235, 0.7)',
                         '0 0 0 20px rgba(37, 99, 235, 0)',
-                        '0 0 0 0 rgba(37, 99, 235, 0)'
-                      ]
+                        '0 0 0 0 rgba(37, 99, 235, 0)',
+                      ],
                     }}
                     transition={{
                       duration: 2,
                       repeat: Infinity,
-                      ease: 'easeOut'
+                      ease: 'easeOut',
                     }}
                   >
                     +
@@ -154,9 +212,9 @@ export default function OfficeTour() {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 10 }}
-                        className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-64 p-4 bg-[#1E293B] rounded-lg shadow-xl border border-[#2563EB]/30 z-10"
+                        className="absolute left-1/2 top-full z-10 mt-2 w-64 -translate-x-1/2 rounded-lg border border-[#2563EB]/30 bg-[#1E293B] p-4 shadow-xl"
                       >
-                        <h4 className="font-bold text-white mb-2">
+                        <h4 className="mb-2 font-bold text-white">
                           {hotspot.title}
                         </h4>
                         <p className="text-sm text-[#64748B]">
@@ -169,11 +227,11 @@ export default function OfficeTour() {
               ))}
 
               {/* Info overlay */}
-              <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-[#0F172A] to-transparent">
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#0F172A] to-transparent p-8">
                 <motion.h3
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-3xl font-bold text-white mb-2"
+                  className="mb-2 text-3xl font-bold text-white"
                 >
                   {currentTourStop.name}
                 </motion.h3>
@@ -193,13 +251,13 @@ export default function OfficeTour() {
         {/* Navigation arrows */}
         <button
           onClick={handlePrev}
-          className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-[#1E293B] hover:bg-[#2563EB] transition-colors flex items-center justify-center text-white text-2xl z-20"
+          className="absolute left-4 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-[#1E293B] text-2xl text-white transition-colors hover:bg-[#2563EB]"
         >
           ←
         </button>
         <button
           onClick={handleNext}
-          className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-[#1E293B] hover:bg-[#2563EB] transition-colors flex items-center justify-center text-white text-2xl z-20"
+          className="absolute right-4 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-[#1E293B] text-2xl text-white transition-colors hover:bg-[#2563EB]"
         >
           →
         </button>
@@ -214,7 +272,7 @@ export default function OfficeTour() {
               setCurrentStop(index);
               setSelectedHotspot(null);
             }}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+            className={`rounded-lg px-6 py-3 font-semibold transition-all ${
               currentStop === index
                 ? 'bg-[#2563EB] text-white shadow-lg shadow-[#2563EB]/50'
                 : 'bg-[#1E293B] text-[#64748B] hover:bg-[#1E293B]/80'

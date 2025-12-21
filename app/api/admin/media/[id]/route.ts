@@ -25,12 +25,14 @@ export async function GET(
 ) {
   try {
     const user = await getCurrentUser();
-    
+
     if (!user || (user.role !== 'admin' && user.role !== 'editor')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const result = await query<MediaItem>('SELECT * FROM media WHERE id = $1', [params.id]);
+    const result = await query<MediaItem>('SELECT * FROM media WHERE id = $1', [
+      params.id,
+    ]);
 
     if (result.length === 0) {
       return NextResponse.json({ error: 'Media not found' }, { status: 404 });
@@ -56,7 +58,7 @@ export async function PATCH(
 ) {
   try {
     const user = await getCurrentUser();
-    
+
     if (!user || (user.role !== 'admin' && user.role !== 'editor')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -96,13 +98,16 @@ export async function DELETE(
 ) {
   try {
     const user = await getCurrentUser();
-    
+
     if (!user || (user.role !== 'admin' && user.role !== 'editor')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // Get the media URL before deleting
-    const mediaResult = await query<{ url: string }>('SELECT url FROM media WHERE id = $1', [params.id]);
+    const mediaResult = await query<{ url: string }>(
+      'SELECT url FROM media WHERE id = $1',
+      [params.id]
+    );
 
     if (mediaResult.length === 0) {
       return NextResponse.json({ error: 'Media not found' }, { status: 404 });

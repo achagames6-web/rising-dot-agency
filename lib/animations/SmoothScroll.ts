@@ -1,9 +1,9 @@
 /**
  * SmoothScroll System
- * 
+ *
  * Integrates Lenis for momentum-based smooth scrolling with velocity tracking
  * and scroll-triggered animation support.
- * 
+ *
  * Requirements: 6.1, 6.2, 33.1-33.10, 37.1-37.10
  */
 
@@ -54,8 +54,11 @@ export class SmoothScroll {
   private scrollTriggers: Map<string, ScrollTrigger> = new Map();
   private rafId: number | null = null;
   private isEnabled: boolean = true;
-  private onScrollCallbacks: Set<(data: { scroll: number; velocity: number }) => void> = new Set();
-  private onVelocityCallbacks: Set<(velocity: VelocityData) => void> = new Set();
+  private onScrollCallbacks: Set<
+    (data: { scroll: number; velocity: number }) => void
+  > = new Set();
+  private onVelocityCallbacks: Set<(velocity: VelocityData) => void> =
+    new Set();
 
   constructor(config: SmoothScrollConfig = {}) {
     if (typeof window === 'undefined') {
@@ -114,7 +117,7 @@ export class SmoothScroll {
       this.velocity.previous = this.velocity.current;
       this.velocity.current = e.velocity || 0;
       this.velocity.delta = this.velocity.current - this.velocity.previous;
-      
+
       // Determine scroll direction
       if (this.velocity.current > 0.01) {
         this.velocity.direction = 'down';
@@ -125,7 +128,7 @@ export class SmoothScroll {
       }
 
       // Notify scroll callbacks
-      this.onScrollCallbacks.forEach(callback => {
+      this.onScrollCallbacks.forEach((callback) => {
         callback({
           scroll: e.scroll || 0,
           velocity: this.velocity.current,
@@ -133,7 +136,7 @@ export class SmoothScroll {
       });
 
       // Notify velocity callbacks
-      this.onVelocityCallbacks.forEach(callback => {
+      this.onVelocityCallbacks.forEach((callback) => {
         callback({ ...this.velocity });
       });
 
@@ -150,7 +153,7 @@ export class SmoothScroll {
 
     const raf = (time: number) => {
       if (!this.isEnabled || !this.lenis) return;
-      
+
       this.lenis.raf(time);
       this.rafId = requestAnimationFrame(raf);
     };
@@ -173,7 +176,7 @@ export class SmoothScroll {
    */
   public destroy(): void {
     this.stop();
-    
+
     if (this.lenis) {
       this.lenis.destroy();
       this.lenis = null;
@@ -247,9 +250,11 @@ export class SmoothScroll {
   /**
    * Register a callback for scroll events
    */
-  public onScroll(callback: (data: { scroll: number; velocity: number }) => void): () => void {
+  public onScroll(
+    callback: (data: { scroll: number; velocity: number }) => void
+  ): () => void {
     this.onScrollCallbacks.add(callback);
-    
+
     // Return unsubscribe function
     return () => {
       this.onScrollCallbacks.delete(callback);
@@ -261,7 +266,7 @@ export class SmoothScroll {
    */
   public onVelocity(callback: (velocity: VelocityData) => void): () => void {
     this.onVelocityCallbacks.add(callback);
-    
+
     // Return unsubscribe function
     return () => {
       this.onVelocityCallbacks.delete(callback);
@@ -287,22 +292,23 @@ export class SmoothScroll {
    * Check scroll triggers and fire callbacks
    */
   private checkScrollTriggers(scroll: number): void {
-    this.scrollTriggers.forEach(trigger => {
+    this.scrollTriggers.forEach((trigger) => {
       const { start, end, onEnter, onLeave, onProgress } = trigger;
-      
+
       // Check if element is in viewport
       if (trigger.element) {
         const rect = trigger.element.getBoundingClientRect();
         const elementTop = scroll + rect.top;
         const elementBottom = elementTop + rect.height;
         const viewportHeight = window.innerHeight;
-        
+
         // Calculate if element is in view
-        const isInView = elementTop < scroll + viewportHeight && elementBottom > scroll;
-        
+        const isInView =
+          elementTop < scroll + viewportHeight && elementBottom > scroll;
+
         // Fire enter/leave callbacks
         const wasInView = trigger.element.dataset.inView === 'true';
-        
+
         if (isInView && !wasInView) {
           trigger.element.dataset.inView = 'true';
           onEnter?.();
@@ -310,12 +316,17 @@ export class SmoothScroll {
           trigger.element.dataset.inView = 'false';
           onLeave?.();
         }
-        
+
         // Calculate progress
         if (onProgress && isInView) {
-          const progress = Math.max(0, Math.min(1, 
-            (scroll + viewportHeight - elementTop) / (viewportHeight + rect.height)
-          ));
+          const progress = Math.max(
+            0,
+            Math.min(
+              1,
+              (scroll + viewportHeight - elementTop) /
+                (viewportHeight + rect.height)
+            )
+          );
           onProgress(progress);
         }
       } else {

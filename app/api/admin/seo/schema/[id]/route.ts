@@ -22,6 +22,9 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting schema:', error);
-    return NextResponse.json({ error: 'Failed to delete schema' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to delete schema' },
+      { status: 500 }
+    );
   }
 }

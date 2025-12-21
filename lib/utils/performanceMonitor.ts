@@ -46,7 +46,8 @@ export class PerformanceMonitor {
         }
 
         // Calculate average FPS
-        this.fps = this.frameTimes.reduce((a, b) => a + b, 0) / this.frameTimes.length;
+        this.fps =
+          this.frameTimes.reduce((a, b) => a + b, 0) / this.frameTimes.length;
       }
 
       this.frameCount++;
@@ -54,7 +55,7 @@ export class PerformanceMonitor {
       // Notify callbacks every 10 frames
       if (this.frameCount % 10 === 0) {
         const metrics = this.getMetrics();
-        this.callbacks.forEach(callback => callback(metrics));
+        this.callbacks.forEach((callback) => callback(metrics));
       }
 
       this.animationFrameId = requestAnimationFrame(measure);
@@ -77,19 +78,18 @@ export class PerformanceMonitor {
    * Get current performance metrics
    */
   getMetrics(): PerformanceMetrics {
-    const averageFPS = this.frameTimes.length > 0
-      ? this.frameTimes.reduce((a, b) => a + b, 0) / this.frameTimes.length
-      : 60;
+    const averageFPS =
+      this.frameTimes.length > 0
+        ? this.frameTimes.reduce((a, b) => a + b, 0) / this.frameTimes.length
+        : 60;
 
-    const minFPS = this.frameTimes.length > 0
-      ? Math.min(...this.frameTimes)
-      : 60;
+    const minFPS =
+      this.frameTimes.length > 0 ? Math.min(...this.frameTimes) : 60;
 
-    const maxFPS = this.frameTimes.length > 0
-      ? Math.max(...this.frameTimes)
-      : 60;
+    const maxFPS =
+      this.frameTimes.length > 0 ? Math.max(...this.frameTimes) : 60;
 
-    const droppedFrames = this.frameTimes.filter(fps => fps < 30).length;
+    const droppedFrames = this.frameTimes.filter((fps) => fps < 30).length;
 
     return {
       fps: this.fps,

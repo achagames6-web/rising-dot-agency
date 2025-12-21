@@ -24,6 +24,7 @@
 Rising Dot Agency is a premium digital agency website built with Next.js 14, featuring a fully-functional CMS dashboard for content management. The website showcases services including Web Design, Shopify Development, WordPress, N8N Automations, Chatbot Development, and SEO services.
 
 ### Key Features
+
 - Modern, animated UI with Framer Motion and GSAP
 - Full CMS for managing all website content
 - Cloudinary integration for media management
@@ -37,19 +38,19 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 
 ## Technology Stack
 
-| Category | Technology |
-|----------|------------|
-| Framework | Next.js 14 (App Router) |
-| Language | TypeScript |
-| Styling | Tailwind CSS |
-| Animation | Framer Motion, GSAP |
-| 3D Graphics | Three.js, Spline |
-| Database | MongoDB |
-| Authentication | NextAuth.js |
-| Media Storage | Cloudinary |
-| AI/Chat | Groq API |
-| Email | Resend |
-| Deployment | Vercel |
+| Category       | Technology              |
+| -------------- | ----------------------- |
+| Framework      | Next.js 14 (App Router) |
+| Language       | TypeScript              |
+| Styling        | Tailwind CSS            |
+| Animation      | Framer Motion, GSAP     |
+| 3D Graphics    | Three.js                |
+| Database       | MongoDB                 |
+| Authentication | NextAuth.js             |
+| Media Storage  | Cloudinary              |
+| AI/Chat        | Groq API                |
+| Email          | Resend                  |
+| Deployment     | Vercel                  |
 
 ---
 
@@ -62,6 +63,7 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 **Description:** Floating navigation header with magnetic hover effects, services dropdown, and mobile responsive menu.
 
 **Features:**
+
 - Floating pill-style navigation
 - Magnetic hover effects on nav links
 - Services dropdown with animated transitions
@@ -70,12 +72,14 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 - CTA button with particle effects
 
 **CMS Integration:**
+
 - Logo: Managed via Navigation Settings (`/admin/navigation`)
 - Nav Links: Configurable order, labels, and visibility
 - Service Links: Dropdown items managed in Navigation Settings
 - CTA Button: Label, href, and enabled state
 
 **How to Edit:**
+
 1. Go to Admin Dashboard → Navigation
 2. Header tab allows editing:
    - Logo path
@@ -92,6 +96,7 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 **Description:** Full-width footer with company info, link columns, newsletter subscription, and social links.
 
 **Features:**
+
 - Company logo and description
 - Dynamic link columns (configurable)
 - Newsletter subscription form
@@ -99,10 +104,12 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 - Copyright text with auto-year
 
 **CMS Integration:**
+
 - All content managed via Navigation Settings (`/admin/navigation`)
 - Footer tab in Navigation page
 
 **How to Edit:**
+
 1. Go to Admin Dashboard → Navigation
 2. Footer tab allows editing:
    - Footer logo
@@ -112,6 +119,7 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
    - Link columns (add/remove columns and links)
 
 **Social Links Configuration:**
+
 - Facebook, Instagram, TikTok, YouTube, Twitter/X
 - LinkedIn, Telegram, Discord, Pinterest, GitHub
 - Each can be enabled/disabled with custom URL
@@ -126,27 +134,30 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 
 #### Section 1: Hero (`components/sections/Hero.tsx`)
 
-**Description:** Two-column hero with animated text, floating service icons, and 3D Spline scene.
+**Description:** Single-column centered hero with animated text and modern gradient mesh background animation.
 
 **Features:**
-- Typewriter text animation
-- Floating service icons (WordPress, Shopify, N8N, Chatbot, SEO, Web Design)
-- 3D Spline interactive scene
+
+- Animated gradient text title
+- Modern gradient mesh background with smooth CSS animations
 - Animated CTA button with star effect
 - Scroll indicator
+- Optimized performance with GPU-accelerated transforms
 
 **CMS Content Keys:**
+
 - Page: `home`, Section: `hero`
 - Fields: `eyebrow`, `title`, `subtitle`, `ctaText`, `ctaLink`, `scrollText`
 
 **How to Edit:**
+
 1. Go to Admin Dashboard → Pages → Home
 2. Edit Hero section content
 3. Change eyebrow text, main title, subtitle, CTA button text/link
 
 **Images/Media:**
-- 3D Scene: `/public/scene.splinecode`
-- Service icons are SVG-based, rendered on canvas
+
+- Background uses CSS-based gradient animation (no media files needed)
 
 ---
 
@@ -155,6 +166,7 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 **Description:** Video showreel with GSAP parallax scrolling, play/pause controls, and moving border animation.
 
 **Features:**
+
 - Responsive video (desktop 16:9, mobile 9:16)
 - Play/pause on hover
 - Volume toggle with fade animation
@@ -162,6 +174,7 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 - GSAP ScrollTrigger parallax
 
 **How to Edit:**
+
 1. Replace video files in `/public/videos/`
    - Desktop: `showreel_desktop_16-9.mp4`
    - Mobile: `showreel_mobile_9-16.mp4`
@@ -175,16 +188,19 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 **Description:** Sticky scroll cards showcasing 6 main services with images and CTAs.
 
 **Features:**
+
 - Sticky scroll effect (cards stack as you scroll)
 - Alternating image/text layout
 - Animated gradient titles
 - Star button CTAs
 
 **CMS Content Keys:**
+
 - Page: `home`, Section: `featuredServices`
 - Fields: `eyebrow`, `title`, `titleHighlight`, `subtitle`, `services[]`
 
 **Services Array Structure:**
+
 ```typescript
 {
   title: string;
@@ -196,6 +212,7 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 ```
 
 **How to Edit:**
+
 1. Go to Admin Dashboard → Pages → Home
 2. Edit Featured Services section
 3. Modify service cards, images, descriptions, and links
@@ -209,16 +226,19 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 **Description:** Interactive service icons grid with particle effects and connection lines on hover.
 
 **Features:**
+
 - 6 service icons in responsive grid
 - Particle burst on hover
 - Connection lines between related services
 - Glow card effects
 
 **CMS Content Keys:**
+
 - Page: `home`, Section: `valueProposition`
 - Fields: `eyebrow`, `title`, `titleHighlight`, `subtitle`, `services[]`, `colors`
 
 **How to Edit:**
+
 1. Go to Admin Dashboard → Pages → Home
 2. Edit Value Proposition section
 3. Customize service icons, descriptions, and colors
@@ -230,6 +250,7 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 **Description:** 6 service cards with 3D tilt effect, particle emissions, and magnetic cursor interaction.
 
 **Features:**
+
 - 3D tilt on mouse move
 - Particle emission on hover
 - Glow card with animated border
@@ -237,10 +258,12 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 - Learn More links
 
 **CMS Content Keys:**
+
 - Page: `home`, Section: `serviceCards`
 - Fields: `eyebrow`, `title`, `titleHighlight`, `subtitle`, `cards[]`, `colors`
 
 **Cards Array Structure:**
+
 ```typescript
 {
   id: string;
@@ -252,6 +275,7 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 ```
 
 **How to Edit:**
+
 1. Go to Admin Dashboard → Pages → Home
 2. Edit Service Cards section
 3. Modify card content, icons, features, and colors
@@ -263,11 +287,13 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 **Description:** Tech stack orbit animation with floating technology icons.
 
 **Features:**
+
 - Orbital animation of tech icons
 - Central CTA area
 - Responsive layout
 
 **CMS Content Keys:**
+
 - Page: `home`, Section: `stackFeature`
 
 ---
@@ -277,16 +303,19 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 **Description:** Infinite scrolling marquee of technology logos with sparkle effects.
 
 **Features:**
+
 - Infinite horizontal scroll
 - Grayscale logos that brighten on hover
 - Sparkle particle effect below
 - Gradient glow background
 
 **CMS Content Keys:**
+
 - Page: `home`, Section: `techStack`
 - Fields: `eyebrow`, `title`, `titleHighlight`
 
 **Logos Location:** `/public/media/home/tech-stack-marquee/`
+
 - react.svg, nextjs.svg, typescript.svg, tailwindcss.svg
 - nodejs.svg, shopify.svg, wordpress.svg, figma.svg
 - vercel.svg, openai.svg
@@ -298,16 +327,19 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 **Description:** Auto-advancing carousel with progress indicators and case study cards.
 
 **Features:**
+
 - Auto-advance with progress bar
 - 4 case study slides
 - Image with gradient overlay
 - Bottom navigation tabs
 
 **CMS Content Keys:**
+
 - Page: `home`, Section: `caseStudies`
 - Fields: `eyebrow`, `title`, `titleHighlight`, `subtitle`, `studies[]`
 
 **Studies Array Structure:**
+
 ```typescript
 {
   img: string;
@@ -326,6 +358,7 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 **Description:** Animated testimonial cards with ratings, results, and submit testimonial modal.
 
 **Features:**
+
 - Animated card carousel
 - Star ratings
 - Results/metrics display
@@ -333,10 +366,12 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 - Pending testimonial approval system
 
 **CMS Integration:**
+
 - Testimonials managed via Admin Dashboard → Testimonials
 - Supports pending/approved/rejected status
 
 **How to Edit:**
+
 1. Go to Admin Dashboard → Testimonials
 2. Add/edit/delete testimonials
 3. Toggle featured status
@@ -351,6 +386,7 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 **Description:** Latest blog posts in bento grid layout with featured post highlight.
 
 **Features:**
+
 - Featured post (large card)
 - 3 recent posts (smaller cards)
 - Category badges
@@ -358,10 +394,12 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 - "View All Posts" CTA
 
 **CMS Integration:**
+
 - Blog posts managed via Admin Dashboard → Blog Posts
 - Fetches latest 4 posts from API
 
 **How to Edit:**
+
 1. Go to Admin Dashboard → Blog Posts
 2. Create/edit blog posts
 3. Set featured flag for highlight
@@ -373,12 +411,14 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 **Description:** Interactive contact section with animated service tags and contact options.
 
 **Features:**
+
 - Animated pointer following service tags
 - Email and WhatsApp quick links
 - Book a call CTA
 - Particle background
 
 **CMS Content Keys:**
+
 - Page: `home`, Section: `connect`
 - Fields: `title`, `subtitle`, `ctaText`, `ctaLink`, `email`, `whatsapp`, `services[]`
 
@@ -389,6 +429,7 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 **Description:** 3D carousel of team members with holographic effects and text scramble.
 
 **Features:**
+
 - 3D perspective carousel
 - Holographic image effects (scanlines, RGB shift)
 - Text scramble animation
@@ -396,10 +437,12 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 - Auto-advance on mobile
 
 **CMS Integration:**
+
 - Team members managed via Admin Dashboard → Team Members
 - Falls back to default team if no CMS data
 
 **How to Edit:**
+
 1. Go to Admin Dashboard → Team Members
 2. Add/edit team members
 3. Set name, role, and image path
@@ -413,6 +456,7 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 **Description:** WebGL globe with city markers and conversational contact form.
 
 **Features:**
+
 - Three.js globe with city markers
 - Animated arcs connecting cities
 - Conversational form (fill-in-the-blank style)
@@ -420,10 +464,12 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 - Form submission to API
 
 **CMS Content Keys:**
+
 - Page: `home`, Section: `contact`
 - Fields: `eyebrow`, `title`, `titleHighlight`, `subtitle`
 
 **Form Fields:**
+
 - Name, Company (optional), Email
 - Service selection, Budget selection
 - Message textarea
@@ -435,12 +481,14 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 **Description:** Final call-to-action section with stats and social links.
 
 **Features:**
+
 - Gradient background orbs
 - Primary and secondary CTAs
 - 4 stats counters
 - Social media links
 
 **CMS Content Keys:**
+
 - Page: `home`, Section: `cta`
 - Fields: `eyebrow`, `title`, `titleHighlight`, `subtitle`, `ctaText`, `ctaLink`, `secondaryCtaText`, `secondaryCtaLink`, `stats[]`
 
@@ -462,6 +510,7 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 8. **CTA** - MiniCTA component
 
 **CMS Content Keys:**
+
 - Page: `about`, Sections: `hero`, `team`, `skills`, `timeline`, `officeTour`, `cta`
 
 ---
@@ -481,9 +530,11 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 7. **CTA** - MiniCTA component
 
 **CMS Content Keys:**
+
 - Page: `portfolio`, Sections: `hero`, `filters`, `grid`, `projects`, `caseStudies`, `cta`
 
 **Projects Management:**
+
 1. Go to Admin Dashboard → Projects
 2. Add/edit projects with:
    - Title, Client, Description
@@ -500,14 +551,17 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 **File:** `app/(public)/blog/page.tsx`
 
 #### Features:
+
 - Category filter tabs
 - Blog post grid
 - Individual blog post pages (`/blog/[slug]`)
 
 **CMS Content Keys:**
+
 - Page: `blog`, Sections: `hero`, `filter`, `emptyState`
 
 **Blog Management:**
+
 1. Go to Admin Dashboard → Blog Posts
 2. Create posts with:
    - Title, Excerpt, Content (Markdown)
@@ -531,9 +585,11 @@ Rising Dot Agency is a premium digital agency website built with Next.js 14, fea
 5. **CTA** - MiniCTA component
 
 **CMS Content Keys:**
+
 - Page: `contact`, Sections: `hero`, `form`, `info`, `map`, `cta`
 
 **Contact Submissions:**
+
 - Stored in MongoDB
 - Viewable in Admin Dashboard → Contacts
 
@@ -548,6 +604,7 @@ Each service has a dedicated page with unique interactive components:
 **File:** `app/(public)/services/chatbot-development/page.tsx`
 
 **Sections:**
+
 1. Floating Icons Hero - Platform icons (WhatsApp, Slack, Discord, etc.)
 2. Video Section
 3. Chat Demo - Interactive chat interface
@@ -566,6 +623,7 @@ Each service has a dedicated page with unique interactive components:
 **File:** `app/(public)/services/n8n-automations/page.tsx`
 
 **Sections:**
+
 1. Flux Card Hero - Animated cards
 2. Video Section
 3. Workflow Builder - Interactive node editor
@@ -585,6 +643,7 @@ Each service has a dedicated page with unique interactive components:
 **File:** `app/(public)/services/seo/page.tsx`
 
 **Sections:**
+
 1. Web3 Media Hero
 2. Video Section
 3. SERP Ranking - Animated ranking visualization
@@ -604,6 +663,7 @@ Each service has a dedicated page with unique interactive components:
 **File:** `app/(public)/services/shopify/page.tsx`
 
 **Sections:**
+
 1. Services Hero Section
 2. Video Section
 3. Conversion Funnel - Animated funnel visualization
@@ -619,18 +679,19 @@ Each service has a dedicated page with unique interactive components:
 ---
 
 #### WordPress (`/services/wordpress`)
+
 #### Web Design (`/services/web-design`)
 
 Similar structure with service-specific components.
 
 ---
 
-
 ## Admin CMS Dashboard
 
 **Access:** `/admin` (requires authentication)
 
 **Authentication:**
+
 - NextAuth.js with credentials provider
 - Roles: `admin`, `editor`, `viewer`
 - Session timeout warning component
@@ -640,6 +701,7 @@ Similar structure with service-specific components.
 **File:** `app/admin/layout.tsx`
 
 **Components:**
+
 - `AdminSidebar` - Left navigation
 - `AdminHeader` - Top bar with user info
 - `SessionTimeoutWarning` - Security component
@@ -651,12 +713,14 @@ Similar structure with service-specific components.
 **File:** `app/admin/page.tsx`
 
 **Features:**
+
 - Welcome message with user name
 - Dashboard stats (Projects, Contacts, Services, Page Views)
 - Recent activity feed
 - Quick actions panel
 
 **Stats Component:** `components/admin/DashboardStats.tsx`
+
 - Total Projects count
 - Contact Messages (with new count)
 - Active Services
@@ -669,6 +733,7 @@ Similar structure with service-specific components.
 **File:** `app/admin/pages/page.tsx`
 
 **Features:**
+
 - List all CMS-managed pages
 - Edit page sections
 - Toggle section visibility
@@ -677,6 +742,7 @@ Similar structure with service-specific components.
 **Page Editor:** `app/admin/pages/[id]/page.tsx`
 
 **Editable Pages:**
+
 - Home (14 sections)
 - About (8 sections)
 - Portfolio (7 sections)
@@ -685,6 +751,7 @@ Similar structure with service-specific components.
 - Service pages (7-9 sections each)
 
 **How to Edit Page Content:**
+
 1. Go to Admin Dashboard → Pages
 2. Select page to edit
 3. Expand section to edit
@@ -698,6 +765,7 @@ Similar structure with service-specific components.
 **File:** `app/admin/blogs/page.tsx`
 
 **Features:**
+
 - List all blog posts with search
 - Create/Edit/Delete posts
 - Toggle publish status
@@ -720,6 +788,7 @@ Similar structure with service-specific components.
 | published | boolean | Publish status |
 
 **API Endpoints:**
+
 - `GET /api/admin/blogs` - List all
 - `POST /api/admin/blogs` - Create
 - `GET /api/admin/blogs/[id]` - Get one
@@ -733,6 +802,7 @@ Similar structure with service-specific components.
 **File:** `app/admin/projects/page.tsx`
 
 **Features:**
+
 - List all portfolio projects
 - Create/Edit/Delete projects
 - Toggle publish/featured status
@@ -753,6 +823,7 @@ Similar structure with service-specific components.
 | published | boolean | Publish status |
 
 **API Endpoints:**
+
 - `GET /api/admin/projects` - List all
 - `POST /api/admin/projects` - Create
 - `PUT /api/admin/projects/[id]` - Update
@@ -765,6 +836,7 @@ Similar structure with service-specific components.
 **File:** `app/admin/services/page.tsx`
 
 **Features:**
+
 - List all services
 - Create/Edit/Delete services
 - Drag to reorder
@@ -789,6 +861,7 @@ Similar structure with service-specific components.
 **File:** `app/admin/team/page.tsx`
 
 **Features:**
+
 - List all team members
 - Create/Edit/Delete members
 - Drag to reorder
@@ -812,6 +885,7 @@ Similar structure with service-specific components.
 **File:** `app/admin/testimonials/page.tsx`
 
 **Features:**
+
 - List all testimonials
 - Pending review tab (user submissions)
 - Approve/Reject submissions
@@ -840,6 +914,7 @@ Similar structure with service-specific components.
 **File:** `app/admin/contacts/page.tsx`
 
 **Features:**
+
 - List all contact form submissions
 - Filter by status (new/read/replied/archived)
 - View contact details
@@ -866,6 +941,7 @@ Similar structure with service-specific components.
 **File:** `app/admin/analytics/page.tsx`
 
 **Features:**
+
 - Overview dashboard
 - Google Analytics integration
 - Search Console integration
@@ -873,6 +949,7 @@ Similar structure with service-specific components.
 - Traffic charts
 
 **Sub-pages:**
+
 - `/admin/analytics/google` - Google Analytics
 - `/admin/analytics/search-console` - Search Console
 
@@ -885,36 +962,39 @@ Similar structure with service-specific components.
 **Comprehensive SEO toolkit with 19 tools organized in 3 categories:**
 
 #### On-Page SEO
-| Tool | Component | Description |
-|------|-----------|-------------|
-| Meta Tags | `MetaTagsEditor` | Edit page meta titles and descriptions |
-| SEO Audit | `SEOAudit` | Full site SEO analysis |
-| Keywords | `KeywordTracker` | Track keyword rankings |
-| Schema | `SchemaMarkupGenerator` | Generate structured data |
-| Headings | `HeadingAnalyzer` | Analyze heading structure |
-| Image Alt | `ImageAltManager` | Manage image alt texts |
-| Readability | `ContentReadability` | Content readability scores |
+
+| Tool        | Component               | Description                            |
+| ----------- | ----------------------- | -------------------------------------- |
+| Meta Tags   | `MetaTagsEditor`        | Edit page meta titles and descriptions |
+| SEO Audit   | `SEOAudit`              | Full site SEO analysis                 |
+| Keywords    | `KeywordTracker`        | Track keyword rankings                 |
+| Schema      | `SchemaMarkupGenerator` | Generate structured data               |
+| Headings    | `HeadingAnalyzer`       | Analyze heading structure              |
+| Image Alt   | `ImageAltManager`       | Manage image alt texts                 |
+| Readability | `ContentReadability`    | Content readability scores             |
 
 #### Technical SEO
-| Tool | Component | Description |
-|------|-----------|-------------|
-| Sitemap | `SitemapGenerator` | Generate XML sitemap |
-| Robots.txt | `RobotsEditor` | Edit robots.txt |
-| Redirects | `RedirectManager` | Manage 301/302 redirects |
-| Internal Links | `InternalLinkAnalyzer` | Analyze link structure |
-| Broken Links | `BrokenLinkChecker` | Find broken links |
-| Duplicates | `DuplicateContentDetector` | Find duplicate content |
-| Hreflang | `HreflangManager` | Multi-language tags |
-| Crawl Budget | `CrawlBudgetMonitor` | Monitor crawl stats |
-| Page Speed | `PageSpeedInsights` | Performance metrics |
+
+| Tool           | Component                  | Description              |
+| -------------- | -------------------------- | ------------------------ |
+| Sitemap        | `SitemapGenerator`         | Generate XML sitemap     |
+| Robots.txt     | `RobotsEditor`             | Edit robots.txt          |
+| Redirects      | `RedirectManager`          | Manage 301/302 redirects |
+| Internal Links | `InternalLinkAnalyzer`     | Analyze link structure   |
+| Broken Links   | `BrokenLinkChecker`        | Find broken links        |
+| Duplicates     | `DuplicateContentDetector` | Find duplicate content   |
+| Hreflang       | `HreflangManager`          | Multi-language tags      |
+| Crawl Budget   | `CrawlBudgetMonitor`       | Monitor crawl stats      |
+| Page Speed     | `PageSpeedInsights`        | Performance metrics      |
 
 #### Marketing
-| Tool | Component | Description |
-|------|-----------|-------------|
-| Social Preview | `SocialPreview` | Preview social shares |
-| UTM Builder | `UTMBuilder` | Create tracking URLs |
-| Subscribers | `SubscribersManager` | Manage email list |
-| Lead Magnets | `LeadMagnetManager` | Manage lead magnets |
+
+| Tool           | Component            | Description           |
+| -------------- | -------------------- | --------------------- |
+| Social Preview | `SocialPreview`      | Preview social shares |
+| UTM Builder    | `UTMBuilder`         | Create tracking URLs  |
+| Subscribers    | `SubscribersManager` | Manage email list     |
+| Lead Magnets   | `LeadMagnetManager`  | Manage lead magnets   |
 
 ---
 
@@ -925,16 +1005,19 @@ Similar structure with service-specific components.
 **Tabs:**
 
 #### Theme Settings (`ThemeSettings`)
+
 - Color scheme customization
 - Typography settings
 - Spacing and layout
 
 #### Navigation Editor (`NavigationEditor`)
+
 - Header navigation
 - Footer links
 - Mobile menu
 
 #### Custom CSS/JS (`CustomCodeInjection`)
+
 - Add custom CSS
 - Add custom JavaScript
 - Head/Body injection
@@ -948,12 +1031,14 @@ Similar structure with service-specific components.
 **Comprehensive navigation management with 3 tabs:**
 
 #### Header Tab
+
 - Logo path
 - CTA button (label, href, enabled)
 - Navigation links (add/remove/reorder/enable)
 - Services dropdown links
 
 #### Footer Tab
+
 - Footer logo
 - Description text
 - Copyright text
@@ -961,6 +1046,7 @@ Similar structure with service-specific components.
 - Link columns (dynamic)
 
 #### Social Links Tab
+
 - 10 social platforms
 - URL and enabled toggle for each
 - Facebook, Instagram, TikTok, YouTube
@@ -974,6 +1060,7 @@ Similar structure with service-specific components.
 **File:** `app/admin/live-chat/page.tsx`
 
 **Features:**
+
 - List all chat conversations
 - Filter by status (all/waiting/ai/human/resolved)
 - Real-time polling (5 second intervals)
@@ -992,12 +1079,14 @@ Similar structure with service-specific components.
 | resolved | Conversation closed |
 
 **Conversation View:** `/admin/live-chat/[id]`
+
 - Full message history
 - Send replies
 - Change status
 - Customer info
 
 **AI Chat Integration:**
+
 - Groq API for AI responses
 - Knowledge base: `/data/agency-knowledge.md`
 - Automatic escalation to human
@@ -1009,6 +1098,7 @@ Similar structure with service-specific components.
 **File:** `app/admin/media/page.tsx`
 
 **Features:**
+
 - Cloudinary integration
 - Folder navigation (breadcrumb)
 - Grid/List view toggle
@@ -1020,6 +1110,7 @@ Similar structure with service-specific components.
 - Delete files
 
 **Folder Structure:**
+
 ```
 /rising-dot
   /home
@@ -1031,6 +1122,7 @@ Similar structure with service-specific components.
 ```
 
 **Upload Process:**
+
 1. Drag files to upload zone or click "Upload Files"
 2. Files upload to current folder
 3. Cloudinary processes and optimizes
@@ -1043,6 +1135,7 @@ Similar structure with service-specific components.
 **File:** `app/admin/users/page.tsx`
 
 **Features (Admin only):**
+
 - List all users
 - Create/Edit/Delete users
 - Assign roles
@@ -1062,6 +1155,7 @@ Similar structure with service-specific components.
 **File:** `app/admin/settings/page.tsx`
 
 **Features (Admin only):**
+
 - Site settings
 - API configurations
 - Security settings
@@ -1073,22 +1167,23 @@ Similar structure with service-specific components.
 
 ### Image Locations
 
-| Content Type | Location |
-|--------------|----------|
-| Logo | `/public/logo.png` |
-| Admin Logo | `/public/adminlogo.png` |
-| Team Photos | `/public/team/` |
-| Service Icons | `/public/icons/` |
-| Home Page | `/public/media/home/` |
-| About Page | `/public/media/about/` |
-| Portfolio | `/public/media/portfolio/` |
-| Services | `/public/media/services/` |
-| Blog | `/public/media/blog/` |
-| Contact | `/public/media/contact/` |
+| Content Type  | Location                   |
+| ------------- | -------------------------- |
+| Logo          | `/public/logo.png`         |
+| Admin Logo    | `/public/adminlogo.png`    |
+| Team Photos   | `/public/team/`            |
+| Service Icons | `/public/icons/`           |
+| Home Page     | `/public/media/home/`      |
+| About Page    | `/public/media/about/`     |
+| Portfolio     | `/public/media/portfolio/` |
+| Services      | `/public/media/services/`  |
+| Blog          | `/public/media/blog/`      |
+| Contact       | `/public/media/contact/`   |
 
 ### Cloudinary Integration
 
 **Configuration:** `.env`
+
 ```
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
@@ -1096,8 +1191,12 @@ CLOUDINARY_API_SECRET=your_api_secret
 ```
 
 **Usage in Components:**
+
 ```typescript
-import { getCloudinaryUrl, isExternalUrl } from '@/components/ui/cloudinary-image';
+import {
+  getCloudinaryUrl,
+  isExternalUrl,
+} from '@/components/ui/cloudinary-image';
 
 // Get optimized URL
 const url = getCloudinaryUrl('/path/to/image.jpg', { width: 800, height: 600 });
@@ -1105,11 +1204,11 @@ const url = getCloudinaryUrl('/path/to/image.jpg', { width: 800, height: 600 });
 
 ### Video Files
 
-| Video | Location |
-|-------|----------|
+| Video            | Location                                   |
+| ---------------- | ------------------------------------------ |
 | Showreel Desktop | `/public/videos/showreel_desktop_16-9.mp4` |
-| Showreel Mobile | `/public/videos/showreel_mobile_9-16.mp4` |
-| Service Videos | `/public/media/services/[service]/video/` |
+| Showreel Mobile  | `/public/videos/showreel_mobile_9-16.mp4`  |
+| Service Videos   | `/public/media/services/[service]/video/`  |
 
 ---
 
@@ -1121,10 +1220,10 @@ Content is stored in MongoDB with the following structure:
 
 ```typescript
 {
-  page: string;      // e.g., "home", "about", "services-chatbot"
-  section: string;   // e.g., "hero", "cta", "testimonials"
-  content: object;   // JSON content for the section
-  visible: boolean;  // Section visibility toggle
+  page: string; // e.g., "home", "about", "services-chatbot"
+  section: string; // e.g., "hero", "cta", "testimonials"
+  content: object; // JSON content for the section
+  visible: boolean; // Section visibility toggle
   updatedAt: Date;
 }
 ```
@@ -1134,11 +1233,16 @@ Content is stored in MongoDB with the following structure:
 **File:** `lib/hooks/useSiteContent.ts`
 
 **Usage:**
+
 ```typescript
-const { content, loading, error } = useSiteContent<ContentType>('page', 'section');
+const { content, loading, error } = useSiteContent<ContentType>(
+  'page',
+  'section'
+);
 ```
 
 **Example:**
+
 ```typescript
 const { content: heroContent } = useSiteContent<{
   eyebrow?: string;
@@ -1168,57 +1272,61 @@ Wraps sections to enable CMS visibility control:
 
 ### Public APIs
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/blogs` | GET | List published blogs |
-| `/api/blogs/[slug]` | GET | Get blog by slug |
-| `/api/contact` | POST | Submit contact form |
-| `/api/content` | GET | Get page content |
-| `/api/testimonials` | GET | List testimonials |
-| `/api/team` | GET | List team members |
-| `/api/chat/start` | POST | Start chat session |
-| `/api/chat/message` | POST | Send chat message |
-| `/api/subscribe` | POST | Newsletter subscribe |
+| Endpoint            | Method | Description          |
+| ------------------- | ------ | -------------------- |
+| `/api/blogs`        | GET    | List published blogs |
+| `/api/blogs/[slug]` | GET    | Get blog by slug     |
+| `/api/contact`      | POST   | Submit contact form  |
+| `/api/content`      | GET    | Get page content     |
+| `/api/testimonials` | GET    | List testimonials    |
+| `/api/team`         | GET    | List team members    |
+| `/api/chat/start`   | POST   | Start chat session   |
+| `/api/chat/message` | POST   | Send chat message    |
+| `/api/subscribe`    | POST   | Newsletter subscribe |
 
 ### Admin APIs
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/admin/blogs` | CRUD | Blog management |
-| `/api/admin/projects` | CRUD | Project management |
-| `/api/admin/services` | CRUD | Service management |
-| `/api/admin/team` | CRUD | Team management |
-| `/api/admin/testimonials` | CRUD | Testimonial management |
-| `/api/admin/contacts` | CRUD | Contact management |
-| `/api/admin/navigation` | GET/POST | Navigation settings |
-| `/api/admin/media` | CRUD | Media management |
-| `/api/admin/chat` | CRUD | Chat management |
-| `/api/admin/seo/*` | Various | SEO tools |
-| `/api/admin/analytics` | GET | Analytics data |
-| `/api/admin/stats` | GET | Dashboard stats |
+| Endpoint                  | Method   | Description            |
+| ------------------------- | -------- | ---------------------- |
+| `/api/admin/blogs`        | CRUD     | Blog management        |
+| `/api/admin/projects`     | CRUD     | Project management     |
+| `/api/admin/services`     | CRUD     | Service management     |
+| `/api/admin/team`         | CRUD     | Team management        |
+| `/api/admin/testimonials` | CRUD     | Testimonial management |
+| `/api/admin/contacts`     | CRUD     | Contact management     |
+| `/api/admin/navigation`   | GET/POST | Navigation settings    |
+| `/api/admin/media`        | CRUD     | Media management       |
+| `/api/admin/chat`         | CRUD     | Chat management        |
+| `/api/admin/seo/*`        | Various  | SEO tools              |
+| `/api/admin/analytics`    | GET      | Analytics data         |
+| `/api/admin/stats`        | GET      | Dashboard stats        |
 
 ---
 
 ## Quick Reference: Editing Content
 
 ### To Change Homepage Hero:
+
 1. Admin → Pages → Home → Hero section
 2. Edit eyebrow, title, subtitle, CTA text/link
 3. Save
 
 ### To Add a Blog Post:
+
 1. Admin → Blog Posts → New Post
 2. Fill in title, content, category, thumbnail
 3. Toggle "Publish Now"
 4. Save
 
 ### To Add Team Member:
+
 1. Admin → Team Members → Add Member
 2. Enter name, role, image path
 3. Save
 4. Add image to `/public/team/`
 
 ### To Change Navigation:
+
 1. Admin → Navigation
 2. Header tab: Edit nav links, CTA
 3. Footer tab: Edit columns, links
@@ -1226,12 +1334,14 @@ Wraps sections to enable CMS visibility control:
 5. Save Changes
 
 ### To Upload Media:
+
 1. Admin → Media Library
 2. Navigate to appropriate folder
 3. Drag & drop files or click Upload
 4. Copy URL for use in CMS
 
 ### To Manage SEO:
+
 1. Admin → SEO & Marketing
 2. Select tool (Meta Tags, Sitemap, etc.)
 3. Make changes
@@ -1266,4 +1376,4 @@ GOOGLE_ANALYTICS_ID=G-XXXXXXX
 
 ---
 
-*Documentation generated for Rising Dot Agency website. Last updated: December 2024*
+_Documentation generated for Rising Dot Agency website. Last updated: December 2024_

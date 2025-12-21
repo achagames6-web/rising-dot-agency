@@ -27,7 +27,10 @@ import {
 } from 'react-icons/si';
 
 // Icon mapping for dynamic rendering from CMS
-const iconMap: Record<string, React.ComponentType<{ className?: string; style?: React.CSSProperties }>> = {
+const iconMap: Record<
+  string,
+  React.ComponentType<{ className?: string; style?: React.CSSProperties }>
+> = {
   FaReact,
   FaAws,
   FaDocker,
@@ -69,7 +72,9 @@ interface StackFeatureSectionProps {
   page?: string;
 }
 
-export default function StackFeatureSection({ page = 'home' }: StackFeatureSectionProps) {
+export default function StackFeatureSection({
+  page = 'home',
+}: StackFeatureSectionProps) {
   // Fetch CMS content
   const { content } = useSiteContent<{
     eyebrow?: string;
@@ -96,14 +101,16 @@ export default function StackFeatureSection({ page = 'home' }: StackFeatureSecti
   const eyebrow = content?.eyebrow || '✨ Our Tech Stack';
   const title = content?.title || 'Build Your';
   const titleHighlight = content?.titleHighlight || 'Digital Empire';
-  const subtitle = content?.subtitle || 'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.';
+  const subtitle =
+    content?.subtitle ||
+    'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.';
   const ctaText = content?.ctaText || 'Start Your Project';
   const ctaHref = content?.ctaHref || '/contact';
   const secondaryCtaText = content?.secondaryCtaText || 'View Our Work';
   const secondaryCtaHref = content?.secondaryCtaHref || '/portfolio';
   const centerText = content?.centerText || 'RISING';
   const iconConfigs = content?.icons || defaultIconConfigs;
-  
+
   // Color configuration
   const colors = {
     borderColor: content?.colors?.borderColor || '#37AFE1',
@@ -118,14 +125,14 @@ export default function StackFeatureSection({ page = 'home' }: StackFeatureSecti
   const iconsPerOrbit = Math.ceil(iconConfigs.length / orbitCount);
 
   return (
-    <section 
-      className="relative max-w-6xl mx-auto my-16 md:my-24 px-6 md:px-10 flex flex-col md:flex-row items-center justify-between min-h-[26rem] bg-transparent overflow-hidden rounded-3xl"
+    <section
+      className="relative mx-auto my-16 flex min-h-[26rem] max-w-6xl flex-col items-center justify-between overflow-hidden rounded-3xl bg-transparent px-6 md:my-24 md:flex-row md:px-10"
       style={{ border: `1px solid ${colors.borderColor}30` }}
     >
       {/* Left side: Heading and Text */}
-      <div className="w-full md:w-1/2 z-10 py-8 md:py-0">
+      <div className="z-10 w-full py-8 md:w-1/2 md:py-0">
         <motion.div
-          className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/[0.08] border border-white/[0.15] backdrop-blur-sm mb-6"
+          className="mb-6 inline-flex items-center gap-3 rounded-full border border-white/[0.15] bg-white/[0.08] px-4 py-2 backdrop-blur-sm"
           whileHover={{ scale: 1.05, borderColor: 'rgba(255, 255, 255, 0.3)' }}
         >
           <motion.div
@@ -135,14 +142,14 @@ export default function StackFeatureSection({ page = 'home' }: StackFeatureSecti
             <Sparkles className="h-4 w-4 text-[#F58122]" />
           </motion.div>
           <span className="text-sm font-medium text-white/80">{eyebrow}</span>
-          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+          <div className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
         </motion.div>
-        <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
+        <h2 className="mb-4 text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+          <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
             {title}
           </span>{' '}
           <motion.span
-            className="bg-clip-text text-transparent bg-gradient-to-r from-[#F58122] via-[#37AFE1] to-[#F58122]"
+            className="bg-gradient-to-r from-[#F58122] via-[#37AFE1] to-[#F58122] bg-clip-text text-transparent"
             animate={{
               backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
             }}
@@ -158,24 +165,21 @@ export default function StackFeatureSection({ page = 'home' }: StackFeatureSecti
             {titleHighlight}
           </motion.span>
         </h2>
-        <p className="text-lg text-white/60 mb-8 max-w-lg leading-relaxed">
+        <p className="mb-8 max-w-lg text-lg leading-relaxed text-white/60">
           {subtitle}
         </p>
         <div className="flex flex-wrap items-center gap-4">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Link href={ctaHref}>
-              <StarButton className="h-12 px-6 text-base font-semibold" duration={2.5}>
+              <StarButton
+                className="h-12 px-6 text-base font-semibold"
+                duration={2.5}
+              >
                 {ctaText}
               </StarButton>
             </Link>
           </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Link href={secondaryCtaHref}>
               <StarButton
                 variant="secondary"
@@ -190,14 +194,18 @@ export default function StackFeatureSection({ page = 'home' }: StackFeatureSecti
       </div>
 
       {/* Right side: Orbit animation */}
-      <div className="relative w-full md:w-1/2 h-[20rem] md:h-full flex items-center justify-center md:justify-start overflow-hidden">
-        <div className="relative w-[40rem] h-[40rem] md:w-[50rem] md:h-[50rem] md:translate-x-[30%] flex items-center justify-center">
+      <div className="relative flex h-[20rem] w-full items-center justify-center overflow-hidden md:h-full md:w-1/2 md:justify-start">
+        <div className="relative flex h-[40rem] w-[40rem] items-center justify-center md:h-[50rem] md:w-[50rem] md:translate-x-[30%]">
           {/* Center Circle */}
-          <div 
-            className="w-20 h-20 md:w-24 md:h-24 rounded-full shadow-lg flex items-center justify-center"
-            style={{ background: `linear-gradient(to bottom right, ${colors.gradientStart}, ${colors.gradientEnd})` }}
+          <div
+            className="flex h-20 w-20 items-center justify-center rounded-full shadow-lg md:h-24 md:w-24"
+            style={{
+              background: `linear-gradient(to bottom right, ${colors.gradientStart}, ${colors.gradientEnd})`,
+            }}
           >
-            <span className="text-white font-bold text-xs md:text-sm">{centerText}</span>
+            <span className="text-xs font-bold text-white md:text-sm">
+              {centerText}
+            </span>
           </div>
 
           {/* Generate Orbits */}
@@ -217,7 +225,10 @@ export default function StackFeatureSection({ page = 'home' }: StackFeatureSecti
                 }}
               >
                 {iconConfigs
-                  .slice(orbitIdx * iconsPerOrbit, orbitIdx * iconsPerOrbit + iconsPerOrbit)
+                  .slice(
+                    orbitIdx * iconsPerOrbit,
+                    orbitIdx * iconsPerOrbit + iconsPerOrbit
+                  )
                   .map((cfg, iconIdx) => {
                     const angle = iconIdx * angleStep;
                     const x = 50 + 50 * Math.cos(angle);
@@ -239,7 +250,10 @@ export default function StackFeatureSection({ page = 'home' }: StackFeatureSecti
                           animation: `spin ${20 + orbitIdx * 8}s linear infinite ${orbitIdx % 2 === 0 ? 'reverse' : ''}`,
                         }}
                       >
-                        <IconComponent className="w-6 h-6 md:w-8 md:h-8" style={{ color: cfg.color }} />
+                        <IconComponent
+                          className="h-6 w-6 md:h-8 md:w-8"
+                          style={{ color: cfg.color }}
+                        />
                       </div>
                     );
                   })}

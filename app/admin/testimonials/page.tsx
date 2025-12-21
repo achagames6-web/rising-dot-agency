@@ -1,7 +1,17 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Eye, EyeOff, Star, Clock, CheckCircle, XCircle } from 'lucide-react';
+import {
+  Plus,
+  Edit,
+  Trash2,
+  Eye,
+  EyeOff,
+  Star,
+  Clock,
+  CheckCircle,
+  XCircle,
+} from 'lucide-react';
 
 interface Testimonial {
   _id: string;
@@ -58,20 +68,23 @@ export default function TestimonialsPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const url = editingItem 
-        ? `/api/admin/testimonials/${editingItem._id}` 
+      const url = editingItem
+        ? `/api/admin/testimonials/${editingItem._id}`
         : '/api/admin/testimonials';
       const method = editingItem ? 'PUT' : 'POST';
-      
+
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          results: formData.results.split(',').map(r => r.trim()).filter(Boolean),
+          results: formData.results
+            .split(',')
+            .map((r) => r.trim())
+            .filter(Boolean),
         }),
       });
-      
+
       if (res.ok) {
         fetchTestimonials();
         setShowModal(false);
@@ -84,9 +97,11 @@ export default function TestimonialsPage() {
 
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this testimonial?')) return;
-    
+
     try {
-      const res = await fetch(`/api/admin/testimonials/${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/admin/testimonials/${id}`, {
+        method: 'DELETE',
+      });
       if (res.ok) {
         fetchTestimonials();
       }
@@ -188,32 +203,38 @@ export default function TestimonialsPage() {
     });
   };
 
-  const pendingCount = testimonials.filter(t => t.status === 'pending').length;
-  const filteredTestimonials = activeTab === 'pending' 
-    ? testimonials.filter(t => t.status === 'pending')
-    : testimonials.filter(t => t.status !== 'pending');
+  const pendingCount = testimonials.filter(
+    (t) => t.status === 'pending'
+  ).length;
+  const filteredTestimonials =
+    activeTab === 'pending'
+      ? testimonials.filter((t) => t.status === 'pending')
+      : testimonials.filter((t) => t.status !== 'pending');
 
   return (
     <div className="min-h-full">
-      <div className="flex justify-between items-center mb-8">
+      <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-white">Testimonials</h1>
-          <p className="text-slate-400 mt-1">Manage client testimonials</p>
+          <p className="mt-1 text-slate-400">Manage client testimonials</p>
         </div>
         <button
-          onClick={() => { resetForm(); setShowModal(true); }}
-          className="flex items-center gap-2 px-4 py-2 bg-[#37AFE1] text-white rounded-lg hover:bg-[#37AFE1]/80 transition-colors"
+          onClick={() => {
+            resetForm();
+            setShowModal(true);
+          }}
+          className="flex items-center gap-2 rounded-lg bg-[#37AFE1] px-4 py-2 text-white transition-colors hover:bg-[#37AFE1]/80"
         >
-          <Plus className="w-5 h-5" />
+          <Plus className="h-5 w-5" />
           Add Testimonial
         </button>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 mb-6">
+      <div className="mb-6 flex gap-2">
         <button
           onClick={() => setActiveTab('all')}
-          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+          className={`rounded-lg px-4 py-2 font-medium transition-colors ${
             activeTab === 'all'
               ? 'bg-[#37AFE1] text-white'
               : 'bg-[#1E293B] text-slate-300 hover:bg-slate-700'
@@ -223,29 +244,31 @@ export default function TestimonialsPage() {
         </button>
         <button
           onClick={() => setActiveTab('pending')}
-          className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
+          className={`flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition-colors ${
             activeTab === 'pending'
               ? 'bg-[#F58122] text-white'
               : 'bg-[#1E293B] text-slate-300 hover:bg-slate-700'
           }`}
         >
-          <Clock className="w-4 h-4" />
+          <Clock className="h-4 w-4" />
           Pending Review
           {pendingCount > 0 && (
-            <span className="px-2 py-0.5 bg-white/20 rounded-full text-xs">{pendingCount}</span>
+            <span className="rounded-full bg-white/20 px-2 py-0.5 text-xs">
+              {pendingCount}
+            </span>
           )}
         </button>
       </div>
 
       {loading ? (
         <div className="flex justify-center py-12">
-          <div className="w-8 h-8 border-2 border-[#37AFE1]/30 border-t-[#37AFE1] rounded-full animate-spin" />
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
         </div>
       ) : filteredTestimonials.length === 0 ? (
-        <div className="text-center py-12 bg-[#1E293B] rounded-xl border border-slate-700/50">
+        <div className="rounded-xl border border-slate-700/50 bg-[#1E293B] py-12 text-center">
           <p className="text-slate-400">
-            {activeTab === 'pending' 
-              ? 'No pending testimonials to review.' 
+            {activeTab === 'pending'
+              ? 'No pending testimonials to review.'
               : 'No testimonials yet. Add your first testimonial!'}
           </p>
         </div>
@@ -254,100 +277,115 @@ export default function TestimonialsPage() {
           {filteredTestimonials.map((item) => (
             <div
               key={item._id}
-              className={`bg-[#1E293B] rounded-xl p-4 flex items-start gap-4 border ${
-                item.status === 'pending' 
-                  ? 'border-[#F58122]/50' 
+              className={`flex items-start gap-4 rounded-xl border bg-[#1E293B] p-4 ${
+                item.status === 'pending'
+                  ? 'border-[#F58122]/50'
                   : 'border-slate-700/50'
               }`}
             >
-              <div className="w-14 h-14 rounded-full bg-slate-700 overflow-hidden flex-shrink-0">
+              <div className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-full bg-slate-700">
                 {item.avatar && (
                   <img
                     src={item.avatar}
                     alt={item.name}
-                    className="w-full h-full object-cover"
+                    className="h-full w-full object-cover"
                   />
                 )}
               </div>
-              
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <h3 className="text-white font-semibold">{item.name}</h3>
+
+              <div className="min-w-0 flex-1">
+                <div className="mb-1 flex items-center gap-2">
+                  <h3 className="font-semibold text-white">{item.name}</h3>
                   {item.featured && (
-                    <Star className="w-4 h-4 text-[#F58122] fill-[#F58122]" />
+                    <Star className="h-4 w-4 fill-[#F58122] text-[#F58122]" />
                   )}
                   {item.status === 'pending' && (
-                    <span className="px-2 py-0.5 bg-[#F58122]/20 text-[#F58122] text-xs rounded-full">
+                    <span className="rounded-full bg-[#F58122]/20 px-2 py-0.5 text-xs text-[#F58122]">
                       Pending
                     </span>
                   )}
                 </div>
-                <p className="text-slate-400 text-sm">
+                <p className="text-sm text-slate-400">
                   {item.role} {item.company && `at ${item.company}`}
-                  {item.email && <span className="text-slate-500"> • {item.email}</span>}
+                  {item.email && (
+                    <span className="text-slate-500"> • {item.email}</span>
+                  )}
                 </p>
-                <p className="text-slate-300 text-sm mt-2 line-clamp-2">{item.text}</p>
-                <div className="flex items-center gap-1 mt-2">
+                <p className="mt-2 line-clamp-2 text-sm text-slate-300">
+                  {item.text}
+                </p>
+                <div className="mt-2 flex items-center gap-1">
                   {[...Array(item.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                    <Star
+                      key={i}
+                      className="h-4 w-4 fill-yellow-400 text-yellow-400"
+                    />
                   ))}
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-2">
                 {item.status === 'pending' ? (
                   <>
                     <button
                       onClick={() => approveTestimonial(item)}
-                      className="p-2 bg-green-500/20 text-green-400 rounded-lg hover:bg-green-500/30 transition-colors"
+                      className="rounded-lg bg-green-500/20 p-2 text-green-400 transition-colors hover:bg-green-500/30"
                       title="Approve"
                     >
-                      <CheckCircle className="w-5 h-5" />
+                      <CheckCircle className="h-5 w-5" />
                     </button>
                     <button
                       onClick={() => rejectTestimonial(item)}
-                      className="p-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-colors"
+                      className="rounded-lg bg-red-500/20 p-2 text-red-400 transition-colors hover:bg-red-500/30"
                       title="Reject"
                     >
-                      <XCircle className="w-5 h-5" />
+                      <XCircle className="h-5 w-5" />
                     </button>
                   </>
                 ) : (
                   <>
                     <button
                       onClick={() => toggleFeatured(item)}
-                      className={`p-2 rounded-lg transition-colors ${
-                        item.featured 
-                          ? 'bg-[#F58122]/20 text-[#F58122]' 
+                      className={`rounded-lg p-2 transition-colors ${
+                        item.featured
+                          ? 'bg-[#F58122]/20 text-[#F58122]'
                           : 'bg-slate-700 text-slate-400 hover:text-[#F58122]'
                       }`}
-                      title={item.featured ? 'Remove from featured' : 'Mark as featured'}
+                      title={
+                        item.featured
+                          ? 'Remove from featured'
+                          : 'Mark as featured'
+                      }
                     >
-                      <Star className="w-5 h-5" />
+                      <Star className="h-5 w-5" />
                     </button>
                     <button
                       onClick={() => togglePublish(item)}
-                      className={`p-2 rounded-lg transition-colors ${
-                        item.published 
-                          ? 'bg-green-500/20 text-green-400' 
+                      className={`rounded-lg p-2 transition-colors ${
+                        item.published
+                          ? 'bg-green-500/20 text-green-400'
                           : 'bg-slate-700 text-slate-400'
                       }`}
                     >
-                      {item.published ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
+                      {item.published ? (
+                        <Eye className="h-5 w-5" />
+                      ) : (
+                        <EyeOff className="h-5 w-5" />
+                      )}
                     </button>
                   </>
                 )}
                 <button
                   onClick={() => openEditModal(item)}
-                  className="p-2 bg-slate-700 text-slate-300 rounded-lg hover:bg-[#37AFE1] hover:text-white transition-colors"
+                  className="rounded-lg bg-slate-700 p-2 text-slate-300 transition-colors hover:bg-[#37AFE1] hover:text-white"
                 >
-                  <Edit className="w-5 h-5" />
+                  <Edit className="h-5 w-5" />
                 </button>
                 <button
                   onClick={() => handleDelete(item._id)}
-                  className="p-2 bg-slate-700 text-slate-300 rounded-lg hover:bg-red-500 hover:text-white transition-colors"
+                  className="rounded-lg bg-slate-700 p-2 text-slate-300 transition-colors hover:bg-red-500 hover:text-white"
                 >
-                  <Trash2 className="w-5 h-5" />
+                  <Trash2 className="h-5 w-5" />
                 </button>
               </div>
             </div>
@@ -357,126 +395,164 @@ export default function TestimonialsPage() {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#1E293B] rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-slate-700">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+          <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-[#1E293B]">
+            <div className="border-b border-slate-700 p-6">
               <h2 className="text-xl font-bold text-white">
                 {editingItem ? 'Edit Testimonial' : 'Add Testimonial'}
               </h2>
             </div>
-            
-            <form onSubmit={handleSubmit} className="p-6 space-y-4">
+
+            <form onSubmit={handleSubmit} className="space-y-4 p-6">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Name</label>
+                  <label className="mb-1 block text-sm font-medium text-slate-300">
+                    Name
+                  </label>
                   <input
                     type="text"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-2 bg-[#0F172A] border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#37AFE1]"
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
+                    className="w-full rounded-lg border border-slate-700 bg-[#0F172A] px-4 py-2 text-white focus:border-[#37AFE1] focus:outline-none"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Company</label>
+                  <label className="mb-1 block text-sm font-medium text-slate-300">
+                    Company
+                  </label>
                   <input
                     type="text"
                     value={formData.company}
-                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    className="w-full px-4 py-2 bg-[#0F172A] border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#37AFE1]"
+                    onChange={(e) =>
+                      setFormData({ ...formData, company: e.target.value })
+                    }
+                    className="w-full rounded-lg border border-slate-700 bg-[#0F172A] px-4 py-2 text-white focus:border-[#37AFE1] focus:outline-none"
                   />
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Role</label>
+                  <label className="mb-1 block text-sm font-medium text-slate-300">
+                    Role
+                  </label>
                   <input
                     type="text"
                     value={formData.role}
-                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                    className="w-full px-4 py-2 bg-[#0F172A] border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#37AFE1]"
+                    onChange={(e) =>
+                      setFormData({ ...formData, role: e.target.value })
+                    }
+                    className="w-full rounded-lg border border-slate-700 bg-[#0F172A] px-4 py-2 text-white focus:border-[#37AFE1] focus:outline-none"
                     placeholder="e.g., CEO, CTO"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Rating (1-5)</label>
+                  <label className="mb-1 block text-sm font-medium text-slate-300">
+                    Rating (1-5)
+                  </label>
                   <input
                     type="number"
                     min="1"
                     max="5"
                     value={formData.rating}
-                    onChange={(e) => setFormData({ ...formData, rating: parseInt(e.target.value) })}
-                    className="w-full px-4 py-2 bg-[#0F172A] border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#37AFE1]"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        rating: parseInt(e.target.value),
+                      })
+                    }
+                    className="w-full rounded-lg border border-slate-700 bg-[#0F172A] px-4 py-2 text-white focus:border-[#37AFE1] focus:outline-none"
                   />
                 </div>
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Avatar Image Path</label>
+                <label className="mb-1 block text-sm font-medium text-slate-300">
+                  Avatar Image Path
+                </label>
                 <input
                   type="text"
                   value={formData.avatar}
-                  onChange={(e) => setFormData({ ...formData, avatar: e.target.value })}
-                  className="w-full px-4 py-2 bg-[#0F172A] border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#37AFE1]"
+                  onChange={(e) =>
+                    setFormData({ ...formData, avatar: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-700 bg-[#0F172A] px-4 py-2 text-white focus:border-[#37AFE1] focus:outline-none"
                   placeholder="/media/home/testimonials/name.jpg"
                 />
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Testimonial Text</label>
+                <label className="mb-1 block text-sm font-medium text-slate-300">
+                  Testimonial Text
+                </label>
                 <textarea
                   value={formData.text}
-                  onChange={(e) => setFormData({ ...formData, text: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, text: e.target.value })
+                  }
                   rows={4}
-                  className="w-full px-4 py-2 bg-[#0F172A] border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#37AFE1]"
+                  className="w-full rounded-lg border border-slate-700 bg-[#0F172A] px-4 py-2 text-white focus:border-[#37AFE1] focus:outline-none"
                   required
                 />
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Results (comma separated)</label>
+                <label className="mb-1 block text-sm font-medium text-slate-300">
+                  Results (comma separated)
+                </label>
                 <input
                   type="text"
                   value={formData.results}
-                  onChange={(e) => setFormData({ ...formData, results: e.target.value })}
-                  className="w-full px-4 py-2 bg-[#0F172A] border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#37AFE1]"
+                  onChange={(e) =>
+                    setFormData({ ...formData, results: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-700 bg-[#0F172A] px-4 py-2 text-white focus:border-[#37AFE1] focus:outline-none"
                   placeholder="300% traffic increase, 45% conversion boost"
                 />
               </div>
-              
+
               <div className="flex items-center gap-6">
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="flex cursor-pointer items-center gap-2">
                   <input
                     type="checkbox"
                     checked={formData.featured}
-                    onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                    className="w-4 h-4 rounded border-slate-600 text-[#F58122] focus:ring-[#F58122]"
+                    onChange={(e) =>
+                      setFormData({ ...formData, featured: e.target.checked })
+                    }
+                    className="h-4 w-4 rounded border-slate-600 text-[#F58122] focus:ring-[#F58122]"
                   />
                   <span className="text-slate-300">Featured</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="flex cursor-pointer items-center gap-2">
                   <input
                     type="checkbox"
                     checked={formData.published}
-                    onChange={(e) => setFormData({ ...formData, published: e.target.checked })}
-                    className="w-4 h-4 rounded border-slate-600 text-green-500 focus:ring-green-500"
+                    onChange={(e) =>
+                      setFormData({ ...formData, published: e.target.checked })
+                    }
+                    className="h-4 w-4 rounded border-slate-600 text-green-500 focus:ring-green-500"
                   />
                   <span className="text-slate-300">Published</span>
                 </label>
               </div>
-              
-              <div className="flex justify-end gap-3 pt-4 border-t border-slate-700">
+
+              <div className="flex justify-end gap-3 border-t border-slate-700 pt-4">
                 <button
                   type="button"
-                  onClick={() => { setShowModal(false); resetForm(); }}
-                  className="px-4 py-2 text-slate-400 hover:text-white transition-colors"
+                  onClick={() => {
+                    setShowModal(false);
+                    resetForm();
+                  }}
+                  className="px-4 py-2 text-slate-400 transition-colors hover:text-white"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2 bg-[#37AFE1] text-white rounded-lg hover:bg-[#37AFE1]/80 transition-colors"
+                  className="rounded-lg bg-[#37AFE1] px-6 py-2 text-white transition-colors hover:bg-[#37AFE1]/80"
                 >
                   {editingItem ? 'Update' : 'Add Testimonial'}
                 </button>

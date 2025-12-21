@@ -1,6 +1,6 @@
 /**
  * Web Design Service Page Tests
- * 
+ *
  * Tests for the Web Design service page components
  * Validates: Requirements 11.1-11.8
  */
@@ -26,7 +26,13 @@ describe('Web Design Service Page', () => {
   describe('DesignTimeline Component', () => {
     it('should have all design phases', () => {
       // Requirement 11.3: Timeline phases
-      const phases = ['Discovery', 'Wireframe', 'Design', 'Development', 'Launch'];
+      const phases = [
+        'Discovery',
+        'Wireframe',
+        'Design',
+        'Development',
+        'Launch',
+      ];
       expect(phases).toHaveLength(5);
       expect(phases).toContain('Discovery');
       expect(phases).toContain('Launch');
@@ -49,10 +55,30 @@ describe('Web Design Service Page', () => {
     it('should have color scheme options', () => {
       // Requirement 11.6: Interactive color picker
       const colorSchemes = [
-        { name: 'Ocean', primary: '#2563EB', secondary: '#7C3AED', accent: '#0D9488' },
-        { name: 'Sunset', primary: '#F59E0B', secondary: '#EF4444', accent: '#EC4899' },
-        { name: 'Forest', primary: '#10B981', secondary: '#059669', accent: '#14B8A6' },
-        { name: 'Midnight', primary: '#6366F1', secondary: '#8B5CF6', accent: '#A78BFA' }
+        {
+          name: 'Ocean',
+          primary: '#2563EB',
+          secondary: '#7C3AED',
+          accent: '#0D9488',
+        },
+        {
+          name: 'Sunset',
+          primary: '#F59E0B',
+          secondary: '#EF4444',
+          accent: '#EC4899',
+        },
+        {
+          name: 'Forest',
+          primary: '#10B981',
+          secondary: '#059669',
+          accent: '#14B8A6',
+        },
+        {
+          name: 'Midnight',
+          primary: '#6366F1',
+          secondary: '#8B5CF6',
+          accent: '#A78BFA',
+        },
       ];
       expect(colorSchemes).toHaveLength(4);
       expect(colorSchemes[0].name).toBe('Ocean');
@@ -64,7 +90,7 @@ describe('Web Design Service Page', () => {
         { name: 'Modern', family: 'Inter, sans-serif' },
         { name: 'Classic', family: 'Georgia, serif' },
         { name: 'Tech', family: 'Fira Code, monospace' },
-        { name: 'Elegant', family: 'Montserrat, sans-serif' }
+        { name: 'Elegant', family: 'Montserrat, sans-serif' },
       ];
       expect(fonts).toHaveLength(4);
     });
@@ -82,7 +108,7 @@ describe('Web Design Service Page', () => {
       const devices = [
         { type: 'mobile', width: 375, height: 667 },
         { type: 'tablet', width: 768, height: 1024 },
-        { type: 'desktop', width: 1440, height: 900 }
+        { type: 'desktop', width: 1440, height: 900 },
       ];
       expect(devices).toHaveLength(3);
       expect(devices[0].type).toBe('mobile');
@@ -106,7 +132,7 @@ describe('Web Design Service Page', () => {
         'Design Timeline',
         'Style Showcase',
         'Responsive Preview',
-        'Call to Action'
+        'Call to Action',
       ];
       expect(sections).toHaveLength(6);
     });
@@ -119,9 +145,9 @@ describe('Web Design Service Page', () => {
         wireframeMorph: 2, // seconds
         phaseMorph: 2, // seconds
         fontTransition: 0.3, // seconds
-        deviceMorph: 0.6 // seconds
+        deviceMorph: 0.6, // seconds
       };
-      
+
       expect(timings.wireframeMorph).toBe(2);
       expect(timings.phaseMorph).toBe(2);
       expect(timings.fontTransition).toBe(0.3);
@@ -136,9 +162,9 @@ describe('Web Design Service Page', () => {
         slateGray: '#64748B',
         primaryBlue: '#2563EB',
         secondaryPurple: '#7C3AED',
-        electricPurple: '#8B5CF6'
+        electricPurple: '#8B5CF6',
       };
-      
+
       expect(colors.darkNavy).toBe('#1E293B');
       expect(colors.primaryBlue).toBe('#2563EB');
       expect(colors.secondaryPurple).toBe('#7C3AED');

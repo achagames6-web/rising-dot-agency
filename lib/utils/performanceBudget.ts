@@ -34,16 +34,24 @@ export function getResourceMetrics(): ResourceMetrics[] {
     return [];
   }
 
-  const resources = performance.getEntriesByType('resource') as PerformanceResourceTiming[];
-  
-  return resources.map(resource => {
+  const resources = performance.getEntriesByType(
+    'resource'
+  ) as PerformanceResourceTiming[];
+
+  return resources.map((resource) => {
     let type: ResourceMetrics['type'] = 'other';
-    
+
     if (resource.initiatorType === 'script' || resource.name.endsWith('.js')) {
       type = 'script';
-    } else if (resource.initiatorType === 'css' || resource.name.endsWith('.css')) {
+    } else if (
+      resource.initiatorType === 'css' ||
+      resource.name.endsWith('.css')
+    ) {
       type = 'stylesheet';
-    } else if (resource.initiatorType === 'img' || /\.(jpg|jpeg|png|gif|webp|avif|svg)$/i.test(resource.name)) {
+    } else if (
+      resource.initiatorType === 'img' ||
+      /\.(jpg|jpeg|png|gif|webp|avif|svg)$/i.test(resource.name)
+    ) {
       type = 'image';
     } else if (/\.(woff|woff2|ttf|otf|eot)$/i.test(resource.name)) {
       type = 'font';
@@ -61,7 +69,9 @@ export function getResourceMetrics(): ResourceMetrics[] {
 /**
  * Calculate total size by resource type
  */
-export function calculateResourceSizes(metrics: ResourceMetrics[]): Record<string, number> {
+export function calculateResourceSizes(
+  metrics: ResourceMetrics[]
+): Record<string, number> {
   const sizes: Record<string, number> = {
     script: 0,
     stylesheet: 0,
@@ -71,7 +81,7 @@ export function calculateResourceSizes(metrics: ResourceMetrics[]): Record<strin
     total: 0,
   };
 
-  metrics.forEach(metric => {
+  metrics.forEach((metric) => {
     const sizeInKB = metric.transferSize / 1024;
     sizes[metric.type] += sizeInKB;
     sizes.total += sizeInKB;
@@ -162,14 +172,18 @@ export function getCoreWebVitals(): CoreWebVitals {
   };
 
   // Get navigation timing for TTFB
-  const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+  const navigation = performance.getEntriesByType(
+    'navigation'
+  )[0] as PerformanceNavigationTiming;
   if (navigation) {
     vitals.ttfb = navigation.responseStart - navigation.requestStart;
   }
 
   // Get paint timing for FCP
   const paintEntries = performance.getEntriesByType('paint');
-  const fcpEntry = paintEntries.find(entry => entry.name === 'first-contentful-paint');
+  const fcpEntry = paintEntries.find(
+    (entry) => entry.name === 'first-contentful-paint'
+  );
   if (fcpEntry) {
     vitals.fcp = fcpEntry.startTime;
   }
@@ -191,7 +205,9 @@ export function checkCoreWebVitals(vitals: CoreWebVitals): {
 
   // LCP should be under 1.8 seconds (1800ms)
   if (vitals.lcp !== null && vitals.lcp > 1800) {
-    violations.push(`LCP too slow: ${vitals.lcp.toFixed(0)}ms (target: <1800ms)`);
+    violations.push(
+      `LCP too slow: ${vitals.lcp.toFixed(0)}ms (target: <1800ms)`
+    );
   }
 
   // FID should be under 10ms
@@ -206,12 +222,16 @@ export function checkCoreWebVitals(vitals: CoreWebVitals): {
 
   // FCP should be under 1.8 seconds
   if (vitals.fcp !== null && vitals.fcp > 1800) {
-    violations.push(`FCP too slow: ${vitals.fcp.toFixed(0)}ms (target: <1800ms)`);
+    violations.push(
+      `FCP too slow: ${vitals.fcp.toFixed(0)}ms (target: <1800ms)`
+    );
   }
 
   // TTFB should be under 600ms
   if (vitals.ttfb !== null && vitals.ttfb > 600) {
-    violations.push(`TTFB too slow: ${vitals.ttfb.toFixed(0)}ms (target: <600ms)`);
+    violations.push(
+      `TTFB too slow: ${vitals.ttfb.toFixed(0)}ms (target: <600ms)`
+    );
   }
 
   return {

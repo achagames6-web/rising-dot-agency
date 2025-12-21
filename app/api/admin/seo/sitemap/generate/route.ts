@@ -8,7 +8,11 @@ const staticPages = [
   { path: '/', priority: 1.0, changefreq: 'daily' },
   { path: '/about', priority: 0.8, changefreq: 'weekly' },
   { path: '/services', priority: 0.9, changefreq: 'weekly' },
-  { path: '/services/chatbot-development', priority: 0.8, changefreq: 'weekly' },
+  {
+    path: '/services/chatbot-development',
+    priority: 0.8,
+    changefreq: 'weekly',
+  },
   { path: '/services/n8n-automations', priority: 0.8, changefreq: 'weekly' },
   { path: '/services/web-design', priority: 0.8, changefreq: 'weekly' },
   { path: '/services/wordpress', priority: 0.8, changefreq: 'weekly' },
@@ -29,11 +33,17 @@ export async function POST(request: NextRequest) {
     const client = await clientPromise;
     const db = client.db('rising-dot');
 
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://risingdot.agency';
+    const baseUrl =
+      process.env.NEXT_PUBLIC_SITE_URL || 'https://risingdot.agency';
     const now = new Date().toISOString();
 
     // Collect all URLs
-    const urls: Array<{ loc: string; lastmod: string; changefreq: string; priority: number }> = [];
+    const urls: Array<{
+      loc: string;
+      lastmod: string;
+      changefreq: string;
+      priority: number;
+    }> = [];
 
     // Add static pages
     for (const page of staticPages) {
@@ -53,7 +63,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Add blog posts
-    const blogs = await db.collection('blogs').find({ published: true }).toArray();
+    const blogs = await db
+      .collection('blogs')
+      .find({ published: true })
+      .toArray();
     for (const blog of blogs) {
       urls.push({
         loc: `${baseUrl}/blog/${blog.slug}`,
@@ -64,7 +77,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Add portfolio projects
-    const projects = await db.collection('projects').find({ published: true }).toArray();
+    const projects = await db
+      .collection('projects')
+      .find({ published: true })
+      .toArray();
     for (const project of projects) {
       urls.push({
         loc: `${baseUrl}/portfolio/${project.slug}`,
@@ -77,7 +93,9 @@ export async function POST(request: NextRequest) {
     // Add custom URLs
     for (const custom of customUrls) {
       urls.push({
-        loc: custom.url.startsWith('http') ? custom.url : `${baseUrl}${custom.url}`,
+        loc: custom.url.startsWith('http')
+          ? custom.url
+          : `${baseUrl}${custom.url}`,
         lastmod: now,
         changefreq: custom.changefreq,
         priority: custom.priority,
@@ -87,12 +105,16 @@ export async function POST(request: NextRequest) {
     // Generate XML
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map(url => `  <url>
+${urls
+  .map(
+    (url) => `  <url>
     <loc>${url.loc}</loc>
     <lastmod>${url.lastmod}</lastmod>
     <changefreq>${url.changefreq}</changefreq>
     <priority>${url.priority}</priority>
-  </url>`).join('\n')}
+  </url>`
+  )
+  .join('\n')}
 </urlset>`;
 
     // Save to public folder
@@ -100,22 +122,29 @@ ${urls.map(url => `  <url>
     await writeFile(sitemapPath, xml, 'utf-8');
 
     // Save URLs to database for display
-    await db.collection('seoSitemap').updateOne(
-      { type: 'urls' },
-      { $set: { urls, updatedAt: new Date() } },
-      { upsert: true }
-    );
+    await db
+      .collection('seoSitemap')
+      .updateOne(
+        { type: 'urls' },
+        { $set: { urls, updatedAt: new Date() } },
+        { upsert: true }
+      );
 
     // Update config with last generated time
-    await db.collection('seoConfig').updateOne(
-      { type: 'sitemap' },
-      { $set: { 'data.lastGenerated': now } },
-      { upsert: true }
-    );
+    await db
+      .collection('seoConfig')
+      .updateOne(
+        { type: 'sitemap' },
+        { $set: { 'data.lastGenerated': now } },
+        { upsert: true }
+      );
 
     return NextResponse.json({ success: true, urlCount: urls.length });
   } catch (error) {
     console.error('Error generating sitemap:', error);
-    return NextResponse.json({ error: 'Failed to generate sitemap' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to generate sitemap' },
+      { status: 500 }
+    );
   }
 }

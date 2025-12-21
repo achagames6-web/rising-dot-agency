@@ -5,7 +5,9 @@ import { PageBuilder } from '@/components/admin/PageBuilder';
 import type { PlacedComponent } from '@/components/admin/PageBuilder';
 
 export default function PageBuilderPage() {
-  const [initialComponents, setInitialComponents] = useState<PlacedComponent[]>([]);
+  const [initialComponents, setInitialComponents] = useState<PlacedComponent[]>(
+    []
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   // Load existing page data (if any)
@@ -29,8 +31,8 @@ export default function PageBuilderPage() {
 
   if (isLoading) {
     return (
-      <div className="h-screen flex items-center justify-center bg-slate-900">
-        <div className="text-white text-lg">Loading page builder...</div>
+      <div className="flex h-screen items-center justify-center bg-slate-900">
+        <div className="text-lg text-white">Loading page builder...</div>
       </div>
     );
   }

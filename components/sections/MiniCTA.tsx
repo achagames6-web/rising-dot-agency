@@ -26,8 +26,8 @@ export default function MiniCTA({
   showSocials = true,
 }: MiniCTAProps) {
   return (
-    <section className="py-24 px-6 bg-black">
-      <div className="max-w-4xl mx-auto text-center">
+    <section className="bg-black px-6 py-24">
+      <div className="mx-auto max-w-4xl text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -48,10 +48,7 @@ export default function MiniCTA({
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-8"
           >
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link href={ctaLink}>
                 <StarButton className="h-12 px-8 text-sm font-semibold">
                   {ctaText}
@@ -68,7 +65,9 @@ export default function MiniCTA({
               transition={{ duration: 0.6, delay: 0.3 }}
               className="mt-12"
             >
-              <p className="text-[#64748B] text-sm mb-4">Follow us on social media</p>
+              <p className="mb-4 text-sm text-[#64748B]">
+                Follow us on social media
+              </p>
               <SocialLinks socials={defaultSocials} />
             </motion.div>
           )}

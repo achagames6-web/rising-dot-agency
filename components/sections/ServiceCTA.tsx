@@ -27,10 +27,9 @@ export default function ServiceCTA({
   showSocials = true,
 }: ServiceCTAProps) {
   return (
-    <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-transparent">
-
+    <section className="relative flex min-h-[70vh] items-center justify-center overflow-hidden bg-transparent">
       {/* Content */}
-      <div className="relative z-10 max-w-4xl mx-auto px-4 md:px-6 text-center py-24">
+      <div className="relative z-10 mx-auto max-w-4xl px-4 py-24 text-center md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -77,7 +76,9 @@ export default function ServiceCTA({
               transition={{ duration: 0.6, delay: 0.4 }}
               className="mt-16"
             >
-              <p className="text-[#64748B] text-sm mb-4">Follow us on social media</p>
+              <p className="mb-4 text-sm text-[#64748B]">
+                Follow us on social media
+              </p>
               <SocialLinks socials={defaultSocials} />
             </motion.div>
           )}

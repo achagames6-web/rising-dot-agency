@@ -7,7 +7,7 @@ import { Project } from '@/lib/db/models';
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession();
-    
+
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -34,7 +34,10 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error fetching projects:', error);
-    return NextResponse.json({ error: 'Failed to fetch projects' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch projects' },
+      { status: 500 }
+    );
   }
 }
 
@@ -42,23 +45,36 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession();
-    
+
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
-    const { title, client, description, thumbnail, images, tags, metrics, featured, published } = body;
+    const {
+      title,
+      client,
+      description,
+      thumbnail,
+      images,
+      tags,
+      metrics,
+      featured,
+      published,
+    } = body;
 
     if (!title) {
       return NextResponse.json({ error: 'Title is required' }, { status: 400 });
     }
 
     // Generate slug from title
-    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    const slug = title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
 
     const db = await getDatabase();
-    
+
     const project: Omit<Project, '_id'> = {
       title,
       slug,
@@ -83,6 +99,9 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     console.error('Error creating project:', error);
-    return NextResponse.json({ error: 'Failed to create project' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to create project' },
+      { status: 500 }
+    );
   }
 }

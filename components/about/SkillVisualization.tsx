@@ -18,7 +18,7 @@ const defaultSkills: Skill[] = [
   { name: 'AI/Chatbots', level: 85, color: '#2563EB' },
   { name: 'WordPress', level: 87, color: '#F97316' },
   { name: 'Shopify', level: 89, color: '#2563EB' },
-  { name: 'Animation', level: 93, color: '#F97316' }
+  { name: 'Animation', level: 93, color: '#F97316' },
 ];
 
 export default function SkillVisualization() {
@@ -30,7 +30,7 @@ export default function SkillVisualization() {
   const skills = content?.skills || defaultSkills;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
       {skills.map((skill, index) => (
         <SkillChart key={skill.name} skill={skill} index={index} />
       ))}
@@ -99,9 +99,9 @@ function SkillChart({ skill, index }: SkillChartProps) {
       transition={{ delay: index * 0.1 }}
       className="flex flex-col items-center"
     >
-      <div className="relative w-40 h-40 mb-4">
+      <div className="relative mb-4 h-40 w-40">
         {/* Background circle */}
-        <svg className="w-full h-full transform -rotate-90">
+        <svg className="h-full w-full -rotate-90 transform">
           <circle
             cx={radius}
             cy={radius}
@@ -122,7 +122,7 @@ function SkillChart({ skill, index }: SkillChartProps) {
             strokeDashoffset={strokeDashoffset}
             strokeLinecap="round"
             style={{
-              filter: `drop-shadow(0 0 10px ${skill.color})`
+              filter: `drop-shadow(0 0 10px ${skill.color})`,
             }}
             initial={{ strokeDashoffset: circumference }}
             animate={{ strokeDashoffset }}
@@ -145,7 +145,7 @@ function SkillChart({ skill, index }: SkillChartProps) {
       </div>
 
       {/* Skill name */}
-      <h3 className="text-lg font-semibold text-white text-center">
+      <h3 className="text-center text-lg font-semibold text-white">
         {skill.name}
       </h3>
     </motion.div>

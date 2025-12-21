@@ -1,5 +1,5 @@
 {
-    "kiroAgent.configureMCP": "Disabled",
-    "workbench.preferredDarkColorTheme": "Kiro Light",
-    "workbench.colorTheme": "Light+"
+  "kiroAgent.configureMCP": "Disabled",
+  "workbench.preferredDarkColorTheme": "Kiro Light",
+  "workbench.colorTheme": "Light+"
 }

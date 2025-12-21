@@ -4,7 +4,10 @@
  */
 
 import { getDeviceCapabilities, DeviceCapabilities } from './deviceDetection';
-import { getPerformanceMonitor, PerformanceMetrics } from './performanceMonitor';
+import {
+  getPerformanceMonitor,
+  PerformanceMetrics,
+} from './performanceMonitor';
 import { getDeviceType } from './responsive';
 
 export type QualityLevel = 'low' | 'medium' | 'high';
@@ -93,7 +96,8 @@ export class AdaptiveQualityEngine {
       return 'medium';
     }
 
-    const { gpuPower, memory, isBatterySaver, connectionSpeed, supportsWebGL } = this.capabilities;
+    const { gpuPower, memory, isBatterySaver, connectionSpeed, supportsWebGL } =
+      this.capabilities;
 
     // Battery saver mode forces low quality
     if (isBatterySaver) {
@@ -189,7 +193,7 @@ export class AdaptiveQualityEngine {
    */
   setPerformanceMode(enabled: boolean): void {
     this.config.performanceMode = enabled;
-    
+
     if (enabled) {
       this.setQuality('low');
     } else {
@@ -202,7 +206,8 @@ export class AdaptiveQualityEngine {
    * Get current quality settings
    */
   getQualitySettings(): QualitySettings {
-    const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1920;
+    const viewportWidth =
+      typeof window !== 'undefined' ? window.innerWidth : 1920;
     const deviceType = getDeviceType(viewportWidth);
 
     switch (this.currentQuality) {
@@ -267,7 +272,7 @@ export class AdaptiveQualityEngine {
    */
   private notifyListeners(): void {
     const settings = this.getQualitySettings();
-    this.listeners.forEach(callback => callback(settings));
+    this.listeners.forEach((callback) => callback(settings));
   }
 
   /**

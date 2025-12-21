@@ -26,7 +26,10 @@ export async function GET(
     return NextResponse.json({ project });
   } catch (error) {
     console.error('Error fetching project:', error);
-    return NextResponse.json({ error: 'Failed to fetch project' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch project' },
+      { status: 500 }
+    );
   }
 }
 
@@ -42,17 +45,30 @@ export async function PUT(
     }
 
     const body = await request.json();
-    const { title, client, description, thumbnail, images, tags, metrics, featured, published } = body;
+    const {
+      title,
+      client,
+      description,
+      thumbnail,
+      images,
+      tags,
+      metrics,
+      featured,
+      published,
+    } = body;
 
     const db = await getDatabase();
-    
+
     const updateData: any = {
       updatedAt: new Date(),
     };
 
     if (title !== undefined) {
       updateData.title = title;
-      updateData.slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      updateData.slug = title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
     }
     if (client !== undefined) updateData.client = client;
     if (description !== undefined) updateData.description = description;
@@ -66,10 +82,9 @@ export async function PUT(
       if (published) updateData.publishedAt = new Date();
     }
 
-    await db.collection(COLLECTIONS.PROJECTS).updateOne(
-      { _id: new ObjectId(params.id) },
-      { $set: updateData }
-    );
+    await db
+      .collection(COLLECTIONS.PROJECTS)
+      .updateOne({ _id: new ObjectId(params.id) }, { $set: updateData });
 
     const project = await db.collection(COLLECTIONS.PROJECTS).findOne({
       _id: new ObjectId(params.id),
@@ -78,7 +93,10 @@ export async function PUT(
     return NextResponse.json({ project });
   } catch (error) {
     console.error('Error updating project:', error);
-    return NextResponse.json({ error: 'Failed to update project' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to update project' },
+      { status: 500 }
+    );
   }
 }
 
@@ -101,6 +119,9 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting project:', error);
-    return NextResponse.json({ error: 'Failed to delete project' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to delete project' },
+      { status: 500 }
+    );
   }
 }

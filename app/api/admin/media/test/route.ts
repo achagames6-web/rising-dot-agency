@@ -12,7 +12,7 @@ export async function GET() {
   try {
     // Test 1: Get account usage to verify credentials work
     const usage = await cloudinary.api.usage();
-    
+
     // Test 2: List root folders
     let folders: any[] = [];
     try {
@@ -92,10 +92,13 @@ export async function GET() {
     });
   } catch (error: any) {
     console.error('Test error:', error);
-    return NextResponse.json({
-      success: false,
-      error: error.message,
-      details: error.error || error,
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        error: error.message,
+        details: error.error || error,
+      },
+      { status: 500 }
+    );
   }
 }
