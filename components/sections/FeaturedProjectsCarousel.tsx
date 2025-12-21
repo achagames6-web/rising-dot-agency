@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import {
   ScrollXCarousel,
   ScrollXCarouselContainer,
@@ -102,14 +103,56 @@ const DEFAULT_HEADINGS = {
 
 export default function FeaturedProjectsCarousel() {
   // Fetch featuredWork section data from CMS
-  const { content, loading } = useSiteContent<FeaturedWorkContent>('portfolio', 'featuredWork');
+  const { content, loading: contentLoading } = useSiteContent<FeaturedWorkContent>('portfolio', 'featuredWork');
+  const [dynamicProjects, setDynamicProjects] = useState<FeaturedSlide[]>([]);
+  const [loadingProjects, setLoadingProjects] = useState(true);
 
-  // Use CMS data with fallback to defaults
-  const slides = content?.slides && content.slides.length > 0 ? content.slides : DEFAULT_SLIDES;
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const res = await fetch('/api/projects?featured=true');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.projects && data.projects.length > 0) {
+            const mapped = data.projects.map((p: any) => ({
+              id: p._id || p.id || Math.random().toString(),
+              title: p.title,
+              description: p.description,
+              services: p.tags || [],
+              type: p.tags?.[0] || 'Featured',
+              imageUrl: p.thumbnail || p.thumbnailUrl || '/media/portfolio/featured-projects/ecommerce-platform.jpg'
+            }));
+            setDynamicProjects(mapped);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching featured projects:', error);
+      } finally {
+        setLoadingProjects(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  // Use dynamic projects if available, otherwise CMS content, otherwise fallbacks
+  const slides = dynamicProjects.length > 0 
+    ? dynamicProjects 
+    : (content?.slides && content.slides.length > 0 ? content.slides : DEFAULT_SLIDES);
+
   const eyebrow = content?.eyebrow || DEFAULT_HEADINGS.eyebrow;
   const title = content?.title || DEFAULT_HEADINGS.title;
   const titleHighlight = content?.titleHighlight || DEFAULT_HEADINGS.titleHighlight;
   const subtitle = content?.subtitle || DEFAULT_HEADINGS.subtitle;
+
+  if (loadingProjects && dynamicProjects.length === 0) {
+    return (
+      <div className="h-[50vh] flex items-center justify-center bg-black">
+        <div className="w-12 h-12 border-2 border-[#37AFE1]/30 border-t-[#37AFE1] rounded-full animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <section className="bg-black">
       {/* Section Header */}
