@@ -28,37 +28,43 @@ function BlogTimeline({ content }: { content: string }) {
   const timelineData = useMemo(() => {
     const sections: { title: string; content: React.ReactNode }[] = [];
     const parts = content.split(/^# /m).filter(Boolean);
-    
+
     parts.forEach((part) => {
       const lines = part.split('\n');
       const title = lines[0]?.trim() || 'Section';
       const sectionContent = lines.slice(1).join('\n').trim();
-      
+
       sections.push({
         title,
         content: (
-          <div className="text-slate-300 space-y-4">
+          <div className="space-y-4 text-slate-300">
             {sectionContent.split('\n\n').map((paragraph, idx) => {
               if (paragraph.startsWith('## ')) {
                 return (
-                  <h3 key={idx} className="text-xl font-bold text-white mt-6 mb-3">
+                  <h3
+                    key={idx}
+                    className="mb-3 mt-6 text-xl font-bold text-white"
+                  >
                     {paragraph.slice(3)}
                   </h3>
                 );
               }
               if (paragraph.startsWith('### ')) {
                 return (
-                  <h4 key={idx} className="text-lg font-semibold text-[#37AFE1] mt-4 mb-2">
+                  <h4
+                    key={idx}
+                    className="mb-2 mt-4 text-lg font-semibold text-[#37AFE1]"
+                  >
                     {paragraph.slice(4)}
                   </h4>
                 );
               }
               if (paragraph.startsWith('- ')) {
                 return (
-                  <ul key={idx} className="space-y-2 ml-4">
+                  <ul key={idx} className="ml-4 space-y-2">
                     {paragraph.split('\n').map((item, i) => (
                       <li key={i} className="flex items-start gap-2">
-                        <span className="text-[#F58122] mt-1">✓</span>
+                        <span className="mt-1 text-[#F58122]">✓</span>
                         <span>{item.slice(2)}</span>
                       </li>
                     ))}
@@ -67,7 +73,7 @@ function BlogTimeline({ content }: { content: string }) {
               }
               if (paragraph.trim()) {
                 return (
-                  <p key={idx} className="text-slate-300 leading-relaxed">
+                  <p key={idx} className="leading-relaxed text-slate-300">
                     {paragraph}
                   </p>
                 );
@@ -78,19 +84,17 @@ function BlogTimeline({ content }: { content: string }) {
         ),
       });
     });
-    
+
     // If no sections found, create a single section
     if (sections.length === 0) {
       sections.push({
         title: 'Content',
         content: (
-          <div className="text-slate-300 leading-relaxed">
-            {content}
-          </div>
+          <div className="leading-relaxed text-slate-300">{content}</div>
         ),
       });
     }
-    
+
     return sections;
   }, [content]);
 
@@ -103,11 +107,19 @@ export default function SingleBlogPage() {
   const [loading, setLoading] = useState(true);
   const [relatedBlogs, setRelatedBlogs] = useState<BlogPost[]>([]);
 
-  useEffect(() => {
-    if (params.slug) {
-      fetchBlog();
+  const fetchRelatedBlogs = async (category: string) => {
+    try {
+      const res = await fetch(`/api/blogs?category=${category}&limit=3`);
+      if (res.ok) {
+        const data = await res.json();
+        setRelatedBlogs(
+          data.filter((b: BlogPost) => b.slug !== params.slug).slice(0, 3)
+        );
+      }
+    } catch (error) {
+      console.error('Error fetching related blogs:', error);
     }
-  }, [params.slug]);
+  };
 
   const fetchBlog = async () => {
     try {
@@ -124,21 +136,18 @@ export default function SingleBlogPage() {
     }
   };
 
-  const fetchRelatedBlogs = async (category: string) => {
-    try {
-      const res = await fetch(`/api/blogs?category=${category}&limit=3`);
-      const data = await res.json();
-      setRelatedBlogs(data.filter((b: BlogPost) => b.slug !== params.slug).slice(0, 2));
-    } catch (error) {
-      console.error('Error fetching related blogs:', error);
+  useEffect(() => {
+    if (params.slug) {
+      fetchBlog();
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.slug]);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
@@ -154,25 +163,26 @@ export default function SingleBlogPage() {
     }
   };
 
-
   if (loading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="w-12 h-12 border-2 border-[#37AFE1]/30 border-t-[#37AFE1] rounded-full animate-spin" />
+      <div className="flex min-h-screen items-center justify-center bg-black">
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
       </div>
     );
   }
 
   if (!blog) {
     return (
-      <div className="min-h-screen bg-black flex flex-col items-center justify-center text-white">
-        <h1 className="text-4xl font-bold mb-4">Blog Not Found</h1>
-        <p className="text-slate-400 mb-8">The blog post you're looking for doesn't exist.</p>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-black text-white">
+        <h1 className="mb-4 text-4xl font-bold">Blog Not Found</h1>
+        <p className="mb-8 text-slate-400">
+          The blog post you're looking for doesn't exist.
+        </p>
         <Link
           href="/blog"
           className="flex items-center gap-2 text-[#37AFE1] hover:underline"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="h-4 w-4" />
           Back to Blog
         </Link>
       </div>
@@ -182,7 +192,7 @@ export default function SingleBlogPage() {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-6">
+      <section className="relative px-6 pb-20 pt-32">
         {/* Background */}
         <div className="absolute inset-0 overflow-hidden">
           {blog.coverImage || blog.thumbnail ? (
@@ -200,7 +210,7 @@ export default function SingleBlogPage() {
           )}
         </div>
 
-        <div className="relative max-w-4xl mx-auto">
+        <div className="relative mx-auto max-w-4xl">
           {/* Back Link */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -208,9 +218,9 @@ export default function SingleBlogPage() {
           >
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 text-slate-400 hover:text-[#37AFE1] transition-colors mb-8"
+              className="mb-8 inline-flex items-center gap-2 text-slate-400 transition-colors hover:text-[#37AFE1]"
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeft className="h-4 w-4" />
               Back to Blog
             </Link>
           </motion.div>
@@ -219,7 +229,7 @@ export default function SingleBlogPage() {
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-block px-4 py-1 bg-[#37AFE1] text-white text-sm font-medium rounded-full mb-6"
+            className="mb-6 inline-block rounded-full bg-[#37AFE1] px-4 py-1 text-sm font-medium text-white"
           >
             {blog.category}
           </motion.span>
@@ -229,7 +239,7 @@ export default function SingleBlogPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
+            className="mb-6 text-4xl font-bold leading-tight md:text-5xl lg:text-6xl"
           >
             {blog.title}
           </motion.h1>
@@ -242,28 +252,27 @@ export default function SingleBlogPage() {
             className="flex flex-wrap items-center gap-6 text-slate-400"
           >
             <span className="flex items-center gap-2">
-              <User className="w-4 h-4" />
+              <User className="h-4 w-4" />
               {blog.author}
             </span>
             <span className="flex items-center gap-2">
-              <Calendar className="w-4 h-4" />
+              <Calendar className="h-4 w-4" />
               {formatDate(blog.publishedAt)}
             </span>
             <span className="flex items-center gap-2">
-              <Clock className="w-4 h-4" />
+              <Clock className="h-4 w-4" />
               {blog.readTime || 5} min read
             </span>
             <button
               onClick={sharePost}
-              className="flex items-center gap-2 hover:text-[#37AFE1] transition-colors"
+              className="flex items-center gap-2 transition-colors hover:text-[#37AFE1]"
             >
-              <Share2 className="w-4 h-4" />
+              <Share2 className="h-4 w-4" />
               Share
             </button>
           </motion.div>
         </div>
       </section>
-
 
       {/* Content with Timeline */}
       <section className="py-12">
@@ -271,19 +280,19 @@ export default function SingleBlogPage() {
 
         {/* Tags */}
         {blog.tags && blog.tags.length > 0 && (
-          <div className="max-w-4xl mx-auto px-6">
+          <div className="mx-auto max-w-4xl px-6">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
-              className="mt-12 pt-8 border-t border-slate-800"
+              className="mt-12 border-t border-slate-800 pt-8"
             >
-              <div className="flex items-center gap-3 flex-wrap">
-                <Tag className="w-4 h-4 text-slate-500" />
+              <div className="flex flex-wrap items-center gap-3">
+                <Tag className="h-4 w-4 text-slate-500" />
                 {blog.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-3 py-1 bg-[#1E293B] text-slate-300 text-sm rounded-full hover:bg-[#37AFE1]/20 hover:text-[#37AFE1] transition-colors cursor-pointer"
+                    className="cursor-pointer rounded-full bg-[#1E293B] px-3 py-1 text-sm text-slate-300 transition-colors hover:bg-[#37AFE1]/20 hover:text-[#37AFE1]"
                   >
                     {tag}
                   </span>
@@ -296,18 +305,18 @@ export default function SingleBlogPage() {
 
       {/* Related Posts */}
       {relatedBlogs.length > 0 && (
-        <section className="py-20 px-6 bg-[#0F172A]">
-          <div className="max-w-7xl mx-auto">
+        <section className="bg-[#0F172A] px-6 py-20">
+          <div className="mx-auto max-w-7xl">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-3xl font-bold text-white mb-10 text-center"
+              className="mb-10 text-center text-3xl font-bold text-white"
             >
               Related <span className="text-[#37AFE1]">Posts</span>
             </motion.h2>
 
-            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="mx-auto grid max-w-4xl gap-8 md:grid-cols-2">
               {relatedBlogs.map((relatedBlog, index) => (
                 <motion.article
                   key={relatedBlog._id}
@@ -317,24 +326,26 @@ export default function SingleBlogPage() {
                   transition={{ delay: index * 0.1 }}
                 >
                   <Link href={`/blog/${relatedBlog.slug}`}>
-                    <div className="bg-[#1E293B]/50 rounded-xl overflow-hidden border border-slate-800 hover:border-[#37AFE1]/50 transition-all duration-300 group">
+                    <div className="group overflow-hidden rounded-xl border border-slate-800 bg-[#1E293B]/50 transition-all duration-300 hover:border-[#37AFE1]/50">
                       <div className="relative h-40 overflow-hidden">
                         {relatedBlog.thumbnail ? (
                           <Image
                             src={relatedBlog.thumbnail}
                             alt={relatedBlog.title}
                             fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
                           />
                         ) : (
-                          <div className="w-full h-full bg-gradient-to-br from-[#37AFE1]/20 to-[#F58122]/20" />
+                          <div className="h-full w-full bg-gradient-to-br from-[#37AFE1]/20 to-[#F58122]/20" />
                         )}
                       </div>
                       <div className="p-5">
-                        <h3 className="text-lg font-semibold text-white group-hover:text-[#37AFE1] transition-colors line-clamp-2">
+                        <h3 className="line-clamp-2 text-lg font-semibold text-white transition-colors group-hover:text-[#37AFE1]">
                           {relatedBlog.title}
                         </h3>
-                        <p className="text-slate-400 text-sm mt-2 line-clamp-2">{relatedBlog.excerpt}</p>
+                        <p className="mt-2 line-clamp-2 text-sm text-slate-400">
+                          {relatedBlog.excerpt}
+                        </p>
                       </div>
                     </div>
                   </Link>
