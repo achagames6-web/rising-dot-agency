@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { Calendar, Clock, ArrowLeft, Tag, User, Share2 } from 'lucide-react';
-import { Timeline } from '@/components/ui/timeline';
+import { Timeline } from '@/components/ui/timeline-animation';
 
 interface BlogPost {
   _id: string;
