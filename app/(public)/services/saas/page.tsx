@@ -102,17 +102,6 @@ interface CaseStudiesContent {
   studies: CaseStudy[];
 }
 
-interface TechStackContent {
-  eyebrow: string;
-  title: string;
-  titleHighlight: string;
-  subtitle: string;
-  ctaText: string;
-  ctaHref: string;
-  secondaryCtaText: string;
-  secondaryCtaHref: string;
-}
-
 interface CTAContent {
   eyebrow: string;
   title: string;
@@ -312,17 +301,6 @@ const defaultCaseStudiesContent: CaseStudiesContent = {
   ],
 };
 
-const defaultTechStackContent: TechStackContent = {
-  eyebrow: '✨ Our Tech Stack',
-  title: 'Build Your',
-  titleHighlight: 'Digital Empire',
-  subtitle: 'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
-  ctaText: 'Start Your Project',
-  ctaHref: '/contact',
-  secondaryCtaText: 'View Our Work',
-  secondaryCtaHref: '/portfolio',
-};
-
 const defaultCTAContent: CTAContent = {
   eyebrow: 'SaaS Experts',
   title: 'Ready to Transform',
@@ -439,7 +417,6 @@ export default function SaasPage() {
   const { content: featuresContent } = useSiteContent<FeaturesContent>('services-saas', 'features');
   const { content: solutionsContent } = useSiteContent<SolutionsContent>('services-saas', 'solutions');
   const { content: caseStudiesContent } = useSiteContent<CaseStudiesContent>('services-saas', 'caseStudies');
-  const { content: techStackContent } = useSiteContent<TechStackContent>('services-saas', 'techStack');
   const { content: ctaContent } = useSiteContent<CTAContent>('services-saas', 'cta');
   const { content: liveDashboardContent } = useSiteContent<LiveDashboardContent>('services-saas', 'liveDashboard');
   const { content: howItWorksContent } = useSiteContent<HowItWorksContent>('services-saas', 'howItWorks');
@@ -452,7 +429,6 @@ export default function SaasPage() {
   const features = featuresContent || defaultFeaturesContent;
   const solutions = solutionsContent || defaultSolutionsContent;
   const caseStudies = caseStudiesContent || defaultCaseStudiesContent;
-  const techStack = techStackContent || defaultTechStackContent;
   const cta = ctaContent || defaultCTAContent;
   const liveDashboard = liveDashboardContent || defaultLiveDashboardContent;
   const howItWorks = howItWorksContent || defaultHowItWorksContent;
@@ -594,16 +570,7 @@ export default function SaasPage() {
       />
 
       {/* Tech Stack Section - Uses CMS content with fallback */}
-      <StackFeatureSection
-        eyebrow={techStack.eyebrow}
-        title={techStack.title}
-        titleHighlight={techStack.titleHighlight}
-        subtitle={techStack.subtitle}
-        ctaText={techStack.ctaText}
-        ctaHref={techStack.ctaHref}
-        secondaryCtaText={techStack.secondaryCtaText}
-        secondaryCtaHref={techStack.secondaryCtaHref}
-      />
+      <StackFeatureSection page="services-saas" />
 
       {/* Feature Request Form - Uses CMS content with fallback */}
       <FeatureRequestForm

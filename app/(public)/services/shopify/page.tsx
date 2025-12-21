@@ -135,17 +135,6 @@ interface CTAContent {
   ctaHref: string;
 }
 
-interface TechStackContent {
-  eyebrow: string;
-  title: string;
-  titleHighlight: string;
-  subtitle: string;
-  ctaText: string;
-  ctaHref: string;
-  secondaryCtaText: string;
-  secondaryCtaHref: string;
-}
-
 // Default fallback content
 const defaultHeroContent: HeroContent = {
   eyebrow: 'E-Commerce Excellence',
@@ -326,17 +315,6 @@ const defaultCTAContent: CTAContent = {
   ctaHref: '/contact',
 };
 
-const defaultTechStackContent: TechStackContent = {
-  eyebrow: '✨ Our Tech Stack',
-  title: 'Build Your',
-  titleHighlight: 'Digital Empire',
-  subtitle: 'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
-  ctaText: 'Start Your Project',
-  ctaHref: '/contact',
-  secondaryCtaText: 'View Our Work',
-  secondaryCtaHref: '/portfolio',
-};
-
 export default function ShopifyPage() {
   // Fetch CMS content for all sections
   // Requirements: 3.2, 3.3, 3.4, 7.1
@@ -348,7 +326,6 @@ export default function ShopifyPage() {
   const { content: mobileExperienceContent } = useSiteContent<MobileExperienceContent>('services-shopify', 'mobileExperience');
   const { content: caseStudiesContent } = useSiteContent<CaseStudiesContent>('services-shopify', 'caseStudies');
   const { content: ctaContent } = useSiteContent<CTAContent>('services-shopify', 'cta');
-  const { content: techStackContent } = useSiteContent<TechStackContent>('services-shopify', 'techStack');
 
   // Use CMS content with fallback to defaults
   const hero = heroContent || defaultHeroContent;
@@ -359,7 +336,6 @@ export default function ShopifyPage() {
   const mobileExperience = mobileExperienceContent || defaultMobileExperienceContent;
   const caseStudies = caseStudiesContent || defaultCaseStudiesContent;
   const cta = ctaContent || defaultCTAContent;
-  const techStack = techStackContent || defaultTechStackContent;
 
   return (
     <main className="min-h-screen bg-black pt-20">
@@ -472,16 +448,7 @@ export default function ShopifyPage() {
       />
 
       {/* Tech Stack Section - Uses CMS content with fallback */}
-      <StackFeatureSection
-        eyebrow={techStack.eyebrow}
-        title={techStack.title}
-        titleHighlight={techStack.titleHighlight}
-        subtitle={techStack.subtitle}
-        ctaText={techStack.ctaText}
-        ctaHref={techStack.ctaHref}
-        secondaryCtaText={techStack.secondaryCtaText}
-        secondaryCtaHref={techStack.secondaryCtaHref}
-      />
+      <StackFeatureSection page="services-shopify" />
 
       {/* CTA Section with Social Links - Uses CMS content with fallback */}
       <ServiceCTA
