@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import {
   ScrollXCarousel,
   ScrollXCarouselContainer,
@@ -14,6 +15,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
+import { Project } from '@/lib/db/models';
 
 // Interface for featured slide data
 interface FeaturedSlide {
@@ -97,23 +99,98 @@ const DEFAULT_HEADINGS = {
   eyebrow: 'Featured Work',
   title: 'Projects That',
   titleHighlight: 'Deliver Results',
-  subtitle: 'Scroll to explore our latest projects and see how we help businesses grow.',
+  subtitle:
+    'Scroll to explore our latest projects and see how we help businesses grow.',
 };
 
-export default function FeaturedProjectsCarousel() {
-  // Fetch featuredWork section data from CMS
-  const { content, loading } = useSiteContent<FeaturedWorkContent>('portfolio', 'featuredWork');
+/**
+ * Hook to fetch projects from the API
+ */
+function useProjects(featured: boolean = true) {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Use CMS data with fallback to defaults
-  const slides = content?.slides && content.slides.length > 0 ? content.slides : DEFAULT_SLIDES;
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setLoading(true);
+        // Try to fetch featured projects first
+        const featuredUrl = '/api/projects?featured=true';
+        let response = await fetch(featuredUrl);
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.projects && data.projects.length > 0) {
+            setProjects(data.projects);
+            setLoading(false);
+            return;
+          }
+        }
+
+        // If no featured projects, fetch all published projects
+        const allUrl = '/api/projects';
+        response = await fetch(allUrl);
+
+        if (response.ok) {
+          const data = await response.json();
+          setProjects(data.projects || []);
+        } else {
+          throw new Error('Failed to fetch projects');
+        }
+      } catch (err) {
+        console.error('Error fetching projects:', err);
+        setError(err instanceof Error ? err.message : 'Unknown error');
+        setProjects([]); // Set empty array on error
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, [featured]);
+
+  return { projects, loading, error };
+}
+
+/**
+ * Map Project from database model to FeaturedSlide format
+ */
+function mapProjectToSlide(project: Project): FeaturedSlide {
+  return {
+    id: project.slug || project._id?.toString() || '',
+    title: project.title,
+    description: project.description,
+    services: project.tags || [],
+    type: project.tags && project.tags.length > 0 ? project.tags[0] : 'Project',
+    imageUrl: project.thumbnail || '/media/portfolio/placeholder.jpg',
+  };
+}
+
+export default function FeaturedProjectsCarousel() {
+  // Fetch featuredWork section data from CMS for headings
+  const { content } = useSiteContent<FeaturedWorkContent>(
+    'portfolio',
+    'featuredWork'
+  );
+
+  // Fetch projects dynamically from API
+  const { projects, loading: projectsLoading } = useProjects(true);
+
+  // Map projects to slides format
+  const slides =
+    projects.length > 0 ? projects.map(mapProjectToSlide) : DEFAULT_SLIDES;
+
+  // Use CMS data with fallback to defaults for headings
   const eyebrow = content?.eyebrow || DEFAULT_HEADINGS.eyebrow;
   const title = content?.title || DEFAULT_HEADINGS.title;
-  const titleHighlight = content?.titleHighlight || DEFAULT_HEADINGS.titleHighlight;
+  const titleHighlight =
+    content?.titleHighlight || DEFAULT_HEADINGS.titleHighlight;
   const subtitle = content?.subtitle || DEFAULT_HEADINGS.subtitle;
   return (
     <section className="bg-black">
       {/* Section Header */}
-      <div className="py-16 px-6">
+      <div className="px-6 py-16">
         <SectionHeading
           eyebrow={eyebrow}
           title={title}
@@ -122,66 +199,78 @@ export default function FeaturedProjectsCarousel() {
         />
       </div>
 
-      <ScrollXCarousel className="h-[150vh]">
-        <ScrollXCarouselContainer className="h-dvh place-content-center flex flex-col gap-8 py-12">
-          {/* Left fade gradient */}
-          <div className="pointer-events-none w-[12vw] h-[103%] absolute inset-[0_auto_0_0] z-10 bg-[linear-gradient(90deg,_#000_35%,_transparent)]" />
-          {/* Right fade gradient */}
-          <div className="pointer-events-none bg-[linear-gradient(270deg,_#000_35%,_transparent)] w-[15vw] h-[103%] absolute inset-[0_0_0_auto] z-10" />
+      {/* Loading state */}
+      {projectsLoading && (
+        <div className="flex h-96 items-center justify-center">
+          <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-[#37AFE1]"></div>
+        </div>
+      )}
 
-          <ScrollXCarouselWrap className="flex-4/5 flex space-x-8 [&>*:first-child]:ml-8">
-            {slides.map((slide) => (
-              <CardHoverReveal
-                key={slide.id}
-                className="min-w-[45vw] md:min-w-[25vw] xl:min-w-[20vw] shadow-xl border border-white/10 rounded-xl"
-              >
-                <CardHoverRevealMain>
-                  <img
-                    alt={slide.title}
-                    src={slide.imageUrl}
-                    className="w-full h-[500px] md:h-[550px] object-cover"
-                  />
-                </CardHoverRevealMain>
-                <CardHoverRevealContent className="space-y-4 rounded-2xl bg-[rgba(0,0,0,.7)] backdrop-blur-xl p-4">
-                  <div className="space-y-2">
-                    <h3 className="text-sm text-white/80">Type</h3>
-                    <div className="flex flex-wrap gap-2">
-                      <Badge className="capitalize rounded-full bg-[#F58122] text-white border-none">
-                        {slide.type}
-                      </Badge>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="text-sm text-white/80">Services</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {slide.services.map((service) => (
-                        <Badge
-                          key={service}
-                          className="capitalize rounded-full bg-[#37AFE1]/20 text-[#37AFE1] border border-[#37AFE1]/30"
-                        >
-                          {service}
+      {/* Carousel with slides */}
+      {!projectsLoading && (
+        <ScrollXCarousel className="h-[150vh]">
+          <ScrollXCarouselContainer className="flex h-dvh flex-col place-content-center gap-8 py-12">
+            {/* Left fade gradient */}
+            <div className="pointer-events-none absolute inset-[0_auto_0_0] z-10 h-[103%] w-[12vw] bg-[linear-gradient(90deg,_#000_35%,_transparent)]" />
+            {/* Right fade gradient */}
+            <div className="pointer-events-none absolute inset-[0_0_0_auto] z-10 h-[103%] w-[15vw] bg-[linear-gradient(270deg,_#000_35%,_transparent)]" />
+
+            <ScrollXCarouselWrap className="flex-4/5 flex space-x-8 [&>*:first-child]:ml-8">
+              {slides.map((slide) => (
+                <CardHoverReveal
+                  key={slide.id}
+                  className="min-w-[45vw] rounded-xl border border-white/10 shadow-xl md:min-w-[25vw] xl:min-w-[20vw]"
+                >
+                  <CardHoverRevealMain>
+                    <img
+                      alt={slide.title}
+                      src={slide.imageUrl}
+                      className="h-[500px] w-full object-cover md:h-[550px]"
+                    />
+                  </CardHoverRevealMain>
+                  <CardHoverRevealContent className="space-y-4 rounded-2xl bg-[rgba(0,0,0,.7)] p-4 backdrop-blur-xl">
+                    <div className="space-y-2">
+                      <h3 className="text-sm text-white/80">Type</h3>
+                      <div className="flex flex-wrap gap-2">
+                        <Badge className="rounded-full border-none bg-[#F58122] capitalize text-white">
+                          {slide.type}
                         </Badge>
-                      ))}
+                      </div>
                     </div>
-                  </div>
-                  <div className="space-y-2 mt-2">
-                    <h3 className="text-white capitalize font-medium text-lg">
-                      {slide.title}
-                    </h3>
-                    <p className="text-white/80 text-sm">{slide.description}</p>
-                  </div>
-                </CardHoverRevealContent>
-              </CardHoverReveal>
-            ))}
-          </ScrollXCarouselWrap>
+                    <div className="space-y-2">
+                      <h3 className="text-sm text-white/80">Services</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {slide.services.map((service) => (
+                          <Badge
+                            key={service}
+                            className="rounded-full border border-[#37AFE1]/30 bg-[#37AFE1]/20 capitalize text-[#37AFE1]"
+                          >
+                            {service}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="mt-2 space-y-2">
+                      <h3 className="text-lg font-medium capitalize text-white">
+                        {slide.title}
+                      </h3>
+                      <p className="text-sm text-white/80">
+                        {slide.description}
+                      </p>
+                    </div>
+                  </CardHoverRevealContent>
+                </CardHoverReveal>
+              ))}
+            </ScrollXCarouselWrap>
 
-          {/* Progress bar */}
-          <ScrollXCarouselProgress
-            className="bg-white/10 mx-8 h-1 rounded-full overflow-hidden"
-            progressStyle="size-full bg-gradient-to-r from-[#F58122] to-[#37AFE1] rounded-full"
-          />
-        </ScrollXCarouselContainer>
-      </ScrollXCarousel>
+            {/* Progress bar */}
+            <ScrollXCarouselProgress
+              className="mx-8 h-1 overflow-hidden rounded-full bg-white/10"
+              progressStyle="size-full bg-gradient-to-r from-[#F58122] to-[#37AFE1] rounded-full"
+            />
+          </ScrollXCarouselContainer>
+        </ScrollXCarousel>
+      )}
     </section>
   );
 }
