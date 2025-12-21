@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "generate:content": "tsx scripts/generate-content.ts",
+    "prebuild": "npm run generate:content",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
