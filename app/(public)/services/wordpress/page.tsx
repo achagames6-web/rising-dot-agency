@@ -120,17 +120,6 @@ interface CTAContent {
   ctaHref: string;
 }
 
-interface TechStackContent {
-  eyebrow: string;
-  title: string;
-  titleHighlight: string;
-  subtitle: string;
-  ctaText: string;
-  ctaHref: string;
-  secondaryCtaText: string;
-  secondaryCtaHref: string;
-}
-
 // Default fallback content
 const defaultHeroContent: HeroContent = {
   eyebrow: 'WordPress Experts',
@@ -327,17 +316,6 @@ const defaultCTAContent: CTAContent = {
   ctaHref: '/contact',
 };
 
-const defaultTechStackContent: TechStackContent = {
-  eyebrow: '✨ Our Tech Stack',
-  title: 'Build Your',
-  titleHighlight: 'Digital Empire',
-  subtitle: 'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
-  ctaText: 'Start Your Project',
-  ctaHref: '/contact',
-  secondaryCtaText: 'View Our Work',
-  secondaryCtaHref: '/portfolio',
-};
-
 export default function WordPressPage() {
   // Fetch CMS content for all sections
   // Requirements: 4.1, 4.2, 4.3, 7.1
@@ -348,7 +326,6 @@ export default function WordPressPage() {
   const { content: pluginConstellationContent } = useSiteContent<PluginConstellationContent>('services-wordpress', 'pluginConstellation');
   const { content: caseStudiesContent } = useSiteContent<CaseStudiesContent>('services-wordpress', 'caseStudies');
   const { content: ctaContent } = useSiteContent<CTAContent>('services-wordpress', 'cta');
-  const { content: techStackContent } = useSiteContent<TechStackContent>('services-wordpress', 'techStack');
 
   // Use CMS content with fallback to defaults
   const hero = heroContent || defaultHeroContent;
@@ -358,7 +335,6 @@ export default function WordPressPage() {
   const pluginConstellation = pluginConstellationContent || defaultPluginConstellationContent;
   const caseStudies = caseStudiesContent || defaultCaseStudiesContent;
   const cta = ctaContent || defaultCTAContent;
-  const techStack = techStackContent || defaultTechStackContent;
 
   return (
     <main className="min-h-screen bg-black pt-20">
@@ -442,16 +418,7 @@ export default function WordPressPage() {
       />
 
       {/* Tech Stack Section - Uses CMS content with fallback */}
-      <StackFeatureSection
-        eyebrow={techStack.eyebrow}
-        title={techStack.title}
-        titleHighlight={techStack.titleHighlight}
-        subtitle={techStack.subtitle}
-        ctaText={techStack.ctaText}
-        ctaHref={techStack.ctaHref}
-        secondaryCtaText={techStack.secondaryCtaText}
-        secondaryCtaHref={techStack.secondaryCtaHref}
-      />
+      <StackFeatureSection page="services-wordpress" />
 
       {/* CTA Section with Social Links - Uses CMS content with fallback */}
       <ServiceCTA

@@ -149,17 +149,6 @@ interface CTAContent {
   ctaHref: string;
 }
 
-interface TechStackContent {
-  eyebrow: string;
-  title: string;
-  titleHighlight: string;
-  subtitle: string;
-  ctaText: string;
-  ctaHref: string;
-  secondaryCtaText: string;
-  secondaryCtaHref: string;
-}
-
 // Default fallback content
 const defaultHeroContent: HeroContent = {
   title: 'Dominate Search',
@@ -332,17 +321,6 @@ const defaultCTAContent: CTAContent = {
   ctaHref: '/contact',
 };
 
-const defaultTechStackContent: TechStackContent = {
-  eyebrow: '✨ Our Tech Stack',
-  title: 'Build Your',
-  titleHighlight: 'Digital Empire',
-  subtitle: 'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
-  ctaText: 'Start Your Project',
-  ctaHref: '/contact',
-  secondaryCtaText: 'View Our Work',
-  secondaryCtaHref: '/portfolio',
-};
-
 export default function SEOPage() {
   // Fetch CMS content for all sections
   // Requirements: 2.2, 2.3, 2.4, 7.1
@@ -354,7 +332,6 @@ export default function SEOPage() {
   const { content: competitorAnalysisContent } = useSiteContent<CompetitorAnalysisContent>('services-seo', 'competitorAnalysis');
   const { content: caseStudiesContent } = useSiteContent<CaseStudiesContent>('services-seo', 'caseStudies');
   const { content: ctaContent } = useSiteContent<CTAContent>('services-seo', 'cta');
-  const { content: techStackContent } = useSiteContent<TechStackContent>('services-seo', 'techStack');
 
   // Use CMS content with fallback to defaults
   const hero = heroContent || defaultHeroContent;
@@ -365,7 +342,6 @@ export default function SEOPage() {
   const competitorAnalysis = competitorAnalysisContent || defaultCompetitorAnalysisContent;
   const caseStudies = caseStudiesContent || defaultCaseStudiesContent;
   const cta = ctaContent || defaultCTAContent;
-  const techStack = techStackContent || defaultTechStackContent;
 
   return (
     <main className="min-h-screen bg-black">
@@ -500,16 +476,7 @@ export default function SEOPage() {
       />
 
       {/* Tech Stack Section - Uses CMS content with fallback */}
-      <StackFeatureSection
-        eyebrow={techStack.eyebrow}
-        title={techStack.title}
-        titleHighlight={techStack.titleHighlight}
-        subtitle={techStack.subtitle}
-        ctaText={techStack.ctaText}
-        ctaHref={techStack.ctaHref}
-        secondaryCtaText={techStack.secondaryCtaText}
-        secondaryCtaHref={techStack.secondaryCtaHref}
-      />
+      <StackFeatureSection page="services-seo" />
 
       {/* CTA Section with Social Links - Uses CMS content with fallback */}
       <ServiceCTA
