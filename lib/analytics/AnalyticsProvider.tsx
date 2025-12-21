@@ -1,11 +1,11 @@
 /**
  * Analytics Provider
- * 
+ *
  * Unified analytics provider that integrates:
  * - Google Analytics 4 (GA4)
  * - Custom Analytics Tracker
  * - Sentry Performance Monitoring
- * 
+ *
  * Implements Requirements 25.1-25.10, 21.10, 40.7
  */
 
@@ -19,12 +19,23 @@ import { initializeSentry, getSentryMonitor } from '../monitoring/sentry';
 interface AnalyticsContextValue {
   trackEvent: (eventName: string, eventData?: Record<string, any>) => void;
   trackPageView: (path: string, title?: string) => void;
-  trackFormSubmission: (formName: string, success: boolean, sourceAttribution?: Record<string, any>) => void;
-  trackAnimationEngagement: (animationType: string, engagementTime: number, interactionDepth: number) => void;
+  trackFormSubmission: (
+    formName: string,
+    success: boolean,
+    sourceAttribution?: Record<string, any>
+  ) => void;
+  trackAnimationEngagement: (
+    animationType: string,
+    engagementTime: number,
+    interactionDepth: number
+  ) => void;
   trackScrollDepth: (depth: number, triggerPoint?: string) => void;
   trackFunnelStage: (stage: string, metadata?: Record<string, any>) => void;
   trackPerformanceMetrics: (metrics: any) => void;
-  trackDeviceBehavior: (deviceType: 'desktop' | 'tablet' | 'mobile', behavior: Record<string, any>) => void;
+  trackDeviceBehavior: (
+    deviceType: 'desktop' | 'tablet' | 'mobile',
+    behavior: Record<string, any>
+  ) => void;
 }
 
 const AnalyticsContext = createContext<AnalyticsContextValue | null>(null);
@@ -121,7 +132,11 @@ export function AnalyticsProvider({
 
     // Track in GA4
     const ga4 = getGA4();
-    ga4?.trackAnimationEngagement(animationType, engagementTime, interactionDepth);
+    ga4?.trackAnimationEngagement(
+      animationType,
+      engagementTime,
+      interactionDepth
+    );
   };
 
   const trackScrollDepth = (depth: number, triggerPoint?: string) => {
@@ -184,7 +199,11 @@ export function AnalyticsProvider({
     trackDeviceBehavior,
   };
 
-  return <AnalyticsContext.Provider value={value}>{children}</AnalyticsContext.Provider>;
+  return (
+    <AnalyticsContext.Provider value={value}>
+      {children}
+    </AnalyticsContext.Provider>
+  );
 }
 
 export function useAnalytics(): AnalyticsContextValue {

@@ -10,7 +10,10 @@ export async function GET(request: NextRequest) {
     const section = searchParams.get('section');
 
     if (!page || !section) {
-      return NextResponse.json({ error: 'Page and section are required' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Page and section are required' },
+        { status: 400 }
+      );
     }
 
     const client = await clientPromise;

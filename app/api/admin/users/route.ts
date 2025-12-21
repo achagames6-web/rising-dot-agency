@@ -17,7 +17,7 @@ interface User {
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession();
-    
+
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -31,7 +31,8 @@ export async function GET(request: NextRequest) {
     const offset = (page - 1) * limit;
 
     // Build query
-    let queryText = 'SELECT id, email, name, role, two_factor_enabled, created_at, updated_at FROM users WHERE 1=1';
+    let queryText =
+      'SELECT id, email, name, role, two_factor_enabled, created_at, updated_at FROM users WHERE 1=1';
     const queryParams: any[] = [];
     let paramIndex = 1;
 
@@ -94,7 +95,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession();
-    
+
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -111,10 +112,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!['admin', 'editor', 'viewer'].includes(role)) {
-      return NextResponse.json(
-        { error: 'Invalid role' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid role' }, { status: 400 });
     }
 
     // Check if user already exists

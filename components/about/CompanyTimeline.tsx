@@ -16,52 +16,58 @@ const defaultMilestones: Milestone[] = [
   {
     year: '2018',
     title: 'Company Founded',
-    description: 'Rising Dot Agency was born with a vision to revolutionize digital experiences.',
+    description:
+      'Rising Dot Agency was born with a vision to revolutionize digital experiences.',
     era: 'foundation',
-    icon: '🚀'
+    icon: '🚀',
   },
   {
     year: '2019',
     title: 'First Major Client',
-    description: 'Landed our first enterprise client, delivering a complete digital transformation.',
+    description:
+      'Landed our first enterprise client, delivering a complete digital transformation.',
     era: 'foundation',
-    icon: '🎯'
+    icon: '🎯',
   },
   {
     year: '2020',
     title: 'Team Expansion',
-    description: 'Grew from 3 to 15 team members, expanding our service offerings.',
+    description:
+      'Grew from 3 to 15 team members, expanding our service offerings.',
     era: 'growth',
-    icon: '👥'
+    icon: '👥',
   },
   {
     year: '2021',
     title: 'Award Recognition',
-    description: 'Won "Best Digital Agency" award for innovative web design and development.',
+    description:
+      'Won "Best Digital Agency" award for innovative web design and development.',
     era: 'growth',
-    icon: '🏆'
+    icon: '🏆',
   },
   {
     year: '2022',
     title: 'International Expansion',
-    description: 'Opened offices in three new countries, serving clients globally.',
+    description:
+      'Opened offices in three new countries, serving clients globally.',
     era: 'expansion',
-    icon: '🌍'
+    icon: '🌍',
   },
   {
     year: '2023',
     title: 'AI Integration',
     description: 'Launched AI-powered chatbot and automation services.',
     era: 'innovation',
-    icon: '🤖'
+    icon: '🤖',
   },
   {
     year: '2024',
     title: 'Industry Leader',
-    description: 'Recognized as a top 10 digital agency with 500+ successful projects.',
+    description:
+      'Recognized as a top 10 digital agency with 500+ successful projects.',
     era: 'innovation',
-    icon: '⭐'
-  }
+    icon: '⭐',
+  },
 ];
 
 interface Particle {
@@ -78,7 +84,7 @@ const eraColors = {
   foundation: '#2563EB',
   growth: '#F97316',
   expansion: '#2563EB',
-  innovation: '#F97316'
+  innovation: '#F97316',
 };
 
 export default function CompanyTimeline() {
@@ -99,16 +105,16 @@ export default function CompanyTimeline() {
     if (particles.length === 0) return;
 
     const animate = () => {
-      setParticles(prev =>
+      setParticles((prev) =>
         prev
-          .map(p => ({
+          .map((p) => ({
             ...p,
             x: p.x + p.vx,
             y: p.y + p.vy,
             vy: p.vy + 0.1, // gravity
-            life: p.life - 0.015
+            life: p.life - 0.015,
           }))
-          .filter(p => p.life > 0)
+          .filter((p) => p.life > 0)
       );
     };
 
@@ -121,7 +127,7 @@ export default function CompanyTimeline() {
     const particleCount = 50;
 
     for (let i = 0; i < particleCount; i++) {
-      const angle = (Math.random() * Math.PI * 2);
+      const angle = Math.random() * Math.PI * 2;
       const speed = 2 + Math.random() * 4;
 
       newParticles.push({
@@ -131,38 +137,38 @@ export default function CompanyTimeline() {
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed - 3, // upward bias
         life: 1.0,
-        color
+        color,
       });
     }
 
-    setParticles(prev => [...prev, ...newParticles]);
+    setParticles((prev) => [...prev, ...newParticles]);
   };
 
   const handleMilestoneClick = (index: number, e: React.MouseEvent) => {
     setActiveMilestone(activeMilestone === index ? null : index);
-    
+
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     const color = eraColors[milestones[index].era];
-    
+
     celebrateMilestone(x, y, color);
   };
 
   return (
     <div ref={timelineRef} className="relative">
       {/* Particle overlay */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
-        {particles.map(particle => (
+      <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
+        {particles.map((particle) => (
           <div
             key={particle.id}
-            className="absolute w-2 h-2 rounded-full"
+            className="absolute h-2 w-2 rounded-full"
             style={{
               left: particle.x,
               top: particle.y,
               opacity: particle.life,
               backgroundColor: particle.color,
-              boxShadow: `0 0 ${particle.life * 10}px ${particle.color}`
+              boxShadow: `0 0 ${particle.life * 10}px ${particle.color}`,
             }}
           />
         ))}
@@ -171,7 +177,7 @@ export default function CompanyTimeline() {
       {/* Timeline */}
       <div className="relative">
         {/* Vertical line */}
-        <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-[#2563EB] via-[#F97316] to-[#2563EB] transform -translate-x-1/2" />
+        <div className="absolute bottom-0 left-1/2 top-0 w-1 -translate-x-1/2 transform bg-gradient-to-b from-[#2563EB] via-[#F97316] to-[#2563EB]" />
 
         {/* Milestones */}
         <div className="space-y-16">
@@ -187,7 +193,9 @@ export default function CompanyTimeline() {
               }`}
             >
               {/* Content */}
-              <div className={`w-5/12 ${index % 2 === 0 ? 'text-right pr-8' : 'text-left pl-8'}`}>
+              <div
+                className={`w-5/12 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8 text-left'}`}
+              >
                 <motion.div
                   className="cursor-pointer"
                   onClick={(e) => handleMilestoneClick(index, e)}
@@ -195,37 +203,48 @@ export default function CompanyTimeline() {
                   whileTap={{ scale: 0.95 }}
                 >
                   <div
-                    className="inline-block p-6 rounded-lg border-2 transition-all duration-300"
+                    className="inline-block rounded-lg border-2 p-6 transition-all duration-300"
                     style={{
                       borderColor: eraColors[milestone.era],
-                      backgroundColor: activeMilestone === index ? `${eraColors[milestone.era]}20` : '#0F172A'
+                      backgroundColor:
+                        activeMilestone === index
+                          ? `${eraColors[milestone.era]}20`
+                          : '#0F172A',
                     }}
                   >
-                    <div className="flex items-center gap-3 mb-2" style={{ justifyContent: index % 2 === 0 ? 'flex-end' : 'flex-start' }}>
+                    <div
+                      className="mb-2 flex items-center gap-3"
+                      style={{
+                        justifyContent:
+                          index % 2 === 0 ? 'flex-end' : 'flex-start',
+                      }}
+                    >
                       <span className="text-4xl">{milestone.icon}</span>
-                      <h3 className="text-2xl font-bold" style={{ color: eraColors[milestone.era] }}>
+                      <h3
+                        className="text-2xl font-bold"
+                        style={{ color: eraColors[milestone.era] }}
+                      >
                         {milestone.year}
                       </h3>
                     </div>
-                    <h4 className="text-xl font-semibold text-white mb-2">
+                    <h4 className="mb-2 text-xl font-semibold text-white">
                       {milestone.title}
                     </h4>
-                    <p className="text-[#64748B]">
-                      {milestone.description}
-                    </p>
+                    <p className="text-[#64748B]">{milestone.description}</p>
                   </div>
                 </motion.div>
               </div>
 
               {/* Center dot */}
               <motion.div
-                className="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full border-4 border-white z-10"
+                className="absolute left-1/2 z-10 h-6 w-6 -translate-x-1/2 transform rounded-full border-4 border-white"
                 style={{ backgroundColor: eraColors[milestone.era] }}
                 whileHover={{ scale: 1.5 }}
                 animate={{
-                  boxShadow: activeMilestone === index
-                    ? `0 0 20px ${eraColors[milestone.era]}`
-                    : `0 0 0px ${eraColors[milestone.era]}`
+                  boxShadow:
+                    activeMilestone === index
+                      ? `0 0 20px ${eraColors[milestone.era]}`
+                      : `0 0 0px ${eraColors[milestone.era]}`,
                 }}
               />
 
@@ -246,10 +265,10 @@ export default function CompanyTimeline() {
         {Object.entries(eraColors).map(([era, color]) => (
           <div key={era} className="flex items-center gap-2">
             <div
-              className="w-4 h-4 rounded-full"
+              className="h-4 w-4 rounded-full"
               style={{ backgroundColor: color }}
             />
-            <span className="text-sm text-[#64748B] capitalize">{era}</span>
+            <span className="text-sm capitalize text-[#64748B]">{era}</span>
           </div>
         ))}
       </motion.div>

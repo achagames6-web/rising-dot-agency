@@ -27,9 +27,11 @@ describe('Performance Budget System - Property Tests', () => {
           ),
           (resources) => {
             const sizes = calculateResourceSizes(resources);
-            
+
             // JavaScript should not exceed 350KB
-            expect(sizes.script).toBeLessThanOrEqual(PERFORMANCE_BUDGETS.javascript);
+            expect(sizes.script).toBeLessThanOrEqual(
+              PERFORMANCE_BUDGETS.javascript
+            );
           }
         ),
         { numRuns: 100 }
@@ -50,9 +52,11 @@ describe('Performance Budget System - Property Tests', () => {
           ),
           (resources) => {
             const sizes = calculateResourceSizes(resources);
-            
+
             // CSS should not exceed 80KB
-            expect(sizes.stylesheet).toBeLessThanOrEqual(PERFORMANCE_BUDGETS.css);
+            expect(sizes.stylesheet).toBeLessThanOrEqual(
+              PERFORMANCE_BUDGETS.css
+            );
           }
         ),
         { numRuns: 100 }
@@ -73,7 +77,7 @@ describe('Performance Budget System - Property Tests', () => {
           ),
           (resources) => {
             const sizes = calculateResourceSizes(resources);
-            
+
             // Images should not exceed 400KB
             expect(sizes.image).toBeLessThanOrEqual(PERFORMANCE_BUDGETS.images);
           }
@@ -87,7 +91,13 @@ describe('Performance Budget System - Property Tests', () => {
         fc.property(
           fc.array(
             fc.record({
-              type: fc.constantFrom('script', 'stylesheet', 'image', 'font', 'other') as fc.Arbitrary<ResourceMetrics['type']>,
+              type: fc.constantFrom(
+                'script',
+                'stylesheet',
+                'image',
+                'font',
+                'other'
+              ) as fc.Arbitrary<ResourceMetrics['type']>,
               url: fc.string(),
               size: fc.integer({ min: 0, max: 1000000 }),
               transferSize: fc.integer({ min: 0, max: 500000 }),
@@ -96,7 +106,7 @@ describe('Performance Budget System - Property Tests', () => {
           ),
           (resources) => {
             const sizes = calculateResourceSizes(resources);
-            
+
             // All sizes should be non-negative
             expect(sizes.script).toBeGreaterThanOrEqual(0);
             expect(sizes.stylesheet).toBeGreaterThanOrEqual(0);
@@ -115,7 +125,13 @@ describe('Performance Budget System - Property Tests', () => {
         fc.property(
           fc.array(
             fc.record({
-              type: fc.constantFrom('script', 'stylesheet', 'image', 'font', 'other') as fc.Arbitrary<ResourceMetrics['type']>,
+              type: fc.constantFrom(
+                'script',
+                'stylesheet',
+                'image',
+                'font',
+                'other'
+              ) as fc.Arbitrary<ResourceMetrics['type']>,
               url: fc.string(),
               size: fc.integer({ min: 0, max: 100000 }),
               transferSize: fc.integer({ min: 0, max: 50000 }),
@@ -124,15 +140,15 @@ describe('Performance Budget System - Property Tests', () => {
           ),
           (resources) => {
             const sizes = calculateResourceSizes(resources);
-            
+
             // Total should equal sum of all types
-            const calculatedTotal = 
-              sizes.script + 
-              sizes.stylesheet + 
-              sizes.image + 
-              sizes.font + 
+            const calculatedTotal =
+              sizes.script +
+              sizes.stylesheet +
+              sizes.image +
+              sizes.font +
               sizes.other;
-            
+
             // Allow for small floating point differences
             expect(Math.abs(sizes.total - calculatedTotal)).toBeLessThan(0.01);
           }
@@ -145,16 +161,16 @@ describe('Performance Budget System - Property Tests', () => {
       // Verify budget values are within reasonable ranges
       expect(PERFORMANCE_BUDGETS.javascript).toBeGreaterThan(0);
       expect(PERFORMANCE_BUDGETS.javascript).toBeLessThanOrEqual(500);
-      
+
       expect(PERFORMANCE_BUDGETS.css).toBeGreaterThan(0);
       expect(PERFORMANCE_BUDGETS.css).toBeLessThanOrEqual(150);
-      
+
       expect(PERFORMANCE_BUDGETS.images).toBeGreaterThan(0);
       expect(PERFORMANCE_BUDGETS.images).toBeLessThanOrEqual(1000);
-      
+
       expect(PERFORMANCE_BUDGETS.fonts).toBeGreaterThan(0);
       expect(PERFORMANCE_BUDGETS.fonts).toBeLessThanOrEqual(200);
-      
+
       expect(PERFORMANCE_BUDGETS.total).toBeGreaterThan(0);
       expect(PERFORMANCE_BUDGETS.total).toBeLessThanOrEqual(2000);
     });
@@ -163,7 +179,13 @@ describe('Performance Budget System - Property Tests', () => {
       fc.assert(
         fc.property(
           fc.record({
-            type: fc.constantFrom('script', 'stylesheet', 'image', 'font', 'other') as fc.Arbitrary<ResourceMetrics['type']>,
+            type: fc.constantFrom(
+              'script',
+              'stylesheet',
+              'image',
+              'font',
+              'other'
+            ) as fc.Arbitrary<ResourceMetrics['type']>,
             url: fc.string(),
             size: fc.integer({ min: 1000, max: 1000000 }),
             transferSize: fc.integer({ min: 500, max: 500000 }),
@@ -184,7 +206,7 @@ describe('Performance Budget System - Property Tests', () => {
   describe('Edge Cases and Boundary Conditions', () => {
     test('empty resource list returns zero sizes', () => {
       const sizes = calculateResourceSizes([]);
-      
+
       expect(sizes.script).toBe(0);
       expect(sizes.stylesheet).toBe(0);
       expect(sizes.image).toBe(0);
@@ -200,9 +222,9 @@ describe('Performance Budget System - Property Tests', () => {
         size: 100000,
         transferSize: 50000, // 50KB compressed
       };
-      
+
       const sizes = calculateResourceSizes([resource]);
-      
+
       expect(sizes.script).toBeCloseTo(50000 / 1024, 2); // ~48.83KB
       expect(sizes.total).toBeCloseTo(50000 / 1024, 2);
     });
@@ -215,7 +237,7 @@ describe('Performance Budget System - Property Tests', () => {
         size: 500000,
         transferSize: 358400, // Exactly 350KB
       };
-      
+
       const sizes = calculateResourceSizes([jsResource]);
       expect(sizes.script).toBeCloseTo(350, 1);
       expect(sizes.script).toBeLessThanOrEqual(PERFORMANCE_BUDGETS.javascript);
@@ -227,9 +249,9 @@ describe('Performance Budget System - Property Tests', () => {
         { type: 'script', url: 'b.js', size: 50000, transferSize: 25000 },
         { type: 'script', url: 'c.js', size: 50000, transferSize: 25000 },
       ];
-      
+
       const sizes = calculateResourceSizes(resources);
-      
+
       // Total should be 3 * 25KB = 75KB
       expect(sizes.script).toBeCloseTo(75000 / 1024, 2);
     });
@@ -237,18 +259,23 @@ describe('Performance Budget System - Property Tests', () => {
     test('mixed resource types are categorized correctly', () => {
       const resources: ResourceMetrics[] = [
         { type: 'script', url: 'app.js', size: 100000, transferSize: 50000 },
-        { type: 'stylesheet', url: 'style.css', size: 50000, transferSize: 20000 },
+        {
+          type: 'stylesheet',
+          url: 'style.css',
+          size: 50000,
+          transferSize: 20000,
+        },
         { type: 'image', url: 'hero.jpg', size: 200000, transferSize: 100000 },
         { type: 'font', url: 'font.woff2', size: 30000, transferSize: 25000 },
       ];
-      
+
       const sizes = calculateResourceSizes(resources);
-      
+
       expect(sizes.script).toBeGreaterThan(0);
       expect(sizes.stylesheet).toBeGreaterThan(0);
       expect(sizes.image).toBeGreaterThan(0);
       expect(sizes.font).toBeGreaterThan(0);
-      
+
       // Total should equal sum
       const sum = sizes.script + sizes.stylesheet + sizes.image + sizes.font;
       expect(Math.abs(sizes.total - sum)).toBeLessThan(0.01);

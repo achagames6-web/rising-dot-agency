@@ -65,7 +65,7 @@ const AccordionItemCard = ({
 }) => {
   return (
     <motion.div
-      className="relative h-[400px] md:h-[450px] rounded-2xl overflow-hidden cursor-pointer"
+      className="relative h-[400px] cursor-pointer overflow-hidden rounded-2xl md:h-[450px]"
       animate={{
         width: isActive ? 320 : 60,
       }}
@@ -79,7 +79,7 @@ const AccordionItemCard = ({
       <img
         src={item.imageUrl}
         alt={item.title}
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 h-full w-full object-cover"
         onError={(e) => {
           const target = e.target as HTMLImageElement;
           target.onerror = null;
@@ -94,7 +94,7 @@ const AccordionItemCard = ({
       {/* Cyan glow on active */}
       {isActive && (
         <div
-          className="absolute inset-0 pointer-events-none"
+          className="pointer-events-none absolute inset-0"
           style={{
             boxShadow: 'inset 0 0 60px rgba(55, 175, 225, 0.3)',
           }}
@@ -103,10 +103,10 @@ const AccordionItemCard = ({
 
       {/* Caption Text */}
       <span
-        className={`absolute text-white text-base md:text-lg font-semibold whitespace-nowrap transition-all duration-500 ease-out ${
+        className={`absolute whitespace-nowrap text-base font-semibold text-white transition-all duration-500 ease-out md:text-lg ${
           isActive
             ? 'bottom-6 left-1/2 -translate-x-1/2 rotate-0'
-            : 'bottom-24 left-1/2 -translate-x-1/2 -rotate-90 origin-center'
+            : 'bottom-24 left-1/2 origin-center -translate-x-1/2 -rotate-90'
         }`}
       >
         {item.title}
@@ -124,7 +124,6 @@ const AccordionItemCard = ({
   );
 };
 
-
 // --- Main Hero Component ---
 export function ImageAccordionHero({
   title,
@@ -136,23 +135,24 @@ export function ImageAccordionHero({
   const [activeIndex, setActiveIndex] = useState(2);
 
   return (
-    <section className="relative w-full min-h-screen flex items-center bg-black overflow-hidden">
-      <div className="w-full max-w-7xl mx-auto px-6 py-20">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
+    <section className="relative flex min-h-screen w-full items-center overflow-hidden bg-black">
+      <div className="mx-auto w-full max-w-7xl px-6 py-20">
+        <div className="flex flex-col items-center justify-between gap-12 lg:flex-row lg:gap-16">
           {/* Left Side: Text Content */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="w-full lg:w-1/2 text-center lg:text-left"
+            className="w-full text-center lg:w-1/2 lg:text-left"
           >
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight mb-6">
+            <h1 className="mb-6 text-3xl font-bold leading-tight tracking-tight md:text-4xl lg:text-5xl">
               <span className="text-white">{title}</span>
               {titleHighlight && (
-                <span 
+                <span
                   className="block bg-clip-text text-transparent"
                   style={{
-                    backgroundImage: 'linear-gradient(90deg, #37AFE1, #F58122, #37AFE1, #F58122)',
+                    backgroundImage:
+                      'linear-gradient(90deg, #37AFE1, #F58122, #37AFE1, #F58122)',
                     backgroundSize: '300% 100%',
                     animation: 'gradient-shift 4s ease-in-out infinite',
                   }}
@@ -161,14 +161,14 @@ export function ImageAccordionHero({
                 </span>
               )}
             </h1>
-            <p className="text-lg md:text-xl text-gray-400 max-w-xl mx-auto lg:mx-0 mb-8">
+            <p className="mx-auto mb-8 max-w-xl text-lg text-gray-400 md:text-xl lg:mx-0">
               {subtitle}
             </p>
             {ctaButton && (
               <ParticleWrapper>
                 <Link href={ctaButton.href}>
                   <StarButton
-                    className="px-8 py-4 text-base font-semibold hover:scale-105 transition-transform shadow-[0_0_30px_rgba(245,129,34,0.4)]"
+                    className="px-8 py-4 text-base font-semibold shadow-[0_0_30px_rgba(245,129,34,0.4)] transition-transform hover:scale-105"
                     duration={2.5}
                   >
                     {ctaButton.label}
@@ -185,7 +185,7 @@ export function ImageAccordionHero({
             transition={{ duration: 0.8, delay: 0.2 }}
             className="w-full lg:w-1/2"
           >
-            <div className="flex flex-row items-center justify-center gap-2 md:gap-3 overflow-x-auto p-4">
+            <div className="flex flex-row items-center justify-center gap-2 overflow-x-auto p-4 md:gap-3">
               {items.map((item, index) => (
                 <AccordionItemCard
                   key={item.id}

@@ -7,7 +7,7 @@ export async function GET() {
   try {
     const client = await clientPromise;
     const db = client.db('rising-dot');
-    
+
     const testimonials = await db
       .collection<Testimonial>('testimonials')
       .find({ published: true })
@@ -17,6 +17,9 @@ export async function GET() {
     return NextResponse.json(testimonials);
   } catch (error) {
     console.error('Error fetching testimonials:', error);
-    return NextResponse.json({ error: 'Failed to fetch testimonials' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch testimonials' },
+      { status: 500 }
+    );
   }
 }

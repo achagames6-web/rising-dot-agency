@@ -21,16 +21,16 @@ const defaultColorSwatches: ColorSwatch[] = [
   { name: 'Midnight Black', color: '#1E293B', image: 'black' },
   { name: 'Ocean Blue', color: '#2563EB', image: 'blue' },
   { name: 'Sunset Orange', color: '#F97316', image: 'orange' },
-  { name: 'Sky Blue', color: '#37AFE1', image: 'skyblue' }
+  { name: 'Sky Blue', color: '#37AFE1', image: 'skyblue' },
 ];
 
 /**
  * ProductPreview Component
- * 
+ *
  * 3D product preview with rotate and zoom capabilities.
  * Color swatches animate transitions between product color options.
  * Add to cart emits particle burst animation with Success Green color.
- * 
+ *
  * Validates: Requirements 13.4, 13.5, 13.6
  */
 export function ProductPreview({
@@ -38,7 +38,7 @@ export function ProductPreview({
   productLabel = 'SHOP',
   addToCartText = 'Add to Cart',
   dragHint = 'Drag to rotate',
-  scrollHint = 'Scroll to zoom'
+  scrollHint = 'Scroll to zoom',
 }: ProductPreviewProps) {
   const [selectedColor, setSelectedColor] = useState(0);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
@@ -48,7 +48,10 @@ export function ProductPreview({
   const containerRef = useRef<HTMLDivElement>(null);
   const dragStartRef = useRef({ x: 0, y: 0 });
 
-  const colorSwatches = propColorSwatches && propColorSwatches.length > 0 ? propColorSwatches : defaultColorSwatches;
+  const colorSwatches =
+    propColorSwatches && propColorSwatches.length > 0
+      ? propColorSwatches
+      : defaultColorSwatches;
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -61,9 +64,9 @@ export function ProductPreview({
     const deltaX = e.clientX - dragStartRef.current.x;
     const deltaY = e.clientY - dragStartRef.current.y;
 
-    setRotation(prev => ({
+    setRotation((prev) => ({
       x: prev.x + deltaY * 0.5,
-      y: prev.y + deltaX * 0.5
+      y: prev.y + deltaX * 0.5,
     }));
 
     dragStartRef.current = { x: e.clientX, y: e.clientY };
@@ -76,7 +79,7 @@ export function ProductPreview({
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
     const delta = e.deltaY * -0.001;
-    setZoom(prev => Math.max(0.5, Math.min(2, prev + delta)));
+    setZoom((prev) => Math.max(0.5, Math.min(2, prev + delta)));
   };
 
   const handleAddToCart = () => {
@@ -85,11 +88,11 @@ export function ProductPreview({
   };
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto">
+    <div className="relative mx-auto w-full max-w-4xl">
       {/* 3D Product Container */}
       <div
         ref={containerRef}
-        className="relative h-[500px] bg-gradient-to-br from-[#0F172A] to-[#1E293B] rounded-2xl overflow-hidden cursor-grab active:cursor-grabbing"
+        className="relative h-[500px] cursor-grab overflow-hidden rounded-2xl bg-gradient-to-br from-[#0F172A] to-[#1E293B] active:cursor-grabbing"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
@@ -100,42 +103,45 @@ export function ProductPreview({
         <motion.div
           className="absolute inset-0 flex items-center justify-center"
           style={{
-            transform: `perspective(1000px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale(${zoom})`
+            transform: `perspective(1000px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale(${zoom})`,
           }}
           transition={{ type: 'spring', stiffness: 100, damping: 20 }}
         >
           {/* Product Box (simplified 3D representation) */}
           <motion.div
-            className="relative w-64 h-64"
+            className="relative h-64 w-64"
             animate={{
-              backgroundColor: colorSwatches[selectedColor].color
+              backgroundColor: colorSwatches[selectedColor].color,
             }}
             transition={{ duration: 0.2 }}
           >
             {/* Front face */}
             <div
-              className="absolute inset-0 rounded-lg shadow-2xl flex items-center justify-center"
+              className="absolute inset-0 flex items-center justify-center rounded-lg shadow-2xl"
               style={{
                 background: `linear-gradient(135deg, ${colorSwatches[selectedColor].color}, ${colorSwatches[selectedColor].color}dd)`,
-                boxShadow: `0 20px 60px ${colorSwatches[selectedColor].color}40`
+                boxShadow: `0 20px 60px ${colorSwatches[selectedColor].color}40`,
               }}
             >
-              <div className="text-white text-6xl font-bold opacity-20">{productLabel}</div>
+              <div className="text-6xl font-bold text-white opacity-20">
+                {productLabel}
+              </div>
             </div>
 
             {/* Highlight effect */}
             <motion.div
               className="absolute inset-0 rounded-lg"
               style={{
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.3), transparent)'
+                background:
+                  'linear-gradient(135deg, rgba(255,255,255,0.3), transparent)',
               }}
               animate={{
-                opacity: [0.3, 0.5, 0.3]
+                opacity: [0.3, 0.5, 0.3],
               }}
               transition={{
                 duration: 2,
                 repeat: Infinity,
-                ease: 'easeInOut'
+                ease: 'easeInOut',
               }}
             />
           </motion.div>
@@ -144,26 +150,26 @@ export function ProductPreview({
         {/* Particle burst effect */}
         <AnimatePresence>
           {showParticles && (
-            <div className="absolute inset-0 pointer-events-none">
+            <div className="pointer-events-none absolute inset-0">
               {Array.from({ length: 15 }).map((_, i) => {
                 const angle = (i / 15) * Math.PI * 2;
                 const distance = 150 + Math.random() * 150;
-                
+
                 return (
                   <motion.div
                     key={i}
-                    className="absolute w-3 h-3 rounded-full bg-[#F97316]"
+                    className="absolute h-3 w-3 rounded-full bg-[#F97316]"
                     style={{
                       left: '50%',
                       top: '50%',
-                      boxShadow: '0 0 10px #F97316'
+                      boxShadow: '0 0 10px #F97316',
                     }}
                     initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
                     animate={{
                       x: Math.cos(angle) * distance,
                       y: Math.sin(angle) * distance,
                       opacity: 0,
-                      scale: 0
+                      scale: 0,
                     }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 2, ease: 'easeOut' }}
@@ -175,13 +181,13 @@ export function ProductPreview({
         </AnimatePresence>
 
         {/* Controls hint */}
-        <div className="absolute top-4 left-4 text-white/60 text-sm">
+        <div className="absolute left-4 top-4 text-sm text-white/60">
           <div>{dragHint}</div>
           <div>{scrollHint}</div>
         </div>
 
         {/* Zoom indicator */}
-        <div className="absolute top-4 right-4 text-white/60 text-sm">
+        <div className="absolute right-4 top-4 text-sm text-white/60">
           Zoom: {Math.round(zoom * 100)}%
         </div>
       </div>
@@ -191,23 +197,24 @@ export function ProductPreview({
         {colorSwatches.map((swatch, index) => (
           <motion.button
             key={swatch.name}
-            className="relative group"
+            className="group relative"
             onClick={() => setSelectedColor(index)}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           >
             {/* Swatch */}
             <div
-              className="w-16 h-16 rounded-full border-4 transition-all duration-200"
+              className="h-16 w-16 rounded-full border-4 transition-all duration-200"
               style={{
                 backgroundColor: swatch.color,
                 borderColor: selectedColor === index ? '#fff' : 'transparent',
-                boxShadow: selectedColor === index ? `0 0 20px ${swatch.color}` : 'none'
+                boxShadow:
+                  selectedColor === index ? `0 0 20px ${swatch.color}` : 'none',
               }}
             />
 
             {/* Label */}
-            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap text-white/80 text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 transform whitespace-nowrap text-sm text-white/80 opacity-0 transition-opacity group-hover:opacity-100">
               {swatch.name}
             </div>
 
@@ -227,7 +234,7 @@ export function ProductPreview({
       {/* Add to Cart Button */}
       <div className="mt-12 flex justify-center">
         <motion.button
-          className="px-8 py-4 bg-gradient-to-r from-[#F97316] to-[#2563EB] text-white font-bold rounded-lg relative overflow-hidden"
+          className="relative overflow-hidden rounded-lg bg-gradient-to-r from-[#F97316] to-[#2563EB] px-8 py-4 font-bold text-white"
           onClick={handleAddToCart}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -236,15 +243,15 @@ export function ProductPreview({
           <motion.div
             className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
             animate={{
-              x: ['-100%', '200%']
+              x: ['-100%', '200%'],
             }}
             transition={{
               duration: 1.5,
               repeat: Infinity,
-              ease: 'linear'
+              ease: 'linear',
             }}
           />
-          
+
           <span className="relative z-10">{addToCartText}</span>
         </motion.button>
       </div>

@@ -20,7 +20,7 @@ export async function GET(
 ) {
   try {
     const session = await getServerSession();
-    
+
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -53,7 +53,7 @@ export async function PUT(
 ) {
   try {
     const session = await getServerSession();
-    
+
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -64,10 +64,7 @@ export async function PUT(
 
     // Validate role if provided
     if (role && !['admin', 'editor', 'viewer'].includes(role)) {
-      return NextResponse.json(
-        { error: 'Invalid role' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid role' }, { status: 400 });
     }
 
     // Build update query dynamically
@@ -153,7 +150,7 @@ export async function DELETE(
 ) {
   try {
     const session = await getServerSession();
-    
+
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

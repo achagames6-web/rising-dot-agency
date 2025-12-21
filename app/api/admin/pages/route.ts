@@ -5,8 +5,11 @@ import { sql } from '@vercel/postgres';
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession();
-    
-    if (!session || !['admin', 'editor'].includes((session.user as any)?.role)) {
+
+    if (
+      !session ||
+      !['admin', 'editor'].includes((session.user as any)?.role)
+    ) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -27,15 +30,21 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ pages: rows });
   } catch (error) {
     console.error('Error fetching pages:', error);
-    return NextResponse.json({ error: 'Failed to fetch pages' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch pages' },
+      { status: 500 }
+    );
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession();
-    
-    if (!session || !['admin', 'editor'].includes((session.user as any)?.role)) {
+
+    if (
+      !session ||
+      !['admin', 'editor'].includes((session.user as any)?.role)
+    ) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -43,7 +52,10 @@ export async function POST(request: NextRequest) {
     const { slug, title, meta_description, seo_data, published_at } = body;
 
     if (!slug || !title) {
-      return NextResponse.json({ error: 'Slug and title are required' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Slug and title are required' },
+        { status: 400 }
+      );
     }
 
     const { rows } = await sql`
@@ -55,6 +67,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ page: rows[0] }, { status: 201 });
   } catch (error) {
     console.error('Error creating page:', error);
-    return NextResponse.json({ error: 'Failed to create page' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to create page' },
+      { status: 500 }
+    );
   }
 }

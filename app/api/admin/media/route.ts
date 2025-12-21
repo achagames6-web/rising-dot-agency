@@ -14,14 +14,16 @@ export async function GET(request: Request) {
     if (debug) {
       try {
         const foldersResult = await cloudinary.api.root_folders();
-        const subFolders = folder 
-          ? await cloudinary.api.sub_folders(folder).catch(() => ({ folders: [] }))
+        const subFolders = folder
+          ? await cloudinary.api
+              .sub_folders(folder)
+              .catch(() => ({ folders: [] }))
           : { folders: [] };
-        return NextResponse.json({ 
+        return NextResponse.json({
           rootFolders: foldersResult.folders,
           subFolders: subFolders.folders,
           searchFolder: folder,
-          type 
+          type,
         });
       } catch (debugError) {
         console.error('Debug error:', debugError);
@@ -35,7 +37,7 @@ export async function GET(request: Request) {
       const publicId = file.public_id;
       const lastSlash = publicId.lastIndexOf('/');
       const fileFolder = lastSlash > -1 ? publicId.substring(0, lastSlash) : '';
-      
+
       return {
         publicId: file.public_id,
         url: file.secure_url,
@@ -49,11 +51,11 @@ export async function GET(request: Request) {
       };
     });
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       files: formattedFiles,
       count: formattedFiles.length,
       folder,
-      type
+      type,
     });
   } catch (error) {
     console.error('Error listing media:', error);
@@ -79,7 +81,10 @@ export async function DELETE(request: Request) {
     const success = await deleteFromCloudinary(publicId, resourceType);
 
     if (success) {
-      return NextResponse.json({ success: true, message: 'File deleted successfully' });
+      return NextResponse.json({
+        success: true,
+        message: 'File deleted successfully',
+      });
     } else {
       return NextResponse.json(
         { error: 'Failed to delete file' },

@@ -60,7 +60,6 @@ const defaultServices = [
   },
 ];
 
-
 export default function FeaturedServices() {
   // Fetch CMS content
   const { content: sectionContent } = useSiteContent<{
@@ -75,14 +74,16 @@ export default function FeaturedServices() {
   const eyebrow = sectionContent?.eyebrow || 'What We Offer';
   const title = sectionContent?.title || 'Featured';
   const titleHighlight = sectionContent?.titleHighlight || 'Services';
-  const subtitle = sectionContent?.subtitle || 'Discover how we help businesses transform their digital presence';
+  const subtitle =
+    sectionContent?.subtitle ||
+    'Discover how we help businesses transform their digital presence';
   const services = sectionContent?.services || defaultServices;
 
   return (
     <section className="bg-transparent">
       <div className="px-[5%]">
-        <div className="max-w-7xl mx-auto">
-          <div className="py-24 md:py-32 flex flex-col items-center">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-col items-center py-24 md:py-32">
             <SectionHeading
               eyebrow={eyebrow}
               title={title}
@@ -95,7 +96,7 @@ export default function FeaturedServices() {
               {services.map((service, index) => (
                 <div
                   key={index}
-                  className="grid grid-cols-1 md:grid-cols-2 items-center gap-6 md:gap-12 p-8 md:p-12 rounded-3xl mb-8 sticky border border-white/10"
+                  className="sticky mb-8 grid grid-cols-1 items-center gap-6 rounded-3xl border border-white/10 p-8 md:grid-cols-2 md:gap-12 md:p-12"
                   style={{
                     top: `${120 + index * 20}px`,
                     background: 'rgba(15, 23, 42, 0.95)',
@@ -109,8 +110,8 @@ export default function FeaturedServices() {
                       index % 2 === 1 ? 'md:order-2' : ''
                     }`}
                   >
-                    <motion.h3 
-                      className="text-2xl md:text-3xl font-bold mb-4 font-montserrat bg-clip-text text-transparent bg-gradient-to-r from-[#F58122] via-[#37AFE1] to-[#F58122]"
+                    <motion.h3
+                      className="mb-4 bg-gradient-to-r from-[#F58122] via-[#37AFE1] to-[#F58122] bg-clip-text font-montserrat text-2xl font-bold text-transparent md:text-3xl"
                       animate={{
                         backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
                       }}
@@ -125,18 +126,18 @@ export default function FeaturedServices() {
                     >
                       {service.title}
                     </motion.h3>
-                    <p className="text-gray-400 font-inter mb-6 leading-relaxed">
+                    <p className="mb-6 font-inter leading-relaxed text-gray-400">
                       {service.description}
                     </p>
                     <ParticleWrapper>
                       <Link href={service.href}>
                         <StarButton
-                          className="h-12 px-6 text-sm font-semibold hover:scale-105 transition-transform"
+                          className="h-12 px-6 text-sm font-semibold transition-transform hover:scale-105"
                           duration={2.5}
                         >
                           {service.ctaText}
                           <svg
-                            className="w-4 h-4 ml-2"
+                            className="ml-2 h-4 w-4"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -160,7 +161,7 @@ export default function FeaturedServices() {
                         src={service.imageUrl}
                         alt={service.title}
                         loading="lazy"
-                        className="w-full h-64 md:h-80 object-cover transition-transform duration-500 hover:scale-105"
+                        className="h-64 w-full object-cover transition-transform duration-500 hover:scale-105 md:h-80"
                       />
                       {/* Gradient overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />

@@ -21,7 +21,7 @@ export default function PageEditor({ pageId }: PageEditorProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     slug: '',
     title: '',
@@ -68,9 +68,9 @@ export default function PageEditor({ pageId }: PageEditorProps) {
       });
 
       if (!response.ok) throw new Error('Failed to save page');
-      
+
       const data = await response.json();
-      
+
       // Save sections
       for (const section of sections) {
         if (section.id) {
@@ -119,8 +119,8 @@ export default function PageEditor({ pageId }: PageEditorProps) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2563EB]"></div>
+      <div className="flex h-64 items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-[#2563EB]"></div>
       </div>
     );
   }
@@ -133,36 +133,38 @@ export default function PageEditor({ pageId }: PageEditorProps) {
           onClick={() => router.back()}
           className="flex items-center gap-2 text-slate-600 hover:text-slate-900"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="h-4 w-4" />
           Back
         </button>
         <button
           type="submit"
           disabled={saving}
-          className="flex items-center gap-2 px-4 py-2 bg-[#2563EB] text-white rounded-lg hover:bg-[#1d4ed8] transition-colors disabled:opacity-50"
+          className="flex items-center gap-2 rounded-lg bg-[#2563EB] px-4 py-2 text-white transition-colors hover:bg-[#1d4ed8] disabled:opacity-50"
         >
-          <Save className="w-4 h-4" />
+          <Save className="h-4 w-4" />
           {saving ? 'Saving...' : 'Save Page'}
         </button>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-6">
+      <div className="space-y-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">
+          <label className="mb-2 block text-sm font-medium text-slate-700">
             Title *
           </label>
           <input
             type="text"
             required
             value={formData.title}
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+            onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
+            }
+            className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-[#2563EB]"
             placeholder="Page title"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">
+          <label className="mb-2 block text-sm font-medium text-slate-700">
             Slug *
           </label>
           <input
@@ -170,19 +172,21 @@ export default function PageEditor({ pageId }: PageEditorProps) {
             required
             value={formData.slug}
             onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+            className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-[#2563EB]"
             placeholder="page-slug"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">
+          <label className="mb-2 block text-sm font-medium text-slate-700">
             Meta Description
           </label>
           <textarea
             value={formData.meta_description}
-            onChange={(e) => setFormData({ ...formData, meta_description: e.target.value })}
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+            onChange={(e) =>
+              setFormData({ ...formData, meta_description: e.target.value })
+            }
+            className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-[#2563EB]"
             rows={3}
             placeholder="SEO meta description"
           />
@@ -196,12 +200,16 @@ export default function PageEditor({ pageId }: PageEditorProps) {
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  published_at: e.target.checked ? new Date().toISOString() : null,
+                  published_at: e.target.checked
+                    ? new Date().toISOString()
+                    : null,
                 })
               }
               className="rounded border-slate-300 text-[#2563EB] focus:ring-[#2563EB]"
             />
-            <span className="text-sm font-medium text-slate-700">Published</span>
+            <span className="text-sm font-medium text-slate-700">
+              Published
+            </span>
           </label>
         </div>
       </div>
@@ -213,20 +221,23 @@ export default function PageEditor({ pageId }: PageEditorProps) {
           <button
             type="button"
             onClick={addSection}
-            className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-colors"
+            className="flex items-center gap-2 rounded-lg bg-slate-100 px-4 py-2 text-slate-700 transition-colors hover:bg-slate-200"
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="h-4 w-4" />
             Add Section
           </button>
         </div>
 
         {sections.map((section, index) => (
-          <div key={index} className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-4">
+          <div
+            key={index}
+            className="space-y-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm"
+          >
             <div className="flex items-center justify-between">
               <select
                 value={section.type}
                 onChange={(e) => updateSection(index, { type: e.target.value })}
-                className="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+                className="rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-[#2563EB]"
               >
                 <option value="hero">Hero</option>
                 <option value="content">Content</option>
@@ -237,14 +248,14 @@ export default function PageEditor({ pageId }: PageEditorProps) {
               <button
                 type="button"
                 onClick={() => deleteSection(index)}
-                className="text-red-600 hover:text-red-800 p-2"
+                className="p-2 text-red-600 hover:text-red-800"
               >
-                <Trash2 className="w-4 h-4" />
+                <Trash2 className="h-4 w-4" />
               </button>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="mb-2 block text-sm font-medium text-slate-700">
                 Content
               </label>
               <RichTextEditor

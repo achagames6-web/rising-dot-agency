@@ -10,7 +10,8 @@ const initialContent = [
     content: {
       eyebrow: 'Digital Excellence Delivered',
       title: 'Rising Dot Agency',
-      subtitle: 'We craft stunning websites, powerful automations, and intelligent chatbots that transform your digital presence.',
+      subtitle:
+        'We craft stunning websites, powerful automations, and intelligent chatbots that transform your digital presence.',
       ctaText: 'Get Started',
       ctaLink: '/contact',
       scrollText: 'Scroll to explore',
@@ -33,15 +34,58 @@ const initialContent = [
       eyebrow: 'What We Offer',
       title: 'Featured',
       titleHighlight: 'Services',
-      subtitle: 'Discover how we help businesses transform their digital presence',
+      subtitle:
+        'Discover how we help businesses transform their digital presence',
       // Images: public/media/home/featured-services/*.jpg
       services: [
-        { title: 'N8N Automations', description: 'Streamline your business workflows with powerful N8N automation solutions. We build custom integrations that connect your apps, automate repetitive tasks, and save you countless hours every week.', imageUrl: '/media/home/featured-services/n8n-automations.jpg', href: '/services/n8n-automations', ctaText: 'Explore Automations' },
-        { title: 'Chatbot Development', description: 'Engage your customers 24/7 with intelligent AI-powered chatbots. From customer support to lead generation, our chatbots deliver personalized experiences that convert visitors into customers.', imageUrl: '/media/home/featured-services/chatbot-development.jpg', href: '/services/chatbot-development', ctaText: 'Build Your Chatbot' },
-        { title: 'Web Development', description: 'Create stunning, high-performance websites that captivate your audience. We specialize in modern web technologies to deliver fast, responsive, and SEO-optimized digital experiences.', imageUrl: '/media/home/featured-services/web-development.jpg', href: '/services/web-design', ctaText: 'Start Your Project' },
-        { title: 'Shopify Solutions', description: 'Launch and scale your e-commerce business with custom Shopify stores. From theme customization to app integrations, we build online stores that drive sales and delight customers.', imageUrl: '/media/home/featured-services/shopify.jpg', href: '/services/shopify', ctaText: 'Launch Your Store' },
-        { title: 'WordPress Development', description: 'Build powerful, flexible websites with WordPress. Whether you need a blog, business site, or custom web application, we create WordPress solutions tailored to your unique needs.', imageUrl: '/media/home/featured-services/wordpress.jpg', href: '/services/wordpress', ctaText: 'Get WordPress Site' },
-        { title: 'SEO Optimization', description: 'Dominate search rankings and drive organic traffic to your website. Our data-driven SEO strategies help you reach your target audience and grow your online presence sustainably.', imageUrl: '/media/home/featured-services/seo.jpg', href: '/services/seo', ctaText: 'Boost Your Rankings' },
+        {
+          title: 'N8N Automations',
+          description:
+            'Streamline your business workflows with powerful N8N automation solutions. We build custom integrations that connect your apps, automate repetitive tasks, and save you countless hours every week.',
+          imageUrl: '/media/home/featured-services/n8n-automations.jpg',
+          href: '/services/n8n-automations',
+          ctaText: 'Explore Automations',
+        },
+        {
+          title: 'Chatbot Development',
+          description:
+            'Engage your customers 24/7 with intelligent AI-powered chatbots. From customer support to lead generation, our chatbots deliver personalized experiences that convert visitors into customers.',
+          imageUrl: '/media/home/featured-services/chatbot-development.jpg',
+          href: '/services/chatbot-development',
+          ctaText: 'Build Your Chatbot',
+        },
+        {
+          title: 'Web Development',
+          description:
+            'Create stunning, high-performance websites that captivate your audience. We specialize in modern web technologies to deliver fast, responsive, and SEO-optimized digital experiences.',
+          imageUrl: '/media/home/featured-services/web-development.jpg',
+          href: '/services/web-design',
+          ctaText: 'Start Your Project',
+        },
+        {
+          title: 'Shopify Solutions',
+          description:
+            'Launch and scale your e-commerce business with custom Shopify stores. From theme customization to app integrations, we build online stores that drive sales and delight customers.',
+          imageUrl: '/media/home/featured-services/shopify.jpg',
+          href: '/services/shopify',
+          ctaText: 'Launch Your Store',
+        },
+        {
+          title: 'WordPress Development',
+          description:
+            'Build powerful, flexible websites with WordPress. Whether you need a blog, business site, or custom web application, we create WordPress solutions tailored to your unique needs.',
+          imageUrl: '/media/home/featured-services/wordpress.jpg',
+          href: '/services/wordpress',
+          ctaText: 'Get WordPress Site',
+        },
+        {
+          title: 'SEO Optimization',
+          description:
+            'Dominate search rankings and drive organic traffic to your website. Our data-driven SEO strategies help you reach your target audience and grow your online presence sustainably.',
+          imageUrl: '/media/home/featured-services/seo.jpg',
+          href: '/services/seo',
+          ctaText: 'Boost Your Rankings',
+        },
       ],
     },
   },
@@ -63,12 +107,48 @@ const initialContent = [
         connectionLineEnd: '#F58122',
       },
       services: [
-        { id: 'n8n', name: 'N8N Automations', icon: '⚡', description: 'Workflow automation', relatedServices: ['chatbot', 'shopify'] },
-        { id: 'chatbot', name: 'Chatbot Development', icon: '🤖', description: 'AI-powered conversations', relatedServices: ['n8n', 'web-design'] },
-        { id: 'web-design', name: 'Web Design', icon: '🎨', description: 'Beautiful interfaces', relatedServices: ['chatbot', 'wordpress'] },
-        { id: 'wordpress', name: 'WordPress', icon: '📝', description: 'Content management', relatedServices: ['web-design', 'seo'] },
-        { id: 'shopify', name: 'Shopify', icon: '🛒', description: 'E-commerce solutions', relatedServices: ['n8n', 'seo'] },
-        { id: 'seo', name: 'SEO', icon: '📈', description: 'Search optimization', relatedServices: ['wordpress', 'shopify'] },
+        {
+          id: 'n8n',
+          name: 'N8N Automations',
+          icon: '⚡',
+          description: 'Workflow automation',
+          relatedServices: ['chatbot', 'shopify'],
+        },
+        {
+          id: 'chatbot',
+          name: 'Chatbot Development',
+          icon: '🤖',
+          description: 'AI-powered conversations',
+          relatedServices: ['n8n', 'web-design'],
+        },
+        {
+          id: 'web-design',
+          name: 'Web Design',
+          icon: '🎨',
+          description: 'Beautiful interfaces',
+          relatedServices: ['chatbot', 'wordpress'],
+        },
+        {
+          id: 'wordpress',
+          name: 'WordPress',
+          icon: '📝',
+          description: 'Content management',
+          relatedServices: ['web-design', 'seo'],
+        },
+        {
+          id: 'shopify',
+          name: 'Shopify',
+          icon: '🛒',
+          description: 'E-commerce solutions',
+          relatedServices: ['n8n', 'seo'],
+        },
+        {
+          id: 'seo',
+          name: 'SEO',
+          icon: '📈',
+          description: 'Search optimization',
+          relatedServices: ['wordpress', 'shopify'],
+        },
       ],
     },
   },
@@ -92,12 +172,58 @@ const initialContent = [
         borderColor: '#334155',
       },
       cards: [
-        { id: 'n8n-automations', title: 'N8N Automations', description: 'Streamline your workflows with powerful automation solutions that save time and reduce errors.', icon: '⚡', features: ['Workflow Design', 'API Integration', 'Process Automation'] },
-        { id: 'chatbot-development', title: 'Chatbot Development', description: 'AI-powered conversational interfaces that engage users and provide instant support 24/7.', icon: '🤖', features: ['Natural Language', 'AI Training', 'Multi-Platform'] },
-        { id: 'web-design', title: 'Web Design', description: 'Beautiful, responsive websites that captivate visitors and drive conversions.', icon: '🎨', features: ['UI/UX Design', 'Responsive', 'Brand Identity'] },
-        { id: 'wordpress', title: 'WordPress', description: 'Custom WordPress solutions that are scalable, secure, and easy to manage.', icon: '📝', features: ['Custom Themes', 'Plugin Development', 'Performance'] },
-        { id: 'shopify', title: 'Shopify', description: 'E-commerce solutions that maximize conversions and provide seamless shopping experiences.', icon: '🛒', features: ['Store Setup', 'Custom Apps', 'Conversion Optimization'] },
-        { id: 'seo', title: 'SEO', description: 'Data-driven SEO strategies that improve rankings and drive organic traffic growth.', icon: '📈', features: ['Keyword Research', 'Technical SEO', 'Content Strategy'] },
+        {
+          id: 'n8n-automations',
+          title: 'N8N Automations',
+          description:
+            'Streamline your workflows with powerful automation solutions that save time and reduce errors.',
+          icon: '⚡',
+          features: [
+            'Workflow Design',
+            'API Integration',
+            'Process Automation',
+          ],
+        },
+        {
+          id: 'chatbot-development',
+          title: 'Chatbot Development',
+          description:
+            'AI-powered conversational interfaces that engage users and provide instant support 24/7.',
+          icon: '🤖',
+          features: ['Natural Language', 'AI Training', 'Multi-Platform'],
+        },
+        {
+          id: 'web-design',
+          title: 'Web Design',
+          description:
+            'Beautiful, responsive websites that captivate visitors and drive conversions.',
+          icon: '🎨',
+          features: ['UI/UX Design', 'Responsive', 'Brand Identity'],
+        },
+        {
+          id: 'wordpress',
+          title: 'WordPress',
+          description:
+            'Custom WordPress solutions that are scalable, secure, and easy to manage.',
+          icon: '📝',
+          features: ['Custom Themes', 'Plugin Development', 'Performance'],
+        },
+        {
+          id: 'shopify',
+          title: 'Shopify',
+          description:
+            'E-commerce solutions that maximize conversions and provide seamless shopping experiences.',
+          icon: '🛒',
+          features: ['Store Setup', 'Custom Apps', 'Conversion Optimization'],
+        },
+        {
+          id: 'seo',
+          title: 'SEO',
+          description:
+            'Data-driven SEO strategies that improve rankings and drive organic traffic growth.',
+          icon: '📈',
+          features: ['Keyword Research', 'Technical SEO', 'Content Strategy'],
+        },
       ],
     },
   },
@@ -108,13 +234,34 @@ const initialContent = [
       eyebrow: 'Case Studies',
       title: 'Results That',
       titleHighlight: 'Speak',
-      subtitle: 'Real projects, real impact. See how we\'ve helped businesses transform their digital presence.',
+      subtitle:
+        "Real projects, real impact. See how we've helped businesses transform their digital presence.",
       // Images: public/media/home/case-studies/*.jpg
       studies: [
-        { img: '/media/home/case-studies/ecommerce.jpg', title: 'E-Commerce Success', desc: 'Increased conversion rates by 45% through strategic UX redesign and performance optimization.', sliderName: 'ecommerce' },
-        { img: '/media/home/case-studies/saas-dashboard.jpg', title: 'SaaS Dashboard', desc: 'Built a real-time analytics platform serving 10,000+ daily active users with 99.9% uptime.', sliderName: 'saas' },
-        { img: '/media/home/case-studies/workflow-automation.jpg', title: 'Workflow Automation', desc: 'Automated 200+ hours of manual work monthly using N8N workflows and custom integrations.', sliderName: 'automation' },
-        { img: '/media/home/case-studies/ai-chatbot.jpg', title: 'AI Chatbot', desc: 'Deployed intelligent chatbot handling 5,000+ customer queries daily with 95% satisfaction rate.', sliderName: 'chatbot' },
+        {
+          img: '/media/home/case-studies/ecommerce.jpg',
+          title: 'E-Commerce Success',
+          desc: 'Increased conversion rates by 45% through strategic UX redesign and performance optimization.',
+          sliderName: 'ecommerce',
+        },
+        {
+          img: '/media/home/case-studies/saas-dashboard.jpg',
+          title: 'SaaS Dashboard',
+          desc: 'Built a real-time analytics platform serving 10,000+ daily active users with 99.9% uptime.',
+          sliderName: 'saas',
+        },
+        {
+          img: '/media/home/case-studies/workflow-automation.jpg',
+          title: 'Workflow Automation',
+          desc: 'Automated 200+ hours of manual work monthly using N8N workflows and custom integrations.',
+          sliderName: 'automation',
+        },
+        {
+          img: '/media/home/case-studies/ai-chatbot.jpg',
+          title: 'AI Chatbot',
+          desc: 'Deployed intelligent chatbot handling 5,000+ customer queries daily with 95% satisfaction rate.',
+          sliderName: 'chatbot',
+        },
       ],
     },
   },
@@ -125,7 +272,8 @@ const initialContent = [
       eyebrow: '✨ Client Success Stories',
       title: 'Trusted by',
       titleHighlight: 'Industry Leaders',
-      subtitle: 'Join businesses already transforming their digital presence with Rising Starter.',
+      subtitle:
+        'Join businesses already transforming their digital presence with Rising Starter.',
       stats: [
         { number: '500+', label: 'Happy Clients' },
         { number: '98%', label: 'Satisfaction Rate' },
@@ -163,7 +311,8 @@ const initialContent = [
       eyebrow: '✨ Our Tech Stack',
       title: 'Build Your',
       titleHighlight: 'Digital Empire',
-      subtitle: 'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
+      subtitle:
+        'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
       ctaText: 'Start Your Project',
       ctaHref: '/contact',
       secondaryCtaText: 'View Our Work',
@@ -204,7 +353,8 @@ const initialContent = [
       eyebrow: 'Latest Insights',
       title: 'From Our',
       titleHighlight: 'Blog',
-      subtitle: 'Stay updated with the latest trends and insights in digital technology',
+      subtitle:
+        'Stay updated with the latest trends and insights in digital technology',
       // Blog posts are managed in the Blog Posts section
     },
   },
@@ -239,7 +389,8 @@ const initialContent = [
       eyebrow: 'Ready to Start?',
       title: "Let's Build Something",
       titleHighlight: 'Extraordinary',
-      subtitle: "Transform your vision into reality with our expert team. We're ready to bring your ideas to life.",
+      subtitle:
+        "Transform your vision into reality with our expert team. We're ready to bring your ideas to life.",
       ctaText: 'Get Started Today',
       ctaLink: '/contact',
       secondaryCtaText: 'View Our Work',
@@ -260,7 +411,8 @@ const initialContent = [
     content: {
       eyebrow: 'Who We Are',
       title: 'About Rising Dot',
-      subtitle: "We're a team of passionate developers, designers, and strategists dedicated to creating exceptional digital experiences that drive results.",
+      subtitle:
+        "We're a team of passionate developers, designers, and strategists dedicated to creating exceptional digital experiences that drive results.",
       ctaLabel: 'Meet Our Team',
       ctaHref: '#team',
     },
@@ -317,13 +469,61 @@ const initialContent = [
       title: 'Our',
       titleHighlight: 'Journey',
       milestones: [
-        { year: '2018', title: 'Company Founded', description: 'Rising Dot Agency was born with a vision to revolutionize digital experiences.', era: 'foundation', icon: '🚀' },
-        { year: '2019', title: 'First Major Client', description: 'Landed our first enterprise client, delivering a complete digital transformation.', era: 'foundation', icon: '🎯' },
-        { year: '2020', title: 'Team Expansion', description: 'Grew from 3 to 15 team members, expanding our service offerings.', era: 'growth', icon: '👥' },
-        { year: '2021', title: 'Award Recognition', description: 'Won "Best Digital Agency" award for innovative web design and development.', era: 'growth', icon: '🏆' },
-        { year: '2022', title: 'International Expansion', description: 'Opened offices in three new countries, serving clients globally.', era: 'expansion', icon: '🌍' },
-        { year: '2023', title: 'AI Integration', description: 'Launched AI-powered chatbot and automation services.', era: 'innovation', icon: '🤖' },
-        { year: '2024', title: 'Industry Leader', description: 'Recognized as a top 10 digital agency with 500+ successful projects.', era: 'innovation', icon: '⭐' },
+        {
+          year: '2018',
+          title: 'Company Founded',
+          description:
+            'Rising Dot Agency was born with a vision to revolutionize digital experiences.',
+          era: 'foundation',
+          icon: '🚀',
+        },
+        {
+          year: '2019',
+          title: 'First Major Client',
+          description:
+            'Landed our first enterprise client, delivering a complete digital transformation.',
+          era: 'foundation',
+          icon: '🎯',
+        },
+        {
+          year: '2020',
+          title: 'Team Expansion',
+          description:
+            'Grew from 3 to 15 team members, expanding our service offerings.',
+          era: 'growth',
+          icon: '👥',
+        },
+        {
+          year: '2021',
+          title: 'Award Recognition',
+          description:
+            'Won "Best Digital Agency" award for innovative web design and development.',
+          era: 'growth',
+          icon: '🏆',
+        },
+        {
+          year: '2022',
+          title: 'International Expansion',
+          description:
+            'Opened offices in three new countries, serving clients globally.',
+          era: 'expansion',
+          icon: '🌍',
+        },
+        {
+          year: '2023',
+          title: 'AI Integration',
+          description: 'Launched AI-powered chatbot and automation services.',
+          era: 'innovation',
+          icon: '🤖',
+        },
+        {
+          year: '2024',
+          title: 'Industry Leader',
+          description:
+            'Recognized as a top 10 digital agency with 500+ successful projects.',
+          era: 'innovation',
+          icon: '⭐',
+        },
       ],
     },
   },
@@ -335,10 +535,105 @@ const initialContent = [
       title: '360°',
       titleHighlight: 'Office Tour',
       tourStops: [
-        { id: '1', name: 'Reception Area', description: 'Welcome to Rising Dot! Our modern reception area sets the tone for innovation.', image: '🏢', hotspots: [{ id: '1-1', x: 30, y: 40, title: 'Digital Display', description: 'Real-time project showcase' }, { id: '1-2', x: 70, y: 50, title: 'Lounge', description: 'Comfortable waiting area' }] },
-        { id: '2', name: 'Open Workspace', description: 'Collaborative environment where creativity flows and ideas come to life.', image: '💻', hotspots: [{ id: '2-1', x: 25, y: 35, title: 'Dev Stations', description: 'Dual-monitor setups for developers' }, { id: '2-2', x: 50, y: 60, title: 'Standing Desks', description: 'Ergonomic workstations' }, { id: '2-3', x: 75, y: 45, title: 'Collaboration Zone', description: 'Whiteboard brainstorming area' }] },
-        { id: '3', name: 'Meeting Rooms', description: 'State-of-the-art meeting spaces equipped with the latest technology.', image: '🎯', hotspots: [{ id: '3-1', x: 40, y: 50, title: 'Video Conferencing', description: '4K cameras and audio' }, { id: '3-2', x: 70, y: 40, title: 'Smart Board', description: 'Interactive presentation display' }] },
-        { id: '4', name: 'Break Room', description: 'Recharge and connect with teammates in our fully-stocked break area.', image: '☕', hotspots: [{ id: '4-1', x: 30, y: 45, title: 'Coffee Bar', description: 'Premium espresso machine' }, { id: '4-2', x: 60, y: 55, title: 'Game Zone', description: 'Ping pong and arcade games' }] },
+        {
+          id: '1',
+          name: 'Reception Area',
+          description:
+            'Welcome to Rising Dot! Our modern reception area sets the tone for innovation.',
+          image: '🏢',
+          hotspots: [
+            {
+              id: '1-1',
+              x: 30,
+              y: 40,
+              title: 'Digital Display',
+              description: 'Real-time project showcase',
+            },
+            {
+              id: '1-2',
+              x: 70,
+              y: 50,
+              title: 'Lounge',
+              description: 'Comfortable waiting area',
+            },
+          ],
+        },
+        {
+          id: '2',
+          name: 'Open Workspace',
+          description:
+            'Collaborative environment where creativity flows and ideas come to life.',
+          image: '💻',
+          hotspots: [
+            {
+              id: '2-1',
+              x: 25,
+              y: 35,
+              title: 'Dev Stations',
+              description: 'Dual-monitor setups for developers',
+            },
+            {
+              id: '2-2',
+              x: 50,
+              y: 60,
+              title: 'Standing Desks',
+              description: 'Ergonomic workstations',
+            },
+            {
+              id: '2-3',
+              x: 75,
+              y: 45,
+              title: 'Collaboration Zone',
+              description: 'Whiteboard brainstorming area',
+            },
+          ],
+        },
+        {
+          id: '3',
+          name: 'Meeting Rooms',
+          description:
+            'State-of-the-art meeting spaces equipped with the latest technology.',
+          image: '🎯',
+          hotspots: [
+            {
+              id: '3-1',
+              x: 40,
+              y: 50,
+              title: 'Video Conferencing',
+              description: '4K cameras and audio',
+            },
+            {
+              id: '3-2',
+              x: 70,
+              y: 40,
+              title: 'Smart Board',
+              description: 'Interactive presentation display',
+            },
+          ],
+        },
+        {
+          id: '4',
+          name: 'Break Room',
+          description:
+            'Recharge and connect with teammates in our fully-stocked break area.',
+          image: '☕',
+          hotspots: [
+            {
+              id: '4-1',
+              x: 30,
+              y: 45,
+              title: 'Coffee Bar',
+              description: 'Premium espresso machine',
+            },
+            {
+              id: '4-2',
+              x: 60,
+              y: 55,
+              title: 'Game Zone',
+              description: 'Ping pong and arcade games',
+            },
+          ],
+        },
       ],
       // Images: public/media/about/office/*.jpg
     },
@@ -361,7 +656,8 @@ const initialContent = [
       eyebrow: 'Start a Project',
       title: "Let's Build Something",
       titleHighlight: 'Amazing',
-      subtitle: "Ready to transform your digital presence? Let's discuss your project.",
+      subtitle:
+        "Ready to transform your digital presence? Let's discuss your project.",
       ctaText: 'Get in Touch',
       ctaLink: '/contact',
     },
@@ -374,7 +670,8 @@ const initialContent = [
     content: {
       eyebrow: "Let's Connect",
       title: 'Get In Touch',
-      subtitle: "Ready to start your next project? Let's create something amazing together. We're here to help bring your vision to life.",
+      subtitle:
+        "Ready to start your next project? Let's create something amazing together. We're here to help bring your vision to life.",
       ctaLabel: 'Send Message',
       ctaHref: '#contact-form',
     },
@@ -438,14 +735,31 @@ const initialContent = [
       eyebrow: 'Our Work',
       title: 'Our Creative',
       titleHighlight: 'Portfolio',
-      subtitle: 'Explore our work across web design, e-commerce, automation, chatbots, and SEO. Each project showcases our commitment to excellence and innovation.',
+      subtitle:
+        'Explore our work across web design, e-commerce, automation, chatbots, and SEO. Each project showcases our commitment to excellence and innovation.',
       ctaLabel: 'Start Your Project',
       ctaHref: '/contact',
       heroItems: [
-        { id: 1, title: 'E-Commerce', imageUrl: '/media/portfolio/hero/ecommerce.jpg' },
-        { id: 2, title: 'Web Design', imageUrl: '/media/portfolio/hero/web-design.jpg' },
-        { id: 3, title: 'AI Chatbots', imageUrl: '/media/portfolio/hero/ai-chatbots.jpg' },
-        { id: 4, title: 'Automation', imageUrl: '/media/portfolio/hero/automation.jpg' },
+        {
+          id: 1,
+          title: 'E-Commerce',
+          imageUrl: '/media/portfolio/hero/ecommerce.jpg',
+        },
+        {
+          id: 2,
+          title: 'Web Design',
+          imageUrl: '/media/portfolio/hero/web-design.jpg',
+        },
+        {
+          id: 3,
+          title: 'AI Chatbots',
+          imageUrl: '/media/portfolio/hero/ai-chatbots.jpg',
+        },
+        {
+          id: 4,
+          title: 'Automation',
+          imageUrl: '/media/portfolio/hero/automation.jpg',
+        },
         { id: 5, title: 'SEO', imageUrl: '/media/portfolio/hero/seo.jpg' },
       ],
       // Images: public/media/portfolio/hero/*.jpg
@@ -458,7 +772,8 @@ const initialContent = [
       eyebrow: 'Our Expertise',
       title: 'Skills &',
       titleHighlight: 'Technologies',
-      subtitle: 'Drag and explore the technologies we master to bring your vision to life',
+      subtitle:
+        'Drag and explore the technologies we master to bring your vision to life',
       tags: [
         'All',
         'Web Design',
@@ -476,7 +791,7 @@ const initialContent = [
         'OpenAI',
         'Analytics',
         'SaaS',
-        'AI/ML'
+        'AI/ML',
       ],
     },
   },
@@ -503,179 +818,267 @@ const initialContent = [
           id: '1',
           title: 'E-Commerce Platform Redesign',
           client: 'TechStore Inc.',
-          description: 'Complete redesign of e-commerce platform with focus on conversion optimization and mobile experience.',
+          description:
+            'Complete redesign of e-commerce platform with focus on conversion optimization and mobile experience.',
           thumbnailUrl: '/media/portfolio/all-projects/project-1/thumbnail.jpg',
           tags: ['Web Design', 'Shopify', 'SEO'],
           metrics: [
             { label: 'Conversion Rate', value: '+45%' },
             { label: 'Page Speed', value: '95/100' },
-            { label: 'Mobile Traffic', value: '+60%' }
+            { label: 'Mobile Traffic', value: '+60%' },
           ],
           images: [
             '/media/portfolio/all-projects/project-1/thumbnail.jpg',
             '/media/portfolio/all-projects/project-1/detail-1.jpg',
-            '/media/portfolio/all-projects/project-1/detail-2.jpg'
+            '/media/portfolio/all-projects/project-1/detail-2.jpg',
           ],
           hotspots: [
-            { x: 30, y: 40, title: 'Navigation', description: 'Simplified mega menu with visual categories' },
-            { x: 70, y: 60, title: 'Product Grid', description: 'Optimized product cards with quick view' }
-          ]
+            {
+              x: 30,
+              y: 40,
+              title: 'Navigation',
+              description: 'Simplified mega menu with visual categories',
+            },
+            {
+              x: 70,
+              y: 60,
+              title: 'Product Grid',
+              description: 'Optimized product cards with quick view',
+            },
+          ],
         },
         {
           id: '2',
           title: 'AI Chatbot Integration',
           client: 'Support Solutions',
-          description: 'Custom AI chatbot with natural language processing for customer support automation.',
+          description:
+            'Custom AI chatbot with natural language processing for customer support automation.',
           thumbnailUrl: '/media/portfolio/all-projects/project-2/thumbnail.jpg',
           tags: ['Chatbot Development', 'N8N Automations'],
           metrics: [
             { label: 'Response Time', value: '-80%' },
             { label: 'Customer Satisfaction', value: '4.8/5' },
-            { label: 'Cost Savings', value: '$50K/year' }
+            { label: 'Cost Savings', value: '$50K/year' },
           ],
           images: [
             '/media/portfolio/all-projects/project-2/thumbnail.jpg',
             '/media/portfolio/all-projects/project-2/detail-1.jpg',
-            '/media/portfolio/all-projects/project-2/detail-2.jpg'
+            '/media/portfolio/all-projects/project-2/detail-2.jpg',
           ],
           hotspots: [
-            { x: 50, y: 30, title: 'Chat Interface', description: 'Clean, intuitive chat UI' },
-            { x: 50, y: 70, title: 'AI Engine', description: 'GPT-4 powered responses' }
-          ]
+            {
+              x: 50,
+              y: 30,
+              title: 'Chat Interface',
+              description: 'Clean, intuitive chat UI',
+            },
+            {
+              x: 50,
+              y: 70,
+              title: 'AI Engine',
+              description: 'GPT-4 powered responses',
+            },
+          ],
         },
         {
           id: '3',
           title: 'WordPress Blog Platform',
           client: 'Content Creators Co.',
-          description: 'High-performance WordPress blog with custom theme and advanced SEO optimization.',
+          description:
+            'High-performance WordPress blog with custom theme and advanced SEO optimization.',
           thumbnailUrl: '/media/portfolio/all-projects/project-3/thumbnail.jpg',
           tags: ['WordPress', 'SEO', 'Web Design'],
           metrics: [
             { label: 'Organic Traffic', value: '+120%' },
             { label: 'Load Time', value: '1.2s' },
-            { label: 'SEO Score', value: '98/100' }
+            { label: 'SEO Score', value: '98/100' },
           ],
           images: [
             '/media/portfolio/all-projects/project-3/thumbnail.jpg',
             '/media/portfolio/all-projects/project-3/detail-1.jpg',
-            '/media/portfolio/all-projects/project-3/detail-2.jpg'
+            '/media/portfolio/all-projects/project-3/detail-2.jpg',
           ],
           hotspots: [
-            { x: 40, y: 50, title: 'Article Layout', description: 'Optimized reading experience' },
-            { x: 80, y: 30, title: 'Sidebar', description: 'Dynamic content recommendations' }
-          ]
+            {
+              x: 40,
+              y: 50,
+              title: 'Article Layout',
+              description: 'Optimized reading experience',
+            },
+            {
+              x: 80,
+              y: 30,
+              title: 'Sidebar',
+              description: 'Dynamic content recommendations',
+            },
+          ],
         },
         {
           id: '4',
           title: 'Automation Workflow System',
           client: 'Enterprise Corp',
-          description: 'Complex N8N automation workflows connecting multiple business systems.',
+          description:
+            'Complex N8N automation workflows connecting multiple business systems.',
           thumbnailUrl: '/media/portfolio/all-projects/project-4/thumbnail.jpg',
           tags: ['N8N Automations'],
           metrics: [
             { label: 'Time Saved', value: '200hrs/month' },
             { label: 'Error Reduction', value: '-95%' },
-            { label: 'ROI', value: '450%' }
+            { label: 'ROI', value: '450%' },
           ],
           images: [
             '/media/portfolio/all-projects/project-4/thumbnail.jpg',
             '/media/portfolio/all-projects/project-4/detail-1.jpg',
-            '/media/portfolio/all-projects/project-4/detail-2.jpg'
+            '/media/portfolio/all-projects/project-4/detail-2.jpg',
           ],
           hotspots: [
-            { x: 25, y: 40, title: 'Trigger Nodes', description: 'Event-based workflow triggers' },
-            { x: 75, y: 60, title: 'Integration', description: 'Multi-system data sync' }
-          ]
+            {
+              x: 25,
+              y: 40,
+              title: 'Trigger Nodes',
+              description: 'Event-based workflow triggers',
+            },
+            {
+              x: 75,
+              y: 60,
+              title: 'Integration',
+              description: 'Multi-system data sync',
+            },
+          ],
         },
         {
           id: '5',
           title: 'SEO Campaign Success',
           client: 'Local Business Hub',
-          description: 'Comprehensive SEO strategy with technical optimization and content marketing.',
+          description:
+            'Comprehensive SEO strategy with technical optimization and content marketing.',
           thumbnailUrl: '/media/portfolio/all-projects/project-5/thumbnail.jpg',
           tags: ['SEO'],
           metrics: [
             { label: 'Keyword Rankings', value: '#1-3' },
             { label: 'Organic Traffic', value: '+250%' },
-            { label: 'Lead Generation', value: '+180%' }
+            { label: 'Lead Generation', value: '+180%' },
           ],
           images: [
             '/media/portfolio/all-projects/project-5/thumbnail.jpg',
             '/media/portfolio/all-projects/project-5/detail-1.jpg',
-            '/media/portfolio/all-projects/project-5/detail-2.jpg'
+            '/media/portfolio/all-projects/project-5/detail-2.jpg',
           ],
           hotspots: [
-            { x: 50, y: 40, title: 'Keyword Strategy', description: 'Targeted keyword clusters' },
-            { x: 50, y: 70, title: 'Content Hub', description: 'Topic authority building' }
-          ]
+            {
+              x: 50,
+              y: 40,
+              title: 'Keyword Strategy',
+              description: 'Targeted keyword clusters',
+            },
+            {
+              x: 50,
+              y: 70,
+              title: 'Content Hub',
+              description: 'Topic authority building',
+            },
+          ],
         },
         {
           id: '6',
           title: 'Shopify Store Launch',
           client: 'Fashion Boutique',
-          description: 'Custom Shopify store with advanced product filtering and checkout optimization.',
+          description:
+            'Custom Shopify store with advanced product filtering and checkout optimization.',
           thumbnailUrl: '/media/portfolio/all-projects/project-6/thumbnail.jpg',
           tags: ['Shopify', 'Web Design'],
           metrics: [
             { label: 'Conversion Rate', value: '3.8%' },
             { label: 'Average Order', value: '+35%' },
-            { label: 'Cart Abandonment', value: '-40%' }
+            { label: 'Cart Abandonment', value: '-40%' },
           ],
           images: [
             '/media/portfolio/all-projects/project-6/thumbnail.jpg',
             '/media/portfolio/all-projects/project-6/detail-1.jpg',
-            '/media/portfolio/all-projects/project-6/detail-2.jpg'
+            '/media/portfolio/all-projects/project-6/detail-2.jpg',
           ],
           hotspots: [
-            { x: 30, y: 50, title: 'Product Page', description: 'Enhanced product visualization' },
-            { x: 70, y: 50, title: 'Checkout', description: 'Streamlined checkout flow' }
-          ]
+            {
+              x: 30,
+              y: 50,
+              title: 'Product Page',
+              description: 'Enhanced product visualization',
+            },
+            {
+              x: 70,
+              y: 50,
+              title: 'Checkout',
+              description: 'Streamlined checkout flow',
+            },
+          ],
         },
         {
           id: '7',
           title: 'SaaS Dashboard Design',
           client: 'Analytics Pro',
-          description: 'Modern SaaS dashboard with real-time data visualization and user management.',
+          description:
+            'Modern SaaS dashboard with real-time data visualization and user management.',
           thumbnailUrl: '/media/portfolio/all-projects/project-7/thumbnail.jpg',
           tags: ['Web Design', 'SaaS', 'React'],
           metrics: [
             { label: 'User Engagement', value: '+65%' },
             { label: 'Task Completion', value: '92%' },
-            { label: 'Support Tickets', value: '-50%' }
+            { label: 'Support Tickets', value: '-50%' },
           ],
           images: [
             '/media/portfolio/all-projects/project-7/thumbnail.jpg',
             '/media/portfolio/all-projects/project-7/detail-1.jpg',
-            '/media/portfolio/all-projects/project-7/detail-2.jpg'
+            '/media/portfolio/all-projects/project-7/detail-2.jpg',
           ],
           hotspots: [
-            { x: 20, y: 30, title: 'Navigation', description: 'Intuitive sidebar navigation' },
-            { x: 60, y: 50, title: 'Analytics', description: 'Real-time data charts' }
-          ]
+            {
+              x: 20,
+              y: 30,
+              title: 'Navigation',
+              description: 'Intuitive sidebar navigation',
+            },
+            {
+              x: 60,
+              y: 50,
+              title: 'Analytics',
+              description: 'Real-time data charts',
+            },
+          ],
         },
         {
           id: '8',
           title: 'Mobile App Landing Page',
           client: 'StartupX',
-          description: 'High-converting landing page for mobile app launch with A/B tested elements.',
+          description:
+            'High-converting landing page for mobile app launch with A/B tested elements.',
           thumbnailUrl: '/media/portfolio/all-projects/project-8/thumbnail.jpg',
           tags: ['Web Design', 'SEO'],
           metrics: [
             { label: 'Conversion Rate', value: '12%' },
             { label: 'Bounce Rate', value: '-35%' },
-            { label: 'App Downloads', value: '10K+' }
+            { label: 'App Downloads', value: '10K+' },
           ],
           images: [
             '/media/portfolio/all-projects/project-8/thumbnail.jpg',
             '/media/portfolio/all-projects/project-8/detail-1.jpg',
-            '/media/portfolio/all-projects/project-8/detail-2.jpg'
+            '/media/portfolio/all-projects/project-8/detail-2.jpg',
           ],
           hotspots: [
-            { x: 50, y: 25, title: 'Hero Section', description: 'Compelling value proposition' },
-            { x: 50, y: 75, title: 'CTA', description: 'Optimized call-to-action buttons' }
-          ]
-        }
-      ]
+            {
+              x: 50,
+              y: 25,
+              title: 'Hero Section',
+              description: 'Compelling value proposition',
+            },
+            {
+              x: 50,
+              y: 75,
+              title: 'CTA',
+              description: 'Optimized call-to-action buttons',
+            },
+          ],
+        },
+      ],
     },
   },
   {
@@ -690,52 +1093,58 @@ const initialContent = [
         {
           id: '1',
           title: 'E-Commerce Revolution',
-          description: 'Complete digital transformation for a leading retail brand, resulting in 45% increase in online sales.',
+          description:
+            'Complete digital transformation for a leading retail brand, resulting in 45% increase in online sales.',
           services: ['Web Design', 'Shopify', 'SEO'],
           type: 'E-Commerce',
-          imageUrl: '/media/portfolio/featured-projects/ecommerce-platform.jpg'
+          imageUrl: '/media/portfolio/featured-projects/ecommerce-platform.jpg',
         },
         {
           id: '2',
           title: 'AI-Powered Support',
-          description: 'Intelligent chatbot system handling 5,000+ daily customer queries with 95% satisfaction rate.',
+          description:
+            'Intelligent chatbot system handling 5,000+ daily customer queries with 95% satisfaction rate.',
           services: ['Chatbot Development', 'N8N Automations'],
           type: 'AI/Automation',
-          imageUrl: '/media/portfolio/featured-projects/ai-chatbot.jpg'
+          imageUrl: '/media/portfolio/featured-projects/ai-chatbot.jpg',
         },
         {
           id: '3',
           title: 'Content Platform',
-          description: 'High-performance WordPress blog achieving 120% organic traffic growth in 6 months.',
+          description:
+            'High-performance WordPress blog achieving 120% organic traffic growth in 6 months.',
           services: ['WordPress', 'SEO', 'Web Design'],
           type: 'Content',
-          imageUrl: '/media/portfolio/featured-projects/wordpress-blog.jpg'
+          imageUrl: '/media/portfolio/featured-projects/wordpress-blog.jpg',
         },
         {
           id: '4',
           title: 'Workflow Automation',
-          description: 'Enterprise automation system saving 200+ hours monthly through intelligent workflows.',
+          description:
+            'Enterprise automation system saving 200+ hours monthly through intelligent workflows.',
           services: ['N8N Automations'],
           type: 'Automation',
-          imageUrl: '/media/portfolio/featured-projects/n8n-workflow.jpg'
+          imageUrl: '/media/portfolio/featured-projects/n8n-workflow.jpg',
         },
         {
           id: '5',
           title: 'SaaS Dashboard',
-          description: 'Modern analytics dashboard serving 10,000+ daily active users with real-time insights.',
+          description:
+            'Modern analytics dashboard serving 10,000+ daily active users with real-time insights.',
           services: ['Web Design', 'React', 'SaaS'],
           type: 'SaaS',
-          imageUrl: '/media/portfolio/featured-projects/saas-dashboard.jpg'
+          imageUrl: '/media/portfolio/featured-projects/saas-dashboard.jpg',
         },
         {
           id: '6',
           title: 'SEO Campaign Success',
-          description: 'Comprehensive SEO strategy achieving #1-3 keyword rankings and 250% organic traffic growth.',
+          description:
+            'Comprehensive SEO strategy achieving #1-3 keyword rankings and 250% organic traffic growth.',
           services: ['SEO', 'Web Design'],
           type: 'SEO',
-          imageUrl: '/media/portfolio/featured-projects/seo-campaign.jpg'
-        }
-      ]
+          imageUrl: '/media/portfolio/featured-projects/seo-campaign.jpg',
+        },
+      ],
     },
   },
   {
@@ -745,33 +1154,34 @@ const initialContent = [
       eyebrow: 'Case Studies',
       title: 'Success',
       titleHighlight: 'Stories',
-      subtitle: 'Deep dives into our most impactful projects and the results we achieved',
+      subtitle:
+        'Deep dives into our most impactful projects and the results we achieved',
       studies: [
         {
           img: '/media/portfolio/case-studies/ecommerce.jpg',
           title: 'E-Commerce Transformation',
           desc: 'How we helped TechStore Inc. achieve a 45% increase in conversion rates through strategic UX redesign.',
-          sliderName: 'ecommerce'
+          sliderName: 'ecommerce',
         },
         {
           img: '/media/portfolio/case-studies/ai-chatbot.jpg',
           title: 'AI Chatbot Success',
           desc: 'Building an intelligent support system that handles 5,000+ queries daily with 95% satisfaction.',
-          sliderName: 'chatbot'
+          sliderName: 'chatbot',
         },
         {
           img: '/media/portfolio/case-studies/saas-dashboard.jpg',
           title: 'SaaS Dashboard',
           desc: 'Modern analytics dashboard serving 10,000+ daily active users with real-time insights.',
-          sliderName: 'saas'
+          sliderName: 'saas',
         },
         {
           img: '/media/portfolio/case-studies/workflow-automation.jpg',
           title: 'Automation Excellence',
           desc: 'Enterprise workflow automation saving 200+ hours monthly with 450% ROI.',
-          sliderName: 'automation'
-        }
-      ]
+          sliderName: 'automation',
+        },
+      ],
     },
   },
   {
@@ -781,38 +1191,43 @@ const initialContent = [
       eyebrow: 'Why Choose Us',
       title: 'Our',
       titleHighlight: 'Advantages',
-      subtitle: 'What sets us apart in delivering exceptional digital solutions',
+      subtitle:
+        'What sets us apart in delivering exceptional digital solutions',
       stats: [
         { value: '500+', label: 'Projects Completed' },
         { value: '98%', label: 'Client Satisfaction' },
-        { value: '50+', label: 'Team Experts' }
+        { value: '50+', label: 'Team Experts' },
       ],
       features: [
         {
           title: 'Expert Team',
-          description: 'Our team of seasoned professionals brings years of experience across all digital disciplines.',
+          description:
+            'Our team of seasoned professionals brings years of experience across all digital disciplines.',
           icon: 'Users',
-          color: '#2563EB'
+          color: '#2563EB',
         },
         {
           title: 'Cutting-Edge Tech',
-          description: 'We leverage the latest technologies and frameworks to build future-proof solutions.',
+          description:
+            'We leverage the latest technologies and frameworks to build future-proof solutions.',
           icon: 'Zap',
-          color: '#37AFE1'
+          color: '#37AFE1',
         },
         {
           title: 'Results-Driven',
-          description: 'Every project is focused on delivering measurable results and ROI for your business.',
+          description:
+            'Every project is focused on delivering measurable results and ROI for your business.',
           icon: 'TrendingUp',
-          color: '#31A4DB'
+          color: '#31A4DB',
         },
         {
           title: '24/7 Support',
-          description: 'Round-the-clock support ensures your digital presence is always performing at its best.',
+          description:
+            'Round-the-clock support ensures your digital presence is always performing at its best.',
           icon: 'Headphones',
-          color: '#F59E0B'
-        }
-      ]
+          color: '#F59E0B',
+        },
+      ],
     },
   },
   {
@@ -836,7 +1251,8 @@ const initialContent = [
       eyebrow: 'What We Do',
       title: 'Our',
       titleHighlight: 'Services',
-      subtitle: 'Comprehensive digital solutions to help your business grow and succeed online.',
+      subtitle:
+        'Comprehensive digital solutions to help your business grow and succeed online.',
     },
   },
   {
@@ -855,7 +1271,8 @@ const initialContent = [
     content: {
       titleHighlight: 'AI-Powered',
       title: 'Chatbots',
-      subtitle: 'Intelligent conversational AI that connects with your customers 24/7 across all platforms. From WhatsApp to Slack, we build chatbots that convert.',
+      subtitle:
+        'Intelligent conversational AI that connects with your customers 24/7 across all platforms. From WhatsApp to Slack, we build chatbots that convert.',
       ctaText: 'Build Your Chatbot',
       ctaHref: '/contact',
       // Icons are defined in the component as they require React components
@@ -868,7 +1285,8 @@ const initialContent = [
       eyebrow: 'See AI In Action',
       title: 'Watch How We Build',
       titleHighlight: 'Intelligent Chatbots',
-      subtitle: 'Experience our AI development process and see the conversational bots we create for our clients.',
+      subtitle:
+        'Experience our AI development process and see the conversational bots we create for our clients.',
       videoSrc: '/media/services/chatbot-development/video/hero-video.mp4',
       ctaText: 'Build Your Chatbot',
       ctaHref: '/contact',
@@ -881,18 +1299,19 @@ const initialContent = [
       eyebrow: 'Interactive Demo',
       title: 'Live Chat',
       titleHighlight: 'Demo',
-      subtitle: 'Experience our AI chatbot in action with this interactive demonstration.',
+      subtitle:
+        'Experience our AI chatbot in action with this interactive demonstration.',
       // Inner content - Chat interface configuration
-      initialMessage: 'Hello! I\'m an AI assistant. How can I help you today?',
+      initialMessage: "Hello! I'm an AI assistant. How can I help you today?",
       inputPlaceholder: 'Type your message...',
       sendButtonText: 'Send',
       typingIndicatorText: 'AI is typing...',
       // Sample AI responses
       aiResponses: [
-        'That\'s a great question! Let me help you with that.',
-        'I understand. Here\'s what I can tell you...',
+        "That's a great question! Let me help you with that.",
+        "I understand. Here's what I can tell you...",
         'Interesting! Based on my analysis...',
-        'I\'d be happy to assist you with that.',
+        "I'd be happy to assist you with that.",
         'Let me process that information for you.',
       ],
       // Colors
@@ -907,7 +1326,8 @@ const initialContent = [
       eyebrow: 'Neural Networks',
       title: 'AI Learning',
       titleHighlight: 'Process',
-      subtitle: 'See how our neural networks process and understand your conversations.',
+      subtitle:
+        'See how our neural networks process and understand your conversations.',
       // Inner content - Neural network layers
       layers: [
         { nodes: 4, label: 'Input', sublabel: 'User Query' },
@@ -921,19 +1341,22 @@ const initialContent = [
         {
           id: 'input',
           title: 'Input Layer',
-          description: 'User messages are tokenized and converted into numerical vectors for processing.',
+          description:
+            'User messages are tokenized and converted into numerical vectors for processing.',
           color: '#F58122',
         },
         {
           id: 'processing',
           title: 'Hidden Layers',
-          description: 'Multiple neural layers analyze context, intent, and generate intelligent understanding.',
+          description:
+            'Multiple neural layers analyze context, intent, and generate intelligent understanding.',
           color: '#37AFE1',
         },
         {
           id: 'output',
           title: 'Output Layer',
-          description: 'Final layer produces natural language responses tailored to user queries.',
+          description:
+            'Final layer produces natural language responses tailored to user queries.',
           color: '#31A4DB',
         },
       ],
@@ -952,7 +1375,8 @@ const initialContent = [
       eyebrow: 'Analytics',
       title: 'Performance',
       titleHighlight: 'Improvement',
-      subtitle: 'Track the continuous improvement of your AI chatbot over time.',
+      subtitle:
+        'Track the continuous improvement of your AI chatbot over time.',
       // Inner content - Metrics cards
       metrics: [
         { label: 'Current Accuracy', color: '#37AFE1', suffix: '%' },
@@ -976,7 +1400,8 @@ const initialContent = [
       eyebrow: 'AI Chatbot Success Stories',
       title: 'Chatbots That',
       titleHighlight: 'Engage',
-      subtitle: 'See how we\'ve helped businesses automate conversations and delight customers 24/7.',
+      subtitle:
+        "See how we've helped businesses automate conversations and delight customers 24/7.",
       studies: [
         {
           img: '/media/services/chatbot-development/case-studies/customer-support-bot.jpg',
@@ -1010,7 +1435,8 @@ const initialContent = [
     section: 'cta',
     content: {
       title: 'Ready to Build Your AI Chatbot?',
-      subtitle: 'Let\'s create an intelligent chatbot that engages your customers 24/7',
+      subtitle:
+        "Let's create an intelligent chatbot that engages your customers 24/7",
       ctaText: 'Start Your Project',
       ctaHref: '/contact',
     },
@@ -1022,7 +1448,8 @@ const initialContent = [
       eyebrow: '✨ Our Tech Stack',
       title: 'Build Your',
       titleHighlight: 'Digital Empire',
-      subtitle: 'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
+      subtitle:
+        'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
       ctaText: 'Start Your Project',
       ctaHref: '/contact',
       secondaryCtaText: 'View Our Work',
@@ -1037,16 +1464,37 @@ const initialContent = [
     content: {
       title: 'Dominate Search',
       highlightedText: 'Drive Organic Growth',
-      subtitle: 'Strategic SEO solutions that boost your rankings, increase organic traffic, and convert visitors into customers. Data-driven optimization for measurable results.',
+      subtitle:
+        'Strategic SEO solutions that boost your rankings, increase organic traffic, and convert visitors into customers. Data-driven optimization for measurable results.',
       ctaButton: {
         label: 'Get SEO Audit',
         href: '/contact',
       },
       floatingIcons: [
-        { icon: 'Search', label: 'Keywords', position: { x: '8%', y: '25%' }, color: '#37AFE1' },
-        { icon: 'TrendingUp', label: 'Rankings', position: { x: '12%', y: '60%' }, color: '#37AFE1' },
-        { icon: 'Target', label: 'Traffic', position: { x: '82%', y: '20%' }, color: '#F58122' },
-        { icon: 'BarChart3', label: 'Analytics', position: { x: '78%', y: '55%' }, color: '#F58122' },
+        {
+          icon: 'Search',
+          label: 'Keywords',
+          position: { x: '8%', y: '25%' },
+          color: '#37AFE1',
+        },
+        {
+          icon: 'TrendingUp',
+          label: 'Rankings',
+          position: { x: '12%', y: '60%' },
+          color: '#37AFE1',
+        },
+        {
+          icon: 'Target',
+          label: 'Traffic',
+          position: { x: '82%', y: '20%' },
+          color: '#F58122',
+        },
+        {
+          icon: 'BarChart3',
+          label: 'Analytics',
+          position: { x: '78%', y: '55%' },
+          color: '#F58122',
+        },
       ],
     },
   },
@@ -1057,7 +1505,8 @@ const initialContent = [
       eyebrow: 'See SEO In Action',
       title: 'Watch How We Drive',
       titleHighlight: 'Organic Growth',
-      subtitle: 'Experience our SEO process and see the ranking improvements we achieve for our clients.',
+      subtitle:
+        'Experience our SEO process and see the ranking improvements we achieve for our clients.',
       videoSrc: '/media/services/seo/video/hero-video.mp4',
       ctaText: 'Start Your SEO Journey',
       ctaHref: '/contact',
@@ -1070,18 +1519,44 @@ const initialContent = [
       eyebrow: 'SERP Tracking',
       title: 'Search Engine',
       titleHighlight: 'Rankings',
-      subtitle: 'Watch your keywords climb from page 2 to the top of search results.',
+      subtitle:
+        'Watch your keywords climb from page 2 to the top of search results.',
       keywords: [
-        { keyword: 'Web Design Agency', startPosition: 10, endPosition: 1, color: '#31A4DB' },
-        { keyword: 'Custom Chatbots', startPosition: 8, endPosition: 2, color: '#31A4DB' },
-        { keyword: 'N8N Automation', startPosition: 12, endPosition: 3, color: '#31A4DB' },
-        { keyword: 'Shopify Development', startPosition: 15, endPosition: 4, color: '#31A4DB' },
-        { keyword: 'WordPress Solutions', startPosition: 9, endPosition: 5, color: '#31A4DB' }
+        {
+          keyword: 'Web Design Agency',
+          startPosition: 10,
+          endPosition: 1,
+          color: '#31A4DB',
+        },
+        {
+          keyword: 'Custom Chatbots',
+          startPosition: 8,
+          endPosition: 2,
+          color: '#31A4DB',
+        },
+        {
+          keyword: 'N8N Automation',
+          startPosition: 12,
+          endPosition: 3,
+          color: '#31A4DB',
+        },
+        {
+          keyword: 'Shopify Development',
+          startPosition: 15,
+          endPosition: 4,
+          color: '#31A4DB',
+        },
+        {
+          keyword: 'WordPress Solutions',
+          startPosition: 9,
+          endPosition: 5,
+          color: '#31A4DB',
+        },
       ],
       competitors: [
         { position: 6, name: 'Competitor A' },
         { position: 7, name: 'Competitor B' },
-        { position: 8, name: 'Competitor C' }
+        { position: 8, name: 'Competitor C' },
       ],
       yourRankingsLabel: 'Your Rankings',
       competitorsLabel: 'Competitors',
@@ -1095,7 +1570,8 @@ const initialContent = [
       eyebrow: 'Keyword Strategy',
       title: 'Strategic Keyword',
       titleHighlight: 'Targeting',
-      subtitle: 'Explore our comprehensive keyword strategy tailored to your business.',
+      subtitle:
+        'Explore our comprehensive keyword strategy tailored to your business.',
       keywords: [
         { text: 'Web Design', importance: 10, category: 'design' },
         { text: 'SEO', importance: 9, category: 'marketing' },
@@ -1106,7 +1582,7 @@ const initialContent = [
         { text: 'Shopify', importance: 7, category: 'ecommerce' },
         { text: 'N8N', importance: 6, category: 'automation' },
         { text: 'AI', importance: 6, category: 'ai' },
-        { text: 'Conversion', importance: 6, category: 'marketing' }
+        { text: 'Conversion', importance: 6, category: 'marketing' },
       ],
       categories: [
         { id: 'all', name: 'All Keywords', color: '#2563EB' },
@@ -1116,7 +1592,7 @@ const initialContent = [
         { id: 'automation', name: 'Automation', color: '#F97316' },
         { id: 'ecommerce', name: 'E-commerce', color: '#F59E0B' },
         { id: 'cms', name: 'CMS', color: '#EF4444' },
-        { id: 'technical', name: 'Technical', color: '#64748B' }
+        { id: 'technical', name: 'Technical', color: '#64748B' },
       ],
       totalKeywordsLabel: 'Total Keywords',
       avgImportanceLabel: 'Avg Importance',
@@ -1130,7 +1606,8 @@ const initialContent = [
       eyebrow: 'Growth Metrics',
       title: 'Organic Traffic',
       titleHighlight: 'Growth',
-      subtitle: 'See the exponential growth in organic traffic and conversions.',
+      subtitle:
+        'See the exponential growth in organic traffic and conversions.',
       data: [
         { month: 'Jan', traffic: 1200, conversions: 24 },
         { month: 'Feb', traffic: 1800, conversions: 36 },
@@ -1143,13 +1620,13 @@ const initialContent = [
         { month: 'Sep', traffic: 10200, conversions: 204 },
         { month: 'Oct', traffic: 12500, conversions: 250 },
         { month: 'Nov', traffic: 15000, conversions: 300 },
-        { month: 'Dec', traffic: 18000, conversions: 360 }
+        { month: 'Dec', traffic: 18000, conversions: 360 },
       ],
       milestones: [
         { index: 2, label: '2.5K Visitors', icon: '🎯' },
         { index: 5, label: '5K Visitors', icon: '🚀' },
         { index: 8, label: '10K Visitors', icon: '⭐' },
-        { index: 11, label: '18K Visitors', icon: '🎉' }
+        { index: 11, label: '18K Visitors', icon: '🎉' },
       ],
       totalGrowthLabel: 'Total Growth',
       monthlyVisitorsLabel: 'Monthly Visitors',
@@ -1171,13 +1648,41 @@ const initialContent = [
         traffic: 18000,
         keywords: 250,
         backlinks: 1200,
-        color: '#31A4DB'
+        color: '#31A4DB',
       },
       competitors: [
-        { name: 'Competitor A', rank: 2, traffic: 15000, keywords: 220, backlinks: 980, color: '#F59E0B' },
-        { name: 'Competitor B', rank: 3, traffic: 12000, keywords: 180, backlinks: 850, color: '#F59E0B' },
-        { name: 'Competitor C', rank: 4, traffic: 9500, keywords: 150, backlinks: 720, color: '#F59E0B' },
-        { name: 'Competitor D', rank: 5, traffic: 7200, keywords: 120, backlinks: 580, color: '#F59E0B' }
+        {
+          name: 'Competitor A',
+          rank: 2,
+          traffic: 15000,
+          keywords: 220,
+          backlinks: 980,
+          color: '#F59E0B',
+        },
+        {
+          name: 'Competitor B',
+          rank: 3,
+          traffic: 12000,
+          keywords: 180,
+          backlinks: 850,
+          color: '#F59E0B',
+        },
+        {
+          name: 'Competitor C',
+          rank: 4,
+          traffic: 9500,
+          keywords: 150,
+          backlinks: 720,
+          color: '#F59E0B',
+        },
+        {
+          name: 'Competitor D',
+          rank: 5,
+          traffic: 7200,
+          keywords: 120,
+          backlinks: 580,
+          color: '#F59E0B',
+        },
       ],
       monthlyTrafficLabel: 'Monthly Traffic',
       rankingKeywordsLabel: 'Ranking Keywords',
@@ -1191,7 +1696,8 @@ const initialContent = [
       eyebrow: 'SEO Success Stories',
       title: 'Rankings That',
       titleHighlight: 'Dominate',
-      subtitle: 'See how we\'ve helped businesses climb to the top of search results and drive organic growth.',
+      subtitle:
+        "See how we've helped businesses climb to the top of search results and drive organic growth.",
       studies: [
         {
           img: '/media/services/seo/case-studies/local-business.jpg',
@@ -1225,7 +1731,8 @@ const initialContent = [
     section: 'cta',
     content: {
       title: 'Ready to Dominate Search Results?',
-      subtitle: 'Let\'s create an SEO strategy that drives real business results',
+      subtitle:
+        "Let's create an SEO strategy that drives real business results",
       ctaText: 'Start Your SEO Journey',
       ctaHref: '/contact',
     },
@@ -1237,7 +1744,8 @@ const initialContent = [
       eyebrow: '✨ Our Tech Stack',
       title: 'Build Your',
       titleHighlight: 'Digital Empire',
-      subtitle: 'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
+      subtitle:
+        'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
       ctaText: 'Start Your Project',
       ctaHref: '/contact',
       secondaryCtaText: 'View Our Work',
@@ -1254,7 +1762,8 @@ const initialContent = [
       title: 'Build Your Shopify Empire with Expert Development',
       highlightedWord: 'Shopify',
       highlightedWord2: 'Expert',
-      subtitle: 'High-converting online stores that drive sales and delight customers. From custom themes to seamless integrations, we build e-commerce experiences that scale.',
+      subtitle:
+        'High-converting online stores that drive sales and delight customers. From custom themes to seamless integrations, we build e-commerce experiences that scale.',
       services: [
         {
           id: 'custom-themes',
@@ -1282,7 +1791,8 @@ const initialContent = [
           name: 'Conversion Optimization',
           url: '/portfolio?category=shopify-cro',
           description: 'Boost your sales with proven strategies',
-          imgSrc: '/media/services/shopify/services/conversion-optimization.jpg',
+          imgSrc:
+            '/media/services/shopify/services/conversion-optimization.jpg',
         },
         {
           id: 'payment-setup',
@@ -1310,7 +1820,8 @@ const initialContent = [
       eyebrow: 'See Shopify In Action',
       title: 'Watch How We Build',
       titleHighlight: 'E-Commerce Stores',
-      subtitle: 'Experience our development process and see the high-converting Shopify stores we create for our clients.',
+      subtitle:
+        'Experience our development process and see the high-converting Shopify stores we create for our clients.',
       videoSrc: '/media/services/shopify/video/hero-video.mp4',
       ctaText: 'Start Your Shopify Store',
       ctaHref: '/contact',
@@ -1323,13 +1834,14 @@ const initialContent = [
       eyebrow: 'Sales Analytics',
       title: 'Conversion Funnel',
       titleHighlight: 'Visualization',
-      subtitle: 'Watch how customers flow through your sales funnel with real-time particle visualization.',
+      subtitle:
+        'Watch how customers flow through your sales funnel with real-time particle visualization.',
       stages: [
         { name: 'Visitors', percentage: 100, color: '#2563EB' },
         { name: 'Product Views', percentage: 65, color: '#F97316' },
         { name: 'Add to Cart', percentage: 35, color: '#2563EB' },
         { name: 'Checkout', percentage: 20, color: '#F97316' },
-        { name: 'Purchase', percentage: 15, color: '#31A4DB' }
+        { name: 'Purchase', percentage: 15, color: '#31A4DB' },
       ],
       conversionLabel: 'Conversions',
       abandonmentLabel: 'Abandonment',
@@ -1342,12 +1854,13 @@ const initialContent = [
       eyebrow: 'Product Display',
       title: 'Interactive 3D',
       titleHighlight: 'Product Preview',
-      subtitle: 'Give customers an immersive product experience with 3D rotation and color customization.',
+      subtitle:
+        'Give customers an immersive product experience with 3D rotation and color customization.',
       colorSwatches: [
         { name: 'Midnight Black', color: '#1E293B', image: 'black' },
         { name: 'Ocean Blue', color: '#2563EB', image: 'blue' },
         { name: 'Sunset Orange', color: '#F97316', image: 'orange' },
-        { name: 'Forest Green', color: '#31A4DB', image: 'green' }
+        { name: 'Forest Green', color: '#31A4DB', image: 'green' },
       ],
       productLabel: 'SHOP',
       addToCartText: 'Add to Cart',
@@ -1362,16 +1875,30 @@ const initialContent = [
       eyebrow: 'Analytics',
       title: 'Real-Time Performance',
       titleHighlight: 'Dashboard',
-      subtitle: 'Track your store\'s performance with live metrics and animated visualizations.',
+      subtitle:
+        "Track your store's performance with live metrics and animated visualizations.",
       metrics: [
         { label: 'Revenue', target: 125000, unit: '$', color: '#31A4DB' },
         { label: 'Orders', target: 1250, unit: '', color: '#2563EB' },
         { label: 'Conversion Rate', target: 3.8, unit: '%', color: '#F97316' },
-        { label: 'Avg Order Value', target: 98, unit: '$', color: '#F59E0B' }
+        { label: 'Avg Order Value', target: 98, unit: '$', color: '#F59E0B' },
       ],
       chartTitle: 'Revenue Trend',
       liveDataLabel: 'Live Data',
-      monthLabels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      monthLabels: [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+      ],
     },
   },
   {
@@ -1385,13 +1912,29 @@ const initialContent = [
       products: [
         { id: 1, name: 'Premium Headphones', price: 299, image: '🎧' },
         { id: 2, name: 'Smart Watch', price: 399, image: '⌚' },
-        { id: 3, name: 'Wireless Earbuds', price: 199, image: '🎵' }
+        { id: 3, name: 'Wireless Earbuds', price: 199, image: '🎵' },
       ],
       features: [
-        { icon: '⚡', title: 'Lightning Fast', desc: 'Optimized for mobile performance' },
-        { icon: '👆', title: 'Touch Optimized', desc: 'Intuitive gestures and interactions' },
-        { icon: '🎨', title: 'Beautiful Design', desc: 'Stunning visuals on any screen' },
-        { icon: '🔒', title: 'Secure Checkout', desc: 'Safe and encrypted transactions' }
+        {
+          icon: '⚡',
+          title: 'Lightning Fast',
+          desc: 'Optimized for mobile performance',
+        },
+        {
+          icon: '👆',
+          title: 'Touch Optimized',
+          desc: 'Intuitive gestures and interactions',
+        },
+        {
+          icon: '🎨',
+          title: 'Beautiful Design',
+          desc: 'Stunning visuals on any screen',
+        },
+        {
+          icon: '🔒',
+          title: 'Secure Checkout',
+          desc: 'Safe and encrypted transactions',
+        },
       ],
       shopTitle: 'Shop',
       shopSubtitle: 'Discover amazing products',
@@ -1408,7 +1951,8 @@ const initialContent = [
       eyebrow: 'E-Commerce Success Stories',
       title: 'Shopify Stores That',
       titleHighlight: 'Convert',
-      subtitle: 'See how we\'ve helped businesses build high-converting Shopify stores that drive sales.',
+      subtitle:
+        "See how we've helped businesses build high-converting Shopify stores that drive sales.",
       studies: [
         {
           img: '/media/services/shopify/case-studies/fashion-boutique.jpg',
@@ -1442,7 +1986,8 @@ const initialContent = [
     section: 'cta',
     content: {
       title: 'Ready to Launch Your Online Store?',
-      subtitle: 'Let\'s build a Shopify store that turns visitors into loyal customers',
+      subtitle:
+        "Let's build a Shopify store that turns visitors into loyal customers",
       ctaText: 'Start Your Project',
       ctaHref: '/contact',
     },
@@ -1454,7 +1999,8 @@ const initialContent = [
       eyebrow: '✨ Our Tech Stack',
       title: 'Build Your',
       titleHighlight: 'Digital Empire',
-      subtitle: 'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
+      subtitle:
+        'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
       ctaText: 'Start Your Project',
       ctaHref: '/contact',
       secondaryCtaText: 'View Our Work',
@@ -1471,7 +2017,8 @@ const initialContent = [
       title: 'Build Scalable WordPress Solutions with Modular Architecture',
       highlightedWord: 'WordPress',
       highlightedWord2: 'Modular',
-      subtitle: 'Scalable, modular WordPress solutions that grow with your business. From custom themes to powerful plugins, we build websites that perform.',
+      subtitle:
+        'Scalable, modular WordPress solutions that grow with your business. From custom themes to powerful plugins, we build websites that perform.',
       services: [
         {
           id: 'custom-themes',
@@ -1527,7 +2074,8 @@ const initialContent = [
       eyebrow: 'See WordPress In Action',
       title: 'Watch How We Build',
       titleHighlight: 'WordPress Sites',
-      subtitle: 'Experience our development process and see the powerful WordPress solutions we create for our clients.',
+      subtitle:
+        'Experience our development process and see the powerful WordPress solutions we create for our clients.',
       videoSrc: '/media/services/wordpress/video/hero-video.mp4',
       ctaText: 'Start Your WordPress Project',
       ctaHref: '/contact',
@@ -1540,20 +2088,93 @@ const initialContent = [
       eyebrow: 'Architecture',
       title: 'Modular Component',
       titleHighlight: 'System',
-      subtitle: 'Watch how WordPress components snap together like puzzle pieces to create powerful websites.',
+      subtitle:
+        'Watch how WordPress components snap together like puzzle pieces to create powerful websites.',
       modules: [
-        { id: 'header', title: 'Header', icon: '📋', color: '#2563EB', position: { row: 0, col: 0 } },
-        { id: 'hero', title: 'Hero Section', icon: '🎯', color: '#F97316', position: { row: 0, col: 1 } },
-        { id: 'nav', title: 'Navigation', icon: '🧭', color: '#2563EB', position: { row: 0, col: 2 } },
-        { id: 'search', title: 'Search', icon: '🔍', color: '#F97316', position: { row: 0, col: 3 } },
-        { id: 'content', title: 'Content Block', icon: '📝', color: '#F97316', position: { row: 1, col: 0 } },
-        { id: 'sidebar', title: 'Sidebar', icon: '📊', color: '#2563EB', position: { row: 1, col: 1 } },
-        { id: 'gallery', title: 'Gallery', icon: '🖼️', color: '#F97316', position: { row: 1, col: 2 } },
-        { id: 'forms', title: 'Forms', icon: '📋', color: '#2563EB', position: { row: 1, col: 3 } },
-        { id: 'testimonials', title: 'Testimonials', icon: '💬', color: '#2563EB', position: { row: 2, col: 0 } },
-        { id: 'cta', title: 'Call to Action', icon: '🎯', color: '#F97316', position: { row: 2, col: 1 } },
-        { id: 'footer', title: 'Footer', icon: '📌', color: '#2563EB', position: { row: 2, col: 2 } },
-        { id: 'social', title: 'Social Links', icon: '🔗', color: '#F97316', position: { row: 2, col: 3 } },
+        {
+          id: 'header',
+          title: 'Header',
+          icon: '📋',
+          color: '#2563EB',
+          position: { row: 0, col: 0 },
+        },
+        {
+          id: 'hero',
+          title: 'Hero Section',
+          icon: '🎯',
+          color: '#F97316',
+          position: { row: 0, col: 1 },
+        },
+        {
+          id: 'nav',
+          title: 'Navigation',
+          icon: '🧭',
+          color: '#2563EB',
+          position: { row: 0, col: 2 },
+        },
+        {
+          id: 'search',
+          title: 'Search',
+          icon: '🔍',
+          color: '#F97316',
+          position: { row: 0, col: 3 },
+        },
+        {
+          id: 'content',
+          title: 'Content Block',
+          icon: '📝',
+          color: '#F97316',
+          position: { row: 1, col: 0 },
+        },
+        {
+          id: 'sidebar',
+          title: 'Sidebar',
+          icon: '📊',
+          color: '#2563EB',
+          position: { row: 1, col: 1 },
+        },
+        {
+          id: 'gallery',
+          title: 'Gallery',
+          icon: '🖼️',
+          color: '#F97316',
+          position: { row: 1, col: 2 },
+        },
+        {
+          id: 'forms',
+          title: 'Forms',
+          icon: '📋',
+          color: '#2563EB',
+          position: { row: 1, col: 3 },
+        },
+        {
+          id: 'testimonials',
+          title: 'Testimonials',
+          icon: '💬',
+          color: '#2563EB',
+          position: { row: 2, col: 0 },
+        },
+        {
+          id: 'cta',
+          title: 'Call to Action',
+          icon: '🎯',
+          color: '#F97316',
+          position: { row: 2, col: 1 },
+        },
+        {
+          id: 'footer',
+          title: 'Footer',
+          icon: '📌',
+          color: '#2563EB',
+          position: { row: 2, col: 2 },
+        },
+        {
+          id: 'social',
+          title: 'Social Links',
+          icon: '🔗',
+          color: '#F97316',
+          position: { row: 2, col: 3 },
+        },
       ],
       successMessage: '✨ Modular components assembled successfully!',
     },
@@ -1565,12 +2186,38 @@ const initialContent = [
       eyebrow: 'Analytics',
       title: 'Performance That',
       titleHighlight: 'Matters',
-      subtitle: 'See the dramatic improvements our WordPress optimization delivers.',
+      subtitle:
+        'See the dramatic improvements our WordPress optimization delivers.',
       metrics: [
-        { label: 'Loading Speed', before: 4.2, after: 1.3, unit: 's', format: 'number', inverse: true },
-        { label: 'SEO Score', before: 72, after: 96, unit: '/100', format: 'score' },
-        { label: 'Accessibility', before: 68, after: 94, unit: '/100', format: 'score' },
-        { label: 'Conversion Rate', before: 2.1, after: 4.8, unit: '%', format: 'percentage' },
+        {
+          label: 'Loading Speed',
+          before: 4.2,
+          after: 1.3,
+          unit: 's',
+          format: 'number',
+          inverse: true,
+        },
+        {
+          label: 'SEO Score',
+          before: 72,
+          after: 96,
+          unit: '/100',
+          format: 'score',
+        },
+        {
+          label: 'Accessibility',
+          before: 68,
+          after: 94,
+          unit: '/100',
+          format: 'score',
+        },
+        {
+          label: 'Conversion Rate',
+          before: 2.1,
+          after: 4.8,
+          unit: '%',
+          format: 'percentage',
+        },
       ],
     },
   },
@@ -1581,41 +2228,210 @@ const initialContent = [
       eyebrow: 'Integrations',
       title: 'Plugin',
       titleHighlight: 'Ecosystem',
-      subtitle: 'Explore our curated selection of WordPress plugins and their relationships.',
+      subtitle:
+        'Explore our curated selection of WordPress plugins and their relationships.',
       // Plugins with better spacing to prevent overlapping
       plugins: [
         // Security plugins - top left area
-        { id: 'wordfence', name: 'Wordfence', category: 'security', x: 12, y: 15, relatedTo: ['jetpack', 'ithemes'] },
-        { id: 'ithemes', name: 'iThemes Security', category: 'security', x: 8, y: 32, relatedTo: ['wordfence', 'sucuri'] },
-        { id: 'sucuri', name: 'Sucuri', category: 'security', x: 18, y: 45, relatedTo: ['ithemes', 'wordfence'] },
+        {
+          id: 'wordfence',
+          name: 'Wordfence',
+          category: 'security',
+          x: 12,
+          y: 15,
+          relatedTo: ['jetpack', 'ithemes'],
+        },
+        {
+          id: 'ithemes',
+          name: 'iThemes Security',
+          category: 'security',
+          x: 8,
+          y: 32,
+          relatedTo: ['wordfence', 'sucuri'],
+        },
+        {
+          id: 'sucuri',
+          name: 'Sucuri',
+          category: 'security',
+          x: 18,
+          y: 45,
+          relatedTo: ['ithemes', 'wordfence'],
+        },
         // Performance plugins - top center area
-        { id: 'wp-rocket', name: 'WP Rocket', category: 'performance', x: 38, y: 12, relatedTo: ['autoptimize', 'smush'] },
-        { id: 'autoptimize', name: 'Autoptimize', category: 'performance', x: 48, y: 25, relatedTo: ['wp-rocket', 'smush'] },
-        { id: 'smush', name: 'Smush', category: 'performance', x: 58, y: 15, relatedTo: ['wp-rocket', 'autoptimize', 'imagify'] },
-        { id: 'imagify', name: 'Imagify', category: 'performance', x: 68, y: 28, relatedTo: ['smush'] },
+        {
+          id: 'wp-rocket',
+          name: 'WP Rocket',
+          category: 'performance',
+          x: 38,
+          y: 12,
+          relatedTo: ['autoptimize', 'smush'],
+        },
+        {
+          id: 'autoptimize',
+          name: 'Autoptimize',
+          category: 'performance',
+          x: 48,
+          y: 25,
+          relatedTo: ['wp-rocket', 'smush'],
+        },
+        {
+          id: 'smush',
+          name: 'Smush',
+          category: 'performance',
+          x: 58,
+          y: 15,
+          relatedTo: ['wp-rocket', 'autoptimize', 'imagify'],
+        },
+        {
+          id: 'imagify',
+          name: 'Imagify',
+          category: 'performance',
+          x: 68,
+          y: 28,
+          relatedTo: ['smush'],
+        },
         // SEO plugins - top right area
-        { id: 'yoast', name: 'Yoast SEO', category: 'seo', x: 78, y: 18, relatedTo: ['rank-math', 'aioseo'] },
-        { id: 'rank-math', name: 'Rank Math', category: 'seo', x: 88, y: 32, relatedTo: ['yoast', 'aioseo'] },
-        { id: 'aioseo', name: 'All in One SEO', category: 'seo', x: 82, y: 48, relatedTo: ['yoast', 'rank-math'] },
+        {
+          id: 'yoast',
+          name: 'Yoast SEO',
+          category: 'seo',
+          x: 78,
+          y: 18,
+          relatedTo: ['rank-math', 'aioseo'],
+        },
+        {
+          id: 'rank-math',
+          name: 'Rank Math',
+          category: 'seo',
+          x: 88,
+          y: 32,
+          relatedTo: ['yoast', 'aioseo'],
+        },
+        {
+          id: 'aioseo',
+          name: 'All in One SEO',
+          category: 'seo',
+          x: 82,
+          y: 48,
+          relatedTo: ['yoast', 'rank-math'],
+        },
         // E-commerce plugins - bottom left area
-        { id: 'woocommerce', name: 'WooCommerce', category: 'ecommerce', x: 28, y: 62, relatedTo: ['stripe', 'paypal', 'mailchimp'] },
-        { id: 'stripe', name: 'Stripe', category: 'ecommerce', x: 38, y: 78, relatedTo: ['woocommerce', 'paypal'] },
-        { id: 'paypal', name: 'PayPal', category: 'ecommerce', x: 22, y: 82, relatedTo: ['woocommerce', 'stripe'] },
+        {
+          id: 'woocommerce',
+          name: 'WooCommerce',
+          category: 'ecommerce',
+          x: 28,
+          y: 62,
+          relatedTo: ['stripe', 'paypal', 'mailchimp'],
+        },
+        {
+          id: 'stripe',
+          name: 'Stripe',
+          category: 'ecommerce',
+          x: 38,
+          y: 78,
+          relatedTo: ['woocommerce', 'paypal'],
+        },
+        {
+          id: 'paypal',
+          name: 'PayPal',
+          category: 'ecommerce',
+          x: 22,
+          y: 82,
+          relatedTo: ['woocommerce', 'stripe'],
+        },
         // Content plugins - center area
-        { id: 'elementor', name: 'Elementor', category: 'content', x: 15, y: 68, relatedTo: ['acf', 'gutenberg'] },
-        { id: 'acf', name: 'ACF', category: 'content', x: 8, y: 52, relatedTo: ['elementor', 'wpbakery'] },
-        { id: 'gutenberg', name: 'Gutenberg', category: 'content', x: 32, y: 88, relatedTo: ['elementor'] },
-        { id: 'wpbakery', name: 'WPBakery', category: 'content', x: 5, y: 75, relatedTo: ['acf', 'elementor'] },
+        {
+          id: 'elementor',
+          name: 'Elementor',
+          category: 'content',
+          x: 15,
+          y: 68,
+          relatedTo: ['acf', 'gutenberg'],
+        },
+        {
+          id: 'acf',
+          name: 'ACF',
+          category: 'content',
+          x: 8,
+          y: 52,
+          relatedTo: ['elementor', 'wpbakery'],
+        },
+        {
+          id: 'gutenberg',
+          name: 'Gutenberg',
+          category: 'content',
+          x: 32,
+          y: 88,
+          relatedTo: ['elementor'],
+        },
+        {
+          id: 'wpbakery',
+          name: 'WPBakery',
+          category: 'content',
+          x: 5,
+          y: 75,
+          relatedTo: ['acf', 'elementor'],
+        },
         // Analytics plugins - right side
-        { id: 'monsterinsights', name: 'MonsterInsights', category: 'analytics', x: 72, y: 62, relatedTo: ['google-analytics', 'jetpack'] },
-        { id: 'google-analytics', name: 'GA Dashboard', category: 'analytics', x: 85, y: 72, relatedTo: ['monsterinsights'] },
+        {
+          id: 'monsterinsights',
+          name: 'MonsterInsights',
+          category: 'analytics',
+          x: 72,
+          y: 62,
+          relatedTo: ['google-analytics', 'jetpack'],
+        },
+        {
+          id: 'google-analytics',
+          name: 'GA Dashboard',
+          category: 'analytics',
+          x: 85,
+          y: 72,
+          relatedTo: ['monsterinsights'],
+        },
         // Utility plugins - scattered
-        { id: 'jetpack', name: 'Jetpack', category: 'utility', x: 55, y: 52, relatedTo: ['wordfence', 'mailchimp', 'monsterinsights'] },
-        { id: 'mailchimp', name: 'Mailchimp', category: 'utility', x: 48, y: 42, relatedTo: ['woocommerce', 'jetpack'] },
-        { id: 'contact-form-7', name: 'Contact Form 7', category: 'utility', x: 62, y: 38, relatedTo: ['mailchimp'] },
+        {
+          id: 'jetpack',
+          name: 'Jetpack',
+          category: 'utility',
+          x: 55,
+          y: 52,
+          relatedTo: ['wordfence', 'mailchimp', 'monsterinsights'],
+        },
+        {
+          id: 'mailchimp',
+          name: 'Mailchimp',
+          category: 'utility',
+          x: 48,
+          y: 42,
+          relatedTo: ['woocommerce', 'jetpack'],
+        },
+        {
+          id: 'contact-form-7',
+          name: 'Contact Form 7',
+          category: 'utility',
+          x: 62,
+          y: 38,
+          relatedTo: ['mailchimp'],
+        },
         // Backup plugins
-        { id: 'updraftplus', name: 'UpdraftPlus', category: 'backup', x: 75, y: 85, relatedTo: ['jetpack'] },
-        { id: 'duplicator', name: 'Duplicator', category: 'backup', x: 88, y: 58, relatedTo: ['updraftplus'] },
+        {
+          id: 'updraftplus',
+          name: 'UpdraftPlus',
+          category: 'backup',
+          x: 75,
+          y: 85,
+          relatedTo: ['jetpack'],
+        },
+        {
+          id: 'duplicator',
+          name: 'Duplicator',
+          category: 'backup',
+          x: 88,
+          y: 58,
+          relatedTo: ['updraftplus'],
+        },
       ],
       // More categories with distinct colors
       categoryColors: [
@@ -1639,7 +2455,8 @@ const initialContent = [
       eyebrow: 'WordPress Success Stories',
       title: 'WordPress Projects That',
       titleHighlight: 'Deliver',
-      subtitle: 'See how we\'ve helped businesses build powerful WordPress solutions that drive results.',
+      subtitle:
+        "See how we've helped businesses build powerful WordPress solutions that drive results.",
       studies: [
         {
           img: '/media/services/wordpress/case-studies/blog-platform.jpg',
@@ -1673,7 +2490,8 @@ const initialContent = [
     section: 'cta',
     content: {
       title: 'Ready to Build Your WordPress Site?',
-      subtitle: 'Let\'s create a scalable, high-performance WordPress solution tailored to your needs',
+      subtitle:
+        "Let's create a scalable, high-performance WordPress solution tailored to your needs",
       ctaText: 'Start Your Project',
       ctaHref: '/contact',
     },
@@ -1685,7 +2503,8 @@ const initialContent = [
       eyebrow: '✨ Our Tech Stack',
       title: 'Build Your',
       titleHighlight: 'Digital Empire',
-      subtitle: 'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
+      subtitle:
+        'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
       ctaText: 'Start Your Project',
       ctaHref: '/contact',
       secondaryCtaText: 'View Our Work',
@@ -1702,7 +2521,8 @@ const initialContent = [
       title: 'Build Stunning Websites with Premium Quality Design',
       highlightedWord: 'Premium',
       highlightedWord2: 'Design',
-      subtitle: 'We craft beautiful, functional websites that captivate your audience and convert visitors into customers. From wireframes to stunning final designs.',
+      subtitle:
+        'We craft beautiful, functional websites that captivate your audience and convert visitors into customers. From wireframes to stunning final designs.',
       services: [
         {
           id: 'landing-pages',
@@ -1758,7 +2578,8 @@ const initialContent = [
       eyebrow: 'See Design In Action',
       title: 'Watch How We Create',
       titleHighlight: 'Stunning Designs',
-      subtitle: 'Experience our creative process and see the beautiful, functional designs we craft for our clients.',
+      subtitle:
+        'Experience our creative process and see the beautiful, functional designs we craft for our clients.',
       videoSrc: '/media/services/web-design/video/hero-video.mp4',
       ctaText: 'Start Your Design Project',
       ctaHref: '/contact',
@@ -1771,7 +2592,8 @@ const initialContent = [
       eyebrow: 'Transformation',
       title: 'Watch Design',
       titleHighlight: 'Come to Life',
-      subtitle: 'See how we transform simple wireframes into beautiful, functional designs.',
+      subtitle:
+        'See how we transform simple wireframes into beautiful, functional designs.',
       logoText: 'Logo',
       navItems: ['Home', 'About', 'Services', 'Contact'],
       heroTitle: 'Beautiful Design',
@@ -1787,66 +2609,90 @@ const initialContent = [
       titleHighlight: 'Process',
       subtitle: 'Explore each phase of our comprehensive design methodology.',
       phases: [
-        { 
-          id: 'discovery', 
-          name: 'Discovery', 
-          description: 'Research & Strategy', 
-          color: '#64748B', 
+        {
+          id: 'discovery',
+          name: 'Discovery',
+          description: 'Research & Strategy',
+          color: '#64748B',
           position: 0,
           cards: [
-            { title: 'User Research', description: 'Understanding your target audience' },
-            { title: 'Competitor Analysis', description: 'Market positioning insights' },
-            { title: 'Goal Definition', description: 'Clear objectives & KPIs' }
-          ]
+            {
+              title: 'User Research',
+              description: 'Understanding your target audience',
+            },
+            {
+              title: 'Competitor Analysis',
+              description: 'Market positioning insights',
+            },
+            {
+              title: 'Goal Definition',
+              description: 'Clear objectives & KPIs',
+            },
+          ],
         },
-        { 
-          id: 'wireframe', 
-          name: 'Wireframe', 
-          description: 'Structure & Layout', 
-          color: '#2563EB', 
+        {
+          id: 'wireframe',
+          name: 'Wireframe',
+          description: 'Structure & Layout',
+          color: '#2563EB',
           position: 25,
           cards: [
-            { title: 'Information Architecture', description: 'Content organization' },
+            {
+              title: 'Information Architecture',
+              description: 'Content organization',
+            },
             { title: 'User Flows', description: 'Navigation pathways' },
-            { title: 'Low-Fi Mockups', description: 'Basic layout structure' }
-          ]
+            { title: 'Low-Fi Mockups', description: 'Basic layout structure' },
+          ],
         },
-        { 
-          id: 'design', 
-          name: 'Design', 
-          description: 'Visual Identity', 
-          color: '#37AFE1', 
+        {
+          id: 'design',
+          name: 'Design',
+          description: 'Visual Identity',
+          color: '#37AFE1',
           position: 50,
           cards: [
-            { title: 'Visual Design', description: 'Colors, typography & imagery' },
-            { title: 'UI Components', description: 'Buttons, forms & elements' },
-            { title: 'Responsive Layouts', description: 'Multi-device optimization' }
-          ]
+            {
+              title: 'Visual Design',
+              description: 'Colors, typography & imagery',
+            },
+            {
+              title: 'UI Components',
+              description: 'Buttons, forms & elements',
+            },
+            {
+              title: 'Responsive Layouts',
+              description: 'Multi-device optimization',
+            },
+          ],
         },
-        { 
-          id: 'development', 
-          name: 'Development', 
-          description: 'Build & Test', 
-          color: '#F97316', 
+        {
+          id: 'development',
+          name: 'Development',
+          description: 'Build & Test',
+          color: '#F97316',
           position: 75,
           cards: [
             { title: 'Frontend Code', description: 'HTML, CSS & JavaScript' },
-            { title: 'CMS Integration', description: 'Content management setup' },
-            { title: 'Quality Assurance', description: 'Testing & bug fixes' }
-          ]
+            {
+              title: 'CMS Integration',
+              description: 'Content management setup',
+            },
+            { title: 'Quality Assurance', description: 'Testing & bug fixes' },
+          ],
         },
-        { 
-          id: 'launch', 
-          name: 'Launch', 
-          description: 'Deploy & Monitor', 
-          color: '#31A4DB', 
+        {
+          id: 'launch',
+          name: 'Launch',
+          description: 'Deploy & Monitor',
+          color: '#31A4DB',
           position: 100,
           cards: [
             { title: 'Deployment', description: 'Go live on production' },
             { title: 'Performance', description: 'Speed optimization' },
-            { title: 'Analytics', description: 'Tracking & insights' }
-          ]
-        }
+            { title: 'Analytics', description: 'Tracking & insights' },
+          ],
+        },
       ],
     },
   },
@@ -1857,25 +2703,67 @@ const initialContent = [
       eyebrow: 'Branding',
       title: 'Customize Your',
       titleHighlight: 'Brand',
-      subtitle: 'Experiment with colors and typography to find your perfect style.',
+      subtitle:
+        'Experiment with colors and typography to find your perfect style.',
       featureCards: [
         { title: 'Feature 1', description: 'Description text' },
         { title: 'Feature 2', description: 'Description text' },
         { title: 'Feature 3', description: 'Description text' },
       ],
       brandTitle: 'Your Brand Title',
-      brandDescription: 'This is how your content will look with the selected style. The typography and colors update in real-time to give you an instant preview of your design choices.',
+      brandDescription:
+        'This is how your content will look with the selected style. The typography and colors update in real-time to give you an instant preview of your design choices.',
       ctaText: 'Call to Action',
       // Color schemes - editable from dashboard
       colorSchemes: [
-        { name: 'Ocean', primary: '#2563EB', secondary: '#37AFE1', accent: '#31A4DB' },
-        { name: 'Sunset', primary: '#F97316', secondary: '#F58122', accent: '#F59E0B' },
-        { name: 'Sky', primary: '#37AFE1', secondary: '#31A4DB', accent: '#2563EB' },
-        { name: 'Fire', primary: '#F58122', secondary: '#F97316', accent: '#F59E0B' },
-        { name: 'Midnight', primary: '#1E3A8A', secondary: '#3B82F6', accent: '#60A5FA' },
-        { name: 'Coral', primary: '#F97316', secondary: '#FB923C', accent: '#FDBA74' },
-        { name: 'Electric', primary: '#37AFE1', secondary: '#06B6D4', accent: '#22D3EE' },
-        { name: 'Amber', primary: '#F59E0B', secondary: '#FBBF24', accent: '#FCD34D' },
+        {
+          name: 'Ocean',
+          primary: '#2563EB',
+          secondary: '#37AFE1',
+          accent: '#31A4DB',
+        },
+        {
+          name: 'Sunset',
+          primary: '#F97316',
+          secondary: '#F58122',
+          accent: '#F59E0B',
+        },
+        {
+          name: 'Sky',
+          primary: '#37AFE1',
+          secondary: '#31A4DB',
+          accent: '#2563EB',
+        },
+        {
+          name: 'Fire',
+          primary: '#F58122',
+          secondary: '#F97316',
+          accent: '#F59E0B',
+        },
+        {
+          name: 'Midnight',
+          primary: '#1E3A8A',
+          secondary: '#3B82F6',
+          accent: '#60A5FA',
+        },
+        {
+          name: 'Coral',
+          primary: '#F97316',
+          secondary: '#FB923C',
+          accent: '#FDBA74',
+        },
+        {
+          name: 'Electric',
+          primary: '#37AFE1',
+          secondary: '#06B6D4',
+          accent: '#22D3EE',
+        },
+        {
+          name: 'Amber',
+          primary: '#F59E0B',
+          secondary: '#FBBF24',
+          accent: '#FCD34D',
+        },
       ],
       // Font options - editable from dashboard
       fonts: [
@@ -1903,7 +2791,8 @@ const initialContent = [
       eyebrow: 'Design Success Stories',
       title: 'Designs That',
       titleHighlight: 'Inspire',
-      subtitle: 'See how we\'ve helped businesses transform their digital presence with stunning designs.',
+      subtitle:
+        "See how we've helped businesses transform their digital presence with stunning designs.",
       studies: [
         {
           img: '/media/services/web-design/case-studies/saas-landing.jpg',
@@ -1937,7 +2826,8 @@ const initialContent = [
     section: 'cta',
     content: {
       title: 'Ready to Transform Your Digital Presence?',
-      subtitle: 'Let\'s create a design that sets you apart from the competition',
+      subtitle:
+        "Let's create a design that sets you apart from the competition",
       ctaText: 'Start Your Project',
       ctaHref: '/contact',
     },
@@ -1949,7 +2839,8 @@ const initialContent = [
       eyebrow: '✨ Our Tech Stack',
       title: 'Build Your',
       titleHighlight: 'Digital Empire',
-      subtitle: 'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
+      subtitle:
+        'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
       ctaText: 'Start Your Project',
       ctaHref: '/contact',
       secondaryCtaText: 'View Our Work',
@@ -1966,7 +2857,8 @@ const initialContent = [
       title: 'N8N Automation, Efficiency Amplified',
       highlightedWord: 'N8N',
       highlightedWord2: 'Efficiency',
-      subtitle: 'Transform manual workflows into intelligent automation systems. Connect apps, sync data, and automate repetitive tasks with powerful N8N workflows.',
+      subtitle:
+        'Transform manual workflows into intelligent automation systems. Connect apps, sync data, and automate repetitive tasks with powerful N8N workflows.',
       ctaButton: {
         label: 'Start Automating',
         href: '/contact',
@@ -2012,7 +2904,8 @@ const initialContent = [
       eyebrow: 'See Automation In Action',
       title: 'Watch How We Build',
       titleHighlight: 'Powerful Workflows',
-      subtitle: 'Experience our automation process and see the intelligent N8N workflows we create for our clients.',
+      subtitle:
+        'Experience our automation process and see the intelligent N8N workflows we create for our clients.',
       videoSrc: '/media/services/n8n-automations/video/hero-video.mp4',
       ctaText: 'Start Automating',
       ctaHref: '/contact',
@@ -2025,13 +2918,42 @@ const initialContent = [
       eyebrow: 'Visual Builder',
       title: 'Interactive Workflow',
       titleHighlight: 'Builder',
-      subtitle: 'Design and visualize your automation workflows with our intuitive builder.',
+      subtitle:
+        'Design and visualize your automation workflows with our intuitive builder.',
       // Workflow nodes configuration - Requirements: 2.4
       nodes: [
-        { id: 'trigger-1', type: 'trigger', label: 'Webhook Trigger', x: 100, y: 200, connections: ['action-1'] },
-        { id: 'action-1', type: 'action', label: 'Process Data', x: 300, y: 200, connections: ['condition-1'] },
-        { id: 'condition-1', type: 'condition', label: 'Check Status', x: 500, y: 200, connections: ['output-1'] },
-        { id: 'output-1', type: 'output', label: 'Send Email', x: 700, y: 200, connections: [] },
+        {
+          id: 'trigger-1',
+          type: 'trigger',
+          label: 'Webhook Trigger',
+          x: 100,
+          y: 200,
+          connections: ['action-1'],
+        },
+        {
+          id: 'action-1',
+          type: 'action',
+          label: 'Process Data',
+          x: 300,
+          y: 200,
+          connections: ['condition-1'],
+        },
+        {
+          id: 'condition-1',
+          type: 'condition',
+          label: 'Check Status',
+          x: 500,
+          y: 200,
+          connections: ['output-1'],
+        },
+        {
+          id: 'output-1',
+          type: 'output',
+          label: 'Send Email',
+          x: 700,
+          y: 200,
+          connections: [],
+        },
       ],
       // Node type color mapping - Requirements: 2.4
       nodeColors: {
@@ -2049,7 +2971,8 @@ const initialContent = [
       eyebrow: 'Comparison',
       title: 'Manual vs',
       titleHighlight: 'Automated',
-      subtitle: 'See the dramatic difference between manual processes and automated workflows.',
+      subtitle:
+        'See the dramatic difference between manual processes and automated workflows.',
       // Manual process configuration - Requirements: 3.4
       manualProcess: {
         title: 'Manual Process',
@@ -2085,18 +3008,59 @@ const initialContent = [
       eyebrow: 'Analytics',
       title: 'Performance',
       titleHighlight: 'Impact',
-      subtitle: 'Track the measurable impact of automation on your business operations.',
+      subtitle:
+        'Track the measurable impact of automation on your business operations.',
       metrics: [
-        { label: 'Time Saved', value: '95', target: 95, unit: '%', color: '#31A4DB', icon: '⏱️' },
-        { label: 'Cost Reduction', value: '80', target: 80, unit: '%', color: '#2563EB', icon: '💰' },
-        { label: 'Error Reduction', value: '99', target: 99, unit: '%', color: '#37AFE1', icon: '✓' },
-        { label: 'Scalability', value: '10', target: 10, unit: 'x', color: '#31A4DB', icon: '📈' },
+        {
+          label: 'Time Saved',
+          value: '95',
+          target: 95,
+          unit: '%',
+          color: '#31A4DB',
+          icon: '⏱️',
+        },
+        {
+          label: 'Cost Reduction',
+          value: '80',
+          target: 80,
+          unit: '%',
+          color: '#2563EB',
+          icon: '💰',
+        },
+        {
+          label: 'Error Reduction',
+          value: '99',
+          target: 99,
+          unit: '%',
+          color: '#37AFE1',
+          icon: '✓',
+        },
+        {
+          label: 'Scalability',
+          value: '10',
+          target: 10,
+          unit: 'x',
+          color: '#31A4DB',
+          icon: '📈',
+        },
       ],
       benefits: [
-        { title: '24/7 Automation', description: 'Workflows run continuously without human intervention' },
-        { title: 'Zero Human Error', description: 'Consistent execution eliminates manual mistakes' },
-        { title: 'Instant Scalability', description: 'Handle 10x volume without additional resources' },
-        { title: 'Real-time Monitoring', description: 'Track performance and identify issues instantly' },
+        {
+          title: '24/7 Automation',
+          description: 'Workflows run continuously without human intervention',
+        },
+        {
+          title: 'Zero Human Error',
+          description: 'Consistent execution eliminates manual mistakes',
+        },
+        {
+          title: 'Instant Scalability',
+          description: 'Handle 10x volume without additional resources',
+        },
+        {
+          title: 'Real-time Monitoring',
+          description: 'Track performance and identify issues instantly',
+        },
       ],
       benefitsTitle: 'Key Benefits',
     },
@@ -2132,7 +3096,8 @@ const initialContent = [
       eyebrow: 'Automation Success Stories',
       title: 'Workflows That',
       titleHighlight: 'Scale',
-      subtitle: 'See how we\'ve helped businesses automate repetitive tasks and boost efficiency.',
+      subtitle:
+        "See how we've helped businesses automate repetitive tasks and boost efficiency.",
       studies: [
         {
           img: '/media/services/n8n-automations/case-studies/data-sync.jpg',
@@ -2166,7 +3131,8 @@ const initialContent = [
     section: 'cta',
     content: {
       title: 'Ready to Automate Your Workflows?',
-      subtitle: 'Let\'s build powerful N8N automations that save time and boost efficiency',
+      subtitle:
+        "Let's build powerful N8N automations that save time and boost efficiency",
       ctaText: 'Start Automating',
       ctaHref: '/contact',
     },
@@ -2178,7 +3144,8 @@ const initialContent = [
       eyebrow: '✨ Our Tech Stack',
       title: 'Build Your',
       titleHighlight: 'Digital Empire',
-      subtitle: 'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
+      subtitle:
+        'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
       ctaText: 'Start Your Project',
       ctaHref: '/contact',
       secondaryCtaText: 'View Our Work',
@@ -2194,7 +3161,8 @@ const initialContent = [
       badge: 'Custom Software Solutions',
       titleHighlight: 'SaaS',
       title: 'for Your Business',
-      description: 'Custom software solutions that scale with your business and streamline operations. From CRM to inventory management, we build what you need.',
+      description:
+        'Custom software solutions that scale with your business and streamline operations. From CRM to inventory management, we build what you need.',
       primaryCta: { text: 'Start Your Project', href: '/contact' },
       secondaryCta: { text: 'View Our Work', href: '/portfolio' },
       image: '/media/services/saas/hero/saas-dashboard.jpg',
@@ -2208,7 +3176,8 @@ const initialContent = [
       eyebrow: 'See SaaS In Action',
       title: 'Watch How We Build',
       titleHighlight: 'Custom Software',
-      subtitle: 'Experience our development process and see the scalable SaaS solutions we create for our clients.',
+      subtitle:
+        'Experience our development process and see the scalable SaaS solutions we create for our clients.',
       videoSrc: '/media/services/saas/video/hero-video.mp4',
       ctaText: 'Start Your SaaS Project',
       ctaHref: '/contact',
@@ -2221,14 +3190,45 @@ const initialContent = [
       eyebrow: 'Why Choose Us',
       title: 'Why Choose Our',
       titleHighlight: 'SaaS Solutions?',
-      subtitle: 'We build scalable, secure, and user-friendly software tailored to your needs.',
+      subtitle:
+        'We build scalable, secure, and user-friendly software tailored to your needs.',
       features: [
-        { title: 'Scalable Architecture', desc: 'Built to grow with your business from day one', icon: '🚀', borderColor: '#37AFE1' },
-        { title: 'Cloud-Native', desc: 'Deployed on modern cloud infrastructure for reliability', icon: '☁️', borderColor: '#2563EB' },
-        { title: 'API-First Design', desc: 'Seamless integrations with your existing tools', icon: '🔗', borderColor: '#F97316' },
-        { title: 'Real-Time Analytics', desc: 'Data-driven insights to make informed decisions', icon: '📊', borderColor: '#31A4DB' },
-        { title: 'Enterprise Security', desc: 'Bank-level security to protect your data', icon: '🔒', borderColor: '#F58122' },
-        { title: '24/7 Support', desc: 'Round-the-clock support when you need it', icon: '💬', borderColor: '#37AFE1' },
+        {
+          title: 'Scalable Architecture',
+          desc: 'Built to grow with your business from day one',
+          icon: '🚀',
+          borderColor: '#37AFE1',
+        },
+        {
+          title: 'Cloud-Native',
+          desc: 'Deployed on modern cloud infrastructure for reliability',
+          icon: '☁️',
+          borderColor: '#2563EB',
+        },
+        {
+          title: 'API-First Design',
+          desc: 'Seamless integrations with your existing tools',
+          icon: '🔗',
+          borderColor: '#F97316',
+        },
+        {
+          title: 'Real-Time Analytics',
+          desc: 'Data-driven insights to make informed decisions',
+          icon: '📊',
+          borderColor: '#31A4DB',
+        },
+        {
+          title: 'Enterprise Security',
+          desc: 'Bank-level security to protect your data',
+          icon: '🔒',
+          borderColor: '#F58122',
+        },
+        {
+          title: '24/7 Support',
+          desc: 'Round-the-clock support when you need it',
+          icon: '💬',
+          borderColor: '#37AFE1',
+        },
       ],
     },
   },
@@ -2239,12 +3239,37 @@ const initialContent = [
       eyebrow: 'Solutions',
       title: 'Our SaaS',
       titleHighlight: 'Solutions',
-      subtitle: 'From CRM to inventory management, we build what your business needs.',
+      subtitle:
+        'From CRM to inventory management, we build what your business needs.',
       solutions: [
-        { title: 'CRM Systems', desc: 'Manage customer relationships and sales pipelines effectively', gradientFrom: '#F58122', gradientTo: '#37AFE1', borderColor: '#37AFE1' },
-        { title: 'Inventory Management', desc: 'Track stock levels, orders, and suppliers in real-time', gradientFrom: '#37AFE1', gradientTo: '#2563EB', borderColor: '#2563EB' },
-        { title: 'Project Management', desc: 'Collaborate with teams and track project progress', gradientFrom: '#2563EB', gradientTo: '#31A4DB', borderColor: '#31A4DB' },
-        { title: 'HR & Payroll', desc: 'Streamline employee management and payroll processing', gradientFrom: '#31A4DB', gradientTo: '#F97316', borderColor: '#F97316' },
+        {
+          title: 'CRM Systems',
+          desc: 'Manage customer relationships and sales pipelines effectively',
+          gradientFrom: '#F58122',
+          gradientTo: '#37AFE1',
+          borderColor: '#37AFE1',
+        },
+        {
+          title: 'Inventory Management',
+          desc: 'Track stock levels, orders, and suppliers in real-time',
+          gradientFrom: '#37AFE1',
+          gradientTo: '#2563EB',
+          borderColor: '#2563EB',
+        },
+        {
+          title: 'Project Management',
+          desc: 'Collaborate with teams and track project progress',
+          gradientFrom: '#2563EB',
+          gradientTo: '#31A4DB',
+          borderColor: '#31A4DB',
+        },
+        {
+          title: 'HR & Payroll',
+          desc: 'Streamline employee management and payroll processing',
+          gradientFrom: '#31A4DB',
+          gradientTo: '#F97316',
+          borderColor: '#F97316',
+        },
       ],
     },
   },
@@ -2255,7 +3280,8 @@ const initialContent = [
       eyebrow: 'SaaS Success Stories',
       title: 'Software That',
       titleHighlight: 'Scales',
-      subtitle: 'See how we\'ve helped businesses build custom software solutions that drive growth.',
+      subtitle:
+        "See how we've helped businesses build custom software solutions that drive growth.",
       studies: [
         {
           img: '/media/services/saas/case-studies/project-management.jpg',
@@ -2291,12 +3317,39 @@ const initialContent = [
       eyebrow: 'Live Preview',
       title: 'See Your Dashboard',
       titleHighlight: 'In Action',
-      subtitle: 'Experience a live preview of what your custom SaaS dashboard could look like.',
+      subtitle:
+        'Experience a live preview of what your custom SaaS dashboard could look like.',
       metrics: [
-        { label: 'Total Revenue', value: 124500, prefix: '$', change: 12.5, color: '#37AFE1', icon: 'dollar' },
-        { label: 'Active Users', value: 8420, change: 8.3, color: '#2563EB', icon: 'users' },
-        { label: 'Orders Today', value: 342, change: -2.1, color: '#F97316', icon: 'cart' },
-        { label: 'Growth Rate', value: 23.5, suffix: '%', change: 5.7, color: '#31A4DB', icon: 'trending' },
+        {
+          label: 'Total Revenue',
+          value: 124500,
+          prefix: '$',
+          change: 12.5,
+          color: '#37AFE1',
+          icon: 'dollar',
+        },
+        {
+          label: 'Active Users',
+          value: 8420,
+          change: 8.3,
+          color: '#2563EB',
+          icon: 'users',
+        },
+        {
+          label: 'Orders Today',
+          value: 342,
+          change: -2.1,
+          color: '#F97316',
+          icon: 'cart',
+        },
+        {
+          label: 'Growth Rate',
+          value: 23.5,
+          suffix: '%',
+          change: 5.7,
+          color: '#31A4DB',
+          icon: 'trending',
+        },
       ],
       chartData: [
         { label: 'Mon', value: 65 },
@@ -2326,11 +3379,46 @@ const initialContent = [
       titleHighlight: 'SaaS',
       subtitle: 'A proven methodology that delivers results every time.',
       steps: [
-        { title: 'Discovery', description: 'Understanding your needs', details: 'We dive deep into your business requirements, analyze workflows, and identify opportunities for automation and improvement.', icon: 'search', color: '#37AFE1' },
-        { title: 'Design', description: 'Crafting the solution', details: 'Our designers create intuitive interfaces and user experiences that align with your brand and delight your users.', icon: 'palette', color: '#2563EB' },
-        { title: 'Development', description: 'Building your platform', details: 'Our engineers build scalable, secure, and performant applications using cutting-edge technologies and best practices.', icon: 'code', color: '#F97316' },
-        { title: 'Testing', description: 'Ensuring quality', details: 'Rigorous testing across devices and scenarios ensures your application is bug-free and performs flawlessly.', icon: 'test', color: '#31A4DB' },
-        { title: 'Launch', description: 'Going live', details: 'We handle deployment, monitoring, and provide ongoing support to ensure your SaaS succeeds in the market.', icon: 'rocket', color: '#F58122' },
+        {
+          title: 'Discovery',
+          description: 'Understanding your needs',
+          details:
+            'We dive deep into your business requirements, analyze workflows, and identify opportunities for automation and improvement.',
+          icon: 'search',
+          color: '#37AFE1',
+        },
+        {
+          title: 'Design',
+          description: 'Crafting the solution',
+          details:
+            'Our designers create intuitive interfaces and user experiences that align with your brand and delight your users.',
+          icon: 'palette',
+          color: '#2563EB',
+        },
+        {
+          title: 'Development',
+          description: 'Building your platform',
+          details:
+            'Our engineers build scalable, secure, and performant applications using cutting-edge technologies and best practices.',
+          icon: 'code',
+          color: '#F97316',
+        },
+        {
+          title: 'Testing',
+          description: 'Ensuring quality',
+          details:
+            'Rigorous testing across devices and scenarios ensures your application is bug-free and performs flawlessly.',
+          icon: 'test',
+          color: '#31A4DB',
+        },
+        {
+          title: 'Launch',
+          description: 'Going live',
+          details:
+            'We handle deployment, monitoring, and provide ongoing support to ensure your SaaS succeeds in the market.',
+          icon: 'rocket',
+          color: '#F58122',
+        },
       ],
     },
   },
@@ -2341,10 +3429,23 @@ const initialContent = [
       eyebrow: 'Calculate Your Savings',
       title: 'ROI',
       titleHighlight: 'Calculator',
-      subtitle: 'See how much you could save by automating your workflows with a custom SaaS solution.',
+      subtitle:
+        'See how much you could save by automating your workflows with a custom SaaS solution.',
       sliders: [
-        { label: 'Manual Hours Per Week', min: 5, max: 100, default: 40, suffix: ' hrs' },
-        { label: 'Hourly Employee Cost', min: 20, max: 200, default: 50, prefix: '$' },
+        {
+          label: 'Manual Hours Per Week',
+          min: 5,
+          max: 100,
+          default: 40,
+          suffix: ' hrs',
+        },
+        {
+          label: 'Hourly Employee Cost',
+          min: 20,
+          max: 200,
+          default: 50,
+          prefix: '$',
+        },
         { label: 'Number of Employees', min: 1, max: 50, default: 5 },
       ],
       savingsMultiplier: 0.7,
@@ -2366,7 +3467,8 @@ const initialContent = [
       eyebrow: 'Tell Us Your Vision',
       title: 'Feature',
       titleHighlight: 'Request',
-      subtitle: 'Share your ideas and let us help you build the perfect SaaS solution for your business.',
+      subtitle:
+        'Share your ideas and let us help you build the perfect SaaS solution for your business.',
       featureOptions: [
         { label: 'User Dashboard', value: 'dashboard' },
         { label: 'Analytics & Reports', value: 'analytics' },
@@ -2403,7 +3505,8 @@ const initialContent = [
       eyebrow: '✨ Our Tech Stack',
       title: 'Build Your',
       titleHighlight: 'Digital Empire',
-      subtitle: 'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
+      subtitle:
+        'We leverage cutting-edge technologies to deliver scalable, high-performance solutions that drive your business forward.',
       ctaText: 'Start Your Project',
       ctaHref: '/contact',
       secondaryCtaText: 'View Our Work',
@@ -2417,7 +3520,8 @@ const initialContent = [
       eyebrow: 'SaaS Experts',
       title: 'Ready to Transform',
       titleHighlight: 'Your Business?',
-      subtitle: 'Let\'s build a custom SaaS solution that drives your business forward',
+      subtitle:
+        "Let's build a custom SaaS solution that drives your business forward",
       ctaText: 'Get Started Today',
       ctaHref: '/contact',
     },
@@ -2429,7 +3533,8 @@ const initialContent = [
     content: {
       eyebrow: 'Our Blog',
       title: 'Insights & Ideas',
-      subtitle: 'Discover the latest trends, tips, and insights in web development, design, and digital marketing.',
+      subtitle:
+        'Discover the latest trends, tips, and insights in web development, design, and digital marketing.',
       ctaLabel: 'Latest Posts',
       ctaHref: '#posts',
     },
@@ -2438,7 +3543,15 @@ const initialContent = [
     page: 'blog',
     section: 'filter',
     content: {
-      categories: ['All', 'Development', 'Design', 'Marketing', 'Technology', 'Business', 'Tutorial'],
+      categories: [
+        'All',
+        'Development',
+        'Design',
+        'Marketing',
+        'Technology',
+        'Business',
+        'Tutorial',
+      ],
       activeColor: '#37AFE1',
     },
   },
@@ -2488,11 +3601,16 @@ export async function GET(request: Request) {
     const result = await collection.insertMany(contentWithTimestamps);
 
     return NextResponse.json({
-      message: force ? 'Content re-seeded successfully' : 'Content seeded successfully',
+      message: force
+        ? 'Content re-seeded successfully'
+        : 'Content seeded successfully',
       count: result.insertedCount,
     });
   } catch (error) {
     console.error('Error seeding content:', error);
-    return NextResponse.json({ error: 'Failed to seed content' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to seed content' },
+      { status: 500 }
+    );
   }
 }

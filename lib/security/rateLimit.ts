@@ -78,7 +78,7 @@ export async function checkRateLimit(
 
     // Increment counter
     const newCount = count + 1;
-    
+
     if (count === 0) {
       // First request in window, set with expiry
       await kv.set(key, newCount, { ex: windowSeconds });
@@ -95,7 +95,7 @@ export async function checkRateLimit(
     };
   } catch (error) {
     console.error('Rate limit check failed:', error);
-    
+
     // On error, allow the request but log the issue
     return {
       allowed: true,

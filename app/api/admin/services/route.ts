@@ -7,7 +7,7 @@ export async function GET() {
   try {
     const client = await clientPromise;
     const db = client.db('rising-dot');
-    
+
     const services = await db
       .collection<Service>('services')
       .find({})
@@ -17,7 +17,10 @@ export async function GET() {
     return NextResponse.json(services);
   } catch (error) {
     console.error('Error fetching services:', error);
-    return NextResponse.json({ error: 'Failed to fetch services' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch services' },
+      { status: 500 }
+    );
   }
 }
 
@@ -25,7 +28,16 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, slug, description, shortDescription, icon, features, published, order } = body;
+    const {
+      name,
+      slug,
+      description,
+      shortDescription,
+      icon,
+      features,
+      published,
+      order,
+    } = body;
 
     if (!name) {
       return NextResponse.json({ error: 'Name is required' }, { status: 400 });
@@ -35,7 +47,12 @@ export async function POST(request: NextRequest) {
     const db = client.db('rising-dot');
 
     // Generate slug if not provided
-    const serviceSlug = slug || name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    const serviceSlug =
+      slug ||
+      name
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9-]/g, '');
 
     const now = new Date();
     const newService: Omit<Service, '_id'> = {
@@ -53,12 +70,18 @@ export async function POST(request: NextRequest) {
 
     const result = await db.collection('services').insertOne(newService);
 
-    return NextResponse.json({ 
-      _id: result.insertedId, 
-      ...newService 
-    }, { status: 201 });
+    return NextResponse.json(
+      {
+        _id: result.insertedId,
+        ...newService,
+      },
+      { status: 201 }
+    );
   } catch (error) {
     console.error('Error creating service:', error);
-    return NextResponse.json({ error: 'Failed to create service' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to create service' },
+      { status: 500 }
+    );
   }
 }

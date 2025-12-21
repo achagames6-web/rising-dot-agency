@@ -46,7 +46,10 @@ export function TimelineContent({
   rel,
 }: TimelineContentProps) {
   const localRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(timelineRef || localRef, { once: true, amount: 0.1 });
+  const isInView = useInView(timelineRef || localRef, {
+    once: true,
+    amount: 0.1,
+  });
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -140,11 +143,7 @@ export function TimelineContent({
 
   // Default div
   return (
-    <motion.div
-      ref={localRef}
-      className={cn(className)}
-      {...animationProps}
-    >
+    <motion.div ref={localRef} className={cn(className)} {...animationProps}>
       {children}
     </motion.div>
   );
@@ -163,7 +162,7 @@ export function Timeline({ data }: TimelineProps) {
     <div className="space-y-8">
       {data.map((item, index) => (
         <TimelineContent key={index} animationNum={index} className="space-y-4">
-          <h2 className="text-2xl font-bold text-white mb-4">{item.title}</h2>
+          <h2 className="mb-4 text-2xl font-bold text-white">{item.title}</h2>
           {item.content}
         </TimelineContent>
       ))}

@@ -8,8 +8,11 @@ export async function PUT(
 ) {
   try {
     const session = await getServerSession();
-    
-    if (!session || !['admin', 'editor'].includes((session.user as any)?.role)) {
+
+    if (
+      !session ||
+      !['admin', 'editor'].includes((session.user as any)?.role)
+    ) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -35,7 +38,10 @@ export async function PUT(
     return NextResponse.json({ section: rows[0] });
   } catch (error) {
     console.error('Error updating section:', error);
-    return NextResponse.json({ error: 'Failed to update section' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to update section' },
+      { status: 500 }
+    );
   }
 }
 
@@ -45,8 +51,11 @@ export async function DELETE(
 ) {
   try {
     const session = await getServerSession();
-    
-    if (!session || !['admin', 'editor'].includes((session.user as any)?.role)) {
+
+    if (
+      !session ||
+      !['admin', 'editor'].includes((session.user as any)?.role)
+    ) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -55,6 +64,9 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting section:', error);
-    return NextResponse.json({ error: 'Failed to delete section' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to delete section' },
+      { status: 500 }
+    );
   }
 }

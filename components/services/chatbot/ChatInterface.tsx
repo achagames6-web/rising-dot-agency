@@ -40,7 +40,7 @@ interface Particle {
 // Default values
 const defaultAiResponses = [
   "That's a great question! Let me help you with that.",
-  'I understand. Here\'s what I can tell you...',
+  "I understand. Here's what I can tell you...",
   'Interesting! Based on my analysis...',
   "I'd be happy to assist you with that.",
   'Let me process that information for you.',
@@ -78,7 +78,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
   useEffect(() => {
     if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
     }
   }, [messages]);
 
@@ -157,22 +158,25 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       emitParticles(rect.width - 50, rect.height - 30);
     }
 
-    setTimeout(() => {
-      const aiMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: aiResponses[Math.floor(Math.random() * aiResponses.length)],
-        sender: 'ai',
-        timestamp: Date.now(),
-      };
+    setTimeout(
+      () => {
+        const aiMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          text: aiResponses[Math.floor(Math.random() * aiResponses.length)],
+          sender: 'ai',
+          timestamp: Date.now(),
+        };
 
-      setMessages((prev) => [...prev, aiMessage]);
-      setIsTyping(false);
+        setMessages((prev) => [...prev, aiMessage]);
+        setIsTyping(false);
 
-      if (canvasRef.current) {
-        const rect = canvasRef.current.getBoundingClientRect();
-        emitParticles(50, rect.height - 100);
-      }
-    }, 1500 + Math.random() * 1000);
+        if (canvasRef.current) {
+          const rect = canvasRef.current.getBoundingClientRect();
+          emitParticles(50, rect.height - 100);
+        }
+      },
+      1500 + Math.random() * 1000
+    );
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -184,27 +188,34 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
   if (!mounted) {
     return (
-      <div className="relative w-full h-[600px] bg-[#0F172A] rounded-lg border border-[#64748B]/20 overflow-hidden flex flex-col items-center justify-center">
+      <div className="relative flex h-[600px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border border-[#64748B]/20 bg-[#0F172A]">
         <div className="text-[#64748B]">Loading chat...</div>
       </div>
     );
   }
 
   return (
-    <div className="relative w-full h-[600px] bg-[#0F172A] rounded-lg border border-[#64748B]/20 overflow-hidden flex flex-col">
+    <div className="relative flex h-[600px] w-full flex-col overflow-hidden rounded-lg border border-[#64748B]/20 bg-[#0F172A]">
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 pointer-events-none"
+        className="pointer-events-none absolute inset-0"
         width={800}
         height={600}
       />
 
-      <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-6 space-y-4">
+      <div
+        ref={messagesContainerRef}
+        className="flex-1 space-y-4 overflow-y-auto p-6"
+      >
         <AnimatePresence>
           {messages.map((message) => (
             <motion.div
               key={message.id}
-              initial={{ opacity: 0, x: message.sender === 'user' ? 50 : -50, scale: 0.8 }}
+              initial={{
+                opacity: 0,
+                x: message.sender === 'user' ? 50 : -50,
+                scale: 0.8,
+              }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{
@@ -217,16 +228,19 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             >
               <div
                 className={`max-w-[70%] rounded-lg p-4 ${
-                  message.sender === 'user'
-                    ? 'text-white'
-                    : 'text-white'
+                  message.sender === 'user' ? 'text-white' : 'text-white'
                 }`}
                 style={{
-                  backgroundColor: message.sender === 'user' ? userMessageColor : aiMessageColor,
+                  backgroundColor:
+                    message.sender === 'user'
+                      ? userMessageColor
+                      : aiMessageColor,
                 }}
               >
                 <p className="text-sm md:text-base">{message.text}</p>
-                <p className="text-xs opacity-70 mt-2">{formatTime(message.timestamp)}</p>
+                <p className="mt-2 text-xs opacity-70">
+                  {formatTime(message.timestamp)}
+                </p>
               </div>
             </motion.div>
           ))}
@@ -240,15 +254,15 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               exit={{ opacity: 0, x: -50 }}
               className="flex justify-start"
             >
-              <div 
-                className="text-white rounded-lg p-4 flex items-center space-x-2"
+              <div
+                className="flex items-center space-x-2 rounded-lg p-4 text-white"
                 style={{ backgroundColor: aiMessageColor }}
               >
                 <div className="flex space-x-1">
                   {[0, 1, 2].map((i) => (
                     <motion.div
                       key={i}
-                      className="w-2 h-2 bg-white rounded-full"
+                      className="h-2 w-2 rounded-full bg-white"
                       animate={{
                         y: [0, -8, 0],
                         opacity: [0.5, 1, 0.5],
@@ -278,14 +292,14 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyPress}
             placeholder={inputPlaceholder}
-            className="flex-1 bg-[#1E293B] text-white rounded-lg px-4 py-3 border border-[#64748B]/20 focus:border-[#37AFE1] focus:outline-none focus:ring-2 focus:ring-[#37AFE1]/20 transition-all"
+            className="flex-1 rounded-lg border border-[#64748B]/20 bg-[#1E293B] px-4 py-3 text-white transition-all focus:border-[#37AFE1] focus:outline-none focus:ring-2 focus:ring-[#37AFE1]/20"
           />
           <motion.button
             onClick={handleSend}
             disabled={!inputValue.trim()}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="text-white rounded-lg px-6 py-3 font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="rounded-lg px-6 py-3 font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
             style={{ backgroundColor: userMessageColor }}
           >
             {sendButtonText}

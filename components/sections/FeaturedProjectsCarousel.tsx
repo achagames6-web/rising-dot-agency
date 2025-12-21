@@ -46,11 +46,15 @@ const DEFAULT_HEADINGS = {
   eyebrow: 'Featured Work',
   title: 'Projects That',
   titleHighlight: 'Deliver Results',
-  subtitle: 'Scroll to explore our latest projects and see how we help businesses grow.',
+  subtitle:
+    'Scroll to explore our latest projects and see how we help businesses grow.',
 };
 
 export default function FeaturedProjectsCarousel() {
-  const { content } = useSiteContent<FeaturedWorkContent>('portfolio', 'featuredWork');
+  const { content } = useSiteContent<FeaturedWorkContent>(
+    'portfolio',
+    'featuredWork'
+  );
   const [slides, setSlides] = useState<FeaturedSlide[]>([]);
   const [loadingProjects, setLoadingProjects] = useState(true);
 
@@ -62,7 +66,7 @@ export default function FeaturedProjectsCarousel() {
         if (res.ok) {
           const data = await res.json();
           const projects: Project[] = data.projects || [];
-          
+
           if (projects.length > 0) {
             const mappedSlides = projects.map((p) => ({
               id: p._id || p.id,
@@ -70,7 +74,9 @@ export default function FeaturedProjectsCarousel() {
               description: p.description,
               services: p.tags,
               type: p.tags[0] || 'Project',
-              imageUrl: p.thumbnail || '/media/portfolio/featured-projects/ecommerce-platform.jpg',
+              imageUrl:
+                p.thumbnail ||
+                '/media/portfolio/featured-projects/ecommerce-platform.jpg',
             }));
             setSlides(mappedSlides);
           }
@@ -87,12 +93,13 @@ export default function FeaturedProjectsCarousel() {
 
   const eyebrow = content?.eyebrow || DEFAULT_HEADINGS.eyebrow;
   const title = content?.title || DEFAULT_HEADINGS.title;
-  const titleHighlight = content?.titleHighlight || DEFAULT_HEADINGS.titleHighlight;
+  const titleHighlight =
+    content?.titleHighlight || DEFAULT_HEADINGS.titleHighlight;
   const subtitle = content?.subtitle || DEFAULT_HEADINGS.subtitle;
 
   if (loadingProjects) {
     return (
-      <div className="py-32 flex justify-center items-center bg-black">
+      <div className="flex items-center justify-center bg-black py-32">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
       </div>
     );
@@ -103,7 +110,7 @@ export default function FeaturedProjectsCarousel() {
 
   return (
     <section className="bg-black">
-      <div className="py-16 px-6">
+      <div className="px-6 py-16">
         <SectionHeading
           eyebrow={eyebrow}
           title={title}
@@ -113,28 +120,28 @@ export default function FeaturedProjectsCarousel() {
       </div>
 
       <ScrollXCarousel className="h-[150vh]">
-        <ScrollXCarouselContainer className="h-dvh place-content-center flex flex-col gap-8 py-12">
-          <div className="pointer-events-none w-[12vw] h-[103%] absolute inset-[0_auto_0_0] z-10 bg-[linear-gradient(90deg,_#000_35%,_transparent)]" />
-          <div className="pointer-events-none bg-[linear-gradient(270deg,_#000_35%,_transparent)] w-[15vw] h-[103%] absolute inset-[0_0_0_auto] z-10" />
+        <ScrollXCarouselContainer className="flex h-dvh flex-col place-content-center gap-8 py-12">
+          <div className="pointer-events-none absolute inset-[0_auto_0_0] z-10 h-[103%] w-[12vw] bg-[linear-gradient(90deg,_#000_35%,_transparent)]" />
+          <div className="pointer-events-none absolute inset-[0_0_0_auto] z-10 h-[103%] w-[15vw] bg-[linear-gradient(270deg,_#000_35%,_transparent)]" />
 
           <ScrollXCarouselWrap className="flex-4/5 flex space-x-8 [&>*:first-child]:ml-8">
             {slides.map((slide) => (
               <CardHoverReveal
                 key={slide.id}
-                className="min-w-[45vw] md:min-w-[25vw] xl:min-w-[20vw] shadow-xl border border-white/10 rounded-xl"
+                className="min-w-[45vw] rounded-xl border border-white/10 shadow-xl md:min-w-[25vw] xl:min-w-[20vw]"
               >
                 <CardHoverRevealMain>
                   <img
                     alt={slide.title}
                     src={slide.imageUrl}
-                    className="w-full h-[500px] md:h-[550px] object-cover"
+                    className="h-[500px] w-full object-cover md:h-[550px]"
                   />
                 </CardHoverRevealMain>
-                <CardHoverRevealContent className="space-y-4 rounded-2xl bg-[rgba(0,0,0,.7)] backdrop-blur-xl p-4">
+                <CardHoverRevealContent className="space-y-4 rounded-2xl bg-[rgba(0,0,0,.7)] p-4 backdrop-blur-xl">
                   <div className="space-y-2">
                     <h3 className="text-sm text-white/80">Type</h3>
                     <div className="flex flex-wrap gap-2">
-                      <Badge className="capitalize rounded-full bg-[#F58122] text-white border-none">
+                      <Badge className="rounded-full border-none bg-[#F58122] capitalize text-white">
                         {slide.type}
                       </Badge>
                     </div>
@@ -145,18 +152,18 @@ export default function FeaturedProjectsCarousel() {
                       {slide.services.map((service) => (
                         <Badge
                           key={service}
-                          className="capitalize rounded-full bg-[#37AFE1]/20 text-[#37AFE1] border border-[#37AFE1]/30"
+                          className="rounded-full border border-[#37AFE1]/30 bg-[#37AFE1]/20 capitalize text-[#37AFE1]"
                         >
                           {service}
                         </Badge>
                       ))}
                     </div>
                   </div>
-                  <div className="space-y-2 mt-2">
-                    <h3 className="text-white capitalize font-medium text-lg">
+                  <div className="mt-2 space-y-2">
+                    <h3 className="text-lg font-medium capitalize text-white">
                       {slide.title}
                     </h3>
-                    <p className="text-white/80 text-sm">{slide.description}</p>
+                    <p className="text-sm text-white/80">{slide.description}</p>
                   </div>
                 </CardHoverRevealContent>
               </CardHoverReveal>
@@ -164,7 +171,7 @@ export default function FeaturedProjectsCarousel() {
           </ScrollXCarouselWrap>
 
           <ScrollXCarouselProgress
-            className="bg-white/10 mx-8 h-1 rounded-full overflow-hidden"
+            className="mx-8 h-1 overflow-hidden rounded-full bg-white/10"
             progressStyle="size-full bg-gradient-to-r from-[#F58122] to-[#37AFE1] rounded-full"
           />
         </ScrollXCarouselContainer>

@@ -19,42 +19,48 @@ const defaultServiceCards: ServiceCard[] = [
   {
     id: 'n8n-automations',
     title: 'N8N Automations',
-    description: 'Streamline your workflows with powerful automation solutions that save time and reduce errors.',
+    description:
+      'Streamline your workflows with powerful automation solutions that save time and reduce errors.',
     icon: '⚡',
     features: ['Workflow Design', 'API Integration', 'Process Automation'],
   },
   {
     id: 'chatbot-development',
     title: 'Chatbot Development',
-    description: 'AI-powered conversational interfaces that engage users and provide instant support 24/7.',
+    description:
+      'AI-powered conversational interfaces that engage users and provide instant support 24/7.',
     icon: '🤖',
     features: ['Natural Language', 'AI Training', 'Multi-Platform'],
   },
   {
     id: 'web-design',
     title: 'Web Design',
-    description: 'Beautiful, responsive websites that captivate visitors and drive conversions.',
+    description:
+      'Beautiful, responsive websites that captivate visitors and drive conversions.',
     icon: '🎨',
     features: ['UI/UX Design', 'Responsive', 'Brand Identity'],
   },
   {
     id: 'wordpress',
     title: 'WordPress',
-    description: 'Custom WordPress solutions that are scalable, secure, and easy to manage.',
+    description:
+      'Custom WordPress solutions that are scalable, secure, and easy to manage.',
     icon: '📝',
     features: ['Custom Themes', 'Plugin Development', 'Performance'],
   },
   {
     id: 'shopify',
     title: 'Shopify',
-    description: 'E-commerce solutions that maximize conversions and provide seamless shopping experiences.',
+    description:
+      'E-commerce solutions that maximize conversions and provide seamless shopping experiences.',
     icon: '🛒',
     features: ['Store Setup', 'Custom Apps', 'Conversion Optimization'],
   },
   {
     id: 'seo',
     title: 'SEO',
-    description: 'Data-driven SEO strategies that improve rankings and drive organic traffic growth.',
+    description:
+      'Data-driven SEO strategies that improve rankings and drive organic traffic growth.',
     icon: '📈',
     features: ['Keyword Research', 'Technical SEO', 'Content Strategy'],
   },
@@ -112,14 +118,17 @@ export default function ServiceCards() {
   const eyebrow = sectionContent?.eyebrow || 'Solutions';
   const title = sectionContent?.title || 'Our';
   const titleHighlight = sectionContent?.titleHighlight || 'Services';
-  const subtitle = sectionContent?.subtitle || 'Comprehensive digital solutions tailored to your needs';
+  const subtitle =
+    sectionContent?.subtitle ||
+    'Comprehensive digital solutions tailored to your needs';
   const serviceCards = sectionContent?.cards || defaultServiceCards;
-  
+
   // Color configuration from CMS
   const colors = {
     cardBackground: sectionContent?.colors?.cardBackground || '#1E293B',
     cardAccentColor: sectionContent?.colors?.cardAccentColor || '#37AFE1',
-    cardHoverAccentColor: sectionContent?.colors?.cardHoverAccentColor || '#F58122',
+    cardHoverAccentColor:
+      sectionContent?.colors?.cardHoverAccentColor || '#F58122',
     particleColor: sectionContent?.colors?.particleColor || '#37AFE1',
     featureDotColor: sectionContent?.colors?.featureDotColor || '#37AFE1',
     linkColor: sectionContent?.colors?.linkColor || '#37AFE1',
@@ -139,10 +148,12 @@ export default function ServiceCards() {
     for (let i = 0; i < 8; i++) {
       const angle = (Math.PI * 2 * i) / 8;
       const speed = 100 + Math.random() * 100; // 100-200 px/s
-      
+
       // Position particles at card edges
-      const edgeX = rect.left + rect.width / 2 + Math.cos(angle) * (rect.width / 2);
-      const edgeY = rect.top + rect.height / 2 + Math.sin(angle) * (rect.height / 2);
+      const edgeX =
+        rect.left + rect.width / 2 + Math.cos(angle) * (rect.width / 2);
+      const edgeY =
+        rect.top + rect.height / 2 + Math.sin(angle) * (rect.height / 2);
 
       newParticles.push({
         id: particleIdRef.current++,
@@ -206,14 +217,16 @@ export default function ServiceCards() {
     // Convert hex to rgb for particles
     const hexToRgb = (hex: string) => {
       const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-      return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-      } : { r: 55, g: 175, b: 225 };
+      return result
+        ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16),
+          }
+        : { r: 55, g: 175, b: 225 };
     };
     const particleRgb = hexToRgb(colors.particleColor);
-    
+
     particles.forEach((particle) => {
       const opacity = particle.life / particle.maxLife;
       ctx.fillStyle = `rgba(${particleRgb.r}, ${particleRgb.g}, ${particleRgb.b}, ${opacity * 0.8})`;
@@ -240,18 +253,16 @@ export default function ServiceCards() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen py-20 px-6 overflow-hidden bg-transparent"
+      className="relative min-h-screen overflow-hidden bg-transparent px-6 py-20"
     >
-
-
       {/* Particle canvas */}
       <canvas
         ref={canvasRef}
-        className="fixed inset-0 pointer-events-none z-10"
+        className="pointer-events-none fixed inset-0 z-10"
         style={{ mixBlendMode: 'screen' }}
       />
 
-      <div className="max-w-7xl mx-auto relative z-20">
+      <div className="relative z-20 mx-auto max-w-7xl">
         {/* Section heading */}
         <SectionHeading
           eyebrow={eyebrow}
@@ -261,7 +272,7 @@ export default function ServiceCards() {
         />
 
         {/* Service cards grid - responsive: 3 cols desktop, 2 tablet, 1 mobile */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {serviceCards.map((card, index) => (
             <ServiceCardItem
               key={card.id}
@@ -325,14 +336,14 @@ function ServiceCardItem({
     const rect = cardElementRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    
+
     // Calculate rotation based on mouse position (±5 degrees)
     const rotateY = ((x - centerX) / centerX) * 5;
     const rotateX = -((y - centerY) / centerY) * 5;
-    
+
     setTilt({ rotateX, rotateY });
   };
 
@@ -343,7 +354,9 @@ function ServiceCardItem({
 
   const setRefs = (el: HTMLDivElement | null) => {
     if (cardElementRef.current !== el) {
-      (cardElementRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+      (
+        cardElementRef as React.MutableRefObject<HTMLDivElement | null>
+      ).current = el;
     }
     cardRef(el);
   };
@@ -363,7 +376,7 @@ function ServiceCardItem({
       onMouseLeave={handleMouseLeave}
       data-magnetic
       data-magnetic-strength="80"
-      className="relative group cursor-pointer"
+      className="group relative cursor-pointer"
       style={{
         perspective: '1000px',
       }}
@@ -394,21 +407,23 @@ function ServiceCardItem({
       >
         <GlowCard
           backgroundColor={colors.cardBackground}
-          accentColor={isHovered ? colors.cardHoverAccentColor : colors.cardAccentColor}
+          accentColor={
+            isHovered ? colors.cardHoverAccentColor : colors.cardAccentColor
+          }
           borderRadius="1rem"
           borderWidth="2px"
-          className="p-8 h-full"
+          className="h-full p-8"
         >
           {/* Icon */}
-          <div className="text-6xl mb-6">{card.icon}</div>
+          <div className="mb-6 text-6xl">{card.icon}</div>
 
           {/* Title */}
-          <h3 className="text-2xl font-bold text-white font-montserrat mb-4">
+          <h3 className="mb-4 font-montserrat text-2xl font-bold text-white">
             {card.title}
           </h3>
 
           {/* Description */}
-          <p className="text-[#64748B] font-inter mb-6 leading-relaxed">
+          <p className="mb-6 font-inter leading-relaxed text-[#64748B]">
             {card.description}
           </p>
 
@@ -417,10 +432,10 @@ function ServiceCardItem({
             {card.features.map((feature, idx) => (
               <li
                 key={idx}
-                className="flex items-center text-sm text-[#64748B] font-inter"
+                className="flex items-center font-inter text-sm text-[#64748B]"
               >
-                <span 
-                  className="w-1.5 h-1.5 rounded-full mr-2" 
+                <span
+                  className="mr-2 h-1.5 w-1.5 rounded-full"
                   style={{ backgroundColor: colors.featureDotColor }}
                 />
                 {feature}
@@ -429,13 +444,15 @@ function ServiceCardItem({
           </ul>
 
           {/* Learn More Link */}
-          <div 
-            className="mt-6 pt-6 border-t"
+          <div
+            className="mt-6 border-t pt-6"
             style={{ borderColor: colors.borderColor }}
           >
-            <span 
-              className="font-semibold text-sm transition-colors duration-200 cursor-pointer"
-              style={{ color: isHovered ? colors.linkHoverColor : colors.linkColor }}
+            <span
+              className="cursor-pointer text-sm font-semibold transition-colors duration-200"
+              style={{
+                color: isHovered ? colors.linkHoverColor : colors.linkColor,
+              }}
             >
               Learn More →
             </span>

@@ -1,13 +1,13 @@
 /**
  * Liquid Physics Shader System
- * 
+ *
  * Implements GLSL-based image distortion with ripple effects and bloom post-processing.
  * Features:
  * - Touch map tracking at 512×512 resolution
  * - Electric Purple ripple edges
  * - Bloom post-processing with 0.5 strength
  * - 1.5-second decay animation
- * 
+ *
  * Requirements: 4.1, 4.2, 35.1-35.10
  */
 
@@ -158,30 +158,27 @@ export class LiquidDistortionShader {
   private touchMapTexture: THREE.CanvasTexture;
   private ripples: Ripple[] = [];
   private decayDuration: number;
-  
+
   public material: THREE.ShaderMaterial;
-  
-  constructor(
-    texture: THREE.Texture,
-    config: LiquidDistortionConfig = {}
-  ) {
+
+  constructor(texture: THREE.Texture, config: LiquidDistortionConfig = {}) {
     this.touchMapResolution = config.touchMapResolution || 512;
     this.decayDuration = config.decayDuration || 1.5;
-    
+
     // Create touch map canvas
     this.touchMapCanvas = document.createElement('canvas');
     this.touchMapCanvas.width = this.touchMapResolution;
     this.touchMapCanvas.height = this.touchMapResolution;
     this.touchMapContext = this.touchMapCanvas.getContext('2d')!;
-    
+
     // Create touch map texture
     this.touchMapTexture = new THREE.CanvasTexture(this.touchMapCanvas);
     this.touchMapTexture.minFilter = THREE.LinearFilter;
     this.touchMapTexture.magFilter = THREE.LinearFilter;
-    
+
     // Create shader material
-    const rippleColor = config.rippleColor || new THREE.Color(0x8B5CF6); // Electric Purple
-    
+    const rippleColor = config.rippleColor || new THREE.Color(0x8b5cf6); // Electric Purple
+
     this.material = new THREE.ShaderMaterial({
       uniforms: {
         uTexture: { value: texture },
@@ -189,18 +186,16 @@ export class LiquidDistortionShader {
         uTime: { value: 0 },
         uResolution: { value: new THREE.Vector2(1, 1) },
         uBloomStrength: { value: config.bloomStrength || 0.5 },
-        uRippleColor: { value: new THREE.Vector3(
-          rippleColor.r,
-          rippleColor.g,
-          rippleColor.b
-        ) },
+        uRippleColor: {
+          value: new THREE.Vector3(rippleColor.r, rippleColor.g, rippleColor.b),
+        },
       },
       vertexShader,
       fragmentShader,
       transparent: true,
     });
   }
-  
+
   /**
    * Add a ripple at normalized coordinates (0-1)
    */
@@ -213,64 +208,81 @@ export class LiquidDistortionShader {
       startTime: Date.now(),
     });
   }
-  
+
   /**
    * Update touch map and shader uniforms
    */
   public update(deltaTime: number): void {
     const currentTime = Date.now();
-    
+
     // Clear touch map
     this.touchMapContext.fillStyle = 'black';
-    this.touchMapContext.fillRect(0, 0, this.touchMapResolution, this.touchMapResolution);
-    
+    this.touchMapContext.fillRect(
+      0,
+      0,
+      this.touchMapResolution,
+      this.touchMapResolution
+    );
+
     // Update and render ripples
-    this.ripples = this.ripples.filter(ripple => {
+    this.ripples = this.ripples.filter((ripple) => {
       const elapsed = (currentTime - ripple.startTime) / 1000;
       ripple.age = Math.min(elapsed / this.decayDuration, 1.0);
-      
+
       // Remove fully decayed ripples
       if (ripple.age >= 1.0) {
         return false;
       }
-      
+
       // Draw ripple to touch map
       const x = ripple.x * this.touchMapResolution;
       const y = ripple.y * this.touchMapResolution;
-      const radius = 50 + (ripple.age * 100); // Expand over time
-      
+      const radius = 50 + ripple.age * 100; // Expand over time
+
       // Create radial gradient for ripple
-      const gradient = this.touchMapContext.createRadialGradient(x, y, 0, x, y, radius);
-      
+      const gradient = this.touchMapContext.createRadialGradient(
+        x,
+        y,
+        0,
+        x,
+        y,
+        radius
+      );
+
       // Red channel: ripple strength
       // Green channel: ripple age
       const strength = Math.floor(ripple.strength * 255);
       const age = Math.floor(ripple.age * 255);
-      
+
       gradient.addColorStop(0, `rgba(${strength}, ${age}, 0, 1)`);
       gradient.addColorStop(0.5, `rgba(${strength * 0.5}, ${age}, 0, 0.5)`);
       gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      
+
       this.touchMapContext.fillStyle = gradient;
-      this.touchMapContext.fillRect(x - radius, y - radius, radius * 2, radius * 2);
-      
+      this.touchMapContext.fillRect(
+        x - radius,
+        y - radius,
+        radius * 2,
+        radius * 2
+      );
+
       return true;
     });
-    
+
     // Update touch map texture
     this.touchMapTexture.needsUpdate = true;
-    
+
     // Update time uniform
     this.material.uniforms.uTime.value += deltaTime;
   }
-  
+
   /**
    * Set resolution for shader calculations
    */
   public setResolution(width: number, height: number): void {
     this.material.uniforms.uResolution.value.set(width, height);
   }
-  
+
   /**
    * Clean up resources
    */

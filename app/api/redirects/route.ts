@@ -7,13 +7,14 @@ export async function GET() {
     const client = await clientPromise;
     const db = client.db('rising-dot');
 
-    const redirects = await db.collection('seoRedirects')
+    const redirects = await db
+      .collection('seoRedirects')
       .find({ enabled: true })
       .project({ source: 1, destination: 1, type: 1, _id: 0 })
       .toArray();
 
     // Also increment hit counter would be done here in production
-    
+
     // Cache for 5 minutes to reduce database load
     return NextResponse.json(redirects, {
       headers: {

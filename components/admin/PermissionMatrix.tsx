@@ -87,48 +87,48 @@ export default function PermissionMatrix() {
 
   const PermissionIcon = ({ allowed }: { allowed: boolean }) => {
     return allowed ? (
-      <Check className="w-5 h-5 text-green-400" />
+      <Check className="h-5 w-5 text-green-400" />
     ) : (
-      <X className="w-5 h-5 text-slate-600" />
+      <X className="h-5 w-5 text-slate-600" />
     );
   };
 
   return (
-    <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 overflow-hidden">
-      <div className="p-6 border-b border-slate-700">
-        <h3 className="text-lg font-semibold text-white">
-          Permission Matrix
-        </h3>
-        <p className="text-sm text-slate-400 mt-1">
+    <div className="overflow-hidden rounded-xl border border-slate-700/50 bg-[#1E293B]">
+      <div className="border-b border-slate-700 p-6">
+        <h3 className="text-lg font-semibold text-white">Permission Matrix</h3>
+        <p className="mt-1 text-sm text-slate-400">
           Overview of permissions for each role
         </p>
       </div>
 
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-[#0F172A] border-b border-slate-700">
+          <thead className="border-b border-slate-700 bg-[#0F172A]">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-400">
                 Permission
               </th>
-              <th className="px-6 py-3 text-center text-xs font-medium text-slate-400 uppercase tracking-wider">
+              <th className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-slate-400">
                 <div className="flex flex-col items-center">
                   <span>Admin</span>
-                  <span className="text-red-400 font-semibold">Full Access</span>
+                  <span className="font-semibold text-red-400">
+                    Full Access
+                  </span>
                 </div>
               </th>
-              <th className="px-6 py-3 text-center text-xs font-medium text-slate-400 uppercase tracking-wider">
+              <th className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-slate-400">
                 <div className="flex flex-col items-center">
                   <span>Editor</span>
-                  <span className="text-[#37AFE1] font-semibold">
+                  <span className="font-semibold text-[#37AFE1]">
                     Content Only
                   </span>
                 </div>
               </th>
-              <th className="px-6 py-3 text-center text-xs font-medium text-slate-400 uppercase tracking-wider">
+              <th className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-slate-400">
                 <div className="flex flex-col items-center">
                   <span>Viewer</span>
-                  <span className="text-slate-400 font-semibold">
+                  <span className="font-semibold text-slate-400">
                     Read Only
                   </span>
                 </div>
@@ -177,21 +177,21 @@ export default function PermissionMatrix() {
         </table>
       </div>
 
-      <div className="p-6 bg-[#0F172A] border-t border-slate-700">
+      <div className="border-t border-slate-700 bg-[#0F172A] p-6">
         <div className="space-y-2 text-sm text-slate-400">
           <p>
-            <strong className="text-white">Admin:</strong> Full access to
-            all features including user management, settings, and all content
+            <strong className="text-white">Admin:</strong> Full access to all
+            features including user management, settings, and all content
             operations.
           </p>
           <p>
-            <strong className="text-white">Editor:</strong> Can create,
-            edit, and delete content (pages, projects, services, media) but
-            cannot manage users or system settings.
+            <strong className="text-white">Editor:</strong> Can create, edit,
+            and delete content (pages, projects, services, media) but cannot
+            manage users or system settings.
           </p>
           <p>
-            <strong className="text-white">Viewer:</strong> Read-only
-            access to view content and analytics but cannot make any changes.
+            <strong className="text-white">Viewer:</strong> Read-only access to
+            view content and analytics but cannot make any changes.
           </p>
         </div>
       </div>

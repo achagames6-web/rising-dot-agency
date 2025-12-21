@@ -69,7 +69,7 @@ export function SessionTimeoutWarning() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="mx-4 max-w-md rounded-lg bg-[#1E293B] shadow-2xl border border-[#F59E0B]/20 p-6">
+      <div className="mx-4 max-w-md rounded-lg border border-[#F59E0B]/20 bg-[#1E293B] p-6 shadow-2xl">
         {/* Warning Icon */}
         <div className="mb-4 flex justify-center">
           <div className="rounded-full bg-[#F59E0B]/10 p-3">
@@ -90,15 +90,15 @@ export function SessionTimeoutWarning() {
         </div>
 
         {/* Content */}
-        <div className="text-center mb-6">
-          <h3 className="text-xl font-semibold text-white mb-2">
+        <div className="mb-6 text-center">
+          <h3 className="mb-2 text-xl font-semibold text-white">
             Session Expiring Soon
           </h3>
-          <p className="text-sm text-[#64748B] mb-4">
-            Your session will expire due to inactivity. You will be automatically
-            logged out in:
+          <p className="mb-4 text-sm text-[#64748B]">
+            Your session will expire due to inactivity. You will be
+            automatically logged out in:
           </p>
-          <div className="text-3xl font-bold text-[#F59E0B] font-mono">
+          <div className="font-mono text-3xl font-bold text-[#F59E0B]">
             {minutes}:{seconds.toString().padStart(2, '0')}
           </div>
         </div>
@@ -107,13 +107,13 @@ export function SessionTimeoutWarning() {
         <div className="flex gap-3">
           <button
             onClick={handleLogout}
-            className="flex-1 px-4 py-2 text-sm font-medium text-white bg-[#64748B] hover:bg-[#475569] rounded-lg transition-colors"
+            className="flex-1 rounded-lg bg-[#64748B] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#475569]"
           >
             Logout Now
           </button>
           <button
             onClick={handleExtendSession}
-            className="flex-1 px-4 py-2 text-sm font-medium text-white bg-[#2563EB] hover:bg-[#37AFE1] rounded-lg transition-colors"
+            className="flex-1 rounded-lg bg-[#2563EB] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#37AFE1]"
           >
             Stay Logged In
           </button>

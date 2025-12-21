@@ -1,6 +1,6 @@
 /**
  * React Hook for SmoothScroll
- * 
+ *
  * Provides easy integration of smooth scrolling in React components
  */
 
@@ -112,7 +112,9 @@ export function useScrollTrigger(
     onProgress?: (progress: number) => void;
   }
 ) {
-  const triggerIdRef = useRef<string>(`trigger-${Math.random().toString(36).substr(2, 9)}`);
+  const triggerIdRef = useRef<string>(
+    `trigger-${Math.random().toString(36).substr(2, 9)}`
+  );
 
   useEffect(() => {
     if (!smoothScroll || !element) return;
@@ -130,5 +132,11 @@ export function useScrollTrigger(
     return () => {
       smoothScroll.removeScrollTrigger(triggerId);
     };
-  }, [smoothScroll, element, callbacks.onEnter, callbacks.onLeave, callbacks.onProgress]);
+  }, [
+    smoothScroll,
+    element,
+    callbacks.onEnter,
+    callbacks.onLeave,
+    callbacks.onProgress,
+  ]);
 }

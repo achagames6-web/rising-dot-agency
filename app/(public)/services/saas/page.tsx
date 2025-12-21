@@ -9,29 +9,47 @@ import ServiceCTA from '@/components/sections/ServiceCTA';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
 
-const StackFeatureSection = dynamic(() => import('@/components/ui/stack-feature-section'), {
-  ssr: false,
-});
+const StackFeatureSection = dynamic(
+  () => import('@/components/ui/stack-feature-section'),
+  {
+    ssr: false,
+  }
+);
 
-const ServiceVideoSection = dynamic(() => import('@/components/sections/ServiceVideoSection'), {
-  ssr: false,
-});
+const ServiceVideoSection = dynamic(
+  () => import('@/components/sections/ServiceVideoSection'),
+  {
+    ssr: false,
+  }
+);
 
-const LiveDashboardDemo = dynamic(() => import('@/components/services/saas/LiveDashboardDemo'), {
-  ssr: false,
-});
+const LiveDashboardDemo = dynamic(
+  () => import('@/components/services/saas/LiveDashboardDemo'),
+  {
+    ssr: false,
+  }
+);
 
-const HowItWorks = dynamic(() => import('@/components/services/saas/HowItWorks'), {
-  ssr: false,
-});
+const HowItWorks = dynamic(
+  () => import('@/components/services/saas/HowItWorks'),
+  {
+    ssr: false,
+  }
+);
 
-const ROICalculator = dynamic(() => import('@/components/services/saas/ROICalculator'), {
-  ssr: false,
-});
+const ROICalculator = dynamic(
+  () => import('@/components/services/saas/ROICalculator'),
+  {
+    ssr: false,
+  }
+);
 
-const FeatureRequestForm = dynamic(() => import('@/components/services/saas/FeatureRequestForm'), {
-  ssr: false,
-});
+const FeatureRequestForm = dynamic(
+  () => import('@/components/services/saas/FeatureRequestForm'),
+  {
+    ssr: false,
+  }
+);
 
 // Define interfaces for CMS content types
 interface HeroContent {
@@ -222,7 +240,8 @@ const defaultHeroContent: HeroContent = {
   badge: 'Custom Software Solutions',
   titleHighlight: 'SaaS',
   title: 'for Your Business',
-  description: 'Custom software solutions that scale with your business and streamline operations. From CRM to inventory management, we build what you need.',
+  description:
+    'Custom software solutions that scale with your business and streamline operations. From CRM to inventory management, we build what you need.',
   primaryCta: { text: 'Start Your Project', href: '/contact' },
   secondaryCta: { text: 'View Our Work', href: '/portfolio' },
   image: '/media/services/saas/hero/saas-dashboard.jpg',
@@ -234,7 +253,8 @@ const defaultVideoContent: VideoContent = {
   eyebrow: 'See SaaS In Action',
   title: 'Watch How We Build',
   titleHighlight: 'Custom Software',
-  subtitle: 'Experience our development process and see the scalable SaaS solutions we create for our clients.',
+  subtitle:
+    'Experience our development process and see the scalable SaaS solutions we create for our clients.',
   videoSrc: '/media/services/saas/video/hero-video.mp4',
   ctaText: 'Start Your SaaS Project',
   ctaHref: '/contact',
@@ -244,14 +264,45 @@ const defaultFeaturesContent: FeaturesContent = {
   eyebrow: 'Why Choose Us',
   title: 'Why Choose Our',
   titleHighlight: 'SaaS Solutions?',
-  subtitle: 'We build scalable, secure, and user-friendly software tailored to your needs.',
+  subtitle:
+    'We build scalable, secure, and user-friendly software tailored to your needs.',
   features: [
-    { title: 'Scalable Architecture', desc: 'Built to grow with your business from day one', icon: '🚀', borderColor: '#37AFE1' },
-    { title: 'Cloud-Native', desc: 'Deployed on modern cloud infrastructure for reliability', icon: '☁️', borderColor: '#2563EB' },
-    { title: 'API-First Design', desc: 'Seamless integrations with your existing tools', icon: '🔗', borderColor: '#F97316' },
-    { title: 'Real-Time Analytics', desc: 'Data-driven insights to make informed decisions', icon: '📊', borderColor: '#31A4DB' },
-    { title: 'Enterprise Security', desc: 'Bank-level security to protect your data', icon: '🔒', borderColor: '#F58122' },
-    { title: '24/7 Support', desc: 'Round-the-clock support when you need it', icon: '💬', borderColor: '#37AFE1' },
+    {
+      title: 'Scalable Architecture',
+      desc: 'Built to grow with your business from day one',
+      icon: '🚀',
+      borderColor: '#37AFE1',
+    },
+    {
+      title: 'Cloud-Native',
+      desc: 'Deployed on modern cloud infrastructure for reliability',
+      icon: '☁️',
+      borderColor: '#2563EB',
+    },
+    {
+      title: 'API-First Design',
+      desc: 'Seamless integrations with your existing tools',
+      icon: '🔗',
+      borderColor: '#F97316',
+    },
+    {
+      title: 'Real-Time Analytics',
+      desc: 'Data-driven insights to make informed decisions',
+      icon: '📊',
+      borderColor: '#31A4DB',
+    },
+    {
+      title: 'Enterprise Security',
+      desc: 'Bank-level security to protect your data',
+      icon: '🔒',
+      borderColor: '#F58122',
+    },
+    {
+      title: '24/7 Support',
+      desc: 'Round-the-clock support when you need it',
+      icon: '💬',
+      borderColor: '#37AFE1',
+    },
   ],
 };
 
@@ -259,12 +310,37 @@ const defaultSolutionsContent: SolutionsContent = {
   eyebrow: 'Solutions',
   title: 'Our SaaS',
   titleHighlight: 'Solutions',
-  subtitle: 'From CRM to inventory management, we build what your business needs.',
+  subtitle:
+    'From CRM to inventory management, we build what your business needs.',
   solutions: [
-    { title: 'CRM Systems', desc: 'Manage customer relationships and sales pipelines effectively', gradientFrom: '#F58122', gradientTo: '#37AFE1', borderColor: '#37AFE1' },
-    { title: 'Inventory Management', desc: 'Track stock levels, orders, and suppliers in real-time', gradientFrom: '#37AFE1', gradientTo: '#2563EB', borderColor: '#2563EB' },
-    { title: 'Project Management', desc: 'Collaborate with teams and track project progress', gradientFrom: '#2563EB', gradientTo: '#31A4DB', borderColor: '#31A4DB' },
-    { title: 'HR & Payroll', desc: 'Streamline employee management and payroll processing', gradientFrom: '#31A4DB', gradientTo: '#F97316', borderColor: '#F97316' },
+    {
+      title: 'CRM Systems',
+      desc: 'Manage customer relationships and sales pipelines effectively',
+      gradientFrom: '#F58122',
+      gradientTo: '#37AFE1',
+      borderColor: '#37AFE1',
+    },
+    {
+      title: 'Inventory Management',
+      desc: 'Track stock levels, orders, and suppliers in real-time',
+      gradientFrom: '#37AFE1',
+      gradientTo: '#2563EB',
+      borderColor: '#2563EB',
+    },
+    {
+      title: 'Project Management',
+      desc: 'Collaborate with teams and track project progress',
+      gradientFrom: '#2563EB',
+      gradientTo: '#31A4DB',
+      borderColor: '#31A4DB',
+    },
+    {
+      title: 'HR & Payroll',
+      desc: 'Streamline employee management and payroll processing',
+      gradientFrom: '#31A4DB',
+      gradientTo: '#F97316',
+      borderColor: '#F97316',
+    },
   ],
 };
 
@@ -272,7 +348,8 @@ const defaultCaseStudiesContent: CaseStudiesContent = {
   eyebrow: 'SaaS Success Stories',
   title: 'Software That',
   titleHighlight: 'Scales',
-  subtitle: 'See how we\'ve helped businesses build custom software solutions that drive growth.',
+  subtitle:
+    "See how we've helped businesses build custom software solutions that drive growth.",
   studies: [
     {
       img: '/media/services/saas/case-studies/project-management.jpg',
@@ -305,7 +382,8 @@ const defaultCTAContent: CTAContent = {
   eyebrow: 'SaaS Experts',
   title: 'Ready to Transform',
   titleHighlight: 'Your Business?',
-  subtitle: 'Let\'s build a custom SaaS solution that drives your business forward',
+  subtitle:
+    "Let's build a custom SaaS solution that drives your business forward",
   ctaText: 'Get Started Today',
   ctaHref: '/contact',
 };
@@ -314,12 +392,39 @@ const defaultLiveDashboardContent: LiveDashboardContent = {
   eyebrow: 'Live Preview',
   title: 'See Your Dashboard',
   titleHighlight: 'In Action',
-  subtitle: 'Experience a live preview of what your custom SaaS dashboard could look like.',
+  subtitle:
+    'Experience a live preview of what your custom SaaS dashboard could look like.',
   metrics: [
-    { label: 'Total Revenue', value: 124500, prefix: '$', change: 12.5, color: '#37AFE1', icon: 'dollar' },
-    { label: 'Active Users', value: 8420, change: 8.3, color: '#2563EB', icon: 'users' },
-    { label: 'Orders Today', value: 342, change: -2.1, color: '#F97316', icon: 'cart' },
-    { label: 'Growth Rate', value: 23.5, suffix: '%', change: 5.7, color: '#31A4DB', icon: 'trending' },
+    {
+      label: 'Total Revenue',
+      value: 124500,
+      prefix: '$',
+      change: 12.5,
+      color: '#37AFE1',
+      icon: 'dollar',
+    },
+    {
+      label: 'Active Users',
+      value: 8420,
+      change: 8.3,
+      color: '#2563EB',
+      icon: 'users',
+    },
+    {
+      label: 'Orders Today',
+      value: 342,
+      change: -2.1,
+      color: '#F97316',
+      icon: 'cart',
+    },
+    {
+      label: 'Growth Rate',
+      value: 23.5,
+      suffix: '%',
+      change: 5.7,
+      color: '#31A4DB',
+      icon: 'trending',
+    },
   ],
   chartData: [
     { label: 'Mon', value: 65 },
@@ -346,11 +451,46 @@ const defaultHowItWorksContent: HowItWorksContent = {
   titleHighlight: 'SaaS',
   subtitle: 'A proven methodology that delivers results every time.',
   steps: [
-    { title: 'Discovery', description: 'Understanding your needs', details: 'We dive deep into your business requirements, analyze workflows, and identify opportunities for automation and improvement.', icon: 'search', color: '#37AFE1' },
-    { title: 'Design', description: 'Crafting the solution', details: 'Our designers create intuitive interfaces and user experiences that align with your brand and delight your users.', icon: 'palette', color: '#2563EB' },
-    { title: 'Development', description: 'Building your platform', details: 'Our engineers build scalable, secure, and performant applications using cutting-edge technologies and best practices.', icon: 'code', color: '#F97316' },
-    { title: 'Testing', description: 'Ensuring quality', details: 'Rigorous testing across devices and scenarios ensures your application is bug-free and performs flawlessly.', icon: 'test', color: '#31A4DB' },
-    { title: 'Launch', description: 'Going live', details: 'We handle deployment, monitoring, and provide ongoing support to ensure your SaaS succeeds in the market.', icon: 'rocket', color: '#F58122' },
+    {
+      title: 'Discovery',
+      description: 'Understanding your needs',
+      details:
+        'We dive deep into your business requirements, analyze workflows, and identify opportunities for automation and improvement.',
+      icon: 'search',
+      color: '#37AFE1',
+    },
+    {
+      title: 'Design',
+      description: 'Crafting the solution',
+      details:
+        'Our designers create intuitive interfaces and user experiences that align with your brand and delight your users.',
+      icon: 'palette',
+      color: '#2563EB',
+    },
+    {
+      title: 'Development',
+      description: 'Building your platform',
+      details:
+        'Our engineers build scalable, secure, and performant applications using cutting-edge technologies and best practices.',
+      icon: 'code',
+      color: '#F97316',
+    },
+    {
+      title: 'Testing',
+      description: 'Ensuring quality',
+      details:
+        'Rigorous testing across devices and scenarios ensures your application is bug-free and performs flawlessly.',
+      icon: 'test',
+      color: '#31A4DB',
+    },
+    {
+      title: 'Launch',
+      description: 'Going live',
+      details:
+        'We handle deployment, monitoring, and provide ongoing support to ensure your SaaS succeeds in the market.',
+      icon: 'rocket',
+      color: '#F58122',
+    },
   ],
 };
 
@@ -358,10 +498,23 @@ const defaultROICalculatorContent: ROICalculatorContent = {
   eyebrow: 'Calculate Your Savings',
   title: 'ROI',
   titleHighlight: 'Calculator',
-  subtitle: 'See how much you could save by automating your workflows with a custom SaaS solution.',
+  subtitle:
+    'See how much you could save by automating your workflows with a custom SaaS solution.',
   sliders: [
-    { label: 'Manual Hours Per Week', min: 5, max: 100, default: 40, suffix: ' hrs' },
-    { label: 'Hourly Employee Cost', min: 20, max: 200, default: 50, prefix: '$' },
+    {
+      label: 'Manual Hours Per Week',
+      min: 5,
+      max: 100,
+      default: 40,
+      suffix: ' hrs',
+    },
+    {
+      label: 'Hourly Employee Cost',
+      min: 20,
+      max: 200,
+      default: 50,
+      prefix: '$',
+    },
     { label: 'Number of Employees', min: 1, max: 50, default: 5 },
   ],
   savingsMultiplier: 0.7,
@@ -380,7 +533,8 @@ const defaultFeatureRequestContent: FeatureRequestContent = {
   eyebrow: 'Tell Us Your Vision',
   title: 'Feature',
   titleHighlight: 'Request',
-  subtitle: 'Share your ideas and let us help you build the perfect SaaS solution for your business.',
+  subtitle:
+    'Share your ideas and let us help you build the perfect SaaS solution for your business.',
   featureOptions: [
     { label: 'User Dashboard', value: 'dashboard' },
     { label: 'Analytics & Reports', value: 'analytics' },
@@ -412,16 +566,40 @@ const defaultFeatureRequestContent: FeatureRequestContent = {
 
 export default function SaasPage() {
   // Fetch CMS content for all sections
-  const { content: heroContent } = useSiteContent<HeroContent>('services-saas', 'hero');
-  const { content: videoContent } = useSiteContent<VideoContent>('services-saas', 'video');
-  const { content: featuresContent } = useSiteContent<FeaturesContent>('services-saas', 'features');
-  const { content: solutionsContent } = useSiteContent<SolutionsContent>('services-saas', 'solutions');
-  const { content: caseStudiesContent } = useSiteContent<CaseStudiesContent>('services-saas', 'caseStudies');
-  const { content: ctaContent } = useSiteContent<CTAContent>('services-saas', 'cta');
-  const { content: liveDashboardContent } = useSiteContent<LiveDashboardContent>('services-saas', 'liveDashboard');
-  const { content: howItWorksContent } = useSiteContent<HowItWorksContent>('services-saas', 'howItWorks');
-  const { content: roiCalculatorContent } = useSiteContent<ROICalculatorContent>('services-saas', 'roiCalculator');
-  const { content: featureRequestContent } = useSiteContent<FeatureRequestContent>('services-saas', 'featureRequest');
+  const { content: heroContent } = useSiteContent<HeroContent>(
+    'services-saas',
+    'hero'
+  );
+  const { content: videoContent } = useSiteContent<VideoContent>(
+    'services-saas',
+    'video'
+  );
+  const { content: featuresContent } = useSiteContent<FeaturesContent>(
+    'services-saas',
+    'features'
+  );
+  const { content: solutionsContent } = useSiteContent<SolutionsContent>(
+    'services-saas',
+    'solutions'
+  );
+  const { content: caseStudiesContent } = useSiteContent<CaseStudiesContent>(
+    'services-saas',
+    'caseStudies'
+  );
+  const { content: ctaContent } = useSiteContent<CTAContent>(
+    'services-saas',
+    'cta'
+  );
+  const { content: liveDashboardContent } =
+    useSiteContent<LiveDashboardContent>('services-saas', 'liveDashboard');
+  const { content: howItWorksContent } = useSiteContent<HowItWorksContent>(
+    'services-saas',
+    'howItWorks'
+  );
+  const { content: roiCalculatorContent } =
+    useSiteContent<ROICalculatorContent>('services-saas', 'roiCalculator');
+  const { content: featureRequestContent } =
+    useSiteContent<FeatureRequestContent>('services-saas', 'featureRequest');
 
   // Use CMS content with fallback to defaults
   const hero = heroContent || defaultHeroContent;
@@ -463,28 +641,30 @@ export default function SaasPage() {
       />
 
       {/* Features Section - Uses CMS content with fallback */}
-      <section className="py-20 px-6">
-        <div className="max-w-7xl mx-auto">
+      <section className="px-6 py-20">
+        <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow={features.eyebrow}
             title={features.title}
             titleHighlight={features.titleHighlight}
             subtitle={features.subtitle}
           />
-          
-          <div className="grid md:grid-cols-3 gap-8">
+
+          <div className="grid gap-8 md:grid-cols-3">
             {features.features.map((feature, i) => (
               <motion.div
                 key={i}
-                className="bg-black p-8 rounded-2xl border"
+                className="rounded-2xl border bg-black p-8"
                 style={{ borderColor: `${feature.borderColor || '#37AFE1'}33` }}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
                 whileHover={{ borderColor: feature.borderColor || '#37AFE1' }}
               >
-                <div className="text-4xl mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-bold text-white mb-2">{feature.title}</h3>
+                <div className="mb-4 text-4xl">{feature.icon}</div>
+                <h3 className="mb-2 text-xl font-bold text-white">
+                  {feature.title}
+                </h3>
                 <p className="text-[#64748B]">{feature.desc}</p>
               </motion.div>
             ))}
@@ -493,20 +673,20 @@ export default function SaasPage() {
       </section>
 
       {/* Solutions Section - Uses CMS content with fallback */}
-      <section className="py-20 px-6 bg-black">
-        <div className="max-w-7xl mx-auto">
+      <section className="bg-black px-6 py-20">
+        <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow={solutions.eyebrow}
             title={solutions.title}
             titleHighlight={solutions.titleHighlight}
             subtitle={solutions.subtitle}
           />
-          
-          <div className="grid md:grid-cols-2 gap-8">
+
+          <div className="grid gap-8 md:grid-cols-2">
             {solutions.solutions.map((solution, i) => (
               <motion.div
                 key={i}
-                className="p-8 rounded-2xl border"
+                className="rounded-2xl border p-8"
                 style={{
                   background: `linear-gradient(135deg, ${solution.gradientFrom || '#F58122'}15, ${solution.gradientTo || '#37AFE1'}15)`,
                   borderColor: `${solution.borderColor || '#37AFE1'}4D`,
@@ -515,8 +695,10 @@ export default function SaasPage() {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.1 }}
               >
-                <h3 className="text-2xl font-bold text-white mb-3">{solution.title}</h3>
-                <p className="text-[#94A3B8] text-lg">{solution.desc}</p>
+                <h3 className="mb-3 text-2xl font-bold text-white">
+                  {solution.title}
+                </h3>
+                <p className="text-lg text-[#94A3B8]">{solution.desc}</p>
               </motion.div>
             ))}
           </div>

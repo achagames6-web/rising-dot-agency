@@ -38,11 +38,8 @@ const processConfigArb: fc.Arbitrary<ProcessConfig> = fc.record({
 /**
  * Generator for nullable ProcessConfig (simulates CMS returning null/undefined)
  */
-const nullableProcessConfigArb: fc.Arbitrary<ProcessConfig | null | undefined> = fc.oneof(
-  processConfigArb,
-  fc.constant(null),
-  fc.constant(undefined)
-);
+const nullableProcessConfigArb: fc.Arbitrary<ProcessConfig | null | undefined> =
+  fc.oneof(processConfigArb, fc.constant(null), fc.constant(undefined));
 
 describe('BeforeAfterSlider Fallback Behavior', () => {
   /**
@@ -51,108 +48,140 @@ describe('BeforeAfterSlider Fallback Behavior', () => {
    */
   test('Property 2: Null manual process falls back to default', () => {
     fc.assert(
-      fc.property(fc.constant(null), processConfigArb, (manualProcess, automatedProcess) => {
-        const result = resolveProcessConfigs(manualProcess, automatedProcess);
+      fc.property(
+        fc.constant(null),
+        processConfigArb,
+        (manualProcess, automatedProcess) => {
+          const result = resolveProcessConfigs(manualProcess, automatedProcess);
 
-        // Manual should fall back to default
-        expect(result.manual).toEqual(defaultManualProcess);
-        // Automated should use provided value
-        expect(result.automated).toEqual(automatedProcess);
-      }),
+          // Manual should fall back to default
+          expect(result.manual).toEqual(defaultManualProcess);
+          // Automated should use provided value
+          expect(result.automated).toEqual(automatedProcess);
+        }
+      ),
       { numRuns: 100 }
     );
   });
 
   test('Property 2: Undefined manual process falls back to default', () => {
     fc.assert(
-      fc.property(fc.constant(undefined), processConfigArb, (manualProcess, automatedProcess) => {
-        const result = resolveProcessConfigs(manualProcess, automatedProcess);
+      fc.property(
+        fc.constant(undefined),
+        processConfigArb,
+        (manualProcess, automatedProcess) => {
+          const result = resolveProcessConfigs(manualProcess, automatedProcess);
 
-        // Manual should fall back to default
-        expect(result.manual).toEqual(defaultManualProcess);
-        // Automated should use provided value
-        expect(result.automated).toEqual(automatedProcess);
-      }),
+          // Manual should fall back to default
+          expect(result.manual).toEqual(defaultManualProcess);
+          // Automated should use provided value
+          expect(result.automated).toEqual(automatedProcess);
+        }
+      ),
       { numRuns: 100 }
     );
   });
 
   test('Property 2: Null automated process falls back to default', () => {
     fc.assert(
-      fc.property(processConfigArb, fc.constant(null), (manualProcess, automatedProcess) => {
-        const result = resolveProcessConfigs(manualProcess, automatedProcess);
+      fc.property(
+        processConfigArb,
+        fc.constant(null),
+        (manualProcess, automatedProcess) => {
+          const result = resolveProcessConfigs(manualProcess, automatedProcess);
 
-        // Manual should use provided value
-        expect(result.manual).toEqual(manualProcess);
-        // Automated should fall back to default
-        expect(result.automated).toEqual(defaultAutomatedProcess);
-      }),
+          // Manual should use provided value
+          expect(result.manual).toEqual(manualProcess);
+          // Automated should fall back to default
+          expect(result.automated).toEqual(defaultAutomatedProcess);
+        }
+      ),
       { numRuns: 100 }
     );
   });
 
   test('Property 2: Undefined automated process falls back to default', () => {
     fc.assert(
-      fc.property(processConfigArb, fc.constant(undefined), (manualProcess, automatedProcess) => {
-        const result = resolveProcessConfigs(manualProcess, automatedProcess);
+      fc.property(
+        processConfigArb,
+        fc.constant(undefined),
+        (manualProcess, automatedProcess) => {
+          const result = resolveProcessConfigs(manualProcess, automatedProcess);
 
-        // Manual should use provided value
-        expect(result.manual).toEqual(manualProcess);
-        // Automated should fall back to default
-        expect(result.automated).toEqual(defaultAutomatedProcess);
-      }),
+          // Manual should use provided value
+          expect(result.manual).toEqual(manualProcess);
+          // Automated should fall back to default
+          expect(result.automated).toEqual(defaultAutomatedProcess);
+        }
+      ),
       { numRuns: 100 }
     );
   });
 
   test('Property 2: Both null falls back to both defaults', () => {
     fc.assert(
-      fc.property(fc.constant(null), fc.constant(null), (manualProcess, automatedProcess) => {
-        const result = resolveProcessConfigs(manualProcess, automatedProcess);
+      fc.property(
+        fc.constant(null),
+        fc.constant(null),
+        (manualProcess, automatedProcess) => {
+          const result = resolveProcessConfigs(manualProcess, automatedProcess);
 
-        // Both should fall back to defaults
-        expect(result.manual).toEqual(defaultManualProcess);
-        expect(result.automated).toEqual(defaultAutomatedProcess);
-      }),
+          // Both should fall back to defaults
+          expect(result.manual).toEqual(defaultManualProcess);
+          expect(result.automated).toEqual(defaultAutomatedProcess);
+        }
+      ),
       { numRuns: 100 }
     );
   });
 
   test('Property 2: Both undefined falls back to both defaults', () => {
     fc.assert(
-      fc.property(fc.constant(undefined), fc.constant(undefined), (manualProcess, automatedProcess) => {
-        const result = resolveProcessConfigs(manualProcess, automatedProcess);
+      fc.property(
+        fc.constant(undefined),
+        fc.constant(undefined),
+        (manualProcess, automatedProcess) => {
+          const result = resolveProcessConfigs(manualProcess, automatedProcess);
 
-        // Both should fall back to defaults
-        expect(result.manual).toEqual(defaultManualProcess);
-        expect(result.automated).toEqual(defaultAutomatedProcess);
-      }),
+          // Both should fall back to defaults
+          expect(result.manual).toEqual(defaultManualProcess);
+          expect(result.automated).toEqual(defaultAutomatedProcess);
+        }
+      ),
       { numRuns: 100 }
     );
   });
 
   test('Property 2: Valid CMS content is used when provided', () => {
     fc.assert(
-      fc.property(processConfigArb, processConfigArb, (manualProcess, automatedProcess) => {
-        const result = resolveProcessConfigs(manualProcess, automatedProcess);
+      fc.property(
+        processConfigArb,
+        processConfigArb,
+        (manualProcess, automatedProcess) => {
+          const result = resolveProcessConfigs(manualProcess, automatedProcess);
 
-        // Both should use provided values
-        expect(result.manual).toEqual(manualProcess);
-        expect(result.automated).toEqual(automatedProcess);
-      }),
+          // Both should use provided values
+          expect(result.manual).toEqual(manualProcess);
+          expect(result.automated).toEqual(automatedProcess);
+        }
+      ),
       { numRuns: 100 }
     );
   });
 
   test('Property 2: Resolved configs are always valid', () => {
     fc.assert(
-      fc.property(nullableProcessConfigArb, nullableProcessConfigArb, (manualProcess, automatedProcess) => {
-        const result = resolveProcessConfigs(manualProcess, automatedProcess);
+      fc.property(
+        nullableProcessConfigArb,
+        nullableProcessConfigArb,
+        (manualProcess, automatedProcess) => {
+          const result = resolveProcessConfigs(manualProcess, automatedProcess);
 
-        // Both resolved configs should always be valid
-        expect(isValidProcessConfig(result.manual)).toBe(true);
-        expect(isValidProcessConfig(result.automated)).toBe(true);
-      }),
+          // Both resolved configs should always be valid
+          expect(isValidProcessConfig(result.manual)).toBe(true);
+          expect(isValidProcessConfig(result.automated)).toBe(true);
+        }
+      ),
       { numRuns: 100 }
     );
   });
@@ -164,14 +193,24 @@ describe('BeforeAfterSlider Fallback Behavior', () => {
 
   test('Property 2: Fallback is deterministic', () => {
     fc.assert(
-      fc.property(nullableProcessConfigArb, nullableProcessConfigArb, (manualProcess, automatedProcess) => {
-        // Calling the function multiple times with same inputs should return same result
-        const result1 = resolveProcessConfigs(manualProcess, automatedProcess);
-        const result2 = resolveProcessConfigs(manualProcess, automatedProcess);
+      fc.property(
+        nullableProcessConfigArb,
+        nullableProcessConfigArb,
+        (manualProcess, automatedProcess) => {
+          // Calling the function multiple times with same inputs should return same result
+          const result1 = resolveProcessConfigs(
+            manualProcess,
+            automatedProcess
+          );
+          const result2 = resolveProcessConfigs(
+            manualProcess,
+            automatedProcess
+          );
 
-        expect(result1.manual).toEqual(result2.manual);
-        expect(result1.automated).toEqual(result2.automated);
-      }),
+          expect(result1.manual).toEqual(result2.manual);
+          expect(result1.automated).toEqual(result2.automated);
+        }
+      ),
       { numRuns: 100 }
     );
   });

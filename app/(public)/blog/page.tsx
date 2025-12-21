@@ -43,13 +43,22 @@ interface EmptyStateContent {
 const defaultHeroContent: HeroContent = {
   eyebrow: 'Our Blog',
   title: 'Insights & Ideas',
-  subtitle: 'Discover the latest trends, tips, and insights in web development, design, and digital marketing.',
+  subtitle:
+    'Discover the latest trends, tips, and insights in web development, design, and digital marketing.',
   ctaLabel: 'Latest Posts',
   ctaHref: '#posts',
 };
 
 const defaultFilterContent: FilterContent = {
-  categories: ['All', 'Development', 'Design', 'Marketing', 'Technology', 'Business', 'Tutorial'],
+  categories: [
+    'All',
+    'Development',
+    'Design',
+    'Marketing',
+    'Technology',
+    'Business',
+    'Tutorial',
+  ],
   activeColor: '#37AFE1',
 };
 
@@ -65,8 +74,14 @@ export default function BlogPage() {
 
   // Fetch CMS content
   const { content: heroContent } = useSiteContent<HeroContent>('blog', 'hero');
-  const { content: filterContent } = useSiteContent<FilterContent>('blog', 'filter');
-  const { content: emptyStateContent } = useSiteContent<EmptyStateContent>('blog', 'emptyState');
+  const { content: filterContent } = useSiteContent<FilterContent>(
+    'blog',
+    'filter'
+  );
+  const { content: emptyStateContent } = useSiteContent<EmptyStateContent>(
+    'blog',
+    'emptyState'
+  );
 
   // Use CMS content with fallback to defaults
   const hero = heroContent || defaultHeroContent;
@@ -89,15 +104,16 @@ export default function BlogPage() {
     }
   };
 
-  const filteredBlogs = selectedCategory === 'All' 
-    ? blogs 
-    : blogs.filter(blog => blog.category === selectedCategory);
+  const filteredBlogs =
+    selectedCategory === 'All'
+      ? blogs
+      : blogs.filter((blog) => blog.category === selectedCategory);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
@@ -113,28 +129,32 @@ export default function BlogPage() {
       />
 
       {/* Blog Content */}
-      <section id="posts" className="py-20 px-6">
-        <div className="max-w-7xl mx-auto">
+      <section id="posts" className="px-6 py-20">
+        <div className="mx-auto max-w-7xl">
           {/* Category Filter - Uses CMS content with fallback */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex flex-wrap justify-center gap-3 mb-12"
+            className="mb-12 flex flex-wrap justify-center gap-3"
           >
             {filter.categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                className={`rounded-full px-5 py-2 text-sm font-medium transition-all duration-300 ${
                   selectedCategory === category
                     ? 'text-white shadow-lg'
                     : 'bg-[#1E293B] text-slate-300 hover:text-white'
                 }`}
-                style={selectedCategory === category ? {
-                  backgroundColor: filter.activeColor,
-                  boxShadow: `0 10px 15px -3px ${filter.activeColor}4D`,
-                } : {}}
+                style={
+                  selectedCategory === category
+                    ? {
+                        backgroundColor: filter.activeColor,
+                        boxShadow: `0 10px 15px -3px ${filter.activeColor}4D`,
+                      }
+                    : {}
+                }
               >
                 {category}
               </button>
@@ -144,19 +164,19 @@ export default function BlogPage() {
           {/* Blog Grid */}
           {loading ? (
             <div className="flex justify-center py-20">
-              <div className="w-12 h-12 border-2 border-[#37AFE1]/30 border-t-[#37AFE1] rounded-full animate-spin" />
+              <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
             </div>
           ) : filteredBlogs.length === 0 ? (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-center py-20"
+              className="py-20 text-center"
             >
-              <p className="text-slate-400 text-lg">{emptyState.title}</p>
-              <p className="text-slate-500 mt-2">{emptyState.subtitle}</p>
+              <p className="text-lg text-slate-400">{emptyState.title}</p>
+              <p className="mt-2 text-slate-500">{emptyState.subtitle}</p>
             </motion.div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               {filteredBlogs.map((blog, index) => (
                 <motion.article
                   key={blog._id}
@@ -167,31 +187,31 @@ export default function BlogPage() {
                   className="group"
                 >
                   <Link href={`/blog/${blog.slug}`}>
-                    <div className="bg-[#1E293B]/50 rounded-2xl overflow-hidden border border-slate-800 hover:border-[#37AFE1]/50 transition-all duration-500 hover:shadow-xl hover:shadow-[#37AFE1]/10">
+                    <div className="overflow-hidden rounded-2xl border border-slate-800 bg-[#1E293B]/50 transition-all duration-500 hover:border-[#37AFE1]/50 hover:shadow-xl hover:shadow-[#37AFE1]/10">
                       {/* Thumbnail */}
                       <div className="relative h-52 overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#1E293B] to-transparent z-10" />
+                        <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#1E293B] to-transparent" />
                         {blog.thumbnail ? (
                           <Image
                             src={blog.thumbnail}
                             alt={blog.title}
                             fill
-                            className="object-cover group-hover:scale-110 transition-transform duration-700"
+                            className="object-cover transition-transform duration-700 group-hover:scale-110"
                           />
                         ) : (
-                          <div className="w-full h-full bg-gradient-to-br from-[#37AFE1]/20 to-[#F58122]/20" />
+                          <div className="h-full w-full bg-gradient-to-br from-[#37AFE1]/20 to-[#F58122]/20" />
                         )}
-                        <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-[#37AFE1] text-white text-xs font-medium rounded-full">
+                        <span className="absolute left-4 top-4 z-20 rounded-full bg-[#37AFE1] px-3 py-1 text-xs font-medium text-white">
                           {blog.category}
                         </span>
                       </div>
 
                       {/* Content */}
                       <div className="p-6">
-                        <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#37AFE1] transition-colors line-clamp-2">
+                        <h3 className="mb-3 line-clamp-2 text-xl font-bold text-white transition-colors group-hover:text-[#37AFE1]">
                           {blog.title}
                         </h3>
-                        <p className="text-slate-400 text-sm mb-4 line-clamp-2">
+                        <p className="mb-4 line-clamp-2 text-sm text-slate-400">
                           {blog.excerpt}
                         </p>
 
@@ -199,15 +219,15 @@ export default function BlogPage() {
                         <div className="flex items-center justify-between text-xs text-slate-500">
                           <div className="flex items-center gap-4">
                             <span className="flex items-center gap-1">
-                              <Calendar className="w-3 h-3" />
+                              <Calendar className="h-3 w-3" />
                               {formatDate(blog.publishedAt)}
                             </span>
                             <span className="flex items-center gap-1">
-                              <Clock className="w-3 h-3" />
+                              <Clock className="h-3 w-3" />
                               {blog.readTime || 5} min read
                             </span>
                           </div>
-                          <ArrowRight className="w-4 h-4 text-[#37AFE1] group-hover:translate-x-1 transition-transform" />
+                          <ArrowRight className="h-4 w-4 text-[#37AFE1] transition-transform group-hover:translate-x-1" />
                         </div>
                       </div>
                     </div>

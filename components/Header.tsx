@@ -9,17 +9,17 @@ import { StarButton } from '@/components/ui/star-button';
 import { useNavigation } from '@/lib/hooks/useNavigation';
 
 // Magnetic Nav Link with dock-style hover effect
-function MagneticNavLink({ 
-  href, 
-  label, 
+function MagneticNavLink({
+  href,
+  label,
   isActive,
   hasDropdown,
   isDropdownOpen,
   onMouseEnter,
   onMouseLeave,
-}: { 
-  href: string; 
-  label: string; 
+}: {
+  href: string;
+  label: string;
   isActive: boolean;
   hasDropdown?: boolean;
   isDropdownOpen?: boolean;
@@ -53,27 +53,32 @@ function MagneticNavLink({
 
   const content = (
     <>
-      <motion.span 
+      <motion.span
         className="relative z-10"
         animate={{
           x: magneticOffset.x,
           y: magneticOffset.y,
         }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       >
         {label}
         {hasDropdown && (
           <svg
-            className={`inline-block w-3 h-3 ml-1 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`}
+            className={`ml-1 inline-block h-3 w-3 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 9l-7 7-7-7"
+            />
           </svg>
         )}
       </motion.span>
-      
+
       {/* Glowing ring effect on hover */}
       {isHovered && (
         <motion.span
@@ -81,29 +86,29 @@ function MagneticNavLink({
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
           style={{
             boxShadow: '0 0 15px rgba(55, 175, 225, 0.3)',
           }}
         />
       )}
-      
+
       {/* Active state with tubelight lamp effect */}
       {isActive && (
         <motion.div
           layoutId="lamp"
-          className="absolute inset-0 w-full bg-[#F58122]/5 rounded-full -z-10"
+          className="absolute inset-0 -z-10 w-full rounded-full bg-[#F58122]/5"
           initial={false}
           transition={{
-            type: "spring",
+            type: 'spring',
             stiffness: 300,
             damping: 30,
           }}
         >
-          <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-[#F58122] rounded-t-full">
-            <div className="absolute w-12 h-6 bg-[#F58122]/20 rounded-full blur-md -top-2 -left-2" />
-            <div className="absolute w-8 h-6 bg-[#F58122]/20 rounded-full blur-md -top-1" />
-            <div className="absolute w-4 h-4 bg-[#F58122]/20 rounded-full blur-sm top-0 left-2" />
+          <div className="absolute -top-2 left-1/2 h-1 w-8 -translate-x-1/2 rounded-t-full bg-[#F58122]">
+            <div className="absolute -left-2 -top-2 h-6 w-12 rounded-full bg-[#F58122]/20 blur-md" />
+            <div className="absolute -top-1 h-6 w-8 rounded-full bg-[#F58122]/20 blur-md" />
+            <div className="absolute left-2 top-0 h-4 w-4 rounded-full bg-[#F58122]/20 blur-sm" />
           </div>
         </motion.div>
       )}
@@ -121,8 +126,8 @@ function MagneticNavLink({
           scale: isHovered ? 1.1 : 1,
           rotate: isHovered ? -3 : 0,
         }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="relative px-4 py-2 text-sm font-medium text-white/90 hover:text-white transition-colors duration-200"
+        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        className="relative px-4 py-2 text-sm font-medium text-white/90 transition-colors duration-200 hover:text-white"
       >
         {content}
       </motion.button>
@@ -135,7 +140,7 @@ function MagneticNavLink({
         scale: isHovered ? 1.1 : 1,
         rotate: isHovered ? -3 : 0,
       }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
     >
       <Link
         ref={linkRef as React.RefObject<HTMLAnchorElement>}
@@ -143,7 +148,7 @@ function MagneticNavLink({
         onMouseMove={handleMouseMove}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className="relative block px-4 py-2 text-sm font-medium text-white/90 hover:text-white transition-colors duration-200"
+        className="relative block px-4 py-2 text-sm font-medium text-white/90 transition-colors duration-200 hover:text-white"
       >
         {content}
       </Link>
@@ -162,19 +167,19 @@ export default function Header() {
 
   // Get enabled nav links from settings
   const navLinks = settings.header.navLinks
-    .filter(link => link.enabled)
+    .filter((link) => link.enabled)
     .sort((a, b) => a.order - b.order);
 
   // Get enabled service links from settings
   const serviceLinks = settings.header.serviceLinks
-    .filter(link => link.enabled)
+    .filter((link) => link.enabled)
     .sort((a, b) => a.order - b.order);
 
   // Scroll direction detection
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
+
       if (currentScrollY < 100) {
         setIsVisible(true);
       } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
@@ -183,7 +188,7 @@ export default function Header() {
       } else if (currentScrollY < lastScrollY) {
         setIsVisible(true);
       }
-      
+
       setLastScrollY(currentScrollY);
     };
 
@@ -207,13 +212,13 @@ export default function Header() {
   return (
     <>
       <header
-        className="fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-out"
+        className="fixed left-1/2 top-6 z-50 -translate-x-1/2 transition-all duration-500 ease-out"
         style={{
           transform: `translateX(-50%) translateY(${isVisible ? '0%' : '-150%'})`,
         }}
       >
-        <nav 
-          className="relative flex items-center justify-center gap-1 px-2 py-3 rounded-full backdrop-blur-2xl"
+        <nav
+          className="relative flex items-center justify-center gap-1 rounded-full px-2 py-3 backdrop-blur-2xl"
           style={{
             background: 'rgba(15, 23, 42, 0.6)',
             border: '1px solid rgba(255, 255, 255, 0.08)',
@@ -226,58 +231,68 @@ export default function Header() {
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-2 px-4 py-1.5 rounded-full transition-all duration-300 hover:bg-white/5"
+            className="flex items-center gap-2 rounded-full px-4 py-1.5 transition-all duration-300 hover:bg-white/5"
           >
-            <img 
+            <img
               src={settings.header.logo || '/logo.png'}
-              alt="Rising Dot" 
+              alt="Rising Dot"
               className="h-10 w-auto"
             />
           </Link>
 
-          <div className="w-px h-6 bg-white/10 mx-1 hidden md:block" />
+          <div className="mx-1 hidden h-6 w-px bg-white/10 md:block" />
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center">
+          <div className="hidden items-center md:flex">
             {navLinks.map((link) => (
-              <div 
-                key={link.href} 
+              <div
+                key={link.href}
                 className="relative"
-                onMouseEnter={link.hasDropdown ? handleDropdownEnter : undefined}
-                onMouseLeave={link.hasDropdown ? handleDropdownLeave : undefined}
+                onMouseEnter={
+                  link.hasDropdown ? handleDropdownEnter : undefined
+                }
+                onMouseLeave={
+                  link.hasDropdown ? handleDropdownLeave : undefined
+                }
               >
                 <MagneticNavLink
                   href={link.href}
                   label={link.label}
-                  isActive={link.hasDropdown 
-                    ? pathname?.startsWith('/services') || false
-                    : pathname === link.href
+                  isActive={
+                    link.hasDropdown
+                      ? pathname?.startsWith('/services') || false
+                      : pathname === link.href
                   }
                   hasDropdown={link.hasDropdown}
                   isDropdownOpen={isServicesOpen}
-                  onMouseEnter={link.hasDropdown ? handleDropdownEnter : undefined}
-                  onMouseLeave={link.hasDropdown ? handleDropdownLeave : undefined}
+                  onMouseEnter={
+                    link.hasDropdown ? handleDropdownEnter : undefined
+                  }
+                  onMouseLeave={
+                    link.hasDropdown ? handleDropdownLeave : undefined
+                  }
                 />
 
                 {/* Services Dropdown */}
                 {link.hasDropdown && serviceLinks.length > 0 && (
                   <div
-                    className={`absolute top-full left-1/2 -translate-x-1/2 pt-4 transition-all duration-300 ${
-                      isServicesOpen 
-                        ? 'opacity-100 visible translate-y-0' 
-                        : 'opacity-0 invisible -translate-y-4 pointer-events-none'
+                    className={`absolute left-1/2 top-full -translate-x-1/2 pt-4 transition-all duration-300 ${
+                      isServicesOpen
+                        ? 'visible translate-y-0 opacity-100'
+                        : 'pointer-events-none invisible -translate-y-4 opacity-0'
                     }`}
                     onMouseEnter={handleDropdownEnter}
                     onMouseLeave={handleDropdownLeave}
                   >
                     <div className="absolute -top-2 left-0 right-0 h-6 bg-transparent" />
-                    
+
                     <div
-                      className="w-56 rounded-2xl backdrop-blur-xl overflow-hidden"
+                      className="w-56 overflow-hidden rounded-2xl backdrop-blur-xl"
                       style={{
                         background: 'rgba(15, 23, 42, 0.95)',
                         border: '1px solid rgba(55, 175, 225, 0.2)',
-                        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(55, 175, 225, 0.1)',
+                        boxShadow:
+                          '0 20px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(55, 175, 225, 0.1)',
                       }}
                     >
                       <div className="p-2">
@@ -285,7 +300,7 @@ export default function Header() {
                           <Link
                             key={service.href}
                             href={service.href}
-                            className="block px-4 py-2.5 rounded-xl text-white/80 hover:text-white hover:bg-white/5 transition-all duration-200 text-sm"
+                            className="block rounded-xl px-4 py-2.5 text-sm text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white"
                             onClick={() => setIsServicesOpen(false)}
                           >
                             {service.label}
@@ -299,7 +314,7 @@ export default function Header() {
             ))}
           </div>
 
-          <div className="w-px h-6 bg-white/10 mx-1 hidden md:block" />
+          <div className="mx-1 hidden h-6 w-px bg-white/10 md:block" />
 
           {/* CTA Button - only show if enabled */}
           {settings.header.ctaButton.enabled && (
@@ -320,14 +335,29 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-full text-white hover:bg-white/10 transition-colors ml-2"
+            className="ml-2 rounded-full p-2 text-white transition-colors hover:bg-white/10 md:hidden"
             aria-label="Toggle menu"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg
+              className="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               {isMobileMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               )}
             </svg>
           </button>
@@ -335,10 +365,10 @@ export default function Header() {
 
         {/* Mobile Menu Dropdown */}
         <div
-          className={`md:hidden absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[calc(100vw-3rem)] max-w-sm rounded-2xl backdrop-blur-xl overflow-hidden transition-all duration-300 ${
-            isMobileMenuOpen 
-              ? 'opacity-100 visible translate-y-0' 
-              : 'opacity-0 invisible -translate-y-4 pointer-events-none'
+          className={`absolute left-1/2 top-full mt-3 w-[calc(100vw-3rem)] max-w-sm -translate-x-1/2 overflow-hidden rounded-2xl backdrop-blur-xl transition-all duration-300 md:hidden ${
+            isMobileMenuOpen
+              ? 'visible translate-y-0 opacity-100'
+              : 'pointer-events-none invisible -translate-y-4 opacity-0'
           }`}
           style={{
             background: 'rgba(15, 23, 42, 0.95)',
@@ -346,32 +376,39 @@ export default function Header() {
             boxShadow: '0 20px 40px rgba(0, 0, 0, 0.4)',
           }}
         >
-          <div className="p-4 flex flex-col gap-1">
+          <div className="flex flex-col gap-1 p-4">
             {navLinks.map((link) => (
               <div key={link.href}>
                 {link.hasDropdown ? (
                   <>
                     <button
                       onClick={() => setIsServicesOpen(!isServicesOpen)}
-                      className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-white/90 hover:text-white hover:bg-white/5 transition-all duration-200"
+                      className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-white/90 transition-all duration-200 hover:bg-white/5 hover:text-white"
                     >
                       {link.label}
                       <svg
-                        className={`w-4 h-4 transition-transform duration-300 ${isServicesOpen ? 'rotate-180' : ''}`}
+                        className={`h-4 w-4 transition-transform duration-300 ${isServicesOpen ? 'rotate-180' : ''}`}
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
                       >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
                       </svg>
                     </button>
-                    <div className={`overflow-hidden transition-all duration-300 ${isServicesOpen ? 'max-h-96' : 'max-h-0'}`}>
-                      <div className="pl-4 py-2 flex flex-col gap-1">
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ${isServicesOpen ? 'max-h-96' : 'max-h-0'}`}
+                    >
+                      <div className="flex flex-col gap-1 py-2 pl-4">
                         {serviceLinks.map((service) => (
                           <Link
                             key={service.href}
                             href={service.href}
-                            className="px-4 py-2 rounded-lg text-white/60 hover:text-white hover:bg-white/5 transition-all duration-200 text-sm"
+                            className="rounded-lg px-4 py-2 text-sm text-white/60 transition-all duration-200 hover:bg-white/5 hover:text-white"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
                             {service.label}
@@ -383,18 +420,18 @@ export default function Header() {
                 ) : (
                   <Link
                     href={link.href}
-                    className={`relative block px-4 py-3 rounded-xl transition-all duration-200 ${
-                      pathname === link.href 
-                        ? 'text-white bg-white/10' 
-                        : 'text-white/90 hover:text-white hover:bg-white/5'
+                    className={`relative block rounded-xl px-4 py-3 transition-all duration-200 ${
+                      pathname === link.href
+                        ? 'bg-white/10 text-white'
+                        : 'text-white/90 hover:bg-white/5 hover:text-white'
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {pathname === link.href && (
-                      <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-[#F58122] rounded-t-full">
-                        <div className="absolute w-12 h-6 bg-[#F58122]/20 rounded-full blur-md -top-2 -left-2" />
-                        <div className="absolute w-8 h-6 bg-[#F58122]/20 rounded-full blur-md -top-1" />
-                        <div className="absolute w-4 h-4 bg-[#F58122]/20 rounded-full blur-sm top-0 left-2" />
+                      <div className="absolute -top-1 left-1/2 h-1 w-8 -translate-x-1/2 rounded-t-full bg-[#F58122]">
+                        <div className="absolute -left-2 -top-2 h-6 w-12 rounded-full bg-[#F58122]/20 blur-md" />
+                        <div className="absolute -top-1 h-6 w-8 rounded-full bg-[#F58122]/20 blur-md" />
+                        <div className="absolute left-2 top-0 h-4 w-4 rounded-full bg-[#F58122]/20 blur-sm" />
                       </div>
                     )}
                     <span className="flex items-center gap-2">
@@ -404,7 +441,7 @@ export default function Header() {
                 )}
               </div>
             ))}
-            
+
             {/* Mobile CTA - only show if enabled */}
             {settings.header.ctaButton.enabled && (
               <ParticleWrapper>
@@ -412,7 +449,10 @@ export default function Header() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Link href={settings.header.ctaButton.href} onClick={() => setIsMobileMenuOpen(false)}>
+                  <Link
+                    href={settings.header.ctaButton.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
                     <StarButton className="mt-2 w-full px-5 py-3 text-sm">
                       {settings.header.ctaButton.label}
                     </StarButton>

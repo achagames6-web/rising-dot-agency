@@ -8,19 +8,28 @@ import {
   StyleShowcase,
   ResponsivePreview,
 } from '@/components/services/webdesign';
-import { ServicesHeroSection, ServiceItem } from '@/components/ui/services-hero-section';
+import {
+  ServicesHeroSection,
+  ServiceItem,
+} from '@/components/ui/services-hero-section';
 import ServiceCaseStudies from '@/components/sections/ServiceCaseStudies';
 import ServiceCTA from '@/components/sections/ServiceCTA';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
 
-const StackFeatureSection = dynamic(() => import('@/components/ui/stack-feature-section'), {
-  ssr: false,
-});
+const StackFeatureSection = dynamic(
+  () => import('@/components/ui/stack-feature-section'),
+  {
+    ssr: false,
+  }
+);
 
-const ServiceVideoSection = dynamic(() => import('@/components/sections/ServiceVideoSection'), {
-  ssr: false,
-});
+const ServiceVideoSection = dynamic(
+  () => import('@/components/sections/ServiceVideoSection'),
+  {
+    ssr: false,
+  }
+);
 
 // Define interfaces for CMS content types
 interface HeroContent {
@@ -132,7 +141,8 @@ const defaultHeroContent: HeroContent = {
   title: 'Build Stunning Websites with Premium Quality Design',
   highlightedWord: 'Premium',
   highlightedWord2: 'Design',
-  subtitle: 'We craft beautiful, functional websites that captivate your audience and convert visitors into customers. From wireframes to stunning final designs.',
+  subtitle:
+    'We craft beautiful, functional websites that captivate your audience and convert visitors into customers. From wireframes to stunning final designs.',
   services: [
     {
       id: 'landing-pages',
@@ -185,7 +195,8 @@ const defaultVideoContent: VideoContent = {
   eyebrow: 'See Design In Action',
   title: 'Watch How We Create',
   titleHighlight: 'Stunning Designs',
-  subtitle: 'Experience our creative process and see the beautiful, functional designs we craft for our clients.',
+  subtitle:
+    'Experience our creative process and see the beautiful, functional designs we craft for our clients.',
   videoSrc: '/media/services/web-design/video/hero-video.mp4',
   ctaText: 'Start Your Design Project',
   ctaHref: '/contact',
@@ -195,7 +206,8 @@ const defaultWireframeMorphContent: WireframeMorphContent = {
   eyebrow: 'Transformation',
   title: 'Watch Design',
   titleHighlight: 'Come to Life',
-  subtitle: 'See how we transform simple wireframes into beautiful, functional designs.',
+  subtitle:
+    'See how we transform simple wireframes into beautiful, functional designs.',
   logoText: 'Logo',
   navItems: ['Home', 'About', 'Services', 'Contact'],
   heroTitle: 'Beautiful Design',
@@ -208,66 +220,78 @@ const defaultDesignTimelineContent: DesignTimelineContent = {
   titleHighlight: 'Process',
   subtitle: 'Explore each phase of our comprehensive design methodology.',
   phases: [
-    { 
-      id: 'discovery', 
-      name: 'Discovery', 
-      description: 'Research & Strategy', 
-      color: '#64748B', 
+    {
+      id: 'discovery',
+      name: 'Discovery',
+      description: 'Research & Strategy',
+      color: '#64748B',
       position: 0,
       cards: [
-        { title: 'User Research', description: 'Understanding your target audience' },
-        { title: 'Competitor Analysis', description: 'Market positioning insights' },
-        { title: 'Goal Definition', description: 'Clear objectives & KPIs' }
-      ]
+        {
+          title: 'User Research',
+          description: 'Understanding your target audience',
+        },
+        {
+          title: 'Competitor Analysis',
+          description: 'Market positioning insights',
+        },
+        { title: 'Goal Definition', description: 'Clear objectives & KPIs' },
+      ],
     },
-    { 
-      id: 'wireframe', 
-      name: 'Wireframe', 
-      description: 'Structure & Layout', 
-      color: '#2563EB', 
+    {
+      id: 'wireframe',
+      name: 'Wireframe',
+      description: 'Structure & Layout',
+      color: '#2563EB',
       position: 25,
       cards: [
-        { title: 'Information Architecture', description: 'Content organization' },
+        {
+          title: 'Information Architecture',
+          description: 'Content organization',
+        },
         { title: 'User Flows', description: 'Navigation pathways' },
-        { title: 'Low-Fi Mockups', description: 'Basic layout structure' }
-      ]
+        { title: 'Low-Fi Mockups', description: 'Basic layout structure' },
+      ],
     },
-    { 
-      id: 'design', 
-      name: 'Design', 
-      description: 'Visual Identity', 
-      color: '#37AFE1', 
+    {
+      id: 'design',
+      name: 'Design',
+      description: 'Visual Identity',
+      color: '#37AFE1',
       position: 50,
       cards: [
         { title: 'Visual Design', description: 'Colors, typography & imagery' },
         { title: 'UI Components', description: 'Buttons, forms & elements' },
-        { title: 'Responsive Layouts', description: 'Multi-device optimization' }
-      ]
+        {
+          title: 'Responsive Layouts',
+          description: 'Multi-device optimization',
+        },
+      ],
     },
-    { 
-      id: 'development', 
-      name: 'Development', 
-      description: 'Build & Test', 
-      color: '#F97316', 
+    {
+      id: 'development',
+      name: 'Development',
+      description: 'Build & Test',
+      color: '#F97316',
       position: 75,
       cards: [
         { title: 'Frontend Code', description: 'HTML, CSS & JavaScript' },
         { title: 'CMS Integration', description: 'Content management setup' },
-        { title: 'Quality Assurance', description: 'Testing & bug fixes' }
-      ]
+        { title: 'Quality Assurance', description: 'Testing & bug fixes' },
+      ],
     },
-    { 
-      id: 'launch', 
-      name: 'Launch', 
-      description: 'Deploy & Monitor', 
-      color: '#31A4DB', 
+    {
+      id: 'launch',
+      name: 'Launch',
+      description: 'Deploy & Monitor',
+      color: '#31A4DB',
       position: 100,
       cards: [
         { title: 'Deployment', description: 'Go live on production' },
         { title: 'Performance', description: 'Speed optimization' },
-        { title: 'Analytics', description: 'Tracking & insights' }
-      ]
-    }
+        { title: 'Analytics', description: 'Tracking & insights' },
+      ],
+    },
   ],
 };
 
@@ -279,27 +303,68 @@ const defaultStyleShowcaseContent: StyleShowcaseContent = {
   featureCards: [
     { title: 'Feature 1', description: 'Description text' },
     { title: 'Feature 2', description: 'Description text' },
-    { title: 'Feature 3', description: 'Description text' }
+    { title: 'Feature 3', description: 'Description text' },
   ],
   brandTitle: 'Your Brand Title',
-  brandDescription: 'This is how your content will look with the selected style. The typography and colors update in real-time to give you an instant preview of your design choices.',
+  brandDescription:
+    'This is how your content will look with the selected style. The typography and colors update in real-time to give you an instant preview of your design choices.',
   ctaText: 'Call to Action',
   colorSchemes: [
-    { name: 'Ocean', primary: '#2563EB', secondary: '#37AFE1', accent: '#31A4DB' },
-    { name: 'Sunset', primary: '#F97316', secondary: '#F58122', accent: '#F59E0B' },
-    { name: 'Sky', primary: '#37AFE1', secondary: '#31A4DB', accent: '#2563EB' },
-    { name: 'Fire', primary: '#F58122', secondary: '#F97316', accent: '#F59E0B' },
-    { name: 'Midnight', primary: '#1E3A8A', secondary: '#3B82F6', accent: '#60A5FA' },
-    { name: 'Coral', primary: '#F97316', secondary: '#FB923C', accent: '#FDBA74' },
-    { name: 'Electric', primary: '#37AFE1', secondary: '#06B6D4', accent: '#22D3EE' },
-    { name: 'Amber', primary: '#F59E0B', secondary: '#FBBF24', accent: '#FCD34D' }
+    {
+      name: 'Ocean',
+      primary: '#2563EB',
+      secondary: '#37AFE1',
+      accent: '#31A4DB',
+    },
+    {
+      name: 'Sunset',
+      primary: '#F97316',
+      secondary: '#F58122',
+      accent: '#F59E0B',
+    },
+    {
+      name: 'Sky',
+      primary: '#37AFE1',
+      secondary: '#31A4DB',
+      accent: '#2563EB',
+    },
+    {
+      name: 'Fire',
+      primary: '#F58122',
+      secondary: '#F97316',
+      accent: '#F59E0B',
+    },
+    {
+      name: 'Midnight',
+      primary: '#1E3A8A',
+      secondary: '#3B82F6',
+      accent: '#60A5FA',
+    },
+    {
+      name: 'Coral',
+      primary: '#F97316',
+      secondary: '#FB923C',
+      accent: '#FDBA74',
+    },
+    {
+      name: 'Electric',
+      primary: '#37AFE1',
+      secondary: '#06B6D4',
+      accent: '#22D3EE',
+    },
+    {
+      name: 'Amber',
+      primary: '#F59E0B',
+      secondary: '#FBBF24',
+      accent: '#FCD34D',
+    },
   ],
   fonts: [
     { name: 'Modern', family: 'Inter, sans-serif' },
     { name: 'Classic', family: 'Georgia, serif' },
     { name: 'Tech', family: 'Fira Code, monospace' },
-    { name: 'Elegant', family: 'Montserrat, sans-serif' }
-  ]
+    { name: 'Elegant', family: 'Montserrat, sans-serif' },
+  ],
 };
 
 const defaultResponsivePreviewContent: SectionHeadingContent = {
@@ -313,7 +378,8 @@ const defaultCaseStudiesContent: CaseStudiesContent = {
   eyebrow: 'Design Success Stories',
   title: 'Designs That',
   titleHighlight: 'Inspire',
-  subtitle: 'See how we\'ve helped businesses transform their digital presence with stunning designs.',
+  subtitle:
+    "See how we've helped businesses transform their digital presence with stunning designs.",
   studies: [
     {
       img: '/media/services/web-design/case-studies/saas-landing.jpg',
@@ -346,7 +412,7 @@ const defaultCTAContent: CTAContent = {
   eyebrow: 'Design Excellence',
   title: 'Transform Your',
   titleHighlight: 'Brand',
-  subtitle: 'Let\'s create a design that sets you apart from the competition',
+  subtitle: "Let's create a design that sets you apart from the competition",
   ctaText: 'Start Your Project',
   ctaHref: '/contact',
 };
@@ -354,14 +420,39 @@ const defaultCTAContent: CTAContent = {
 export default function WebDesignPage() {
   // Fetch CMS content for all sections
   // Requirements: 5.1, 5.2, 5.3, 7.1
-  const { content: heroContent } = useSiteContent<HeroContent>('services-webdesign', 'hero');
-  const { content: videoContent } = useSiteContent<VideoContent>('services-webdesign', 'video');
-  const { content: wireframeMorphContent } = useSiteContent<WireframeMorphContent>('services-webdesign', 'wireframeMorph');
-  const { content: designTimelineContent } = useSiteContent<DesignTimelineContent>('services-webdesign', 'designTimeline');
-  const { content: styleShowcaseContent } = useSiteContent<StyleShowcaseContent>('services-webdesign', 'styleShowcase');
-  const { content: responsivePreviewContent } = useSiteContent<SectionHeadingContent>('services-webdesign', 'responsivePreview');
-  const { content: caseStudiesContent } = useSiteContent<CaseStudiesContent>('services-webdesign', 'caseStudies');
-  const { content: ctaContent } = useSiteContent<CTAContent>('services-webdesign', 'cta');
+  const { content: heroContent } = useSiteContent<HeroContent>(
+    'services-webdesign',
+    'hero'
+  );
+  const { content: videoContent } = useSiteContent<VideoContent>(
+    'services-webdesign',
+    'video'
+  );
+  const { content: wireframeMorphContent } =
+    useSiteContent<WireframeMorphContent>(
+      'services-webdesign',
+      'wireframeMorph'
+    );
+  const { content: designTimelineContent } =
+    useSiteContent<DesignTimelineContent>(
+      'services-webdesign',
+      'designTimeline'
+    );
+  const { content: styleShowcaseContent } =
+    useSiteContent<StyleShowcaseContent>('services-webdesign', 'styleShowcase');
+  const { content: responsivePreviewContent } =
+    useSiteContent<SectionHeadingContent>(
+      'services-webdesign',
+      'responsivePreview'
+    );
+  const { content: caseStudiesContent } = useSiteContent<CaseStudiesContent>(
+    'services-webdesign',
+    'caseStudies'
+  );
+  const { content: ctaContent } = useSiteContent<CTAContent>(
+    'services-webdesign',
+    'cta'
+  );
 
   // Use CMS content with fallback to defaults
   const hero = heroContent || defaultHeroContent;
@@ -369,7 +460,8 @@ export default function WebDesignPage() {
   const wireframeMorph = wireframeMorphContent || defaultWireframeMorphContent;
   const designTimeline = designTimelineContent || defaultDesignTimelineContent;
   const styleShowcase = styleShowcaseContent || defaultStyleShowcaseContent;
-  const responsivePreview = responsivePreviewContent || defaultResponsivePreviewContent;
+  const responsivePreview =
+    responsivePreviewContent || defaultResponsivePreviewContent;
   const caseStudies = caseStudiesContent || defaultCaseStudiesContent;
   const cta = ctaContent || defaultCTAContent;
 
@@ -399,8 +491,8 @@ export default function WebDesignPage() {
       />
 
       {/* Wireframe Morph Section - Uses CMS content with fallback */}
-      <section className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
+      <section className="px-6 py-24">
+        <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow={wireframeMorph.eyebrow}
             title={wireframeMorph.title}
@@ -417,8 +509,8 @@ export default function WebDesignPage() {
       </section>
 
       {/* Design Timeline Section - Uses CMS content with fallback */}
-      <section className="py-24 px-6 bg-black">
-        <div className="max-w-7xl mx-auto">
+      <section className="bg-black px-6 py-24">
+        <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow={designTimeline.eyebrow}
             title={designTimeline.title}
@@ -430,8 +522,8 @@ export default function WebDesignPage() {
       </section>
 
       {/* Style Showcase Section - Uses CMS content with fallback */}
-      <section className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
+      <section className="px-6 py-24">
+        <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow={styleShowcase.eyebrow}
             title={styleShowcase.title}
@@ -450,8 +542,8 @@ export default function WebDesignPage() {
       </section>
 
       {/* Responsive Preview Section - Uses CMS content with fallback */}
-      <section className="py-24 px-6 bg-black">
-        <div className="max-w-7xl mx-auto">
+      <section className="bg-black px-6 py-24">
+        <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow={responsivePreview.eyebrow}
             title={responsivePreview.title}

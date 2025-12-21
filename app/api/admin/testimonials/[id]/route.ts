@@ -17,13 +17,19 @@ export async function GET(
       .findOne({ _id: new ObjectId(id) });
 
     if (!testimonial) {
-      return NextResponse.json({ error: 'Testimonial not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Testimonial not found' },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json(testimonial);
   } catch (error) {
     console.error('Error fetching testimonial:', error);
-    return NextResponse.json({ error: 'Failed to fetch testimonial' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch testimonial' },
+      { status: 500 }
+    );
   }
 }
 
@@ -43,27 +49,46 @@ export async function PUT(
       updatedAt: new Date(),
     };
 
-    const allowedFields = ['name', 'role', 'company', 'avatar', 'text', 'rating', 'results', 'featured', 'published', 'order'];
-    allowedFields.forEach(field => {
+    const allowedFields = [
+      'name',
+      'role',
+      'company',
+      'avatar',
+      'text',
+      'rating',
+      'results',
+      'featured',
+      'published',
+      'order',
+    ];
+    allowedFields.forEach((field) => {
       if (body[field] !== undefined) {
         updateData[field] = body[field];
       }
     });
 
-    const result = await db.collection('testimonials').findOneAndUpdate(
-      { _id: new ObjectId(id) },
-      { $set: updateData },
-      { returnDocument: 'after' }
-    );
+    const result = await db
+      .collection('testimonials')
+      .findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        { $set: updateData },
+        { returnDocument: 'after' }
+      );
 
     if (!result) {
-      return NextResponse.json({ error: 'Testimonial not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Testimonial not found' },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json(result);
   } catch (error) {
     console.error('Error updating testimonial:', error);
-    return NextResponse.json({ error: 'Failed to update testimonial' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to update testimonial' },
+      { status: 500 }
+    );
   }
 }
 
@@ -82,12 +107,18 @@ export async function DELETE(
       .deleteOne({ _id: new ObjectId(id) });
 
     if (result.deletedCount === 0) {
-      return NextResponse.json({ error: 'Testimonial not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Testimonial not found' },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting testimonial:', error);
-    return NextResponse.json({ error: 'Failed to delete testimonial' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to delete testimonial' },
+      { status: 500 }
+    );
   }
 }

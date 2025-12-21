@@ -14,10 +14,19 @@ export async function POST() {
         id: 'dup-1',
         type: 'similar',
         pages: [
-          { url: '/services/web-design', title: 'Web Design Services', similarity: 85 },
-          { url: '/services/wordpress', title: 'WordPress Development', similarity: 78 },
+          {
+            url: '/services/web-design',
+            title: 'Web Design Services',
+            similarity: 85,
+          },
+          {
+            url: '/services/wordpress',
+            title: 'WordPress Development',
+            similarity: 78,
+          },
         ],
-        contentPreview: 'We create stunning, responsive websites that drive results. Our team of expert designers and developers work together to deliver exceptional digital experiences...',
+        contentPreview:
+          'We create stunning, responsive websites that drive results. Our team of expert designers and developers work together to deliver exceptional digital experiences...',
       },
       {
         id: 'dup-2',
@@ -26,7 +35,8 @@ export async function POST() {
           { url: '/about', title: 'About Us', similarity: 65 },
           { url: '/', title: 'Homepage', similarity: 62 },
         ],
-        contentPreview: 'Rising Dot Agency is a full-service digital agency specializing in web development, automation, and AI solutions. We help businesses transform their digital presence...',
+        contentPreview:
+          'Rising Dot Agency is a full-service digital agency specializing in web development, automation, and AI solutions. We help businesses transform their digital presence...',
       },
     ];
 
@@ -39,6 +49,9 @@ export async function POST() {
     return NextResponse.json(duplicates);
   } catch (error) {
     console.error('Error scanning for duplicates:', error);
-    return NextResponse.json({ error: 'Failed to scan for duplicates' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to scan for duplicates' },
+      { status: 500 }
+    );
   }
 }

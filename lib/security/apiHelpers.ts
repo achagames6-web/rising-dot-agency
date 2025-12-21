@@ -48,7 +48,10 @@ export function secureAPI(
           req.headers.get('x-real-ip') ||
           'unknown';
 
-        const rateLimitResult = await checkRateLimit(identifier, options.rateLimit);
+        const rateLimitResult = await checkRateLimit(
+          identifier,
+          options.rateLimit
+        );
 
         if (!rateLimitResult.allowed) {
           return NextResponse.json(
@@ -71,12 +74,18 @@ export function secureAPI(
 
         // Add rate limit headers to response
         const response = await handler(req);
-        response.headers.set('X-RateLimit-Limit', rateLimitResult.limit.toString());
+        response.headers.set(
+          'X-RateLimit-Limit',
+          rateLimitResult.limit.toString()
+        );
         response.headers.set(
           'X-RateLimit-Remaining',
           rateLimitResult.remaining.toString()
         );
-        response.headers.set('X-RateLimit-Reset', rateLimitResult.resetIn.toString());
+        response.headers.set(
+          'X-RateLimit-Reset',
+          rateLimitResult.resetIn.toString()
+        );
 
         return response;
       }

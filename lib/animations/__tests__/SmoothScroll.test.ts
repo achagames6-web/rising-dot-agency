@@ -1,8 +1,8 @@
 /**
  * SmoothScroll Tests
- * 
+ *
  * Tests for the smooth scrolling system including property-based tests
- * 
+ *
  * Requirements: 6.1, 6.2, 33.1-33.10, 37.1-37.10
  */
 
@@ -345,7 +345,7 @@ describe('SmoothScroll', () => {
 
             // Requirement 33.6: skewY = velocity × 0.1
             const expectedSkew = velocity * 0.1;
-            
+
             // Allow for floating point precision
             expect(Math.abs(skew - expectedSkew)).toBeLessThan(0.0001);
 
@@ -408,7 +408,7 @@ describe('SmoothScroll', () => {
             if (Math.abs(velocity1) > 0.1 && Math.abs(velocity2) > 0.1) {
               const velocityRatio = velocity2 / velocity1;
               const skewRatio = skew2 / skew1;
-              
+
               // Allow for floating point precision
               expect(Math.abs(velocityRatio - skewRatio)).toBeLessThan(0.01);
             }

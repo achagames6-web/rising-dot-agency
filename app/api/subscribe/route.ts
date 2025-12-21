@@ -14,32 +14,37 @@ export async function POST(request: NextRequest) {
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return NextResponse.json({ error: 'Invalid email format' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Invalid email format' },
+        { status: 400 }
+      );
     }
 
     const client = await clientPromise;
     const db = client.db('rising-dot');
 
     // Check for existing subscriber
-    const existing = await db.collection('subscribers').findOne({ 
-      email: email.toLowerCase() 
+    const existing = await db.collection('subscribers').findOne({
+      email: email.toLowerCase(),
     });
 
     if (existing) {
       if (existing.status === 'unsubscribed') {
         // Reactivate unsubscribed user
-        await db.collection('subscribers').updateOne(
-          { _id: existing._id },
-          { $set: { status: 'active', updatedAt: new Date() } }
-        );
-        return NextResponse.json({ 
-          success: true, 
-          message: 'Welcome back! Your subscription has been reactivated.' 
+        await db
+          .collection('subscribers')
+          .updateOne(
+            { _id: existing._id },
+            { $set: { status: 'active', updatedAt: new Date() } }
+          );
+        return NextResponse.json({
+          success: true,
+          message: 'Welcome back! Your subscription has been reactivated.',
         });
       }
-      return NextResponse.json({ 
-        success: true, 
-        message: 'You are already subscribed!' 
+      return NextResponse.json({
+        success: true,
+        message: 'You are already subscribed!',
       });
     }
 
@@ -55,10 +60,13 @@ export async function POST(request: NextRequest) {
       createdAt: now,
     });
 
-    return NextResponse.json({ 
-      success: true, 
-      message: 'Successfully subscribed to our newsletter!' 
-    }, { status: 201 });
+    return NextResponse.json(
+      {
+        success: true,
+        message: 'Successfully subscribed to our newsletter!',
+      },
+      { status: 201 }
+    );
   } catch (error) {
     console.error('Error subscribing:', error);
     return NextResponse.json({ error: 'Failed to subscribe' }, { status: 500 });

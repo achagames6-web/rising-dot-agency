@@ -29,10 +29,26 @@ interface Conversation {
 }
 
 const statusConfig = {
-  ai: { label: 'AI Handling', color: 'bg-blue-500/20 text-blue-400', icon: Bot },
-  waiting: { label: 'Waiting for Agent', color: 'bg-yellow-500/20 text-yellow-400', icon: AlertCircle },
-  human: { label: 'Human Agent', color: 'bg-green-500/20 text-green-400', icon: User },
-  resolved: { label: 'Resolved', color: 'bg-slate-500/20 text-slate-400', icon: CheckCircle },
+  ai: {
+    label: 'AI Handling',
+    color: 'bg-blue-500/20 text-blue-400',
+    icon: Bot,
+  },
+  waiting: {
+    label: 'Waiting for Agent',
+    color: 'bg-yellow-500/20 text-yellow-400',
+    icon: AlertCircle,
+  },
+  human: {
+    label: 'Human Agent',
+    color: 'bg-green-500/20 text-green-400',
+    icon: User,
+  },
+  resolved: {
+    label: 'Resolved',
+    color: 'bg-slate-500/20 text-slate-400',
+    icon: CheckCircle,
+  },
 };
 
 export default function ChatDetailPage() {
@@ -125,15 +141,15 @@ export default function ChatDetailPage() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[400px]">
-        <div className="w-8 h-8 border-2 border-[#37AFE1]/30 border-t-[#37AFE1] rounded-full animate-spin" />
+      <div className="flex min-h-[400px] items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
       </div>
     );
   }
 
   if (!conversation) {
     return (
-      <div className="text-center py-20">
+      <div className="py-20 text-center">
         <p className="text-slate-400">Conversation not found</p>
         <button
           onClick={() => router.push('/admin/live-chat')}
@@ -148,37 +164,43 @@ export default function ChatDetailPage() {
   const StatusIcon = statusConfig[conversation.status].icon;
 
   return (
-    <div className="min-h-full flex flex-col">
+    <div className="flex min-h-full flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button
             onClick={() => router.push('/admin/live-chat')}
-            className="p-2 text-slate-400 hover:text-white hover:bg-slate-700 rounded-lg transition-colors"
+            className="rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-700 hover:text-white"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="h-5 w-5" />
           </button>
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-[#1E293B] flex items-center justify-center text-[#F58122] font-semibold text-lg">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1E293B] text-lg font-semibold text-[#F58122]">
               {conversation.visitorName.charAt(0).toUpperCase()}
             </div>
             <div>
-              <h1 className="text-xl font-bold text-white">{conversation.visitorName}</h1>
-              <p className="text-slate-400 text-sm">{conversation.visitorEmail}</p>
+              <h1 className="text-xl font-bold text-white">
+                {conversation.visitorName}
+              </h1>
+              <p className="text-sm text-slate-400">
+                {conversation.visitorEmail}
+              </p>
             </div>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <span className={`px-3 py-1.5 rounded-full text-sm flex items-center gap-2 ${statusConfig[conversation.status].color}`}>
-            <StatusIcon className="w-4 h-4" />
+          <span
+            className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-sm ${statusConfig[conversation.status].color}`}
+          >
+            <StatusIcon className="h-4 w-4" />
             {statusConfig[conversation.status].label}
           </span>
           {conversation.status !== 'resolved' && (
             <button
               onClick={() => handleStatusChange('resolved')}
-              className="px-4 py-2 bg-green-500/20 text-green-400 rounded-lg hover:bg-green-500/30 transition-colors flex items-center gap-2"
+              className="flex items-center gap-2 rounded-lg bg-green-500/20 px-4 py-2 text-green-400 transition-colors hover:bg-green-500/30"
             >
-              <CheckCircle className="w-4 h-4" />
+              <CheckCircle className="h-4 w-4" />
               Mark Resolved
             </button>
           )}
@@ -186,8 +208,11 @@ export default function ChatDetailPage() {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 bg-[#1E293B] rounded-xl border border-slate-700/50 flex flex-col min-h-[500px]">
-        <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+      <div className="flex min-h-[500px] flex-1 flex-col rounded-xl border border-slate-700/50 bg-[#1E293B]">
+        <div
+          className="scrollbar-hide flex-1 space-y-4 overflow-y-auto p-6"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
           {conversation.messages.map((msg, index) => (
             <div
               key={index}
@@ -196,34 +221,38 @@ export default function ChatDetailPage() {
               <div
                 className={`max-w-[70%] rounded-2xl px-4 py-3 ${
                   msg.role === 'user'
-                    ? 'bg-[#0F172A] text-slate-200 rounded-bl-md'
+                    ? 'rounded-bl-md bg-[#0F172A] text-slate-200'
                     : msg.isHuman
-                    ? 'bg-[#F58122] text-white rounded-br-md'
-                    : 'bg-[#37AFE1]/20 text-slate-200 rounded-br-md'
+                      ? 'rounded-br-md bg-[#F58122] text-white'
+                      : 'rounded-br-md bg-[#37AFE1]/20 text-slate-200'
                 }`}
               >
-                <div className="flex items-center gap-2 mb-1">
+                <div className="mb-1 flex items-center gap-2">
                   {msg.role === 'user' ? (
                     <>
-                      <User className="w-3 h-3 text-slate-400" />
-                      <span className="text-xs text-slate-400">{conversation.visitorName}</span>
+                      <User className="h-3 w-3 text-slate-400" />
+                      <span className="text-xs text-slate-400">
+                        {conversation.visitorName}
+                      </span>
                     </>
                   ) : msg.isHuman ? (
                     <>
-                      <User className="w-3 h-3 text-white/70" />
+                      <User className="h-3 w-3 text-white/70" />
                       <span className="text-xs text-white/70">You (Agent)</span>
                     </>
                   ) : (
                     <>
-                      <Bot className="w-3 h-3 text-[#37AFE1]" />
-                      <span className="text-xs text-[#37AFE1]">AI Assistant</span>
+                      <Bot className="h-3 w-3 text-[#37AFE1]" />
+                      <span className="text-xs text-[#37AFE1]">
+                        AI Assistant
+                      </span>
                     </>
                   )}
-                  <span className="text-xs text-slate-500 ml-auto">
+                  <span className="ml-auto text-xs text-slate-500">
                     {formatTime(msg.timestamp)}
                   </span>
                 </div>
-                <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                <p className="whitespace-pre-wrap text-sm">{msg.content}</p>
               </div>
             </div>
           ))}
@@ -231,25 +260,25 @@ export default function ChatDetailPage() {
         </div>
 
         {/* Reply Input */}
-        <div className="p-4 border-t border-slate-700/50">
+        <div className="border-t border-slate-700/50 p-4">
           <form onSubmit={handleSendReply} className="flex gap-3">
             <input
               type="text"
               value={replyMessage}
               onChange={(e) => setReplyMessage(e.target.value)}
               placeholder="Type your reply..."
-              className="flex-1 px-4 py-3 bg-[#0F172A] border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#37AFE1]"
+              className="flex-1 rounded-lg border border-slate-700 bg-[#0F172A] px-4 py-3 text-white placeholder-slate-500 focus:border-[#37AFE1] focus:outline-none"
             />
             <button
               type="submit"
               disabled={!replyMessage.trim() || sending}
-              className="px-6 py-3 bg-[#F58122] text-white rounded-lg hover:bg-[#e0741d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="flex items-center gap-2 rounded-lg bg-[#F58122] px-6 py-3 text-white transition-colors hover:bg-[#e0741d] disabled:cursor-not-allowed disabled:opacity-50"
             >
               {sending ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
+                <Loader2 className="h-5 w-5 animate-spin" />
               ) : (
                 <>
-                  <Send className="w-5 h-5" />
+                  <Send className="h-5 w-5" />
                   Send
                 </>
               )}

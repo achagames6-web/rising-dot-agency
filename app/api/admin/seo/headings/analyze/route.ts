@@ -71,13 +71,16 @@ function analyzeHeadings(page: string, data: any) {
   let score = 100;
 
   const h1Count = data.headings.filter((h: any) => h.tag === 'H1').length;
-  
+
   // Check for H1
   if (h1Count === 0) {
     issues.push({ type: 'error', message: 'Missing H1 heading' });
     score -= 20;
   } else if (h1Count > 1) {
-    issues.push({ type: 'error', message: `Multiple H1 headings found (${h1Count})` });
+    issues.push({
+      type: 'error',
+      message: `Multiple H1 headings found (${h1Count})`,
+    });
     score -= 15;
   }
 
@@ -85,7 +88,10 @@ function analyzeHeadings(page: string, data: any) {
   let prevLevel = 0;
   for (const heading of data.headings) {
     if (heading.level > prevLevel + 1 && prevLevel > 0) {
-      issues.push({ type: 'warning', message: `Skipped heading level: ${heading.tag} after H${prevLevel}` });
+      issues.push({
+        type: 'warning',
+        message: `Skipped heading level: ${heading.tag} after H${prevLevel}`,
+      });
       score -= 5;
     }
     prevLevel = heading.level;
@@ -93,7 +99,10 @@ function analyzeHeadings(page: string, data: any) {
 
   // Check heading count
   if (data.headings.length < 3) {
-    issues.push({ type: 'warning', message: 'Few headings - consider adding more structure' });
+    issues.push({
+      type: 'warning',
+      message: 'Few headings - consider adding more structure',
+    });
     score -= 5;
   }
 
@@ -112,7 +121,7 @@ export async function POST() {
     const client = await clientPromise;
     const db = client.db('rising-dot');
 
-    const results = Object.entries(pageHeadings).map(([page, data]) => 
+    const results = Object.entries(pageHeadings).map(([page, data]) =>
       analyzeHeadings(page, data)
     );
 
@@ -123,6 +132,9 @@ export async function POST() {
     return NextResponse.json(results);
   } catch (error) {
     console.error('Error analyzing headings:', error);
-    return NextResponse.json({ error: 'Failed to analyze headings' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to analyze headings' },
+      { status: 500 }
+    );
   }
 }

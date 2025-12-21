@@ -122,21 +122,33 @@ describe('FluxCardHero Fallback Behavior', () => {
     const cardConfigArb = fc.record({
       bgColor: fc.stringMatching(/^bg-\[#[0-9A-Fa-f]{6}\]$/),
       content: fc.record({
-        type: fc.option(fc.constantFrom('analytics', 'projects', 'chat-history'), { nil: undefined }),
-        greeting: fc.option(fc.string({ minLength: 1, maxLength: 100 }), { nil: undefined }),
-        subtitle: fc.option(fc.string({ minLength: 1, maxLength: 100 }), { nil: undefined }),
-        title: fc.option(fc.string({ minLength: 1, maxLength: 100 }), { nil: undefined }),
+        type: fc.option(
+          fc.constantFrom('analytics', 'projects', 'chat-history'),
+          { nil: undefined }
+        ),
+        greeting: fc.option(fc.string({ minLength: 1, maxLength: 100 }), {
+          nil: undefined,
+        }),
+        subtitle: fc.option(fc.string({ minLength: 1, maxLength: 100 }), {
+          nil: undefined,
+        }),
+        title: fc.option(fc.string({ minLength: 1, maxLength: 100 }), {
+          nil: undefined,
+        }),
       }),
     }) as fc.Arbitrary<CardConfig>;
 
     fc.assert(
-      fc.property(fc.array(cardConfigArb, { minLength: 1, maxLength: 10 }), (cmsCards) => {
-        const activeCards = getActiveCards(cmsCards);
+      fc.property(
+        fc.array(cardConfigArb, { minLength: 1, maxLength: 10 }),
+        (cmsCards) => {
+          const activeCards = getActiveCards(cmsCards);
 
-        // Should use CMS cards when provided
-        expect(activeCards).toEqual(cmsCards);
-        expect(activeCards.length).toBe(cmsCards.length);
-      }),
+          // Should use CMS cards when provided
+          expect(activeCards).toEqual(cmsCards);
+          expect(activeCards.length).toBe(cmsCards.length);
+        }
+      ),
       { numRuns: 100 }
     );
   });
@@ -160,16 +172,27 @@ describe('FluxCardHero Fallback Behavior', () => {
     const cardConfigArb = fc.record({
       bgColor: fc.stringMatching(/^bg-\[#[0-9A-Fa-f]{6}\]$/),
       content: fc.record({
-        type: fc.option(fc.constantFrom('analytics', 'projects', 'chat-history'), { nil: undefined }),
-        greeting: fc.option(fc.string({ minLength: 1, maxLength: 100 }), { nil: undefined }),
-        subtitle: fc.option(fc.string({ minLength: 1, maxLength: 100 }), { nil: undefined }),
-        title: fc.option(fc.string({ minLength: 1, maxLength: 100 }), { nil: undefined }),
+        type: fc.option(
+          fc.constantFrom('analytics', 'projects', 'chat-history'),
+          { nil: undefined }
+        ),
+        greeting: fc.option(fc.string({ minLength: 1, maxLength: 100 }), {
+          nil: undefined,
+        }),
+        subtitle: fc.option(fc.string({ minLength: 1, maxLength: 100 }), {
+          nil: undefined,
+        }),
+        title: fc.option(fc.string({ minLength: 1, maxLength: 100 }), {
+          nil: undefined,
+        }),
       }),
     }) as fc.Arbitrary<CardConfig>;
 
     fc.assert(
       fc.property(
-        fc.option(fc.array(cardConfigArb, { minLength: 0, maxLength: 10 }), { nil: undefined }),
+        fc.option(fc.array(cardConfigArb, { minLength: 0, maxLength: 10 }), {
+          nil: undefined,
+        }),
         (cmsCards) => {
           const activeCards = getActiveCards(cmsCards);
 

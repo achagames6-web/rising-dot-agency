@@ -32,11 +32,9 @@ export default async function AdminLayout({
     <SessionProvider>
       <div className="flex h-screen bg-[#0F172A]">
         <AdminSidebar user={safeUser} />
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex flex-1 flex-col overflow-hidden">
           <AdminHeader user={safeUser} />
-          <main className="flex-1 overflow-y-auto p-6">
-            {children}
-          </main>
+          <main className="flex-1 overflow-y-auto p-6">{children}</main>
         </div>
         <SessionTimeoutWarning />
       </div>

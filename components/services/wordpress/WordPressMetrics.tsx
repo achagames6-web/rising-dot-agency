@@ -5,10 +5,10 @@ import { motion, useInView } from 'framer-motion';
 
 /**
  * WordPressMetrics Component
- * 
+ *
  * Displays performance metrics comparison showing loading speed, SEO score,
  * accessibility, and conversion rate improvements with counting animation.
- * 
+ *
  * Validates: Requirements 12.3, 12.4
  */
 
@@ -57,7 +57,11 @@ const defaultMetrics: MetricItem[] = [
   },
 ];
 
-function useCountAnimation(end: number, duration: number = 2000, shouldStart: boolean = false) {
+function useCountAnimation(
+  end: number,
+  duration: number = 2000,
+  shouldStart: boolean = false
+) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -117,31 +121,31 @@ function MetricCard({ metric, index }: { metric: MetricItem; index: number }) {
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: index * 0.1, duration: 0.6 }}
-      className="bg-gradient-to-br from-[#1E293B] to-[#0F172A] rounded-xl p-6 border border-[#F97316]/30 hover:border-[#F97316] transition-colors duration-300"
+      className="rounded-xl border border-[#F97316]/30 bg-gradient-to-br from-[#1E293B] to-[#0F172A] p-6 transition-colors duration-300 hover:border-[#F97316]"
     >
-      <h3 className="text-[#64748B] text-sm font-semibold mb-4 uppercase tracking-wider">
+      <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-[#64748B]">
         {metric.label}
       </h3>
 
-      <div className="flex items-center justify-between mb-4">
+      <div className="mb-4 flex items-center justify-between">
         {/* Before */}
         <div className="text-center">
-          <p className="text-[#64748B] text-xs mb-1">Before</p>
-          <p className="text-white text-2xl font-bold">
+          <p className="mb-1 text-xs text-[#64748B]">Before</p>
+          <p className="text-2xl font-bold text-white">
             {formatValue(beforeCount)}
-            <span className="text-sm text-[#64748B] ml-1">{metric.unit}</span>
+            <span className="ml-1 text-sm text-[#64748B]">{metric.unit}</span>
           </p>
         </div>
 
         {/* Arrow */}
-        <div className="flex-1 flex items-center justify-center px-4">
+        <div className="flex flex-1 items-center justify-center px-4">
           <motion.div
             initial={{ x: -20, opacity: 0 }}
             animate={isInView ? { x: 0, opacity: 1 } : {}}
             transition={{ delay: index * 0.1 + 0.5, duration: 0.5 }}
           >
             <svg
-              className="w-8 h-8 text-[#F97316]"
+              className="h-8 w-8 text-[#F97316]"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -158,10 +162,10 @@ function MetricCard({ metric, index }: { metric: MetricItem; index: number }) {
 
         {/* After */}
         <div className="text-center">
-          <p className="text-[#64748B] text-xs mb-1">After</p>
-          <p className="text-[#F97316] text-2xl font-bold">
+          <p className="mb-1 text-xs text-[#64748B]">After</p>
+          <p className="text-2xl font-bold text-[#F97316]">
             {formatValue(afterCount)}
-            <span className="text-sm text-[#64748B] ml-1">{metric.unit}</span>
+            <span className="ml-1 text-sm text-[#64748B]">{metric.unit}</span>
           </p>
         </div>
       </div>
@@ -171,7 +175,7 @@ function MetricCard({ metric, index }: { metric: MetricItem; index: number }) {
         initial={{ scaleX: 0 }}
         animate={isInView ? { scaleX: 1 } : {}}
         transition={{ delay: index * 0.1 + 1, duration: 0.8 }}
-        className="w-full h-2 bg-[#0F172A] rounded-full overflow-hidden origin-left"
+        className="h-2 w-full origin-left overflow-hidden rounded-full bg-[#0F172A]"
       >
         <motion.div
           initial={{ width: 0 }}
@@ -181,19 +185,22 @@ function MetricCard({ metric, index }: { metric: MetricItem; index: number }) {
         />
       </motion.div>
 
-      <p className="text-[#F97316] text-sm font-semibold mt-2 text-center">
+      <p className="mt-2 text-center text-sm font-semibold text-[#F97316]">
         +{improvement.toFixed(0)}% improvement
       </p>
     </motion.div>
   );
 }
 
-export function WordPressMetrics({ metrics: propMetrics }: WordPressMetricsProps) {
-  const metrics = propMetrics && propMetrics.length > 0 ? propMetrics : defaultMetrics;
-  
+export function WordPressMetrics({
+  metrics: propMetrics,
+}: WordPressMetricsProps) {
+  const metrics =
+    propMetrics && propMetrics.length > 0 ? propMetrics : defaultMetrics;
+
   return (
-    <div className="w-full max-w-6xl mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="mx-auto w-full max-w-6xl">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {metrics.map((metric, index) => (
           <MetricCard key={metric.label} metric={metric} index={index} />
         ))}

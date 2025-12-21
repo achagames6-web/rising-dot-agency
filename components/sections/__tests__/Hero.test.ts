@@ -1,10 +1,10 @@
 /**
  * Feature: rising-dot-website, Property 1: Hero Animation Sequence Timing
  * Validates: Requirements 3.2, 3.3, 3.4
- * 
- * Property: For any page load on the homepage, the particle system SHALL converge 
- * to form the Rising Dot logo within 1500ms, followed by text scramble animation 
- * completing within 1.5 seconds, and particle burst emission occurring within the 
+ *
+ * Property: For any page load on the homepage, the particle system SHALL converge
+ * to form the Rising Dot logo within 1500ms, followed by text scramble animation
+ * completing within 1.5 seconds, and particle burst emission occurring within the
  * specified timing sequence.
  */
 
@@ -55,7 +55,11 @@ describe('Hero Animation Sequence Timing', () => {
           particleCount: fc.integer({ min: 1000, max: 5000 }),
           logoFormationDuration: fc.constant(1500), // Fixed per spec
           textScrambleDuration: fc.constant(1500), // Fixed per spec
-          deviceCapability: fc.constantFrom('low' as const, 'medium' as const, 'high' as const),
+          deviceCapability: fc.constantFrom(
+            'low' as const,
+            'medium' as const,
+            'high' as const
+          ),
         }),
         async (config) => {
           const timing = await simulateHeroAnimation(config);
@@ -77,7 +81,11 @@ describe('Hero Animation Sequence Timing', () => {
           particleCount: fc.integer({ min: 1000, max: 5000 }),
           logoFormationDuration: fc.constant(1500),
           textScrambleDuration: fc.constant(1500),
-          deviceCapability: fc.constantFrom('low' as const, 'medium' as const, 'high' as const),
+          deviceCapability: fc.constantFrom(
+            'low' as const,
+            'medium' as const,
+            'high' as const
+          ),
         }),
         async (config) => {
           const timing = await simulateHeroAnimation(config);
@@ -99,16 +107,22 @@ describe('Hero Animation Sequence Timing', () => {
           particleCount: fc.integer({ min: 1000, max: 5000 }),
           logoFormationDuration: fc.constant(1500),
           textScrambleDuration: fc.constant(1500),
-          deviceCapability: fc.constantFrom('low' as const, 'medium' as const, 'high' as const),
+          deviceCapability: fc.constantFrom(
+            'low' as const,
+            'medium' as const,
+            'high' as const
+          ),
         }),
         async (config) => {
           const timing = await simulateHeroAnimation(config);
 
           // Particle burst should occur at 2400ms
           expect(timing.burstEmissionTime).toBe(2400);
-          
+
           // Burst should occur after logo formation completes
-          expect(timing.burstEmissionTime).toBeGreaterThan(timing.logoFormationTime);
+          expect(timing.burstEmissionTime).toBeGreaterThan(
+            timing.logoFormationTime
+          );
         }
       ),
       { numRuns: 100 }
@@ -122,16 +136,22 @@ describe('Hero Animation Sequence Timing', () => {
           particleCount: fc.integer({ min: 1000, max: 5000 }),
           logoFormationDuration: fc.constant(1500),
           textScrambleDuration: fc.constant(1500),
-          deviceCapability: fc.constantFrom('low' as const, 'medium' as const, 'high' as const),
+          deviceCapability: fc.constantFrom(
+            'low' as const,
+            'medium' as const,
+            'high' as const
+          ),
         }),
         async (config) => {
           const timing = await simulateHeroAnimation(config);
 
           // CTA should fade in at 2800ms
           expect(timing.ctaFadeInTime).toBe(2800);
-          
+
           // CTA should appear after burst emission
-          expect(timing.ctaFadeInTime).toBeGreaterThan(timing.burstEmissionTime);
+          expect(timing.ctaFadeInTime).toBeGreaterThan(
+            timing.burstEmissionTime
+          );
         }
       ),
       { numRuns: 100 }
@@ -145,7 +165,11 @@ describe('Hero Animation Sequence Timing', () => {
           particleCount: fc.integer({ min: 1000, max: 5000 }),
           logoFormationDuration: fc.constant(1500),
           textScrambleDuration: fc.constant(1500),
-          deviceCapability: fc.constantFrom('low' as const, 'medium' as const, 'high' as const),
+          deviceCapability: fc.constantFrom(
+            'low' as const,
+            'medium' as const,
+            'high' as const
+          ),
         }),
         async (config) => {
           const timing = await simulateHeroAnimation(config);
@@ -156,8 +180,12 @@ describe('Hero Animation Sequence Timing', () => {
           // 3. Particle burst occurs after logo formation
           // 4. CTA fades in last
 
-          expect(timing.logoFormationTime).toBeLessThan(timing.textScrambleTime);
-          expect(timing.logoFormationTime).toBeLessThan(timing.burstEmissionTime);
+          expect(timing.logoFormationTime).toBeLessThan(
+            timing.textScrambleTime
+          );
+          expect(timing.logoFormationTime).toBeLessThan(
+            timing.burstEmissionTime
+          );
           expect(timing.burstEmissionTime).toBeLessThan(timing.ctaFadeInTime);
         }
       ),
@@ -172,7 +200,11 @@ describe('Hero Animation Sequence Timing', () => {
           particleCount: fc.integer({ min: 1000, max: 5000 }),
           logoFormationDuration: fc.constant(1500),
           textScrambleDuration: fc.constant(1500),
-          deviceCapability: fc.constantFrom('low' as const, 'medium' as const, 'high' as const),
+          deviceCapability: fc.constantFrom(
+            'low' as const,
+            'medium' as const,
+            'high' as const
+          ),
         }),
         async (config) => {
           const timing = await simulateHeroAnimation(config);
@@ -200,7 +232,11 @@ describe('Hero Animation Sequence Timing', () => {
           particleCount: fc.integer({ min: 1000, max: 5000 }),
           logoFormationDuration: fc.constant(1500),
           textScrambleDuration: fc.constant(1500),
-          deviceCapability: fc.constantFrom('low' as const, 'medium' as const, 'high' as const),
+          deviceCapability: fc.constantFrom(
+            'low' as const,
+            'medium' as const,
+            'high' as const
+          ),
         }),
         async (config) => {
           const timing = await simulateHeroAnimation(config);

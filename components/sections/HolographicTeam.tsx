@@ -5,15 +5,43 @@ import Image from 'next/image';
 import { motion, useMotionValue, useSpring, useVelocity } from 'framer-motion';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useTeamMembers, useSiteContent } from '@/lib/hooks/useSiteContent';
-import { getCloudinaryUrl, isExternalUrl } from '@/components/ui/cloudinary-image';
+import {
+  getCloudinaryUrl,
+  isExternalUrl,
+} from '@/components/ui/cloudinary-image';
 
 const defaultTeamMembers = [
   { id: 1, name: 'Alex Chen', role: 'Founder & CEO', image: '/team/alex.png' },
-  { id: 2, name: 'Sarah Mitchell', role: 'Creative Director', image: '/team/sarah.png' },
-  { id: 3, name: 'Marcus Johnson', role: 'Lead Developer', image: '/team/marcus.png' },
-  { id: 4, name: 'Emily Rodriguez', role: 'UX Designer', image: '/team/emily.png' },
-  { id: 5, name: 'David Kim', role: 'Backend Engineer', image: '/team/david.png' },
-  { id: 6, name: 'Lisa Thompson', role: 'Project Manager', image: '/team/lisa.png' },
+  {
+    id: 2,
+    name: 'Sarah Mitchell',
+    role: 'Creative Director',
+    image: '/team/sarah.png',
+  },
+  {
+    id: 3,
+    name: 'Marcus Johnson',
+    role: 'Lead Developer',
+    image: '/team/marcus.png',
+  },
+  {
+    id: 4,
+    name: 'Emily Rodriguez',
+    role: 'UX Designer',
+    image: '/team/emily.png',
+  },
+  {
+    id: 5,
+    name: 'David Kim',
+    role: 'Backend Engineer',
+    image: '/team/david.png',
+  },
+  {
+    id: 6,
+    name: 'Lisa Thompson',
+    role: 'Project Manager',
+    image: '/team/lisa.png',
+  },
 ];
 
 // Responsive breakpoints
@@ -26,7 +54,7 @@ const useResponsive = () => {
       setIsMobile(window.innerWidth < 768);
       setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
     };
-    
+
     checkDevice();
     window.addEventListener('resize', checkDevice);
     return () => window.removeEventListener('resize', checkDevice);
@@ -91,12 +119,12 @@ function useSmoothCarousel(totalItems: number) {
   const x = useMotionValue(0);
   const xSmooth = useSpring(x, { stiffness: 300, damping: 30 });
   const velocity = useVelocity(xSmooth);
-  
+
   return { x, xSmooth, velocity };
 }
 
 interface TeamCardProps {
-  member: typeof defaultTeamMembers[0];
+  member: (typeof defaultTeamMembers)[0];
   index: number;
   activeIndex: number;
   totalCards: number;
@@ -105,7 +133,15 @@ interface TeamCardProps {
   isTablet: boolean;
 }
 
-function TeamCard({ member, index, activeIndex, totalCards, scrollVelocity, isMobile, isTablet }: TeamCardProps) {
+function TeamCard({
+  member,
+  index,
+  activeIndex,
+  totalCards,
+  scrollVelocity,
+  isMobile,
+  isTablet,
+}: TeamCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
@@ -116,8 +152,14 @@ function TeamCard({ member, index, activeIndex, totalCards, scrollVelocity, isMo
   const isVisible = Math.abs(relativePosition) <= (isMobile ? 1 : 2);
 
   // Scrambled text effect (disabled on mobile for performance)
-  const scrambledName = useTextScramble(member.name, isActive && !isHovered && !isMobile);
-  const scrambledRole = useTextScramble(member.role, isActive && !isHovered && !isMobile);
+  const scrambledName = useTextScramble(
+    member.name,
+    isActive && !isHovered && !isMobile
+  );
+  const scrambledRole = useTextScramble(
+    member.role,
+    isActive && !isHovered && !isMobile
+  );
 
   // Responsive sizing (30% smaller)
   const cardWidth = isMobile ? 196 : isTablet ? 210 : 224;
@@ -133,15 +175,18 @@ function TeamCard({ member, index, activeIndex, totalCards, scrollVelocity, isMo
   const skewX = isMobile ? scrollVelocity * 0.2 : scrollVelocity * 0.5;
 
   // Mouse parallax tilt (disabled on mobile)
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current || isMobile) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const mouseX = e.clientX - centerX;
-    const mouseY = e.clientY - centerY;
-    setMousePosition({ x: mouseX, y: mouseY });
-  }, [isMobile]);
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (!cardRef.current || isMobile) return;
+      const rect = cardRef.current.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const mouseX = e.clientX - centerX;
+      const mouseY = e.clientY - centerY;
+      setMousePosition({ x: mouseX, y: mouseY });
+    },
+    [isMobile]
+  );
 
   const handleMouseLeave = useCallback(() => {
     setMousePosition({ x: 0, y: 0 });
@@ -204,7 +249,7 @@ function TeamCard({ member, index, activeIndex, totalCards, scrollVelocity, isMo
       >
         {/* Glass card container */}
         <div
-          className="relative w-full h-full rounded-3xl overflow-hidden"
+          className="relative h-full w-full overflow-hidden rounded-3xl"
           style={{
             background: 'rgba(15, 23, 42, 0.4)',
             backdropFilter: 'blur(20px)',
@@ -216,12 +261,16 @@ function TeamCard({ member, index, activeIndex, totalCards, scrollVelocity, isMo
           }}
         >
           {/* Holographic image */}
-          <div className="relative w-full h-full">
+          <div className="relative h-full w-full">
             <Image
-              src={isExternalUrl(member.image) ? member.image : getCloudinaryUrl(member.image, { width: 400, height: 600 })}
+              src={
+                isExternalUrl(member.image)
+                  ? member.image
+                  : getCloudinaryUrl(member.image, { width: 400, height: 600 })
+              }
               alt={member.name}
               fill
-              className="object-cover select-none pointer-events-none"
+              className="pointer-events-none select-none object-cover"
               draggable={false}
               style={{
                 filter: isHovered
@@ -238,7 +287,7 @@ function TeamCard({ member, index, activeIndex, totalCards, scrollVelocity, isMo
               <>
                 {/* Scanlines */}
                 <div
-                  className="absolute inset-0 pointer-events-none"
+                  className="pointer-events-none absolute inset-0"
                   style={{
                     background: `repeating-linear-gradient(
                       0deg,
@@ -253,7 +302,7 @@ function TeamCard({ member, index, activeIndex, totalCards, scrollVelocity, isMo
 
                 {/* RGB shift */}
                 <div
-                  className="absolute inset-0 pointer-events-none"
+                  className="pointer-events-none absolute inset-0"
                   style={{
                     background: `
                       linear-gradient(90deg, rgba(255,0,0,0.1) 0%, transparent 5%, transparent 95%, rgba(0,255,255,0.1) 100%),
@@ -264,7 +313,7 @@ function TeamCard({ member, index, activeIndex, totalCards, scrollVelocity, isMo
 
                 {/* Cyan/Blue tint overlay */}
                 <div
-                  className="absolute inset-0 pointer-events-none"
+                  className="pointer-events-none absolute inset-0"
                   style={{
                     background: 'rgba(55, 175, 225, 0.2)',
                     mixBlendMode: 'color',
@@ -273,7 +322,7 @@ function TeamCard({ member, index, activeIndex, totalCards, scrollVelocity, isMo
 
                 {/* Glitch effect */}
                 <motion.div
-                  className="absolute inset-0 pointer-events-none"
+                  className="pointer-events-none absolute inset-0"
                   style={{
                     background: 'rgba(245, 129, 34, 0.3)',
                     clipPath: 'inset(40% 0 50% 0)',
@@ -298,16 +347,17 @@ function TeamCard({ member, index, activeIndex, totalCards, scrollVelocity, isMo
 
             {/* Gradient overlay */}
             <div
-              className="absolute inset-0 pointer-events-none"
+              className="pointer-events-none absolute inset-0"
               style={{
-                background: 'linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, transparent 50%)',
+                background:
+                  'linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, transparent 50%)',
               }}
             />
           </div>
 
           {/* Electric cyan glow edge */}
           <div
-            className="absolute inset-0 rounded-3xl pointer-events-none"
+            className="pointer-events-none absolute inset-0 rounded-3xl"
             style={{
               boxShadow: `inset 0 0 20px ${isHovered ? 'rgba(245, 129, 34, 0.8)' : 'rgba(55, 175, 225, 0.4)'}`,
               transition: 'box-shadow 0.4s ease',
@@ -316,9 +366,11 @@ function TeamCard({ member, index, activeIndex, totalCards, scrollVelocity, isMo
         </div>
 
         {/* Text floating outside card */}
-        <div className={`absolute left-0 right-0 text-center ${isMobile ? '-bottom-16' : '-bottom-20'}`}>
+        <div
+          className={`absolute left-0 right-0 text-center ${isMobile ? '-bottom-16' : '-bottom-20'}`}
+        >
           <motion.h3
-            className={`font-bold text-white mb-2 ${isMobile ? 'text-lg' : isTablet ? 'text-xl' : 'text-2xl'}`}
+            className={`mb-2 font-bold text-white ${isMobile ? 'text-lg' : isTablet ? 'text-xl' : 'text-2xl'}`}
             style={{
               textShadow: '0 0 20px rgba(55, 175, 225, 0.8)',
               fontFamily: 'monospace',
@@ -355,7 +407,7 @@ export default function HolographicTeam() {
   const lastPositionRef = useRef(0);
   const lastTimeRef = useRef(Date.now());
   const velocityDecayRef = useRef<NodeJS.Timeout | null>(null);
-  
+
   const { isMobile, isTablet } = useResponsive();
 
   // Fetch CMS content
@@ -370,9 +422,15 @@ export default function HolographicTeam() {
   const eyebrow = sectionContent?.eyebrow || 'Zero Gravity Talent';
   const title = sectionContent?.title || 'Agency &';
   const titleHighlight = sectionContent?.titleHighlight || 'Team';
-  const teamMembers = cmsMembers.length > 0 
-    ? cmsMembers.map((m, i) => ({ id: i + 1, name: m.name, role: m.role, image: m.image }))
-    : defaultTeamMembers;
+  const teamMembers =
+    cmsMembers.length > 0
+      ? cmsMembers.map((m, i) => ({
+          id: i + 1,
+          name: m.name,
+          role: m.role,
+          image: m.image,
+        }))
+      : defaultTeamMembers;
 
   const { x, xSmooth, velocity } = useSmoothCarousel(teamMembers.length);
 
@@ -385,39 +443,42 @@ export default function HolographicTeam() {
     setDragStart(clientX);
     lastPositionRef.current = clientX;
     lastTimeRef.current = Date.now();
-    
+
     if (velocityDecayRef.current) {
       clearInterval(velocityDecayRef.current);
       velocityDecayRef.current = null;
     }
   }, []);
 
-  const handleMove = useCallback((clientX: number) => {
-    if (!isDragging) return;
+  const handleMove = useCallback(
+    (clientX: number) => {
+      if (!isDragging) return;
 
-    const currentTime = Date.now();
-    const deltaTime = currentTime - lastTimeRef.current;
-    const deltaX = clientX - lastPositionRef.current;
+      const currentTime = Date.now();
+      const deltaTime = currentTime - lastTimeRef.current;
+      const deltaX = clientX - lastPositionRef.current;
 
-    if (deltaTime > 0) {
-      const velocity = deltaX / deltaTime;
-      setScrollVelocity(velocity * (isMobile ? 5 : 10));
-    }
-
-    lastPositionRef.current = clientX;
-    lastTimeRef.current = currentTime;
-
-    const delta = clientX - dragStart;
-    if (Math.abs(delta) > dragThreshold) {
-      if (delta > 0 && activeIndex > 0) {
-        setActiveIndex(activeIndex - 1);
-        setDragStart(clientX);
-      } else if (delta < 0 && activeIndex < teamMembers.length - 1) {
-        setActiveIndex(activeIndex + 1);
-        setDragStart(clientX);
+      if (deltaTime > 0) {
+        const velocity = deltaX / deltaTime;
+        setScrollVelocity(velocity * (isMobile ? 5 : 10));
       }
-    }
-  }, [isDragging, dragStart, activeIndex, dragThreshold, isMobile]);
+
+      lastPositionRef.current = clientX;
+      lastTimeRef.current = currentTime;
+
+      const delta = clientX - dragStart;
+      if (Math.abs(delta) > dragThreshold) {
+        if (delta > 0 && activeIndex > 0) {
+          setActiveIndex(activeIndex - 1);
+          setDragStart(clientX);
+        } else if (delta < 0 && activeIndex < teamMembers.length - 1) {
+          setActiveIndex(activeIndex + 1);
+          setDragStart(clientX);
+        }
+      }
+    },
+    [isDragging, dragStart, activeIndex, dragThreshold, isMobile]
+  );
 
   const handleEnd = useCallback(() => {
     setIsDragging(false);
@@ -443,7 +504,8 @@ export default function HolographicTeam() {
   const handleMouseUp = () => handleEnd();
 
   // Touch events
-  const handleTouchStart = (e: React.TouchEvent) => handleStart(e.touches[0].clientX);
+  const handleTouchStart = (e: React.TouchEvent) =>
+    handleStart(e.touches[0].clientX);
   const handleTouchMove = (e: React.TouchEvent) => {
     e.preventDefault();
     handleMove(e.touches[0].clientX);
@@ -455,7 +517,10 @@ export default function HolographicTeam() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft' && activeIndex > 0) {
         setActiveIndex(activeIndex - 1);
-      } else if (e.key === 'ArrowRight' && activeIndex < teamMembers.length - 1) {
+      } else if (
+        e.key === 'ArrowRight' &&
+        activeIndex < teamMembers.length - 1
+      ) {
         setActiveIndex(activeIndex + 1);
       }
     };
@@ -472,9 +537,9 @@ export default function HolographicTeam() {
   // Auto-advance on mobile (optional)
   useEffect(() => {
     if (!isMobile) return;
-    
+
     const autoAdvance = setInterval(() => {
-      setActiveIndex((current) => 
+      setActiveIndex((current) =>
         current >= teamMembers.length - 1 ? 0 : current + 1
       );
     }, 4000);
@@ -483,7 +548,9 @@ export default function HolographicTeam() {
   }, [isMobile]);
 
   return (
-    <section className={`relative overflow-hidden bg-transparent ${isMobile ? 'min-h-[80vh] py-8' : 'min-h-screen py-12'}`}>
+    <section
+      className={`relative overflow-hidden bg-transparent ${isMobile ? 'min-h-[80vh] py-8' : 'min-h-screen py-12'}`}
+    >
       {/* Background */}
       <div className="absolute inset-0">
         {/* Grid pattern */}
@@ -500,11 +567,12 @@ export default function HolographicTeam() {
 
         {/* Gradient orbs */}
         <motion.div
-          className={`absolute rounded-full ${isMobile ? 'w-[300px] h-[300px]' : isTablet ? 'w-[400px] h-[400px]' : 'w-[600px] h-[600px]'}`}
+          className={`absolute rounded-full ${isMobile ? 'h-[300px] w-[300px]' : isTablet ? 'h-[400px] w-[400px]' : 'h-[600px] w-[600px]'}`}
           style={{
             top: '20%',
             left: isMobile ? '-20%' : '10%',
-            background: 'radial-gradient(circle, rgba(55, 175, 225, 0.15) 0%, transparent 70%)',
+            background:
+              'radial-gradient(circle, rgba(55, 175, 225, 0.15) 0%, transparent 70%)',
             filter: 'blur(60px)',
           }}
           animate={{
@@ -518,11 +586,12 @@ export default function HolographicTeam() {
           }}
         />
         <motion.div
-          className={`absolute rounded-full ${isMobile ? 'w-[250px] h-[250px]' : isTablet ? 'w-[350px] h-[350px]' : 'w-[500px] h-[500px]'}`}
+          className={`absolute rounded-full ${isMobile ? 'h-[250px] w-[250px]' : isTablet ? 'h-[350px] w-[350px]' : 'h-[500px] w-[500px]'}`}
           style={{
             bottom: '20%',
             right: isMobile ? '-20%' : '10%',
-            background: 'radial-gradient(circle, rgba(245, 129, 34, 0.15) 0%, transparent 70%)',
+            background:
+              'radial-gradient(circle, rgba(245, 129, 34, 0.15) 0%, transparent 70%)',
             filter: 'blur(60px)',
           }}
           animate={{
@@ -574,21 +643,34 @@ export default function HolographicTeam() {
       </div>
 
       {/* Navigation dots */}
-      <div className={`relative z-10 flex justify-center gap-3 ${isMobile ? 'mt-4' : 'mt-6'}`}>
+      <div
+        className={`relative z-10 flex justify-center gap-3 ${isMobile ? 'mt-4' : 'mt-6'}`}
+      >
         {teamMembers.map((_, index) => (
           <motion.button
             key={index}
             onClick={() => setActiveIndex(index)}
-            className={`rounded-full transition-all duration-300 ${isMobile ? 'w-2 h-2' : 'w-3 h-3'}`}
+            className={`rounded-full transition-all duration-300 ${isMobile ? 'h-2 w-2' : 'h-3 w-3'}`}
             style={{
-              background: index === activeIndex ? '#F58122' : 'rgba(55, 175, 225, 0.3)',
-              boxShadow: index === activeIndex ? '0 0 20px rgba(245, 129, 34, 0.8)' : 'none',
+              background:
+                index === activeIndex ? '#F58122' : 'rgba(55, 175, 225, 0.3)',
+              boxShadow:
+                index === activeIndex
+                  ? '0 0 20px rgba(245, 129, 34, 0.8)'
+                  : 'none',
             }}
             animate={{
               scale: index === activeIndex ? (isMobile ? 1.3 : 1.5) : 1,
             }}
             whileHover={{
-              scale: index === activeIndex ? (isMobile ? 1.3 : 1.5) : (isMobile ? 1.1 : 1.2),
+              scale:
+                index === activeIndex
+                  ? isMobile
+                    ? 1.3
+                    : 1.5
+                  : isMobile
+                    ? 1.1
+                    : 1.2,
             }}
             whileTap={{ scale: 0.9 }}
             aria-label={`View ${teamMembers[index].name}`}
@@ -597,12 +679,15 @@ export default function HolographicTeam() {
       </div>
 
       {/* Instructions */}
-      <div className={`relative z-10 text-center ${isMobile ? 'mt-8' : 'mt-12'}`}>
-        <p className={`text-[#64748B] font-mono ${isMobile ? 'text-xs px-4' : 'text-sm'}`}>
-          {isMobile 
+      <div
+        className={`relative z-10 text-center ${isMobile ? 'mt-8' : 'mt-12'}`}
+      >
+        <p
+          className={`font-mono text-[#64748B] ${isMobile ? 'px-4 text-xs' : 'text-sm'}`}
+        >
+          {isMobile
             ? 'Swipe to navigate • Auto-advance enabled'
-            : 'Drag to navigate • Arrow keys to move • Hover to stabilize'
-          }
+            : 'Drag to navigate • Arrow keys to move • Hover to stabilize'}
         </p>
       </div>
 

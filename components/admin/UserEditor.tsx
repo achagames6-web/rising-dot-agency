@@ -51,9 +51,7 @@ export default function UserEditor({ user, onClose, onSave }: UserEditorProps) {
     setLoading(true);
 
     try {
-      const url = user?.id
-        ? `/api/admin/users/${user.id}`
-        : '/api/admin/users';
+      const url = user?.id ? `/api/admin/users/${user.id}` : '/api/admin/users';
       const method = user?.id ? 'PUT' : 'POST';
 
       const body: any = {
@@ -93,31 +91,31 @@ export default function UserEditor({ user, onClose, onSave }: UserEditorProps) {
   if (!user && user !== null) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div className="bg-[#1E293B] rounded-xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+      <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-xl bg-[#1E293B] shadow-xl">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-700">
+        <div className="flex items-center justify-between border-b border-slate-700 p-6">
           <h2 className="text-xl font-semibold text-white">
             {user?.id ? 'Edit User' : 'Create User'}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-slate-700 rounded-lg transition-colors"
+            className="rounded-lg p-2 transition-colors hover:bg-slate-700"
           >
-            <X className="w-5 h-5 text-slate-400" />
+            <X className="h-5 w-5 text-slate-400" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 p-6">
           {error && (
-            <div className="p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-sm text-red-400">
+            <div className="rounded-lg border border-red-500/30 bg-red-500/20 p-3 text-sm text-red-400">
               {error}
             </div>
           )}
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">
+            <label className="mb-1 block text-sm font-medium text-slate-300">
               Name
             </label>
             <input
@@ -127,13 +125,13 @@ export default function UserEditor({ user, onClose, onSave }: UserEditorProps) {
                 setFormData({ ...formData, name: e.target.value })
               }
               required
-              className="w-full px-3 py-2 bg-[#0F172A] border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-[#37AFE1]"
+              className="w-full rounded-lg border border-slate-700 bg-[#0F172A] px-3 py-2 text-white placeholder-slate-400 focus:border-[#37AFE1] focus:outline-none"
               placeholder="John Doe"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">
+            <label className="mb-1 block text-sm font-medium text-slate-300">
               Email
             </label>
             <input
@@ -143,13 +141,13 @@ export default function UserEditor({ user, onClose, onSave }: UserEditorProps) {
                 setFormData({ ...formData, email: e.target.value })
               }
               required
-              className="w-full px-3 py-2 bg-[#0F172A] border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-[#37AFE1]"
+              className="w-full rounded-lg border border-slate-700 bg-[#0F172A] px-3 py-2 text-white placeholder-slate-400 focus:border-[#37AFE1] focus:outline-none"
               placeholder="john@example.com"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">
+            <label className="mb-1 block text-sm font-medium text-slate-300">
               Role
             </label>
             <select
@@ -161,7 +159,7 @@ export default function UserEditor({ user, onClose, onSave }: UserEditorProps) {
                 })
               }
               required
-              className="w-full px-3 py-2 bg-[#0F172A] border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#37AFE1]"
+              className="w-full rounded-lg border border-slate-700 bg-[#0F172A] px-3 py-2 text-white focus:border-[#37AFE1] focus:outline-none"
             >
               <option value="viewer">Viewer</option>
               <option value="editor">Editor</option>
@@ -172,13 +170,12 @@ export default function UserEditor({ user, onClose, onSave }: UserEditorProps) {
                 'Full access to all features and settings'}
               {formData.role === 'editor' &&
                 'Can create and edit content, but cannot manage users'}
-              {formData.role === 'viewer' &&
-                'Read-only access to content'}
+              {formData.role === 'viewer' && 'Read-only access to content'}
             </p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">
+            <label className="mb-1 block text-sm font-medium text-slate-300">
               Password {user?.id && '(leave blank to keep current)'}
             </label>
             <div className="relative">
@@ -189,8 +186,10 @@ export default function UserEditor({ user, onClose, onSave }: UserEditorProps) {
                   setFormData({ ...formData, password: e.target.value })
                 }
                 required={!user?.id}
-                className="w-full px-3 py-2 pr-10 bg-[#0F172A] border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-[#37AFE1]"
-                placeholder={user?.id ? 'Leave blank to keep current' : '••••••••'}
+                className="w-full rounded-lg border border-slate-700 bg-[#0F172A] px-3 py-2 pr-10 text-white placeholder-slate-400 focus:border-[#37AFE1] focus:outline-none"
+                placeholder={
+                  user?.id ? 'Leave blank to keep current' : '••••••••'
+                }
                 minLength={8}
               />
               <button
@@ -199,9 +198,9 @@ export default function UserEditor({ user, onClose, onSave }: UserEditorProps) {
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
               >
                 {showPassword ? (
-                  <EyeOff className="w-5 h-5" />
+                  <EyeOff className="h-5 w-5" />
                 ) : (
-                  <Eye className="w-5 h-5" />
+                  <Eye className="h-5 w-5" />
                 )}
               </button>
             </div>
@@ -213,27 +212,27 @@ export default function UserEditor({ user, onClose, onSave }: UserEditorProps) {
           </div>
 
           {/* Actions */}
-          <div className="flex gap-3 pt-4 border-t border-slate-700">
+          <div className="flex gap-3 border-t border-slate-700 pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 text-slate-300 hover:text-white transition-colors"
+              className="flex-1 px-4 py-2 text-slate-300 transition-colors hover:text-white"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 px-4 py-2 bg-[#37AFE1] text-white rounded-lg hover:bg-[#37AFE1]/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-[#37AFE1] px-4 py-2 text-white transition-colors hover:bg-[#37AFE1]/80 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading ? (
                 <>
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white"></div>
                   Saving...
                 </>
               ) : (
                 <>
-                  <Save className="w-4 h-4" />
+                  <Save className="h-4 w-4" />
                   {user?.id ? 'Update' : 'Create'} User
                 </>
               )}

@@ -18,11 +18,11 @@ export default function MagneticCursor() {
   const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
   const cursorDotRef = useRef<HTMLDivElement>(null);
   const cursorRingRef = useRef<HTMLDivElement>(null);
-  
+
   const mousePosition = useRef<CursorPosition>({ x: -100, y: -100 });
   const dotPosition = useRef<CursorPosition>({ x: -100, y: -100 });
   const ringPosition = useRef<CursorPosition>({ x: -100, y: -100 });
-  
+
   const cursorState = useRef<CursorState>('default');
   const animationFrameId = useRef<number | null>(null);
   const isAnimating = useRef(false);
@@ -39,24 +39,40 @@ export default function MagneticCursor() {
 
     const now = Date.now();
     const delta = now - lastUpdate.current;
-    
+
     if (delta < THROTTLE_MS) {
       animationFrameId.current = requestAnimationFrame(animate);
       return;
     }
-    
+
     lastUpdate.current = now;
 
     const targetX = mousePosition.current.x;
     const targetY = mousePosition.current.y;
 
     // Update dot position (faster)
-    dotPosition.current.x = lerp(dotPosition.current.x, targetX, LERP_FACTOR * 1.5);
-    dotPosition.current.y = lerp(dotPosition.current.y, targetY, LERP_FACTOR * 1.5);
+    dotPosition.current.x = lerp(
+      dotPosition.current.x,
+      targetX,
+      LERP_FACTOR * 1.5
+    );
+    dotPosition.current.y = lerp(
+      dotPosition.current.y,
+      targetY,
+      LERP_FACTOR * 1.5
+    );
 
     // Update ring position (slower, creates trailing effect)
-    ringPosition.current.x = lerp(ringPosition.current.x, targetX, LERP_FACTOR * 0.5);
-    ringPosition.current.y = lerp(ringPosition.current.y, targetY, LERP_FACTOR * 0.5);
+    ringPosition.current.x = lerp(
+      ringPosition.current.x,
+      targetX,
+      LERP_FACTOR * 0.5
+    );
+    ringPosition.current.y = lerp(
+      ringPosition.current.y,
+      targetY,
+      LERP_FACTOR * 0.5
+    );
 
     if (cursorDotRef.current) {
       cursorDotRef.current.style.transform = `translate(${dotPosition.current.x}px, ${dotPosition.current.y}px)`;
@@ -73,11 +89,11 @@ export default function MagneticCursor() {
   useEffect(() => {
     const hasMousePointer = window.matchMedia('(pointer: fine)').matches;
     setIsDesktop(hasMousePointer);
-    
+
     if (hasMousePointer) {
       document.body.style.cursor = 'none';
     }
-    
+
     return () => {
       document.body.style.cursor = '';
     };
@@ -89,7 +105,7 @@ export default function MagneticCursor() {
 
     const handleMouseMove = (e: MouseEvent) => {
       mousePosition.current = { x: e.clientX, y: e.clientY };
-      
+
       if (dotPosition.current.x === -100) {
         dotPosition.current = { x: e.clientX, y: e.clientY };
         ringPosition.current = { x: e.clientX, y: e.clientY };
@@ -134,7 +150,7 @@ export default function MagneticCursor() {
       const target = e.target;
       if (isElement(target)) {
         if (target.closest('[data-no-magnetic]')) return;
-        
+
         if (isInteractiveElement(target)) {
           cursorState.current = 'hover';
           if (cursorRingRef.current) {
@@ -195,7 +211,7 @@ export default function MagneticCursor() {
       {/* Inner dot with blur effect */}
       <div
         ref={cursorDotRef}
-        className="fixed top-0 left-0 pointer-events-none z-[99999] will-change-transform mix-blend-screen"
+        className="pointer-events-none fixed left-0 top-0 z-[99999] mix-blend-screen will-change-transform"
         style={{
           width: `${DOT_SIZE}px`,
           height: `${DOT_SIZE}px`,
@@ -203,27 +219,30 @@ export default function MagneticCursor() {
           marginTop: `${-DOT_SIZE / 2}px`,
         }}
       >
-        <div className="relative w-full h-full">
+        <div className="relative h-full w-full">
           {/* Outer glow */}
-          <div 
+          <div
             className="absolute -inset-4 rounded-full blur-xl"
             style={{
-              background: 'radial-gradient(circle, rgba(59, 130, 246, 0.5) 0%, rgba(37, 99, 235, 0.2) 50%, transparent 100%)',
+              background:
+                'radial-gradient(circle, rgba(59, 130, 246, 0.5) 0%, rgba(37, 99, 235, 0.2) 50%, transparent 100%)',
             }}
           />
           {/* Inner glow */}
-          <div 
+          <div
             className="absolute inset-0 rounded-full blur-md"
             style={{
-              background: 'radial-gradient(circle, rgba(59, 130, 246, 0.9) 0%, rgba(37, 99, 235, 0.6) 50%, transparent 100%)',
+              background:
+                'radial-gradient(circle, rgba(59, 130, 246, 0.9) 0%, rgba(37, 99, 235, 0.6) 50%, transparent 100%)',
             }}
           />
           {/* Core dot */}
-          <div 
+          <div
             className="absolute inset-0 rounded-full"
             style={{
               background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
-              boxShadow: '0 0 20px rgba(59, 130, 246, 1), 0 0 40px rgba(59, 130, 246, 0.5)',
+              boxShadow:
+                '0 0 20px rgba(59, 130, 246, 1), 0 0 40px rgba(59, 130, 246, 0.5)',
             }}
           />
         </div>
@@ -232,7 +251,7 @@ export default function MagneticCursor() {
       {/* Outer ring with gradient border */}
       <div
         ref={cursorRingRef}
-        className="fixed top-0 left-0 pointer-events-none z-[99998] will-change-transform"
+        className="pointer-events-none fixed left-0 top-0 z-[99998] will-change-transform"
         style={{
           width: `${RING_SIZE}px`,
           height: `${RING_SIZE}px`,
@@ -240,37 +259,42 @@ export default function MagneticCursor() {
           marginTop: `${-RING_SIZE / 2}px`,
         }}
       >
-        <div className="relative w-full h-full">
+        <div className="relative h-full w-full">
           {/* Outer glow */}
-          <div 
+          <div
             className="absolute -inset-2 rounded-full blur-lg"
             style={{
-              background: 'radial-gradient(circle, transparent 40%, rgba(59, 130, 246, 0.3) 100%)',
+              background:
+                'radial-gradient(circle, transparent 40%, rgba(59, 130, 246, 0.3) 100%)',
             }}
           />
           {/* Gradient ring */}
-          <div 
+          <div
             className="absolute inset-0 rounded-full"
             style={{
-              background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.5), rgba(147, 197, 253, 0.5))',
+              background:
+                'linear-gradient(135deg, rgba(59, 130, 246, 0.5), rgba(147, 197, 253, 0.5))',
               padding: '2.5px',
-              WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+              WebkitMask:
+                'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
               WebkitMaskComposite: 'xor',
               maskComposite: 'exclude',
             }}
           />
           {/* Inner blur for depth */}
-          <div 
+          <div
             className="absolute inset-[3px] rounded-full blur-sm"
             style={{
-              background: 'radial-gradient(circle, transparent 60%, rgba(59, 130, 246, 0.2))'
+              background:
+                'radial-gradient(circle, transparent 60%, rgba(59, 130, 246, 0.2))',
             }}
           />
           {/* Inner blur for depth */}
-          <div 
+          <div
             className="absolute inset-[2px] rounded-full blur-sm"
             style={{
-              background: 'radial-gradient(circle, transparent 60%, rgba(59, 130, 246, 0.1) 100%)',
+              background:
+                'radial-gradient(circle, transparent 60%, rgba(59, 130, 246, 0.1) 100%)',
             }}
           />
         </div>
@@ -281,26 +305,30 @@ export default function MagneticCursor() {
         .cursor-hover {
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+
         .cursor-hover > div > div:first-child {
           transform: scale(2);
           opacity: 0.6;
         }
-        
+
         .cursor-hover + div > div > div:first-child {
           transform: scale(1.5);
-          background: linear-gradient(135deg, rgba(59, 130, 246, 0.5), rgba(147, 197, 253, 0.5));
+          background: linear-gradient(
+            135deg,
+            rgba(59, 130, 246, 0.5),
+            rgba(147, 197, 253, 0.5)
+          );
         }
 
         /* Click state - shrink both */
         .cursor-click {
           transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+
         .cursor-click > div {
           transform: scale(0.6);
         }
-        
+
         .cursor-click + div > div {
           transform: scale(0.8);
         }

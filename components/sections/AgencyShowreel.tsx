@@ -23,17 +23,21 @@ export default function AgencyShowreel() {
     paragraphs?: string[];
   }>('about', 'showreel');
 
-  const videoUrl = content?.videoUrl || "/media/about/agency-showreel/videos/showreel.mp4";
-  const optimizedVideoUrl = isExternalUrl(videoUrl) ? videoUrl : getCloudinaryVideoUrl(videoUrl, { quality: 'auto' });
+  const videoUrl =
+    content?.videoUrl || '/media/about/agency-showreel/videos/showreel.mp4';
+  const optimizedVideoUrl = isExternalUrl(videoUrl)
+    ? videoUrl
+    : getCloudinaryVideoUrl(videoUrl, { quality: 'auto' });
 
   return (
     <ScrollVideoCard
       media={optimizedVideoUrl}
       overlay={{
-        caption: content?.caption || "OUR VISION",
-        heading: content?.heading || "Rising Together in the World of Digital Dots",
+        caption: content?.caption || 'OUR VISION',
+        heading:
+          content?.heading || 'Rising Together in the World of Digital Dots',
         paragraphs: content?.paragraphs || [
-          "We transform ideas into exceptional digital experiences that drive real business results.",
+          'We transform ideas into exceptional digital experiences that drive real business results.',
           "From stunning web designs to powerful automations, we're your partner in digital growth.",
         ],
       }}

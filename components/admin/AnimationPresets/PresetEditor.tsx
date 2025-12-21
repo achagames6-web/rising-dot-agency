@@ -11,7 +11,12 @@ interface PresetEditorProps {
   onSave: (preset: AnimationPreset) => void;
 }
 
-export function PresetEditor({ preset, isOpen, onClose, onSave }: PresetEditorProps) {
+export function PresetEditor({
+  preset,
+  isOpen,
+  onClose,
+  onSave,
+}: PresetEditorProps) {
   const [editedPreset, setEditedPreset] = useState<AnimationPreset>(preset);
 
   if (!isOpen) return null;
@@ -21,27 +26,27 @@ export function PresetEditor({ preset, isOpen, onClose, onSave }: PresetEditorPr
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+      <div className="flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl bg-white shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-200">
+        <div className="flex items-center justify-between border-b border-slate-200 p-6">
           <h2 className="text-2xl font-bold text-slate-900">
             {preset.id === 0 ? 'Create Preset' : 'Edit Preset'}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+            className="rounded-lg p-2 transition-colors hover:bg-slate-100"
           >
-            <X className="w-5 h-5" />
+            <X className="h-5 w-5" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div className="flex-1 space-y-6 overflow-y-auto p-6">
           {/* Basic Info */}
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="mb-2 block text-sm font-medium text-slate-700">
                 Preset Name
               </label>
               <input
@@ -50,28 +55,31 @@ export function PresetEditor({ preset, isOpen, onClose, onSave }: PresetEditorPr
                 onChange={(e) =>
                   setEditedPreset({ ...editedPreset, name: e.target.value })
                 }
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+                className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-[#2563EB]"
                 placeholder="Enter preset name"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="mb-2 block text-sm font-medium text-slate-700">
                 Description
               </label>
               <textarea
                 value={editedPreset.description}
                 onChange={(e) =>
-                  setEditedPreset({ ...editedPreset, description: e.target.value })
+                  setEditedPreset({
+                    ...editedPreset,
+                    description: e.target.value,
+                  })
                 }
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+                className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-[#2563EB]"
                 rows={3}
                 placeholder="Describe this animation preset"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="mb-2 block text-sm font-medium text-slate-700">
                 Preset Type
               </label>
               <select
@@ -79,10 +87,13 @@ export function PresetEditor({ preset, isOpen, onClose, onSave }: PresetEditorPr
                 onChange={(e) =>
                   setEditedPreset({
                     ...editedPreset,
-                    preset_type: e.target.value as 'scroll' | 'hover' | 'entrance'
+                    preset_type: e.target.value as
+                      | 'scroll'
+                      | 'hover'
+                      | 'entrance',
                   })
                 }
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+                className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-[#2563EB]"
               >
                 <option value="entrance">Entrance Effect</option>
                 <option value="scroll">Scroll Effect</option>
@@ -93,11 +104,13 @@ export function PresetEditor({ preset, isOpen, onClose, onSave }: PresetEditorPr
 
           {/* Animation Config */}
           <div className="space-y-4 border-t border-slate-200 pt-6">
-            <h3 className="text-lg font-semibold text-slate-900">Animation Configuration</h3>
+            <h3 className="text-lg font-semibold text-slate-900">
+              Animation Configuration
+            </h3>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="mb-2 block text-sm font-medium text-slate-700">
                   Duration (ms)
                 </label>
                 <input
@@ -108,18 +121,18 @@ export function PresetEditor({ preset, isOpen, onClose, onSave }: PresetEditorPr
                       ...editedPreset,
                       config: {
                         ...editedPreset.config,
-                        duration: parseInt(e.target.value) || 0
-                      }
+                        duration: parseInt(e.target.value) || 0,
+                      },
                     })
                   }
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+                  className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-[#2563EB]"
                   min="0"
                   step="100"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="mb-2 block text-sm font-medium text-slate-700">
                   Easing Function
                 </label>
                 <select
@@ -127,10 +140,13 @@ export function PresetEditor({ preset, isOpen, onClose, onSave }: PresetEditorPr
                   onChange={(e) =>
                     setEditedPreset({
                       ...editedPreset,
-                      config: { ...editedPreset.config, easing: e.target.value }
+                      config: {
+                        ...editedPreset.config,
+                        easing: e.target.value,
+                      },
                     })
                   }
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+                  className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-[#2563EB]"
                 >
                   <optgroup label="Power">
                     <option value="power1.in">Power 1 In</option>
@@ -180,7 +196,7 @@ export function PresetEditor({ preset, isOpen, onClose, onSave }: PresetEditorPr
 
             {/* Animation Properties */}
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="mb-2 block text-sm font-medium text-slate-700">
                 Animation Properties (JSON)
               </label>
               <textarea
@@ -190,17 +206,17 @@ export function PresetEditor({ preset, isOpen, onClose, onSave }: PresetEditorPr
                     const properties = JSON.parse(e.target.value);
                     setEditedPreset({
                       ...editedPreset,
-                      config: { ...editedPreset.config, properties }
+                      config: { ...editedPreset.config, properties },
                     });
                   } catch (err) {
                     // Invalid JSON, don't update
                   }
                 }}
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent font-mono text-sm"
+                className="w-full rounded-lg border border-slate-300 px-4 py-2 font-mono text-sm focus:border-transparent focus:ring-2 focus:ring-[#2563EB]"
                 rows={8}
                 placeholder='{\n  "opacity": 1,\n  "y": 0,\n  "scale": 1\n}'
               />
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="mt-1 text-xs text-slate-500">
                 Common properties: opacity, x, y, scale, rotation, skewX, skewY
               </p>
             </div>
@@ -208,18 +224,18 @@ export function PresetEditor({ preset, isOpen, onClose, onSave }: PresetEditorPr
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 p-6 border-t border-slate-200 bg-slate-50">
+        <div className="flex items-center justify-end gap-3 border-t border-slate-200 bg-slate-50 p-6">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-slate-700 hover:bg-slate-200 rounded-lg transition-colors"
+            className="rounded-lg px-4 py-2 text-slate-700 transition-colors hover:bg-slate-200"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
-            className="flex items-center gap-2 px-4 py-2 bg-[#2563EB] text-white rounded-lg hover:bg-[#1d4ed8] transition-colors"
+            className="flex items-center gap-2 rounded-lg bg-[#2563EB] px-4 py-2 text-white transition-colors hover:bg-[#1d4ed8]"
           >
-            <Save className="w-4 h-4" />
+            <Save className="h-4 w-4" />
             Save Preset
           </button>
         </div>

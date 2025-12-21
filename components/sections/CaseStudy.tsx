@@ -76,17 +76,18 @@ export default function CaseStudy({
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen py-20 px-6 overflow-hidden"
+      className="relative min-h-screen overflow-hidden px-6 py-20"
       style={{ backgroundColor: '#0F172A' }}
     >
       {/* Animated gradient orbs background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <motion.div
           className="absolute rounded-full"
           style={{
             width: '400px',
             height: '400px',
-            background: 'radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, rgba(99, 102, 241, 0.15) 40%, transparent 70%)',
+            background:
+              'radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, rgba(99, 102, 241, 0.15) 40%, transparent 70%)',
             filter: 'blur(40px)',
           }}
           animate={{ x: ['10%', '20%', '10%'], y: ['15%', '30%', '15%'] }}
@@ -97,7 +98,8 @@ export default function CaseStudy({
           style={{
             width: '350px',
             height: '350px',
-            background: 'radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, rgba(59, 130, 246, 0.12) 50%, transparent 70%)',
+            background:
+              'radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, rgba(59, 130, 246, 0.12) 50%, transparent 70%)',
             filter: 'blur(35px)',
           }}
           animate={{ x: ['65%', '75%', '65%'], y: ['20%', '35%', '20%'] }}
@@ -108,7 +110,8 @@ export default function CaseStudy({
           style={{
             width: '380px',
             height: '380px',
-            background: 'radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, rgba(139, 92, 246, 0.12) 50%, transparent 70%)',
+            background:
+              'radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, rgba(139, 92, 246, 0.12) 50%, transparent 70%)',
             filter: 'blur(40px)',
           }}
           animate={{ x: ['45%', '55%', '45%'], y: ['55%', '70%', '55%'] }}
@@ -116,24 +119,24 @@ export default function CaseStudy({
         />
       </div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="relative z-10 mx-auto max-w-7xl">
         {/* Section heading */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white font-montserrat mb-4">
+        <div className="mb-16 text-center">
+          <h2 className="mb-4 font-montserrat text-4xl font-bold text-white md:text-5xl">
             {title}
           </h2>
-          <p className="text-xl text-[#64748B] font-inter max-w-3xl mx-auto">
+          <p className="mx-auto max-w-3xl font-inter text-xl text-[#64748B]">
             {description}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
           {/* 3D Project Viewer */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="relative h-[500px] rounded-2xl overflow-hidden bg-[#1E293B] border-2 border-[#2563EB]"
+            className="relative h-[500px] overflow-hidden rounded-2xl border-2 border-[#2563EB] bg-[#1E293B]"
           >
             <Canvas>
               <ProjectMockup3D />
@@ -148,10 +151,10 @@ export default function CaseStudy({
             className="space-y-8"
           >
             <div>
-              <h3 className="text-3xl font-bold text-white font-montserrat mb-2">
+              <h3 className="mb-2 font-montserrat text-3xl font-bold text-white">
                 {client}
               </h3>
-              <p className="text-[#64748B] font-inter">
+              <p className="font-inter text-[#64748B]">
                 Delivering exceptional results through innovative solutions
               </p>
             </div>
@@ -177,41 +180,43 @@ export default function CaseStudy({
           transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="mt-20"
         >
-          <h3 className="text-3xl font-bold text-white font-montserrat mb-8 text-center">
+          <h3 className="mb-8 text-center font-montserrat text-3xl font-bold text-white">
             Before & After
           </h3>
 
           <div
             ref={sliderRef}
-            className="relative h-[400px] rounded-2xl overflow-hidden cursor-ew-resize border-2 border-[#2563EB]"
+            className="relative h-[400px] cursor-ew-resize overflow-hidden rounded-2xl border-2 border-[#2563EB]"
             onMouseDown={handleSliderMouseDown}
           >
             {/* Before Image */}
-            <div className="absolute inset-0 bg-[#1E293B] flex items-center justify-center">
-              <span className="text-[#64748B] text-2xl font-montserrat">Before</span>
+            <div className="absolute inset-0 flex items-center justify-center bg-[#1E293B]">
+              <span className="font-montserrat text-2xl text-[#64748B]">
+                Before
+              </span>
             </div>
 
             {/* After Image with clip */}
             <div
-              className="absolute inset-0 bg-[#2563EB] flex items-center justify-center transition-all duration-300"
+              className="absolute inset-0 flex items-center justify-center bg-[#2563EB] transition-all duration-300"
               style={{
                 clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`,
               }}
             >
-              <span className="text-white text-2xl font-montserrat">After</span>
+              <span className="font-montserrat text-2xl text-white">After</span>
             </div>
 
             {/* Slider Handle */}
             <div
-              className="absolute top-0 bottom-0 w-1 bg-[#37AFE1] cursor-ew-resize"
+              className="absolute bottom-0 top-0 w-1 cursor-ew-resize bg-[#37AFE1]"
               style={{
                 left: `${sliderPosition}%`,
                 boxShadow: '0 0 20px rgba(139, 92, 246, 0.6)',
               }}
             >
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-[#37AFE1] rounded-full flex items-center justify-center shadow-lg">
+              <div className="absolute left-1/2 top-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#37AFE1] shadow-lg">
                 <svg
-                  className="w-6 h-6 text-white"
+                  className="h-6 w-6 text-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -254,7 +259,7 @@ function ProjectMockup3D() {
         if (Math.abs(momentum.x) > 0.001 || Math.abs(momentum.y) > 0.001) {
           meshRef.current.rotation.x += momentum.y;
           meshRef.current.rotation.y += momentum.x;
-          
+
           // Damping (0.95)
           setMomentum({
             x: momentum.x * 0.95,
@@ -333,11 +338,7 @@ function ProjectMockup3D() {
       {/* 3D Mockup - Simple box for now */}
       <mesh ref={meshRef}>
         <boxGeometry args={[2, 3, 0.1]} />
-        <meshStandardMaterial
-          color="#2563EB"
-          metalness={0.3}
-          roughness={0.4}
-        />
+        <meshStandardMaterial color="#2563EB" metalness={0.3} roughness={0.4} />
       </mesh>
 
       {/* Subtle grid */}
@@ -402,14 +403,14 @@ function MetricCard({
         delay: index * 0.1,
         ease: [0.34, 1.56, 0.64, 1],
       }}
-      className="bg-[#1E293B] rounded-xl p-6 border-2 border-[#2563EB]"
+      className="rounded-xl border-2 border-[#2563EB] bg-[#1E293B] p-6"
     >
-      <div className="text-4xl font-bold text-[#31A4DB] font-montserrat mb-2">
+      <div className="mb-2 font-montserrat text-4xl font-bold text-[#31A4DB]">
         {metric.prefix}
         {count.toFixed(metric.suffix === 's' ? 1 : 0)}
         {metric.suffix}
       </div>
-      <div className="text-sm text-[#64748B] font-inter">{metric.label}</div>
+      <div className="font-inter text-sm text-[#64748B]">{metric.label}</div>
     </motion.div>
   );
 }

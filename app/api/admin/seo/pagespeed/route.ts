@@ -16,7 +16,10 @@ export async function POST(request: NextRequest) {
     try {
       new URL(url);
     } catch {
-      return NextResponse.json({ error: 'Invalid URL format' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Invalid URL format' },
+        { status: 400 }
+      );
     }
 
     // Call Google PageSpeed Insights API
@@ -25,7 +28,7 @@ export async function POST(request: NextRequest) {
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
       },
     });
 
@@ -35,7 +38,10 @@ export async function POST(request: NextRequest) {
       const text = await response.text();
       console.error('Non-JSON response:', text.substring(0, 200));
       return NextResponse.json(
-        { error: 'Google API returned an invalid response. The URL may not be accessible.' },
+        {
+          error:
+            'Google API returned an invalid response. The URL may not be accessible.',
+        },
         { status: 500 }
       );
     }
@@ -45,14 +51,20 @@ export async function POST(request: NextRequest) {
     if (!response.ok) {
       console.error('PageSpeed API error:', data);
       const errorMessage = data.error?.message || 'Failed to analyze page';
-      return NextResponse.json({ error: errorMessage }, { status: response.status });
+      return NextResponse.json(
+        { error: errorMessage },
+        { status: response.status }
+      );
     }
 
     // Extract and format the results
     const lighthouseResult = data.lighthouseResult;
     if (!lighthouseResult) {
       return NextResponse.json(
-        { error: 'No lighthouse results returned. The page may not be accessible.' },
+        {
+          error:
+            'No lighthouse results returned. The page may not be accessible.',
+        },
         { status: 500 }
       );
     }
@@ -64,7 +76,10 @@ export async function POST(request: NextRequest) {
     const score = Math.round((categories.performance?.score || 0) * 100);
 
     // Extract Core Web Vitals metrics
-    const getMetricScore = (value: number, thresholds: { good: number; poor: number }): 'good' | 'needs-improvement' | 'poor' => {
+    const getMetricScore = (
+      value: number,
+      thresholds: { good: number; poor: number }
+    ): 'good' | 'needs-improvement' | 'poor' => {
       if (value <= thresholds.good) return 'good';
       if (value <= thresholds.poor) return 'needs-improvement';
       return 'poor';

@@ -22,7 +22,10 @@ export async function POST(request: NextRequest) {
     const { content } = body;
 
     if (content === undefined) {
-      return NextResponse.json({ error: 'Content is required' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Content is required' },
+        { status: 400 }
+      );
     }
 
     await writeFile(robotsPath, content, 'utf-8');
@@ -30,6 +33,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error saving robots.txt:', error);
-    return NextResponse.json({ error: 'Failed to save robots.txt' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to save robots.txt' },
+      { status: 500 }
+    );
   }
 }

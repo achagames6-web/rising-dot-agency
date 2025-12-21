@@ -22,14 +22,18 @@ export function detectGPUPower(): 'low' | 'medium' | 'high' {
 
   try {
     const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl') as WebGLRenderingContext | null;
-    
+    const gl =
+      canvas.getContext('webgl') ||
+      (canvas.getContext('experimental-webgl') as WebGLRenderingContext | null);
+
     if (!gl) return 'low';
 
     const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
     if (debugInfo) {
-      const renderer = (gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) as string).toLowerCase();
-      
+      const renderer = (
+        gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) as string
+      ).toLowerCase();
+
       // High-end GPUs
       if (
         renderer.includes('nvidia') ||
@@ -41,7 +45,7 @@ export function detectGPUPower(): 'low' | 'medium' | 'high' {
       ) {
         return 'high';
       }
-      
+
       // Low-end GPUs (integrated)
       if (
         renderer.includes('intel hd') ||
@@ -103,9 +107,16 @@ export function detectConnectionSpeed(): '2g' | '3g' | '4g' | '5g' | 'unknown' {
   if (typeof window === 'undefined') return 'unknown';
 
   try {
-    if ('connection' in navigator || 'mozConnection' in navigator || 'webkitConnection' in navigator) {
-      const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection;
-      
+    if (
+      'connection' in navigator ||
+      'mozConnection' in navigator ||
+      'webkitConnection' in navigator
+    ) {
+      const connection =
+        (navigator as any).connection ||
+        (navigator as any).mozConnection ||
+        (navigator as any).webkitConnection;
+
       if (connection && connection.effectiveType) {
         return connection.effectiveType as '2g' | '3g' | '4g' | '5g';
       }
@@ -125,9 +136,11 @@ export function detectWebGLSupport(): { webgl: boolean; webgl2: boolean } {
 
   try {
     const canvas = document.createElement('canvas');
-    const webgl = !!(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+    const webgl = !!(
+      canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
+    );
     const webgl2 = !!canvas.getContext('webgl2');
-    
+
     return { webgl, webgl2 };
   } catch (error) {
     return { webgl: false, webgl2: false };
@@ -142,8 +155,10 @@ export function getMaxTextureSize(): number {
 
   try {
     const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl') as WebGLRenderingContext | null;
-    
+    const gl =
+      canvas.getContext('webgl') ||
+      (canvas.getContext('experimental-webgl') as WebGLRenderingContext | null);
+
     if (gl) {
       return gl.getParameter(gl.MAX_TEXTURE_SIZE) as number;
     }
@@ -159,7 +174,7 @@ export function getMaxTextureSize(): number {
  */
 export async function getDeviceCapabilities(): Promise<DeviceCapabilities> {
   const webglSupport = detectWebGLSupport();
-  
+
   return {
     gpuPower: detectGPUPower(),
     memory: detectMemory(),
@@ -168,6 +183,7 @@ export async function getDeviceCapabilities(): Promise<DeviceCapabilities> {
     supportsWebGL: webglSupport.webgl,
     supportsWebGL2: webglSupport.webgl2,
     maxTextureSize: getMaxTextureSize(),
-    devicePixelRatio: typeof window !== 'undefined' ? window.devicePixelRatio : 1,
+    devicePixelRatio:
+      typeof window !== 'undefined' ? window.devicePixelRatio : 1,
   };
 }

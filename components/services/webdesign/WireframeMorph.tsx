@@ -5,10 +5,10 @@ import { motion, useAnimation } from 'framer-motion';
 
 /**
  * WireframeMorph Component
- * 
+ *
  * Displays wireframe construction with animated line drawing in Slate Gray,
  * then morphs into final design with gradient fill transition over 2 seconds.
- * 
+ *
  * Validates: Requirements 11.1, 11.2
  */
 
@@ -23,9 +23,11 @@ export const WireframeMorph: React.FC<WireframeMorphProps> = ({
   logoText = 'Logo',
   navItems = ['Home', 'About', 'Services', 'Contact'],
   heroTitle = 'Beautiful Design',
-  heroSubtitle = 'Crafted with precision'
+  heroSubtitle = 'Crafted with precision',
 }) => {
-  const [phase, setPhase] = useState<'wireframe' | 'morphing' | 'final'>('wireframe');
+  const [phase, setPhase] = useState<'wireframe' | 'morphing' | 'final'>(
+    'wireframe'
+  );
   const controls = useAnimation();
 
   useEffect(() => {
@@ -33,18 +35,18 @@ export const WireframeMorph: React.FC<WireframeMorphProps> = ({
       // Phase 1: Draw wireframe (2s)
       await controls.start({
         pathLength: 1,
-        transition: { duration: 2, ease: 'easeInOut' }
+        transition: { duration: 2, ease: 'easeInOut' },
       });
 
       // Wait a moment
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       // Phase 2: Morph to final design (2s)
       setPhase('morphing');
       await controls.start({
         opacity: 1,
         scale: 1,
-        transition: { duration: 2, ease: 'easeInOut' }
+        transition: { duration: 2, ease: 'easeInOut' },
       });
 
       setPhase('final');
@@ -54,10 +56,10 @@ export const WireframeMorph: React.FC<WireframeMorphProps> = ({
   }, [controls]);
 
   return (
-    <div className="relative w-full h-[600px] bg-[#0F172A] rounded-lg overflow-hidden">
+    <div className="relative h-[600px] w-full overflow-hidden rounded-lg bg-[#0F172A]">
       {/* Wireframe Layer */}
       <svg
-        className="absolute inset-0 w-full h-full"
+        className="absolute inset-0 h-full w-full"
         viewBox="0 0 800 600"
         style={{ opacity: phase === 'final' ? 0 : 1 }}
       >
@@ -73,7 +75,7 @@ export const WireframeMorph: React.FC<WireframeMorphProps> = ({
           initial={{ pathLength: 0 }}
           animate={controls}
         />
-        
+
         {/* Navigation items */}
         {[0, 1, 2, 3].map((i) => (
           <motion.rect
@@ -122,28 +124,30 @@ export const WireframeMorph: React.FC<WireframeMorphProps> = ({
 
       {/* Final Design Layer */}
       <motion.div
-        className="absolute inset-0 w-full h-full p-12"
+        className="absolute inset-0 h-full w-full p-12"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{
           opacity: phase === 'morphing' || phase === 'final' ? 1 : 0,
-          scale: phase === 'morphing' || phase === 'final' ? 1 : 0.95
+          scale: phase === 'morphing' || phase === 'final' ? 1 : 0.95,
         }}
         transition={{ duration: 2, ease: 'easeInOut' }}
       >
         {/* Header with gradient */}
-        <div className="w-full h-20 bg-gradient-to-r from-[#2563EB] to-[#37AFE1] rounded-lg mb-6 flex items-center justify-between px-8">
-          <div className="text-white font-bold text-xl">{logoText}</div>
+        <div className="mb-6 flex h-20 w-full items-center justify-between rounded-lg bg-gradient-to-r from-[#2563EB] to-[#37AFE1] px-8">
+          <div className="text-xl font-bold text-white">{logoText}</div>
           <div className="flex gap-6">
             {navItems.map((item) => (
-              <div key={item} className="text-white font-medium">{item}</div>
+              <div key={item} className="font-medium text-white">
+                {item}
+              </div>
             ))}
           </div>
         </div>
 
         {/* Hero section with gradient */}
-        <div className="w-full h-[300px] bg-gradient-to-br from-[#2563EB] via-[#37AFE1] to-[#31A4DB] rounded-lg mb-6 flex items-center justify-center">
+        <div className="mb-6 flex h-[300px] w-full items-center justify-center rounded-lg bg-gradient-to-br from-[#2563EB] via-[#37AFE1] to-[#31A4DB]">
           <div className="text-center">
-            <h2 className="text-4xl font-bold text-white mb-4">{heroTitle}</h2>
+            <h2 className="mb-4 text-4xl font-bold text-white">{heroTitle}</h2>
             <p className="text-xl text-white/80">{heroSubtitle}</p>
           </div>
         </div>
@@ -153,7 +157,7 @@ export const WireframeMorph: React.FC<WireframeMorphProps> = ({
           {[0, 1, 2].map((i) => (
             <div
               key={`card-${i}`}
-              className="h-20 bg-gradient-to-br from-[#2563EB]/20 to-[#37AFE1]/20 rounded-lg border border-[#2563EB]/30"
+              className="h-20 rounded-lg border border-[#2563EB]/30 bg-gradient-to-br from-[#2563EB]/20 to-[#37AFE1]/20"
             />
           ))}
         </div>
@@ -161,8 +165,10 @@ export const WireframeMorph: React.FC<WireframeMorphProps> = ({
 
       {/* Phase indicator - hidden in final phase */}
       {phase !== 'final' && (
-        <div className="absolute bottom-4 left-4 text-[#94A3B8] text-sm bg-[#0F172A]/80 px-3 py-1 rounded">
-          {phase === 'wireframe' ? 'Drawing Wireframe...' : 'Morphing to Design...'}
+        <div className="absolute bottom-4 left-4 rounded bg-[#0F172A]/80 px-3 py-1 text-sm text-[#94A3B8]">
+          {phase === 'wireframe'
+            ? 'Drawing Wireframe...'
+            : 'Morphing to Design...'}
         </div>
       )}
     </div>

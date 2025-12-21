@@ -19,20 +19,28 @@ export async function PUT(
     if (name !== undefined) updateData.name = name;
     if (tags !== undefined) updateData.tags = tags;
 
-    const result = await db.collection('subscribers').findOneAndUpdate(
-      { _id: new ObjectId(params.id) },
-      { $set: updateData },
-      { returnDocument: 'after' }
-    );
+    const result = await db
+      .collection('subscribers')
+      .findOneAndUpdate(
+        { _id: new ObjectId(params.id) },
+        { $set: updateData },
+        { returnDocument: 'after' }
+      );
 
     if (!result) {
-      return NextResponse.json({ error: 'Subscriber not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Subscriber not found' },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json(result);
   } catch (error) {
     console.error('Error updating subscriber:', error);
-    return NextResponse.json({ error: 'Failed to update subscriber' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to update subscriber' },
+      { status: 500 }
+    );
   }
 }
 
@@ -50,12 +58,18 @@ export async function DELETE(
     });
 
     if (result.deletedCount === 0) {
-      return NextResponse.json({ error: 'Subscriber not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Subscriber not found' },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting subscriber:', error);
-    return NextResponse.json({ error: 'Failed to delete subscriber' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to delete subscriber' },
+      { status: 500 }
+    );
   }
 }

@@ -13,14 +13,14 @@ export default function CinematicShowreel() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-  
+
   const [videoSrc, setVideoSrc] = useState<string | null>(null);
   const [isMuted, setIsMuted] = useState(true);
   const [isHovering, setIsHovering] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [userStarted, setUserStarted] = useState(false);
-  
+
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
   const volumeAnimationRef = useRef<gsap.core.Tween | null>(null);
 
@@ -36,7 +36,7 @@ export default function CinematicShowreel() {
     };
 
     updateVideoSource();
-    
+
     let resizeTimeout: NodeJS.Timeout;
     const handleResize = () => {
       clearTimeout(resizeTimeout);
@@ -155,37 +155,40 @@ export default function CinematicShowreel() {
   }, [isPlaying]);
 
   // Volume fade animation
-  const toggleMute = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!videoRef.current) return;
+  const toggleMute = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (!videoRef.current) return;
 
-    const video = videoRef.current;
-    
-    if (volumeAnimationRef.current) {
-      volumeAnimationRef.current.kill();
-    }
+      const video = videoRef.current;
 
-    if (isMuted) {
-      video.muted = false;
-      video.volume = 0;
-      volumeAnimationRef.current = gsap.to(video, {
-        volume: 1,
-        duration: 0.8,
-        ease: 'power2.out',
-      });
-    } else {
-      volumeAnimationRef.current = gsap.to(video, {
-        volume: 0,
-        duration: 0.5,
-        ease: 'power2.in',
-        onComplete: () => {
-          video.muted = true;
-        },
-      });
-    }
+      if (volumeAnimationRef.current) {
+        volumeAnimationRef.current.kill();
+      }
 
-    setIsMuted(!isMuted);
-  }, [isMuted]);
+      if (isMuted) {
+        video.muted = false;
+        video.volume = 0;
+        volumeAnimationRef.current = gsap.to(video, {
+          volume: 1,
+          duration: 0.8,
+          ease: 'power2.out',
+        });
+      } else {
+        volumeAnimationRef.current = gsap.to(video, {
+          volume: 0,
+          duration: 0.5,
+          ease: 'power2.in',
+          onComplete: () => {
+            video.muted = true;
+          },
+        });
+      }
+
+      setIsMuted(!isMuted);
+    },
+    [isMuted]
+  );
 
   const handleMouseEnter = useCallback(() => {
     setIsHovering(true);
@@ -199,21 +202,19 @@ export default function CinematicShowreel() {
     setIsVideoLoaded(true);
   }, []);
 
-
-
   return (
     <section
       ref={sectionRef}
-      className="relative pt-16 pb-6 px-6 overflow-hidden bg-transparent"
+      className="relative overflow-hidden bg-transparent px-6 pb-6 pt-16"
     >
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="relative z-10 mx-auto max-w-6xl">
         {/* Monitor/Card Frame */}
         <motion.div
           ref={cardRef}
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="relative gpu-accelerated"
+          className="gpu-accelerated relative"
           style={{ transform: 'translateZ(0)' }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
@@ -221,7 +222,7 @@ export default function CinematicShowreel() {
         >
           {/* Simple Rounded Card with Moving Border */}
           <div
-            className="relative rounded-xl overflow-hidden shadow-lg group p-[2px]"
+            className="group relative overflow-hidden rounded-xl p-[2px] shadow-lg"
             style={{
               willChange: 'transform',
               transform: 'translateZ(0)',
@@ -229,143 +230,152 @@ export default function CinematicShowreel() {
             }}
           >
             {/* Moving border animation */}
-            <div className="absolute inset-0" style={{ borderRadius: '0.75rem' }}>
+            <div
+              className="absolute inset-0"
+              style={{ borderRadius: '0.75rem' }}
+            >
               <MovingBorder duration={4000} rx="12" ry="12">
                 <div
                   className="h-24 w-24 opacity-[0.9]"
                   style={{
-                    background: 'radial-gradient(#37AFE1 30%, #F58122 50%, transparent 70%)',
+                    background:
+                      'radial-gradient(#37AFE1 30%, #F58122 50%, transparent 70%)',
                     filter: 'blur(2px)',
                   }}
                 />
               </MovingBorder>
             </div>
-            
+
             {/* Static border glow */}
-            <div 
+            <div
               className="absolute inset-0 rounded-xl"
               style={{
                 border: '1px solid rgba(55, 175, 225, 0.3)',
               }}
             />
-            
+
             {/* Inner card container */}
-            <div className="relative rounded-xl overflow-hidden bg-black">
+            <div className="relative overflow-hidden rounded-xl bg-black">
               {/* Video Container */}
-            <div className="relative aspect-video bg-[#0A0F1E]">
-              {videoSrc && (
-                <video
-                  ref={videoRef}
-                  className="w-full h-full object-cover"
-                  src={videoSrc}
-                  autoPlay
-                  loop
-                  muted={isMuted}
-                  playsInline
-                  onLoadedData={handleVideoLoaded}
-                  style={{ transform: 'translateZ(0)' }}
+              <div className="relative aspect-video bg-[#0A0F1E]">
+                {videoSrc && (
+                  <video
+                    ref={videoRef}
+                    className="h-full w-full object-cover"
+                    src={videoSrc}
+                    autoPlay
+                    loop
+                    muted={isMuted}
+                    playsInline
+                    onLoadedData={handleVideoLoaded}
+                    style={{ transform: 'translateZ(0)' }}
+                  />
+                )}
+
+                {/* Gradient overlay - static, no animations */}
+                <div
+                  className="pointer-events-none absolute inset-0"
+                  style={{
+                    background:
+                      'linear-gradient(to top, rgba(10, 15, 30, 0.4), transparent, transparent)',
+                  }}
                 />
-              )}
 
-              {/* Gradient overlay - static, no animations */}
-              <div 
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background: 'linear-gradient(to top, rgba(10, 15, 30, 0.4), transparent, transparent)',
-                }}
-              />
-
-              {/* Play/Pause Button Overlay */}
-              <AnimatePresence>
-                {(isHovering || !isPlaying) && isVideoLoaded && (
-                  <motion.div
-                    key="play-overlay"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
-                  >
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        togglePlayPause();
-                      }}
-                      className="pointer-events-auto flex items-center justify-center w-20 h-20 rounded-full transition-all duration-300 hover:scale-110"
-                      style={{
-                        background: 'rgba(245, 129, 34, 0.9)',
-                        boxShadow: '0 0 40px rgba(245, 129, 34, 0.5), 0 0 80px rgba(245, 129, 34, 0.3)',
-                      }}
-                      aria-label={isPlaying ? 'Pause video' : 'Play video'}
+                {/* Play/Pause Button Overlay */}
+                <AnimatePresence>
+                  {(isHovering || !isPlaying) && isVideoLoaded && (
+                    <motion.div
+                      key="play-overlay"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center"
                     >
-                      {isPlaying ? (
-                        <Pause className="w-10 h-10 text-white" />
-                      ) : (
-                        <Play className="w-10 h-10 text-white ml-1" />
-                      )}
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          togglePlayPause();
+                        }}
+                        className="pointer-events-auto flex h-20 w-20 items-center justify-center rounded-full transition-all duration-300 hover:scale-110"
+                        style={{
+                          background: 'rgba(245, 129, 34, 0.9)',
+                          boxShadow:
+                            '0 0 40px rgba(245, 129, 34, 0.5), 0 0 80px rgba(245, 129, 34, 0.3)',
+                        }}
+                        aria-label={isPlaying ? 'Pause video' : 'Play video'}
+                      >
+                        {isPlaying ? (
+                          <Pause className="h-10 w-10 text-white" />
+                        ) : (
+                          <Play className="ml-1 h-10 w-10 text-white" />
+                        )}
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
-              {/* Status badge */}
-              <div className="absolute left-4 bottom-4 text-xs text-white/80 bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-sm z-10">
-                {isPlaying ? 'Playing' : 'Paused'}
-              </div>
-
-              {/* Sound toggle button */}
-              <button
-                onClick={toggleMute}
-                className="absolute right-4 bottom-4 flex items-center gap-2 text-xs text-white/80 bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-sm z-10 hover:bg-black/60 transition-colors"
-                aria-label={isMuted ? 'Unmute' : 'Mute'}
-              >
-                {isMuted ? (
-                  <VolumeX className="w-4 h-4" />
-                ) : (
-                  <Volume2 className="w-4 h-4" />
-                )}
-                <span className="hidden sm:inline">{isMuted ? 'Sound Off' : 'Sound On'}</span>
-              </button>
-              
-              {/* Loading state */}
-              {!isVideoLoaded && (
-                <div className="absolute inset-0 flex items-center justify-center bg-[#0A0F1E]">
-                  <div className="flex flex-col items-center gap-4">
-                    <div 
-                      className="w-12 h-12 rounded-full animate-spin"
-                      style={{
-                        border: '2px solid rgba(55, 175, 225, 0.3)',
-                        borderTopColor: '#37AFE1',
-                      }}
-                    />
-                    <span className="text-[#64748B] text-sm">Loading showreel...</span>
-                  </div>
+                {/* Status badge */}
+                <div className="absolute bottom-4 left-4 z-10 rounded-full bg-black/40 px-3 py-1.5 text-xs text-white/80 backdrop-blur-sm">
+                  {isPlaying ? 'Playing' : 'Paused'}
                 </div>
-              )}
 
+                {/* Sound toggle button */}
+                <button
+                  onClick={toggleMute}
+                  className="absolute bottom-4 right-4 z-10 flex items-center gap-2 rounded-full bg-black/40 px-3 py-1.5 text-xs text-white/80 backdrop-blur-sm transition-colors hover:bg-black/60"
+                  aria-label={isMuted ? 'Unmute' : 'Mute'}
+                >
+                  {isMuted ? (
+                    <VolumeX className="h-4 w-4" />
+                  ) : (
+                    <Volume2 className="h-4 w-4" />
+                  )}
+                  <span className="hidden sm:inline">
+                    {isMuted ? 'Sound Off' : 'Sound On'}
+                  </span>
+                </button>
 
-            </div>
+                {/* Loading state */}
+                {!isVideoLoaded && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-[#0A0F1E]">
+                    <div className="flex flex-col items-center gap-4">
+                      <div
+                        className="h-12 w-12 animate-spin rounded-full"
+                        style={{
+                          border: '2px solid rgba(55, 175, 225, 0.3)',
+                          borderTopColor: '#37AFE1',
+                        }}
+                      />
+                      <span className="text-sm text-[#64748B]">
+                        Loading showreel...
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </motion.div>
 
         {/* Mobile sound button */}
-        <div className="md:hidden flex justify-center mt-6">
+        <div className="mt-6 flex justify-center md:hidden">
           <button
-            className="flex items-center gap-2 px-6 py-3 rounded-full active:scale-95 transition-transform duration-200"
+            className="flex items-center gap-2 rounded-full px-6 py-3 transition-transform duration-200 active:scale-95"
             style={{
-              background: 'linear-gradient(135deg, rgba(55, 175, 225, 0.2) 0%, rgba(49, 164, 219, 0.2) 100%)',
+              background:
+                'linear-gradient(135deg, rgba(55, 175, 225, 0.2) 0%, rgba(49, 164, 219, 0.2) 100%)',
               border: '1px solid rgba(55, 175, 225, 0.3)',
             }}
             onClick={toggleMute}
             aria-label={isMuted ? 'Unmute video' : 'Mute video'}
           >
             {isMuted ? (
-              <VolumeX className="w-5 h-5 text-white" />
+              <VolumeX className="h-5 w-5 text-white" />
             ) : (
-              <Volume2 className="w-5 h-5 text-white" />
+              <Volume2 className="h-5 w-5 text-white" />
             )}
-            <span className="text-sm text-white/80 font-medium">
+            <span className="text-sm font-medium text-white/80">
               {isMuted ? 'Tap for Sound' : 'Mute'}
             </span>
           </button>

@@ -73,7 +73,7 @@ jobs:
         run: |
           echo "Checking bundle sizes..."
           du -sh .next/static/chunks/*.js | sort -h
-          
+
   deploy:
     name: Deploy to Vercel
     runs-on: ubuntu-latest

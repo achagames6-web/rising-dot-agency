@@ -6,38 +6,38 @@
 
 @layer base {
   body {
-    @apply font-inter text-body-desktop bg-light-bg text-dark-text;
+    @apply bg-light-bg font-inter text-body-desktop text-dark-text;
   }
-  
+
   h1 {
-    @apply font-montserrat font-heading-extra-bold text-h1-desktop;
+    @apply font-montserrat text-h1-desktop font-heading-extra-bold;
   }
-  
+
   h2 {
-    @apply font-montserrat font-heading-bold text-h2-desktop;
+    @apply font-montserrat text-h2-desktop font-heading-bold;
   }
-  
+
   h3 {
-    @apply font-montserrat font-heading text-h3-desktop;
+    @apply font-montserrat text-h3-desktop font-heading;
   }
-  
+
   code {
     @apply font-fira-code font-code;
   }
-  
+
   @media (max-width: 768px) {
     body {
       @apply text-body-mobile;
     }
-    
+
     h1 {
       @apply text-h1-mobile;
     }
-    
+
     h2 {
       @apply text-h2-mobile;
     }
-    
+
     h3 {
       @apply text-h3-mobile;
     }
@@ -103,7 +103,7 @@
     position: relative;
     overflow: hidden;
   }
-  
+
   /* Hide scrollbar utility */
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
@@ -112,14 +112,12 @@
 
 /* Hide Spline watermark */
 [data-spline-watermark],
-a[href*="spline.design"] {
+a[href*='spline.design'] {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
   pointer-events: none !important;
 }
-
-
 
 @layer base {
   * {
@@ -129,7 +127,6 @@ a[href*="spline.design"] {
     @apply bg-background text-foreground;
   }
 }
-
 
 /* Database REST API Animation */
 .database {
@@ -165,7 +162,6 @@ a[href*="spline.design"] {
     offset-distance: 100%;
   }
 }
-
 
 /* Hero-1 Animations */
 @keyframes fade-in {
@@ -211,7 +207,6 @@ a[href*="spline.design"] {
 .animate-fade-up {
   animation: fade-up 1s ease-out forwards;
 }
-
 
 /* Border Beam Animation for Video Card */
 @keyframes borderBeam {

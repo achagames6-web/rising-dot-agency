@@ -30,7 +30,10 @@ export async function GET(request: Request) {
     return NextResponse.json(settingsMap);
   } catch (error) {
     console.error('Error fetching settings:', error);
-    return NextResponse.json({ error: 'Failed to fetch settings' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch settings' },
+      { status: 500 }
+    );
   }
 }
 
@@ -57,7 +60,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, key, value });
   } catch (error) {
     console.error('Error saving settings:', error);
-    return NextResponse.json({ error: 'Failed to save settings' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to save settings' },
+      { status: 500 }
+    );
   }
 }
 
@@ -68,7 +74,10 @@ export async function PUT(request: Request) {
     const settings = body.settings as Record<string, any>;
 
     if (!settings || typeof settings !== 'object') {
-      return NextResponse.json({ error: 'Settings object is required' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Settings object is required' },
+        { status: 400 }
+      );
     }
 
     const client = await clientPromise;
@@ -85,9 +94,15 @@ export async function PUT(request: Request) {
 
     await collection.bulkWrite(operations);
 
-    return NextResponse.json({ success: true, updated: Object.keys(settings).length });
+    return NextResponse.json({
+      success: true,
+      updated: Object.keys(settings).length,
+    });
   } catch (error) {
     console.error('Error saving settings:', error);
-    return NextResponse.json({ error: 'Failed to save settings' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to save settings' },
+      { status: 500 }
+    );
   }
 }

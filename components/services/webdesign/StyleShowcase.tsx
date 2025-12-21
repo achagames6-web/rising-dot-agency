@@ -5,10 +5,10 @@ import { motion } from 'framer-motion';
 
 /**
  * StyleShowcase Component
- * 
+ *
  * Interactive color picker with real-time theming and smooth font transitions.
  * Color schemes are editable from the CMS dashboard.
- * 
+ *
  * Validates: Requirements 11.6, 11.7
  */
 
@@ -41,25 +41,55 @@ export interface StyleShowcaseProps {
 const defaultFeatureCards: FeatureCard[] = [
   { title: 'Feature 1', description: 'Description text' },
   { title: 'Feature 2', description: 'Description text' },
-  { title: 'Feature 3', description: 'Description text' }
+  { title: 'Feature 3', description: 'Description text' },
 ];
 
 const defaultColorSchemes: ColorScheme[] = [
-  { name: 'Ocean', primary: '#2563EB', secondary: '#37AFE1', accent: '#31A4DB' },
-  { name: 'Sunset', primary: '#F97316', secondary: '#F58122', accent: '#F59E0B' },
+  {
+    name: 'Ocean',
+    primary: '#2563EB',
+    secondary: '#37AFE1',
+    accent: '#31A4DB',
+  },
+  {
+    name: 'Sunset',
+    primary: '#F97316',
+    secondary: '#F58122',
+    accent: '#F59E0B',
+  },
   { name: 'Sky', primary: '#37AFE1', secondary: '#31A4DB', accent: '#2563EB' },
   { name: 'Fire', primary: '#F58122', secondary: '#F97316', accent: '#F59E0B' },
-  { name: 'Midnight', primary: '#1E3A8A', secondary: '#3B82F6', accent: '#60A5FA' },
-  { name: 'Coral', primary: '#F97316', secondary: '#FB923C', accent: '#FDBA74' },
-  { name: 'Electric', primary: '#37AFE1', secondary: '#06B6D4', accent: '#22D3EE' },
-  { name: 'Amber', primary: '#F59E0B', secondary: '#FBBF24', accent: '#FCD34D' }
+  {
+    name: 'Midnight',
+    primary: '#1E3A8A',
+    secondary: '#3B82F6',
+    accent: '#60A5FA',
+  },
+  {
+    name: 'Coral',
+    primary: '#F97316',
+    secondary: '#FB923C',
+    accent: '#FDBA74',
+  },
+  {
+    name: 'Electric',
+    primary: '#37AFE1',
+    secondary: '#06B6D4',
+    accent: '#22D3EE',
+  },
+  {
+    name: 'Amber',
+    primary: '#F59E0B',
+    secondary: '#FBBF24',
+    accent: '#FCD34D',
+  },
 ];
 
 const defaultFonts: FontOption[] = [
   { name: 'Modern', family: 'Inter, sans-serif' },
   { name: 'Classic', family: 'Georgia, serif' },
   { name: 'Tech', family: 'Fira Code, monospace' },
-  { name: 'Elegant', family: 'Montserrat, sans-serif' }
+  { name: 'Elegant', family: 'Montserrat, sans-serif' },
 ];
 
 export const StyleShowcase: React.FC<StyleShowcaseProps> = ({
@@ -68,12 +98,18 @@ export const StyleShowcase: React.FC<StyleShowcaseProps> = ({
   brandDescription = 'This is how your content will look with the selected style. The typography and colors update in real-time to give you an instant preview of your design choices.',
   ctaText = 'Call to Action',
   colorSchemes: propColorSchemes,
-  fonts: propFonts
+  fonts: propFonts,
 }) => {
-  const cards = featureCards && featureCards.length > 0 ? featureCards : defaultFeatureCards;
-  const colorSchemes = propColorSchemes && propColorSchemes.length > 0 ? propColorSchemes : defaultColorSchemes;
+  const cards =
+    featureCards && featureCards.length > 0
+      ? featureCards
+      : defaultFeatureCards;
+  const colorSchemes =
+    propColorSchemes && propColorSchemes.length > 0
+      ? propColorSchemes
+      : defaultColorSchemes;
   const fonts = propFonts && propFonts.length > 0 ? propFonts : defaultFonts;
-  
+
   const [activeScheme, setActiveScheme] = useState(0);
   const [activeFont, setActiveFont] = useState(0);
 
@@ -84,51 +120,71 @@ export const StyleShowcase: React.FC<StyleShowcaseProps> = ({
     <div className="w-full">
       {/* Color Scheme Picker */}
       <div className="mb-8">
-        <h3 className="text-xl font-bold text-white mb-4">Color Scheme</h3>
+        <h3 className="mb-4 text-xl font-bold text-white">Color Scheme</h3>
         <div className="flex flex-wrap gap-4">
           {colorSchemes.map((scheme, index) => (
             <motion.button
               key={scheme.name}
               onClick={() => setActiveScheme(index)}
-              className="relative group"
+              className="group relative"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div 
-                className="flex gap-2 p-4 bg-[#0F172A] rounded-lg border-2 transition-all duration-300"
+              <div
+                className="flex gap-2 rounded-lg border-2 bg-[#0F172A] p-4 transition-all duration-300"
                 style={{
-                  borderColor: index === activeScheme ? scheme.primary : '#1E293B',
-                  boxShadow: index === activeScheme ? `0 0 20px ${scheme.primary}40` : 'none'
+                  borderColor:
+                    index === activeScheme ? scheme.primary : '#1E293B',
+                  boxShadow:
+                    index === activeScheme
+                      ? `0 0 20px ${scheme.primary}40`
+                      : 'none',
                 }}
               >
                 <motion.div
-                  className="w-8 h-8 rounded-full"
+                  className="h-8 w-8 rounded-full"
                   style={{ backgroundColor: scheme.primary }}
-                  animate={{ 
-                    scale: index === activeScheme ? [1, 1.1, 1] : 1 
+                  animate={{
+                    scale: index === activeScheme ? [1, 1.1, 1] : 1,
                   }}
-                  transition={{ duration: 0.5, repeat: index === activeScheme ? Infinity : 0, repeatDelay: 1 }}
+                  transition={{
+                    duration: 0.5,
+                    repeat: index === activeScheme ? Infinity : 0,
+                    repeatDelay: 1,
+                  }}
                 />
                 <motion.div
-                  className="w-8 h-8 rounded-full"
+                  className="h-8 w-8 rounded-full"
                   style={{ backgroundColor: scheme.secondary }}
-                  animate={{ 
-                    scale: index === activeScheme ? [1, 1.1, 1] : 1 
+                  animate={{
+                    scale: index === activeScheme ? [1, 1.1, 1] : 1,
                   }}
-                  transition={{ duration: 0.5, delay: 0.1, repeat: index === activeScheme ? Infinity : 0, repeatDelay: 1 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.1,
+                    repeat: index === activeScheme ? Infinity : 0,
+                    repeatDelay: 1,
+                  }}
                 />
                 <motion.div
-                  className="w-8 h-8 rounded-full"
+                  className="h-8 w-8 rounded-full"
                   style={{ backgroundColor: scheme.accent }}
-                  animate={{ 
-                    scale: index === activeScheme ? [1, 1.1, 1] : 1 
+                  animate={{
+                    scale: index === activeScheme ? [1, 1.1, 1] : 1,
                   }}
-                  transition={{ duration: 0.5, delay: 0.2, repeat: index === activeScheme ? Infinity : 0, repeatDelay: 1 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.2,
+                    repeat: index === activeScheme ? Infinity : 0,
+                    repeatDelay: 1,
+                  }}
                 />
               </div>
-              <div 
-                className="text-sm mt-2 text-center transition-colors duration-300"
-                style={{ color: index === activeScheme ? scheme.primary : '#64748B' }}
+              <div
+                className="mt-2 text-center text-sm transition-colors duration-300"
+                style={{
+                  color: index === activeScheme ? scheme.primary : '#64748B',
+                }}
               >
                 {scheme.name}
               </div>
@@ -139,18 +195,22 @@ export const StyleShowcase: React.FC<StyleShowcaseProps> = ({
 
       {/* Font Picker */}
       <div className="mb-8">
-        <h3 className="text-xl font-bold text-white mb-4">Typography</h3>
+        <h3 className="mb-4 text-xl font-bold text-white">Typography</h3>
         <div className="flex flex-wrap gap-4">
           {fonts.map((font, index) => (
             <motion.button
               key={font.name}
               onClick={() => setActiveFont(index)}
-              className="px-6 py-3 bg-[#0F172A] rounded-lg border-2 transition-all duration-300"
+              className="rounded-lg border-2 bg-[#0F172A] px-6 py-3 transition-all duration-300"
               style={{
-                borderColor: index === activeFont ? currentScheme.primary : '#1E293B',
+                borderColor:
+                  index === activeFont ? currentScheme.primary : '#1E293B',
                 fontFamily: font.family,
                 color: index === activeFont ? '#FFFFFF' : '#94A3B8',
-                boxShadow: index === activeFont ? `0 0 15px ${currentScheme.primary}30` : 'none'
+                boxShadow:
+                  index === activeFont
+                    ? `0 0 15px ${currentScheme.primary}30`
+                    : 'none',
               }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -163,30 +223,32 @@ export const StyleShowcase: React.FC<StyleShowcaseProps> = ({
 
       {/* Live Preview */}
       <motion.div
-        className="bg-[#0F172A] rounded-xl p-8 border border-slate-800"
+        className="rounded-xl border border-slate-800 bg-[#0F172A] p-8"
         key={`${activeScheme}-${activeFont}`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
         style={{
-          boxShadow: `0 0 40px ${currentScheme.primary}15`
+          boxShadow: `0 0 40px ${currentScheme.primary}15`,
         }}
       >
         {/* Preview Header */}
-        <div className="flex items-center gap-2 mb-6 pb-4 border-b border-slate-700">
+        <div className="mb-6 flex items-center gap-2 border-b border-slate-700 pb-4">
           <div className="flex gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-red-500" />
-            <div className="w-3 h-3 rounded-full bg-yellow-500" />
-            <div className="w-3 h-3 rounded-full bg-green-500" />
+            <div className="h-3 w-3 rounded-full bg-red-500" />
+            <div className="h-3 w-3 rounded-full bg-yellow-500" />
+            <div className="h-3 w-3 rounded-full bg-green-500" />
           </div>
-          <div className="flex-1 text-center text-xs text-slate-500">Live Preview</div>
+          <div className="flex-1 text-center text-xs text-slate-500">
+            Live Preview
+          </div>
         </div>
 
         <motion.h2
-          className="text-4xl font-bold mb-4"
+          className="mb-4 text-4xl font-bold"
           style={{
             color: currentScheme.primary,
-            fontFamily: currentFont.family
+            fontFamily: currentFont.family,
           }}
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -194,12 +256,12 @@ export const StyleShowcase: React.FC<StyleShowcaseProps> = ({
         >
           {brandTitle}
         </motion.h2>
-        
+
         <motion.p
-          className="text-lg mb-6"
+          className="mb-6 text-lg"
           style={{
             color: '#94A3B8',
-            fontFamily: currentFont.family
+            fontFamily: currentFont.family,
           }}
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -208,53 +270,53 @@ export const StyleShowcase: React.FC<StyleShowcaseProps> = ({
           {brandDescription}
         </motion.p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {cards.map((card, i) => (
             <motion.div
               key={i}
-              className="p-6 rounded-lg relative overflow-hidden"
+              className="relative overflow-hidden rounded-lg p-6"
               style={{
                 background: `linear-gradient(135deg, ${currentScheme.primary}20, ${currentScheme.secondary}20)`,
-                border: `1px solid ${currentScheme.accent}40`
+                border: `1px solid ${currentScheme.accent}40`,
               }}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3, delay: 0.2 + i * 0.1 }}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.02,
-                boxShadow: `0 10px 30px ${currentScheme.primary}30`
+                boxShadow: `0 10px 30px ${currentScheme.primary}30`,
               }}
             >
               {/* Gradient overlay */}
-              <div 
+              <div
                 className="absolute inset-0 opacity-10"
                 style={{
-                  background: `radial-gradient(circle at top right, ${currentScheme.accent}, transparent 70%)`
+                  background: `radial-gradient(circle at top right, ${currentScheme.accent}, transparent 70%)`,
                 }}
               />
-              
+
               <motion.div
-                className="w-12 h-12 rounded-full mb-4 relative z-10"
-                style={{ 
-                  background: `linear-gradient(135deg, ${currentScheme.primary}, ${currentScheme.accent})` 
+                className="relative z-10 mb-4 h-12 w-12 rounded-full"
+                style={{
+                  background: `linear-gradient(135deg, ${currentScheme.primary}, ${currentScheme.accent})`,
                 }}
                 whileHover={{ rotate: 360 }}
                 transition={{ duration: 0.5 }}
               />
               <h4
-                className="font-bold mb-2 relative z-10"
+                className="relative z-10 mb-2 font-bold"
                 style={{
                   color: currentScheme.primary,
-                  fontFamily: currentFont.family
+                  fontFamily: currentFont.family,
                 }}
               >
                 {card.title}
               </h4>
               <p
-                className="text-sm relative z-10"
+                className="relative z-10 text-sm"
                 style={{
                   color: '#94A3B8',
-                  fontFamily: currentFont.family
+                  fontFamily: currentFont.family,
                 }}
               >
                 {card.description}
@@ -264,14 +326,14 @@ export const StyleShowcase: React.FC<StyleShowcaseProps> = ({
         </div>
 
         <motion.button
-          className="mt-6 px-8 py-3 rounded-lg font-bold text-white relative overflow-hidden"
+          className="relative mt-6 overflow-hidden rounded-lg px-8 py-3 font-bold text-white"
           style={{
             background: `linear-gradient(135deg, ${currentScheme.primary}, ${currentScheme.secondary})`,
-            fontFamily: currentFont.family
+            fontFamily: currentFont.family,
           }}
-          whileHover={{ 
+          whileHover={{
             scale: 1.05,
-            boxShadow: `0 10px 30px ${currentScheme.primary}50`
+            boxShadow: `0 10px 30px ${currentScheme.primary}50`,
           }}
           whileTap={{ scale: 0.95 }}
           initial={{ opacity: 0, y: 20 }}
@@ -282,7 +344,7 @@ export const StyleShowcase: React.FC<StyleShowcaseProps> = ({
           <motion.div
             className="absolute inset-0"
             style={{
-              background: `linear-gradient(135deg, ${currentScheme.secondary}, ${currentScheme.accent})`
+              background: `linear-gradient(135deg, ${currentScheme.secondary}, ${currentScheme.accent})`,
             }}
             initial={{ x: '-100%' }}
             whileHover={{ x: 0 }}
@@ -291,24 +353,29 @@ export const StyleShowcase: React.FC<StyleShowcaseProps> = ({
         </motion.button>
 
         {/* Color Info Display */}
-        <div className="mt-8 pt-6 border-t border-slate-700">
+        <div className="mt-8 border-t border-slate-700 pt-6">
           <div className="flex items-center justify-between text-sm">
             <span className="text-slate-500">Current Scheme:</span>
             <div className="flex items-center gap-3">
-              <span style={{ color: currentScheme.primary }} className="font-medium">{currentScheme.name}</span>
+              <span
+                style={{ color: currentScheme.primary }}
+                className="font-medium"
+              >
+                {currentScheme.name}
+              </span>
               <div className="flex gap-1">
-                <div 
-                  className="w-4 h-4 rounded-full" 
+                <div
+                  className="h-4 w-4 rounded-full"
                   style={{ backgroundColor: currentScheme.primary }}
                   title={`Primary: ${currentScheme.primary}`}
                 />
-                <div 
-                  className="w-4 h-4 rounded-full" 
+                <div
+                  className="h-4 w-4 rounded-full"
                   style={{ backgroundColor: currentScheme.secondary }}
                   title={`Secondary: ${currentScheme.secondary}`}
                 />
-                <div 
-                  className="w-4 h-4 rounded-full" 
+                <div
+                  className="h-4 w-4 rounded-full"
                   style={{ backgroundColor: currentScheme.accent }}
                   title={`Accent: ${currentScheme.accent}`}
                 />

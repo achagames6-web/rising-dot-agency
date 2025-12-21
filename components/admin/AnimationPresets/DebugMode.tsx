@@ -26,18 +26,23 @@ export function DebugMode({ presets }: DebugModeProps) {
     if (isMonitoring) {
       // Simulate debug events for demonstration
       const interval = setInterval(() => {
-        const randomPreset = presets[Math.floor(Math.random() * presets.length)];
+        const randomPreset =
+          presets[Math.floor(Math.random() * presets.length)];
         if (randomPreset) {
-          const statuses: Array<'triggered' | 'blocked' | 'completed'> = ['triggered', 'blocked', 'completed'];
+          const statuses: Array<'triggered' | 'blocked' | 'completed'> = [
+            'triggered',
+            'blocked',
+            'completed',
+          ];
           const newEvent: DebugEvent = {
             id: `${Date.now()}-${Math.random()}`,
             timestamp: Date.now(),
             presetName: randomPreset.name,
             triggerType: randomPreset.config.triggers?.[0]?.type || 'manual',
             status: statuses[Math.floor(Math.random() * statuses.length)],
-            details: `Animation ${randomPreset.name} ${statuses[Math.floor(Math.random() * statuses.length)]}`
+            details: `Animation ${randomPreset.name} ${statuses[Math.floor(Math.random() * statuses.length)]}`,
           };
-          setEvents(prev => [newEvent, ...prev].slice(0, 50)); // Keep last 50 events
+          setEvents((prev) => [newEvent, ...prev].slice(0, 50)); // Keep last 50 events
         }
       }, 3000);
 
@@ -46,19 +51,19 @@ export function DebugMode({ presets }: DebugModeProps) {
   }, [isMonitoring, presets]);
 
   const filteredEvents = selectedPreset
-    ? events.filter(e => e.presetName === selectedPreset)
+    ? events.filter((e) => e.presetName === selectedPreset)
     : events;
 
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'triggered':
-        return <Zap className="w-4 h-4 text-yellow-600" />;
+        return <Zap className="h-4 w-4 text-yellow-600" />;
       case 'blocked':
-        return <XCircle className="w-4 h-4 text-red-600" />;
+        return <XCircle className="h-4 w-4 text-red-600" />;
       case 'completed':
-        return <CheckCircle className="w-4 h-4 text-green-600" />;
+        return <CheckCircle className="h-4 w-4 text-green-600" />;
       default:
-        return <Activity className="w-4 h-4 text-slate-600" />;
+        return <Activity className="h-4 w-4 text-slate-600" />;
     }
   };
 
@@ -81,7 +86,7 @@ export function DebugMode({ presets }: DebugModeProps) {
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',
-      hour12: false
+      hour12: false,
     });
   };
 
@@ -91,81 +96,85 @@ export function DebugMode({ presets }: DebugModeProps) {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-bold text-slate-900">Debug Mode</h2>
-          <p className="text-sm text-slate-600 mt-1">
+          <p className="mt-1 text-sm text-slate-600">
             Monitor animation triggers and performance in real-time
           </p>
         </div>
         <div className="flex gap-3">
           <button
             onClick={() => setEvents([])}
-            className="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-colors"
+            className="rounded-lg bg-slate-100 px-4 py-2 text-slate-700 transition-colors hover:bg-slate-200"
           >
             Clear Events
           </button>
           <button
             onClick={() => setIsMonitoring(!isMonitoring)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+            className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-colors ${
               isMonitoring
                 ? 'bg-red-600 text-white hover:bg-red-700'
                 : 'bg-[#10B981] text-white hover:bg-[#059669]'
             }`}
           >
-            <Activity className={`w-4 h-4 ${isMonitoring ? 'animate-pulse' : ''}`} />
+            <Activity
+              className={`h-4 w-4 ${isMonitoring ? 'animate-pulse' : ''}`}
+            />
             {isMonitoring ? 'Stop Monitoring' : 'Start Monitoring'}
           </button>
         </div>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-lg border border-slate-200 p-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+        <div className="rounded-lg border border-slate-200 bg-white p-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <Activity className="w-5 h-5 text-blue-600" />
+            <div className="rounded-lg bg-blue-100 p-2">
+              <Activity className="h-5 w-5 text-blue-600" />
             </div>
             <div>
-              <div className="text-2xl font-bold text-slate-900">{events.length}</div>
+              <div className="text-2xl font-bold text-slate-900">
+                {events.length}
+              </div>
               <div className="text-sm text-slate-600">Total Events</div>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="rounded-lg border border-slate-200 bg-white p-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-yellow-100 rounded-lg">
-              <Zap className="w-5 h-5 text-yellow-600" />
+            <div className="rounded-lg bg-yellow-100 p-2">
+              <Zap className="h-5 w-5 text-yellow-600" />
             </div>
             <div>
               <div className="text-2xl font-bold text-slate-900">
-                {events.filter(e => e.status === 'triggered').length}
+                {events.filter((e) => e.status === 'triggered').length}
               </div>
               <div className="text-sm text-slate-600">Triggered</div>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="rounded-lg border border-slate-200 bg-white p-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <CheckCircle className="w-5 h-5 text-green-600" />
+            <div className="rounded-lg bg-green-100 p-2">
+              <CheckCircle className="h-5 w-5 text-green-600" />
             </div>
             <div>
               <div className="text-2xl font-bold text-slate-900">
-                {events.filter(e => e.status === 'completed').length}
+                {events.filter((e) => e.status === 'completed').length}
               </div>
               <div className="text-sm text-slate-600">Completed</div>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="rounded-lg border border-slate-200 bg-white p-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-red-100 rounded-lg">
-              <XCircle className="w-5 h-5 text-red-600" />
+            <div className="rounded-lg bg-red-100 p-2">
+              <XCircle className="h-5 w-5 text-red-600" />
             </div>
             <div>
               <div className="text-2xl font-bold text-slate-900">
-                {events.filter(e => e.status === 'blocked').length}
+                {events.filter((e) => e.status === 'blocked').length}
               </div>
               <div className="text-sm text-slate-600">Blocked</div>
             </div>
@@ -174,17 +183,17 @@ export function DebugMode({ presets }: DebugModeProps) {
       </div>
 
       {/* Filter */}
-      <div className="bg-white rounded-lg border border-slate-200 p-4">
-        <label className="block text-sm font-medium text-slate-700 mb-2">
+      <div className="rounded-lg border border-slate-200 bg-white p-4">
+        <label className="mb-2 block text-sm font-medium text-slate-700">
           Filter by Preset
         </label>
         <select
           value={selectedPreset || ''}
           onChange={(e) => setSelectedPreset(e.target.value || null)}
-          className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+          className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-[#2563EB]"
         >
           <option value="">All Presets</option>
-          {presets.map(preset => (
+          {presets.map((preset) => (
             <option key={preset.id} value={preset.name}>
               {preset.name}
             </option>
@@ -193,14 +202,14 @@ export function DebugMode({ presets }: DebugModeProps) {
       </div>
 
       {/* Event Log */}
-      <div className="bg-white rounded-lg border border-slate-200">
-        <div className="p-4 border-b border-slate-200">
+      <div className="rounded-lg border border-slate-200 bg-white">
+        <div className="border-b border-slate-200 p-4">
           <h3 className="text-lg font-semibold text-slate-900">Event Log</h3>
         </div>
         <div className="max-h-[600px] overflow-y-auto">
           {filteredEvents.length === 0 ? (
             <div className="p-12 text-center">
-              <Eye className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+              <Eye className="mx-auto mb-3 h-12 w-12 text-slate-300" />
               <p className="text-slate-600">
                 {isMonitoring
                   ? 'Waiting for animation events...'
@@ -209,26 +218,28 @@ export function DebugMode({ presets }: DebugModeProps) {
             </div>
           ) : (
             <div className="divide-y divide-slate-200">
-              {filteredEvents.map(event => (
+              {filteredEvents.map((event) => (
                 <div
                   key={event.id}
-                  className={`p-4 border-l-4 ${getStatusColor(event.status)}`}
+                  className={`border-l-4 p-4 ${getStatusColor(event.status)}`}
                 >
                   <div className="flex items-start justify-between">
-                    <div className="flex items-start gap-3 flex-1">
+                    <div className="flex flex-1 items-start gap-3">
                       {getStatusIcon(event.status)}
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
-                          <span className="font-semibold">{event.presetName}</span>
-                          <span className="px-2 py-0.5 bg-slate-200 text-slate-700 text-xs rounded capitalize">
+                          <span className="font-semibold">
+                            {event.presetName}
+                          </span>
+                          <span className="rounded bg-slate-200 px-2 py-0.5 text-xs capitalize text-slate-700">
                             {event.triggerType}
                           </span>
                         </div>
-                        <p className="text-sm mt-1">{event.details}</p>
+                        <p className="mt-1 text-sm">{event.details}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-slate-500">
-                      <Clock className="w-3 h-3" />
+                      <Clock className="h-3 w-3" />
                       {formatTime(event.timestamp)}
                     </div>
                   </div>
@@ -240,28 +251,36 @@ export function DebugMode({ presets }: DebugModeProps) {
       </div>
 
       {/* Visual Indicators Info */}
-      <div className="bg-slate-50 rounded-lg border border-slate-200 p-6">
-        <h3 className="text-lg font-semibold text-slate-900 mb-4">Visual Indicators Guide</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
+        <h3 className="mb-4 text-lg font-semibold text-slate-900">
+          Visual Indicators Guide
+        </h3>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div className="flex items-start gap-3">
-            <Zap className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+            <Zap className="mt-0.5 h-5 w-5 flex-shrink-0 text-yellow-600" />
             <div>
               <div className="font-medium text-slate-900">Triggered</div>
-              <div className="text-sm text-slate-600">Animation trigger condition met</div>
+              <div className="text-sm text-slate-600">
+                Animation trigger condition met
+              </div>
             </div>
           </div>
           <div className="flex items-start gap-3">
-            <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+            <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-green-600" />
             <div>
               <div className="font-medium text-slate-900">Completed</div>
-              <div className="text-sm text-slate-600">Animation finished successfully</div>
+              <div className="text-sm text-slate-600">
+                Animation finished successfully
+              </div>
             </div>
           </div>
           <div className="flex items-start gap-3">
-            <XCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+            <XCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-600" />
             <div>
               <div className="font-medium text-slate-900">Blocked</div>
-              <div className="text-sm text-slate-600">Condition not met or error occurred</div>
+              <div className="text-sm text-slate-600">
+                Condition not met or error occurred
+              </div>
             </div>
           </div>
         </div>

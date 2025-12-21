@@ -78,9 +78,7 @@ function getVideoPoster(src: string, width?: number): string {
     return '';
   }
 
-  let publicId = src
-    .replace(/^\//, '')
-    .replace(/\.[^/.]+$/, '');
+  let publicId = src.replace(/^\//, '').replace(/\.[^/.]+$/, '');
 
   if (!isCloudinaryUrl(src)) {
     publicId = `rising-dot/${publicId}`;

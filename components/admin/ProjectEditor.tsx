@@ -13,7 +13,7 @@ export default function ProjectEditor({ projectId }: ProjectEditorProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     title: '',
     client: '',
@@ -51,7 +51,9 @@ export default function ProjectEditor({ projectId }: ProjectEditorProps) {
     setSaving(true);
 
     try {
-      const url = projectId ? `/api/admin/projects/${projectId}` : '/api/admin/projects';
+      const url = projectId
+        ? `/api/admin/projects/${projectId}`
+        : '/api/admin/projects';
       const method = projectId ? 'PUT' : 'POST';
 
       const response = await fetch(url, {
@@ -61,7 +63,7 @@ export default function ProjectEditor({ projectId }: ProjectEditorProps) {
       });
 
       if (!response.ok) throw new Error('Failed to save project');
-      
+
       router.push('/admin/projects');
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Failed to save project');
@@ -83,8 +85,8 @@ export default function ProjectEditor({ projectId }: ProjectEditorProps) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2563EB]"></div>
+      <div className="flex h-64 items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-[#2563EB]"></div>
       </div>
     );
   }
@@ -97,105 +99,115 @@ export default function ProjectEditor({ projectId }: ProjectEditorProps) {
           onClick={() => router.back()}
           className="flex items-center gap-2 text-slate-600 hover:text-slate-900"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="h-4 w-4" />
           Back
         </button>
         <button
           type="submit"
           disabled={saving}
-          className="flex items-center gap-2 px-4 py-2 bg-[#2563EB] text-white rounded-lg hover:bg-[#1d4ed8] transition-colors disabled:opacity-50"
+          className="flex items-center gap-2 rounded-lg bg-[#2563EB] px-4 py-2 text-white transition-colors hover:bg-[#1d4ed8] disabled:opacity-50"
         >
-          <Save className="w-4 h-4" />
+          <Save className="h-4 w-4" />
           {saving ? 'Saving...' : 'Save Project'}
         </button>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-6">
+      <div className="space-y-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">
+          <label className="mb-2 block text-sm font-medium text-slate-700">
             Title *
           </label>
           <input
             type="text"
             required
             value={formData.title}
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+            onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
+            }
+            className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-[#2563EB]"
             placeholder="Project title"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">
+          <label className="mb-2 block text-sm font-medium text-slate-700">
             Client
           </label>
           <input
             type="text"
             value={formData.client}
-            onChange={(e) => setFormData({ ...formData, client: e.target.value })}
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+            onChange={(e) =>
+              setFormData({ ...formData, client: e.target.value })
+            }
+            className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-[#2563EB]"
             placeholder="Client name"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">
+          <label className="mb-2 block text-sm font-medium text-slate-700">
             Description
           </label>
           <RichTextEditor
             value={formData.description}
-            onChange={(description) => setFormData({ ...formData, description })}
+            onChange={(description) =>
+              setFormData({ ...formData, description })
+            }
             placeholder="Enter project description..."
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">
+          <label className="mb-2 block text-sm font-medium text-slate-700">
             Thumbnail URL
           </label>
           <input
             type="url"
             value={formData.thumbnail_url}
-            onChange={(e) => setFormData({ ...formData, thumbnail_url: e.target.value })}
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+            onChange={(e) =>
+              setFormData({ ...formData, thumbnail_url: e.target.value })
+            }
+            className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-[#2563EB]"
             placeholder="https://example.com/image.jpg"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">
+          <label className="mb-2 block text-sm font-medium text-slate-700">
             Tags
           </label>
-          <div className="flex gap-2 mb-2">
+          <div className="mb-2 flex gap-2">
             <input
               type="text"
               value={newTag}
               onChange={(e) => setNewTag(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-              className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+              onKeyPress={(e) =>
+                e.key === 'Enter' && (e.preventDefault(), addTag())
+              }
+              className="flex-1 rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-[#2563EB]"
               placeholder="Add a tag"
             />
             <button
               type="button"
               onClick={addTag}
-              className="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-colors"
+              className="rounded-lg bg-slate-100 px-4 py-2 text-slate-700 transition-colors hover:bg-slate-200"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="h-4 w-4" />
             </button>
           </div>
           <div className="flex flex-wrap gap-2">
             {tags.map((tag) => (
               <span
                 key={tag}
-                className="inline-flex items-center gap-1 px-3 py-1 bg-[#2563EB] text-white rounded-full text-sm"
+                className="inline-flex items-center gap-1 rounded-full bg-[#2563EB] px-3 py-1 text-sm text-white"
               >
                 {tag}
                 <button
                   type="button"
                   onClick={() => removeTag(tag)}
-                  className="hover:bg-[#1d4ed8] rounded-full p-0.5"
+                  className="rounded-full p-0.5 hover:bg-[#1d4ed8]"
                 >
-                  <X className="w-3 h-3" />
+                  <X className="h-3 w-3" />
                 </button>
               </span>
             ))}
@@ -210,12 +222,16 @@ export default function ProjectEditor({ projectId }: ProjectEditorProps) {
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  published_at: e.target.checked ? new Date().toISOString() : null,
+                  published_at: e.target.checked
+                    ? new Date().toISOString()
+                    : null,
                 })
               }
               className="rounded border-slate-300 text-[#2563EB] focus:ring-[#2563EB]"
             />
-            <span className="text-sm font-medium text-slate-700">Published</span>
+            <span className="text-sm font-medium text-slate-700">
+              Published
+            </span>
           </label>
         </div>
       </div>

@@ -20,10 +20,14 @@ export default function DesignPage() {
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case 'theme': return <ThemeSettings />;
-      case 'navigation': return <NavigationEditor />;
-      case 'code': return <CustomCodeInjection />;
-      default: return <ThemeSettings />;
+      case 'theme':
+        return <ThemeSettings />;
+      case 'navigation':
+        return <NavigationEditor />;
+      case 'code':
+        return <CustomCodeInjection />;
+      default:
+        return <ThemeSettings />;
     }
   };
 
@@ -31,8 +35,10 @@ export default function DesignPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-white">Design & Customization</h1>
-        <p className="text-slate-400 mt-1">
+        <h1 className="text-3xl font-bold text-white">
+          Design & Customization
+        </h1>
+        <p className="mt-1 text-slate-400">
           Customize your website's appearance and navigation
         </p>
       </div>
@@ -45,13 +51,13 @@ export default function DesignPage() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                 activeTab === tab.id
                   ? 'bg-[#37AFE1] text-white'
                   : 'bg-[#1E293B] text-slate-300 hover:bg-slate-700 hover:text-white'
               }`}
             >
-              <Icon className="w-4 h-4" />
+              <Icon className="h-4 w-4" />
               {tab.label}
             </button>
           );

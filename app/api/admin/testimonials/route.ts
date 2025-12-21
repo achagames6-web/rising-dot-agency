@@ -7,7 +7,7 @@ export async function GET() {
   try {
     const client = await clientPromise;
     const db = client.db('rising-dot');
-    
+
     const testimonials = await db
       .collection<Testimonial>('testimonials')
       .find({})
@@ -17,7 +17,10 @@ export async function GET() {
     return NextResponse.json(testimonials);
   } catch (error) {
     console.error('Error fetching testimonials:', error);
-    return NextResponse.json({ error: 'Failed to fetch testimonials' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch testimonials' },
+      { status: 500 }
+    );
   }
 }
 
@@ -25,10 +28,24 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, role, company, avatar, text, rating, results, featured, published, order } = body;
+    const {
+      name,
+      role,
+      company,
+      avatar,
+      text,
+      rating,
+      results,
+      featured,
+      published,
+      order,
+    } = body;
 
     if (!name || !text) {
-      return NextResponse.json({ error: 'Name and text are required' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Name and text are required' },
+        { status: 400 }
+      );
     }
 
     const client = await clientPromise;
@@ -50,14 +67,22 @@ export async function POST(request: NextRequest) {
       updatedAt: now,
     };
 
-    const result = await db.collection('testimonials').insertOne(newTestimonial);
+    const result = await db
+      .collection('testimonials')
+      .insertOne(newTestimonial);
 
-    return NextResponse.json({ 
-      _id: result.insertedId, 
-      ...newTestimonial 
-    }, { status: 201 });
+    return NextResponse.json(
+      {
+        _id: result.insertedId,
+        ...newTestimonial,
+      },
+      { status: 201 }
+    );
   } catch (error) {
     console.error('Error creating testimonial:', error);
-    return NextResponse.json({ error: 'Failed to create testimonial' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to create testimonial' },
+      { status: 500 }
+    );
   }
 }

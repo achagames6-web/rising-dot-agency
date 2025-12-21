@@ -7,14 +7,22 @@ export async function GET() {
     const client = await clientPromise;
     const db = client.db('rising-dot');
 
-    const subscribers = await db.collection('subscribers')
+    const subscribers = await db
+      .collection('subscribers')
       .find({})
       .sort({ subscribedAt: -1 })
       .toArray();
 
     // Generate CSV
-    const headers = ['Email', 'Name', 'Status', 'Source', 'Tags', 'Subscribed Date'];
-    const rows = subscribers.map(sub => [
+    const headers = [
+      'Email',
+      'Name',
+      'Status',
+      'Source',
+      'Tags',
+      'Subscribed Date',
+    ];
+    const rows = subscribers.map((sub) => [
       sub.email,
       sub.name || '',
       sub.status,
@@ -25,7 +33,9 @@ export async function GET() {
 
     const csv = [
       headers.join(','),
-      ...rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')),
+      ...rows.map((row) =>
+        row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(',')
+      ),
     ].join('\n');
 
     return new NextResponse(csv, {
@@ -36,6 +46,9 @@ export async function GET() {
     });
   } catch (error) {
     console.error('Error exporting subscribers:', error);
-    return NextResponse.json({ error: 'Failed to export subscribers' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to export subscribers' },
+      { status: 500 }
+    );
   }
 }

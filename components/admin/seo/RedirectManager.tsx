@@ -26,7 +26,10 @@ export default function RedirectManager() {
     enabled: true,
     hits: 0,
   });
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [message, setMessage] = useState<{
+    type: 'success' | 'error';
+    text: string;
+  } | null>(null);
 
   useEffect(() => {
     fetchRedirects();
@@ -49,7 +52,9 @@ export default function RedirectManager() {
   const handleSave = async () => {
     try {
       const method = editingId ? 'PUT' : 'POST';
-      const url = editingId ? `/api/admin/seo/redirects/${editingId}` : '/api/admin/seo/redirects';
+      const url = editingId
+        ? `/api/admin/seo/redirects/${editingId}`
+        : '/api/admin/seo/redirects';
 
       const res = await fetch(url, {
         method,
@@ -58,7 +63,10 @@ export default function RedirectManager() {
       });
 
       if (res.ok) {
-        setMessage({ type: 'success', text: `Redirect ${editingId ? 'updated' : 'created'} successfully!` });
+        setMessage({
+          type: 'success',
+          text: `Redirect ${editingId ? 'updated' : 'created'} successfully!`,
+        });
         fetchRedirects();
         resetForm();
       } else {
@@ -131,18 +139,43 @@ export default function RedirectManager() {
 
   const getTypeLabel = (type: number) => {
     switch (type) {
-      case 301: return { label: '301', desc: 'Permanent', color: 'bg-green-500/20 text-green-400' };
-      case 302: return { label: '302', desc: 'Temporary', color: 'bg-amber-500/20 text-amber-400' };
-      case 307: return { label: '307', desc: 'Temp (Preserve)', color: 'bg-blue-500/20 text-blue-400' };
-      case 308: return { label: '308', desc: 'Perm (Preserve)', color: 'bg-purple-500/20 text-purple-400' };
-      default: return { label: String(type), desc: '', color: 'bg-slate-500/20 text-slate-400' };
+      case 301:
+        return {
+          label: '301',
+          desc: 'Permanent',
+          color: 'bg-green-500/20 text-green-400',
+        };
+      case 302:
+        return {
+          label: '302',
+          desc: 'Temporary',
+          color: 'bg-amber-500/20 text-amber-400',
+        };
+      case 307:
+        return {
+          label: '307',
+          desc: 'Temp (Preserve)',
+          color: 'bg-blue-500/20 text-blue-400',
+        };
+      case 308:
+        return {
+          label: '308',
+          desc: 'Perm (Preserve)',
+          color: 'bg-purple-500/20 text-purple-400',
+        };
+      default:
+        return {
+          label: String(type),
+          desc: '',
+          color: 'bg-slate-500/20 text-slate-400',
+        };
     }
   };
 
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="w-8 h-8 border-2 border-[#37AFE1]/30 border-t-[#37AFE1] rounded-full animate-spin" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
       </div>
     );
   }
@@ -150,76 +183,100 @@ export default function RedirectManager() {
   return (
     <div className="space-y-6">
       {message && (
-        <div className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
+        <div
+          className={`rounded-lg p-4 ${message.type === 'success' ? 'border border-green-500/30 bg-green-500/20 text-green-400' : 'border border-red-500/30 bg-red-500/20 text-red-400'}`}
+        >
           {message.text}
         </div>
       )}
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row gap-4 justify-between">
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+      <div className="flex flex-col justify-between gap-4 sm:flex-row">
+        <div className="relative max-w-md flex-1">
+          <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search redirects..."
-            className="w-full pl-10 pr-4 py-2 bg-[#1E293B] border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#37AFE1]"
+            className="w-full rounded-lg border border-slate-700 bg-[#1E293B] py-2 pl-10 pr-4 text-white focus:border-[#37AFE1] focus:outline-none"
           />
         </div>
         <button
           onClick={() => setShowAddForm(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-[#37AFE1] text-white rounded-lg hover:bg-[#37AFE1]/80"
+          className="flex items-center gap-2 rounded-lg bg-[#37AFE1] px-4 py-2 text-white hover:bg-[#37AFE1]/80"
         >
-          <Plus className="w-5 h-5" />
+          <Plus className="h-5 w-5" />
           Add Redirect
         </button>
       </div>
 
       {/* Add/Edit Form */}
       {showAddForm && (
-        <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-white font-semibold">
+        <div className="rounded-xl border border-slate-700/50 bg-[#1E293B] p-6">
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="font-semibold text-white">
               {editingId ? 'Edit Redirect' : 'Add New Redirect'}
             </h3>
-            <button onClick={resetForm} className="p-1 hover:bg-slate-700 rounded">
-              <X className="w-5 h-5 text-slate-400" />
+            <button
+              onClick={resetForm}
+              className="rounded p-1 hover:bg-slate-700"
+            >
+              <X className="h-5 w-5 text-slate-400" />
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">Source Path</label>
+              <label className="mb-1 block text-sm font-medium text-slate-300">
+                Source Path
+              </label>
               <input
                 type="text"
                 value={formData.source}
-                onChange={(e) => setFormData({ ...formData, source: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, source: e.target.value })
+                }
                 placeholder="/old-page"
-                className="w-full px-3 py-2 bg-[#0F172A] border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#37AFE1]"
+                className="w-full rounded-lg border border-slate-700 bg-[#0F172A] px-3 py-2 text-white focus:border-[#37AFE1] focus:outline-none"
               />
-              <p className="text-xs text-slate-400 mt-1">Supports wildcards: /blog/* matches all blog pages</p>
+              <p className="mt-1 text-xs text-slate-400">
+                Supports wildcards: /blog/* matches all blog pages
+              </p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">Destination URL</label>
+              <label className="mb-1 block text-sm font-medium text-slate-300">
+                Destination URL
+              </label>
               <input
                 type="text"
                 value={formData.destination}
-                onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, destination: e.target.value })
+                }
                 placeholder="/new-page or https://example.com"
-                className="w-full px-3 py-2 bg-[#0F172A] border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#37AFE1]"
+                className="w-full rounded-lg border border-slate-700 bg-[#0F172A] px-3 py-2 text-white focus:border-[#37AFE1] focus:outline-none"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">Redirect Type</label>
+              <label className="mb-1 block text-sm font-medium text-slate-300">
+                Redirect Type
+              </label>
               <select
                 value={formData.type}
-                onChange={(e) => setFormData({ ...formData, type: parseInt(e.target.value) as 301 | 302 | 307 | 308 })}
-                className="w-full px-3 py-2 bg-[#0F172A] border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#37AFE1]"
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    type: parseInt(e.target.value) as 301 | 302 | 307 | 308,
+                  })
+                }
+                className="w-full rounded-lg border border-slate-700 bg-[#0F172A] px-3 py-2 text-white focus:border-[#37AFE1] focus:outline-none"
               >
-                <option value={301}>301 - Permanent Redirect (SEO friendly)</option>
+                <option value={301}>
+                  301 - Permanent Redirect (SEO friendly)
+                </option>
                 <option value={302}>302 - Temporary Redirect</option>
                 <option value={307}>307 - Temporary (Preserve method)</option>
                 <option value={308}>308 - Permanent (Preserve method)</option>
@@ -227,19 +284,21 @@ export default function RedirectManager() {
             </div>
 
             <div className="flex items-end">
-              <label className="flex items-center gap-2 cursor-pointer">
+              <label className="flex cursor-pointer items-center gap-2">
                 <input
                   type="checkbox"
                   checked={formData.enabled}
-                  onChange={(e) => setFormData({ ...formData, enabled: e.target.checked })}
-                  className="w-4 h-4 rounded border-slate-600 bg-[#0F172A] text-[#37AFE1]"
+                  onChange={(e) =>
+                    setFormData({ ...formData, enabled: e.target.checked })
+                  }
+                  className="h-4 w-4 rounded border-slate-600 bg-[#0F172A] text-[#37AFE1]"
                 />
                 <span className="text-slate-300">Enabled</span>
               </label>
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-slate-700">
+          <div className="mt-6 flex justify-end gap-3 border-t border-slate-700 pt-4">
             <button
               onClick={resetForm}
               className="px-4 py-2 text-slate-400 hover:text-white"
@@ -248,9 +307,9 @@ export default function RedirectManager() {
             </button>
             <button
               onClick={handleSave}
-              className="flex items-center gap-2 px-6 py-2 bg-[#37AFE1] text-white rounded-lg hover:bg-[#37AFE1]/80"
+              className="flex items-center gap-2 rounded-lg bg-[#37AFE1] px-6 py-2 text-white hover:bg-[#37AFE1]/80"
             >
-              <Save className="w-4 h-4" />
+              <Save className="h-4 w-4" />
               {editingId ? 'Update' : 'Create'} Redirect
             </button>
           </div>
@@ -258,68 +317,97 @@ export default function RedirectManager() {
       )}
 
       {/* Redirects List */}
-      <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 overflow-hidden">
+      <div className="overflow-hidden rounded-xl border border-slate-700/50 bg-[#1E293B]">
         {filteredRedirects.length === 0 ? (
           <div className="p-12 text-center">
-            <ArrowRight className="w-16 h-16 text-slate-600 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">No redirects found</h3>
+            <ArrowRight className="mx-auto mb-4 h-16 w-16 text-slate-600" />
+            <h3 className="mb-2 text-xl font-semibold text-white">
+              No redirects found
+            </h3>
             <p className="text-slate-400">
-              {search ? 'Try a different search term' : 'Create your first redirect to get started'}
+              {search
+                ? 'Try a different search term'
+                : 'Create your first redirect to get started'}
             </p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-[#0F172A] border-b border-slate-700">
+              <thead className="border-b border-slate-700 bg-[#0F172A]">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Status</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Source</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Destination</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Type</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Hits</th>
-                  <th className="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase">Actions</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium uppercase text-slate-400">
+                    Status
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium uppercase text-slate-400">
+                    Source
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium uppercase text-slate-400">
+                    Destination
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium uppercase text-slate-400">
+                    Type
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium uppercase text-slate-400">
+                    Hits
+                  </th>
+                  <th className="px-4 py-3 text-right text-xs font-medium uppercase text-slate-400">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-700">
                 {filteredRedirects.map((redirect) => {
                   const typeInfo = getTypeLabel(redirect.type);
                   return (
-                    <tr key={redirect._id} className={`hover:bg-slate-700/30 ${!redirect.enabled ? 'opacity-50' : ''}`}>
+                    <tr
+                      key={redirect._id}
+                      className={`hover:bg-slate-700/30 ${!redirect.enabled ? 'opacity-50' : ''}`}
+                    >
                       <td className="px-4 py-3">
                         <button
                           onClick={() => handleToggle(redirect)}
-                          className={`w-10 h-5 rounded-full transition-colors ${
+                          className={`h-5 w-10 rounded-full transition-colors ${
                             redirect.enabled ? 'bg-green-500' : 'bg-slate-600'
                           }`}
                         >
                           <div
-                            className={`w-4 h-4 bg-white rounded-full transition-transform ${
-                              redirect.enabled ? 'translate-x-5' : 'translate-x-0.5'
+                            className={`h-4 w-4 rounded-full bg-white transition-transform ${
+                              redirect.enabled
+                                ? 'translate-x-5'
+                                : 'translate-x-0.5'
                             }`}
                           />
                         </button>
                       </td>
-                      <td className="px-4 py-3 text-sm text-white font-mono">{redirect.source}</td>
-                      <td className="px-4 py-3 text-sm text-slate-300 font-mono">{redirect.destination}</td>
+                      <td className="px-4 py-3 font-mono text-sm text-white">
+                        {redirect.source}
+                      </td>
+                      <td className="px-4 py-3 font-mono text-sm text-slate-300">
+                        {redirect.destination}
+                      </td>
                       <td className="px-4 py-3">
-                        <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${typeInfo.color}`}>
+                        <span
+                          className={`inline-flex items-center rounded px-2 py-0.5 text-xs font-medium ${typeInfo.color}`}
+                        >
                           {typeInfo.label}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-sm text-slate-400">{redirect.hits.toLocaleString()}</td>
+                      <td className="px-4 py-3 text-sm text-slate-400">
+                        {redirect.hits.toLocaleString()}
+                      </td>
                       <td className="px-4 py-3 text-right">
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => startEdit(redirect)}
-                            className="p-1.5 hover:bg-slate-700 rounded text-slate-400 hover:text-white"
+                            className="rounded p-1.5 text-slate-400 hover:bg-slate-700 hover:text-white"
                           >
-                            <Edit className="w-4 h-4" />
+                            <Edit className="h-4 w-4" />
                           </button>
                           <button
                             onClick={() => handleDelete(redirect._id!)}
-                            className="p-1.5 hover:bg-red-500/20 rounded text-slate-400 hover:text-red-400"
+                            className="rounded p-1.5 text-slate-400 hover:bg-red-500/20 hover:text-red-400"
                           >
-                            <Trash2 className="w-4 h-4" />
+                            <Trash2 className="h-4 w-4" />
                           </button>
                         </div>
                       </td>

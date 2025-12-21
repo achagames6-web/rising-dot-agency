@@ -19,9 +19,12 @@ export const authOptions: NextAuthOptions = {
         // Debug: Log what we received
         console.log('=== LOGIN ATTEMPT ===');
         console.log('Received email:', credentials?.email);
-        console.log('Received password:', credentials?.password ? '[HIDDEN]' : 'empty');
+        console.log(
+          'Received password:',
+          credentials?.password ? '[HIDDEN]' : 'empty'
+        );
         console.log('Expected email:', ADMIN_EMAIL);
-        
+
         if (!credentials?.email || !credentials?.password) {
           console.log('Missing credentials');
           return null;
@@ -33,10 +36,20 @@ export const authOptions: NextAuthOptions = {
         const inputPassword = credentials.password;
         const expectedPassword = ADMIN_PASSWORD;
 
-        console.log('Email comparison:', inputEmail, '===', expectedEmail, ':', inputEmail === expectedEmail);
+        console.log(
+          'Email comparison:',
+          inputEmail,
+          '===',
+          expectedEmail,
+          ':',
+          inputEmail === expectedEmail
+        );
         console.log('Password comparison:', inputPassword === expectedPassword);
 
-        if (inputEmail === expectedEmail && inputPassword === expectedPassword) {
+        if (
+          inputEmail === expectedEmail &&
+          inputPassword === expectedPassword
+        ) {
           console.log('✓ Login successful!');
           return {
             id: '1',

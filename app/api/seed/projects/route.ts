@@ -6,7 +6,8 @@ const projectsData = [
     title: 'E-Commerce Platform Redesign',
     slug: 'ecommerce-platform-redesign',
     client: 'TechStore Inc.',
-    description: 'Complete redesign of e-commerce platform with focus on conversion optimization and mobile experience.',
+    description:
+      'Complete redesign of e-commerce platform with focus on conversion optimization and mobile experience.',
     thumbnailUrl: '/media/portfolio/all-projects/project-1/thumbnail.jpg',
     category: 'Web Design',
     tags: ['Web Design', 'Shopify', 'SEO'],
@@ -28,7 +29,8 @@ const projectsData = [
     title: 'AI Customer Support Chatbot',
     slug: 'ai-customer-support-chatbot',
     client: 'Support Solutions',
-    description: 'Custom AI chatbot with natural language processing for customer support automation.',
+    description:
+      'Custom AI chatbot with natural language processing for customer support automation.',
     thumbnailUrl: '/media/portfolio/all-projects/project-2/thumbnail.jpg',
     category: 'Chatbot Development',
     tags: ['Chatbot Development', 'N8N Automations'],
@@ -50,7 +52,8 @@ const projectsData = [
     title: 'WordPress Blog Platform',
     slug: 'wordpress-blog-platform',
     client: 'Content Creators Co.',
-    description: 'High-performance WordPress blog with custom theme and advanced SEO optimization.',
+    description:
+      'High-performance WordPress blog with custom theme and advanced SEO optimization.',
     thumbnailUrl: '/media/portfolio/all-projects/project-3/thumbnail.jpg',
     category: 'WordPress',
     tags: ['WordPress', 'SEO', 'Web Design'],
@@ -72,7 +75,8 @@ const projectsData = [
     title: 'Business Automation Suite',
     slug: 'business-automation-suite',
     client: 'Enterprise Corp',
-    description: 'Complex N8N automation workflows connecting multiple business systems.',
+    description:
+      'Complex N8N automation workflows connecting multiple business systems.',
     thumbnailUrl: '/media/portfolio/all-projects/project-4/thumbnail.jpg',
     category: 'N8N Automations',
     tags: ['N8N Automations'],
@@ -94,7 +98,8 @@ const projectsData = [
     title: 'Local SEO Campaign',
     slug: 'local-seo-campaign',
     client: 'Local Business Hub',
-    description: 'Comprehensive SEO strategy with technical optimization and content marketing.',
+    description:
+      'Comprehensive SEO strategy with technical optimization and content marketing.',
     thumbnailUrl: '/media/portfolio/all-projects/project-5/thumbnail.jpg',
     category: 'SEO',
     tags: ['SEO'],
@@ -116,7 +121,8 @@ const projectsData = [
     title: 'Fashion E-Commerce Store',
     slug: 'fashion-ecommerce-store',
     client: 'Fashion Boutique',
-    description: 'Custom Shopify store with advanced product filtering and checkout optimization.',
+    description:
+      'Custom Shopify store with advanced product filtering and checkout optimization.',
     thumbnailUrl: '/media/portfolio/all-projects/project-6/thumbnail.jpg',
     category: 'Shopify',
     tags: ['Shopify', 'Web Design'],
@@ -138,7 +144,8 @@ const projectsData = [
     title: 'SaaS Analytics Dashboard',
     slug: 'saas-analytics-dashboard',
     client: 'Analytics Pro',
-    description: 'Modern SaaS dashboard with real-time data visualization and user management.',
+    description:
+      'Modern SaaS dashboard with real-time data visualization and user management.',
     thumbnailUrl: '/media/portfolio/all-projects/project-7/thumbnail.jpg',
     category: 'SaaS',
     tags: ['Web Design', 'SaaS', 'React'],
@@ -160,7 +167,8 @@ const projectsData = [
     title: 'Mobile App Landing Page',
     slug: 'mobile-app-landing-page',
     client: 'StartupX',
-    description: 'High-converting landing page for mobile app launch with A/B tested elements.',
+    description:
+      'High-converting landing page for mobile app launch with A/B tested elements.',
     thumbnailUrl: '/media/portfolio/all-projects/project-8/thumbnail.jpg',
     category: 'Web Design',
     tags: ['Web Design', 'SEO'],

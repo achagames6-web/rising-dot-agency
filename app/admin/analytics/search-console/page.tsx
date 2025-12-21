@@ -95,7 +95,9 @@ export default function SearchConsolePage() {
     else setLoading(true);
 
     try {
-      const response = await fetch(`/api/admin/analytics/search-console?range=${timeRange}`);
+      const response = await fetch(
+        `/api/admin/analytics/search-console?range=${timeRange}`
+      );
       const result = await response.json();
       setData(result);
       if (result.siteUrl) {
@@ -112,11 +114,14 @@ export default function SearchConsolePage() {
   const saveSettings = async () => {
     setSaving(true);
     try {
-      const response = await fetch('/api/admin/analytics/search-console/settings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ siteUrl }),
-      });
+      const response = await fetch(
+        '/api/admin/analytics/search-console/settings',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ siteUrl }),
+        }
+      );
       if (response.ok) {
         setShowSetup(false);
         fetchData();
@@ -130,8 +135,8 @@ export default function SearchConsolePage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-96">
-        <div className="w-8 h-8 border-2 border-[#37AFE1]/30 border-t-[#37AFE1] rounded-full animate-spin" />
+      <div className="flex h-96 items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
       </div>
     );
   }
@@ -139,45 +144,51 @@ export default function SearchConsolePage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white flex items-center gap-3">
-            <Search className="w-8 h-8 text-[#37AFE1]" />
+          <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
+            <Search className="h-8 w-8 text-[#37AFE1]" />
             Google Search Console
           </h1>
-          <p className="text-slate-400 mt-1">
-            {data?.connected 
-              ? `Monitoring: ${data.siteUrl}` 
+          <p className="mt-1 text-slate-400">
+            {data?.connected
+              ? `Monitoring: ${data.siteUrl}`
               : 'Connect your Search Console property to monitor search performance'}
           </p>
         </div>
         <div className="flex gap-2">
           <button
             onClick={() => setShowSetup(true)}
-            className="px-4 py-2 rounded-lg font-medium transition-colors bg-[#1E293B] text-slate-400 hover:text-white border border-slate-700 flex items-center gap-2"
+            className="flex items-center gap-2 rounded-lg border border-slate-700 bg-[#1E293B] px-4 py-2 font-medium text-slate-400 transition-colors hover:text-white"
           >
-            <Settings className="w-4 h-4" />
+            <Settings className="h-4 w-4" />
             Settings
           </button>
           <button
             onClick={() => fetchData(true)}
             disabled={refreshing}
-            className="px-4 py-2 rounded-lg font-medium transition-colors bg-[#1E293B] text-slate-400 hover:text-white border border-slate-700 flex items-center gap-2"
+            className="flex items-center gap-2 rounded-lg border border-slate-700 bg-[#1E293B] px-4 py-2 font-medium text-slate-400 transition-colors hover:text-white"
           >
-            <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw
+              className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`}
+            />
             Refresh
           </button>
           {(['7d', '28d', '90d'] as const).map((range) => (
             <button
               key={range}
               onClick={() => setTimeRange(range)}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              className={`rounded-lg px-4 py-2 font-medium transition-colors ${
                 timeRange === range
                   ? 'bg-[#37AFE1] text-white'
-                  : 'bg-[#1E293B] text-slate-400 hover:text-white border border-slate-700'
+                  : 'border border-slate-700 bg-[#1E293B] text-slate-400 hover:text-white'
               }`}
             >
-              {range === '7d' ? '7 Days' : range === '28d' ? '28 Days' : '90 Days'}
+              {range === '7d'
+                ? '7 Days'
+                : range === '28d'
+                  ? '28 Days'
+                  : '90 Days'}
             </button>
           ))}
         </div>
@@ -185,12 +196,14 @@ export default function SearchConsolePage() {
 
       {/* Setup Modal */}
       {showSetup && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-[#1E293B] rounded-xl p-6 w-full max-w-md border border-slate-700">
-            <h2 className="text-xl font-bold text-white mb-4">Search Console Setup</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="w-full max-w-md rounded-xl border border-slate-700 bg-[#1E293B] p-6">
+            <h2 className="mb-4 text-xl font-bold text-white">
+              Search Console Setup
+            </h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className="mb-2 block text-sm font-medium text-slate-300">
                   Site URL
                 </label>
                 <input
@@ -198,32 +211,34 @@ export default function SearchConsolePage() {
                   value={siteUrl}
                   onChange={(e) => setSiteUrl(e.target.value)}
                   placeholder="https://yourdomain.com"
-                  className="w-full px-4 py-2 bg-[#0F172A] border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#37AFE1]"
+                  className="w-full rounded-lg border border-slate-700 bg-[#0F172A] px-4 py-2 text-white focus:border-[#37AFE1] focus:outline-none"
                 />
-                <p className="text-xs text-slate-500 mt-1">
+                <p className="mt-1 text-xs text-slate-500">
                   Enter your verified Search Console property URL
                 </p>
               </div>
-              <div className="bg-[#0F172A] rounded-lg p-4 border border-slate-700">
-                <h3 className="text-sm font-medium text-white mb-2">Setup Instructions:</h3>
-                <ol className="text-xs text-slate-400 space-y-1 list-decimal list-inside">
+              <div className="rounded-lg border border-slate-700 bg-[#0F172A] p-4">
+                <h3 className="mb-2 text-sm font-medium text-white">
+                  Setup Instructions:
+                </h3>
+                <ol className="list-inside list-decimal space-y-1 text-xs text-slate-400">
                   <li>Go to Google Search Console</li>
                   <li>Add and verify your property</li>
                   <li>Copy your property URL</li>
                   <li>Paste it above and save</li>
                 </ol>
               </div>
-              <div className="flex gap-3 justify-end">
+              <div className="flex justify-end gap-3">
                 <button
                   onClick={() => setShowSetup(false)}
-                  className="px-4 py-2 rounded-lg text-slate-400 hover:text-white"
+                  className="rounded-lg px-4 py-2 text-slate-400 hover:text-white"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={saveSettings}
                   disabled={saving || !siteUrl}
-                  className="px-4 py-2 rounded-lg bg-[#37AFE1] text-white font-medium disabled:opacity-50"
+                  className="rounded-lg bg-[#37AFE1] px-4 py-2 font-medium text-white disabled:opacity-50"
                 >
                   {saving ? 'Saving...' : 'Save Settings'}
                 </button>
@@ -235,16 +250,18 @@ export default function SearchConsolePage() {
 
       {/* Not Connected State */}
       {!data?.connected && (
-        <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 p-12 text-center">
-          <Search className="w-16 h-16 text-slate-600 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-white mb-2">Connect Search Console</h3>
-          <p className="text-slate-400 max-w-md mx-auto mb-6">
-            Enter your Search Console property URL to monitor your search performance, 
-            keywords, and indexing status.
+        <div className="rounded-xl border border-slate-700/50 bg-[#1E293B] p-12 text-center">
+          <Search className="mx-auto mb-4 h-16 w-16 text-slate-600" />
+          <h3 className="mb-2 text-xl font-semibold text-white">
+            Connect Search Console
+          </h3>
+          <p className="mx-auto mb-6 max-w-md text-slate-400">
+            Enter your Search Console property URL to monitor your search
+            performance, keywords, and indexing status.
           </p>
           <button
             onClick={() => setShowSetup(true)}
-            className="px-6 py-3 rounded-lg bg-[#37AFE1] text-white font-medium hover:bg-[#37AFE1]/90 transition-colors"
+            className="rounded-lg bg-[#37AFE1] px-6 py-3 font-medium text-white transition-colors hover:bg-[#37AFE1]/90"
           >
             Connect Search Console
           </button>
@@ -255,16 +272,16 @@ export default function SearchConsolePage() {
       {data?.connected && (
         <>
           {/* Connection Status */}
-          <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4 flex items-center gap-3">
-            <CheckCircle className="w-5 h-5 text-green-500" />
+          <div className="flex items-center gap-3 rounded-xl border border-green-500/30 bg-green-500/10 p-4">
+            <CheckCircle className="h-5 w-5 text-green-500" />
             <span className="text-green-400">Connected to Search Console</span>
             <a
               href={`https://search.google.com/search-console?resource_id=${encodeURIComponent(data.siteUrl || '')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-auto text-sm text-green-400 hover:text-green-300 flex items-center gap-1"
+              className="ml-auto flex items-center gap-1 text-sm text-green-400 hover:text-green-300"
             >
-              Open in Search Console <ExternalLink className="w-4 h-4" />
+              Open in Search Console <ExternalLink className="h-4 w-4" />
             </a>
           </div>
 
@@ -272,27 +289,27 @@ export default function SearchConsolePage() {
           {data.overview && (
             <div className="grid grid-cols-4 gap-4">
               <StatCard
-                icon={<MousePointer className="w-5 h-5" />}
+                icon={<MousePointer className="h-5 w-5" />}
                 label="Total Clicks"
                 value={data.overview.totalClicks.toLocaleString()}
                 change={data.overview.clicksChange}
                 color="text-[#37AFE1]"
               />
               <StatCard
-                icon={<Eye className="w-5 h-5" />}
+                icon={<Eye className="h-5 w-5" />}
                 label="Total Impressions"
                 value={data.overview.totalImpressions.toLocaleString()}
                 change={data.overview.impressionsChange}
                 color="text-[#F58122]"
               />
               <StatCard
-                icon={<TrendingUp className="w-5 h-5" />}
+                icon={<TrendingUp className="h-5 w-5" />}
                 label="Average CTR"
                 value={`${data.overview.avgCtr.toFixed(2)}%`}
                 color="text-green-400"
               />
               <StatCard
-                icon={<BarChart3 className="w-5 h-5" />}
+                icon={<BarChart3 className="h-5 w-5" />}
                 label="Average Position"
                 value={data.overview.avgPosition.toFixed(1)}
                 color="text-purple-400"
@@ -302,29 +319,41 @@ export default function SearchConsolePage() {
 
           {/* Performance Chart */}
           {data.dailyData && (
-            <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 p-6">
-              <h3 className="text-lg font-semibold text-white mb-4">Search Performance</h3>
-              <div className="h-64 flex items-end gap-1">
+            <div className="rounded-xl border border-slate-700/50 bg-[#1E293B] p-6">
+              <h3 className="mb-4 text-lg font-semibold text-white">
+                Search Performance
+              </h3>
+              <div className="flex h-64 items-end gap-1">
                 {data.dailyData.map((day, index) => {
-                  const maxClicks = Math.max(...data.dailyData!.map(d => d.clicks), 1);
-                  const maxImpressions = Math.max(...data.dailyData!.map(d => d.impressions), 1);
+                  const maxClicks = Math.max(
+                    ...data.dailyData!.map((d) => d.clicks),
+                    1
+                  );
+                  const maxImpressions = Math.max(
+                    ...data.dailyData!.map((d) => d.impressions),
+                    1
+                  );
                   const clicksHeight = (day.clicks / maxClicks) * 100;
-                  const impressionsHeight = (day.impressions / maxImpressions) * 50;
+                  const impressionsHeight =
+                    (day.impressions / maxImpressions) * 50;
                   return (
-                    <div key={index} className="flex-1 flex flex-col items-center gap-1 group relative">
+                    <div
+                      key={index}
+                      className="group relative flex flex-1 flex-col items-center gap-1"
+                    >
                       <motion.div
                         initial={{ height: 0 }}
                         animate={{ height: `${impressionsHeight}%` }}
                         transition={{ duration: 0.5, delay: index * 0.02 }}
-                        className="w-full bg-[#F58122]/30 rounded-t"
+                        className="w-full rounded-t bg-[#F58122]/30"
                       />
                       <motion.div
                         initial={{ height: 0 }}
                         animate={{ height: `${clicksHeight}%` }}
                         transition={{ duration: 0.5, delay: index * 0.02 }}
-                        className="w-full bg-[#37AFE1] rounded-t"
+                        className="w-full rounded-t bg-[#37AFE1]"
                       />
-                      <div className="opacity-0 group-hover:opacity-100 absolute -top-16 bg-slate-800 px-2 py-1 rounded text-xs text-white whitespace-nowrap z-10">
+                      <div className="absolute -top-16 z-10 whitespace-nowrap rounded bg-slate-800 px-2 py-1 text-xs text-white opacity-0 group-hover:opacity-100">
                         <div>{day.clicks} clicks</div>
                         <div>{day.impressions} impressions</div>
                       </div>
@@ -332,17 +361,17 @@ export default function SearchConsolePage() {
                   );
                 })}
               </div>
-              <div className="flex justify-between mt-2 text-xs text-slate-500">
+              <div className="mt-2 flex justify-between text-xs text-slate-500">
                 <span>{data.dailyData[0]?.date}</span>
                 <span>{data.dailyData[data.dailyData.length - 1]?.date}</span>
               </div>
-              <div className="flex gap-4 mt-4 justify-center">
+              <div className="mt-4 flex justify-center gap-4">
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-[#37AFE1] rounded" />
+                  <div className="h-3 w-3 rounded bg-[#37AFE1]" />
                   <span className="text-sm text-slate-400">Clicks</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-[#F58122]/30 rounded" />
+                  <div className="h-3 w-3 rounded bg-[#F58122]/30" />
                   <span className="text-sm text-slate-400">Impressions</span>
                 </div>
               </div>
@@ -350,28 +379,28 @@ export default function SearchConsolePage() {
           )}
 
           {/* Tabs for Queries/Pages */}
-          <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 overflow-hidden">
+          <div className="overflow-hidden rounded-xl border border-slate-700/50 bg-[#1E293B]">
             <div className="flex border-b border-slate-700">
               <button
                 onClick={() => setActiveTab('queries')}
                 className={`flex-1 px-6 py-4 font-medium transition-colors ${
                   activeTab === 'queries'
-                    ? 'bg-[#0F172A] text-white border-b-2 border-[#37AFE1]'
+                    ? 'border-b-2 border-[#37AFE1] bg-[#0F172A] text-white'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
-                <Search className="w-4 h-4 inline mr-2" />
+                <Search className="mr-2 inline h-4 w-4" />
                 Top Queries
               </button>
               <button
                 onClick={() => setActiveTab('pages')}
                 className={`flex-1 px-6 py-4 font-medium transition-colors ${
                   activeTab === 'pages'
-                    ? 'bg-[#0F172A] text-white border-b-2 border-[#37AFE1]'
+                    ? 'border-b-2 border-[#37AFE1] bg-[#0F172A] text-white'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
-                <FileText className="w-4 h-4 inline mr-2" />
+                <FileText className="mr-2 inline h-4 w-4" />
                 Top Pages
               </button>
             </div>
@@ -381,22 +410,37 @@ export default function SearchConsolePage() {
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="text-left text-slate-400 text-sm border-b border-slate-700">
+                      <tr className="border-b border-slate-700 text-left text-sm text-slate-400">
                         <th className="pb-3 font-medium">Query</th>
-                        <th className="pb-3 font-medium text-right">Clicks</th>
-                        <th className="pb-3 font-medium text-right">Impressions</th>
-                        <th className="pb-3 font-medium text-right">CTR</th>
-                        <th className="pb-3 font-medium text-right">Position</th>
+                        <th className="pb-3 text-right font-medium">Clicks</th>
+                        <th className="pb-3 text-right font-medium">
+                          Impressions
+                        </th>
+                        <th className="pb-3 text-right font-medium">CTR</th>
+                        <th className="pb-3 text-right font-medium">
+                          Position
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {data.topQueries.map((query, index) => (
-                        <tr key={index} className="border-b border-slate-700/50 last:border-0">
+                        <tr
+                          key={index}
+                          className="border-b border-slate-700/50 last:border-0"
+                        >
                           <td className="py-3 text-white">{query.query}</td>
-                          <td className="py-3 text-right text-[#37AFE1] font-semibold">{query.clicks.toLocaleString()}</td>
-                          <td className="py-3 text-right text-slate-400">{query.impressions.toLocaleString()}</td>
-                          <td className="py-3 text-right text-green-400">{query.ctr.toFixed(2)}%</td>
-                          <td className="py-3 text-right text-slate-300">{query.position.toFixed(1)}</td>
+                          <td className="py-3 text-right font-semibold text-[#37AFE1]">
+                            {query.clicks.toLocaleString()}
+                          </td>
+                          <td className="py-3 text-right text-slate-400">
+                            {query.impressions.toLocaleString()}
+                          </td>
+                          <td className="py-3 text-right text-green-400">
+                            {query.ctr.toFixed(2)}%
+                          </td>
+                          <td className="py-3 text-right text-slate-300">
+                            {query.position.toFixed(1)}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -408,22 +452,39 @@ export default function SearchConsolePage() {
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="text-left text-slate-400 text-sm border-b border-slate-700">
+                      <tr className="border-b border-slate-700 text-left text-sm text-slate-400">
                         <th className="pb-3 font-medium">Page</th>
-                        <th className="pb-3 font-medium text-right">Clicks</th>
-                        <th className="pb-3 font-medium text-right">Impressions</th>
-                        <th className="pb-3 font-medium text-right">CTR</th>
-                        <th className="pb-3 font-medium text-right">Position</th>
+                        <th className="pb-3 text-right font-medium">Clicks</th>
+                        <th className="pb-3 text-right font-medium">
+                          Impressions
+                        </th>
+                        <th className="pb-3 text-right font-medium">CTR</th>
+                        <th className="pb-3 text-right font-medium">
+                          Position
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {data.topPages.map((page, index) => (
-                        <tr key={index} className="border-b border-slate-700/50 last:border-0">
-                          <td className="py-3 text-white truncate max-w-[300px]">{page.page}</td>
-                          <td className="py-3 text-right text-[#37AFE1] font-semibold">{page.clicks.toLocaleString()}</td>
-                          <td className="py-3 text-right text-slate-400">{page.impressions.toLocaleString()}</td>
-                          <td className="py-3 text-right text-green-400">{page.ctr.toFixed(2)}%</td>
-                          <td className="py-3 text-right text-slate-300">{page.position.toFixed(1)}</td>
+                        <tr
+                          key={index}
+                          className="border-b border-slate-700/50 last:border-0"
+                        >
+                          <td className="max-w-[300px] truncate py-3 text-white">
+                            {page.page}
+                          </td>
+                          <td className="py-3 text-right font-semibold text-[#37AFE1]">
+                            {page.clicks.toLocaleString()}
+                          </td>
+                          <td className="py-3 text-right text-slate-400">
+                            {page.impressions.toLocaleString()}
+                          </td>
+                          <td className="py-3 text-right text-green-400">
+                            {page.ctr.toFixed(2)}%
+                          </td>
+                          <td className="py-3 text-right text-slate-300">
+                            {page.position.toFixed(1)}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -437,20 +498,37 @@ export default function SearchConsolePage() {
           <div className="grid grid-cols-2 gap-6">
             {/* Device Performance */}
             {data.devicePerformance && (
-              <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 p-6">
-                <h3 className="text-lg font-semibold text-white mb-4">Device Performance</h3>
+              <div className="rounded-xl border border-slate-700/50 bg-[#1E293B] p-6">
+                <h3 className="mb-4 text-lg font-semibold text-white">
+                  Device Performance
+                </h3>
                 <div className="space-y-4">
                   {data.devicePerformance.map((device) => (
-                    <div key={device.device} className="flex items-center justify-between py-2 border-b border-slate-700/50 last:border-0">
+                    <div
+                      key={device.device}
+                      className="flex items-center justify-between border-b border-slate-700/50 py-2 last:border-0"
+                    >
                       <div className="flex items-center gap-3">
-                        {device.device === 'DESKTOP' && <Monitor className="w-5 h-5 text-slate-400" />}
-                        {device.device === 'MOBILE' && <Smartphone className="w-5 h-5 text-slate-400" />}
-                        {device.device === 'TABLET' && <Smartphone className="w-5 h-5 text-slate-400" />}
-                        <span className="text-slate-300 capitalize">{device.device.toLowerCase()}</span>
+                        {device.device === 'DESKTOP' && (
+                          <Monitor className="h-5 w-5 text-slate-400" />
+                        )}
+                        {device.device === 'MOBILE' && (
+                          <Smartphone className="h-5 w-5 text-slate-400" />
+                        )}
+                        {device.device === 'TABLET' && (
+                          <Smartphone className="h-5 w-5 text-slate-400" />
+                        )}
+                        <span className="capitalize text-slate-300">
+                          {device.device.toLowerCase()}
+                        </span>
                       </div>
                       <div className="text-right">
-                        <span className="font-semibold text-white">{device.clicks.toLocaleString()}</span>
-                        <span className="text-slate-500 text-sm ml-2">clicks</span>
+                        <span className="font-semibold text-white">
+                          {device.clicks.toLocaleString()}
+                        </span>
+                        <span className="ml-2 text-sm text-slate-500">
+                          clicks
+                        </span>
                       </div>
                     </div>
                   ))}
@@ -460,19 +538,27 @@ export default function SearchConsolePage() {
 
             {/* Indexing Status */}
             {data.indexingStatus && (
-              <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 p-6">
-                <h3 className="text-lg font-semibold text-white mb-4">Indexing Status</h3>
+              <div className="rounded-xl border border-slate-700/50 bg-[#1E293B] p-6">
+                <h3 className="mb-4 text-lg font-semibold text-white">
+                  Indexing Status
+                </h3>
                 <div className="grid grid-cols-3 gap-4">
-                  <div className="bg-green-500/10 rounded-lg p-4 text-center">
-                    <div className="text-2xl font-bold text-green-400">{data.indexingStatus.indexed}</div>
+                  <div className="rounded-lg bg-green-500/10 p-4 text-center">
+                    <div className="text-2xl font-bold text-green-400">
+                      {data.indexingStatus.indexed}
+                    </div>
                     <div className="text-sm text-slate-400">Indexed</div>
                   </div>
-                  <div className="bg-yellow-500/10 rounded-lg p-4 text-center">
-                    <div className="text-2xl font-bold text-yellow-400">{data.indexingStatus.notIndexed}</div>
+                  <div className="rounded-lg bg-yellow-500/10 p-4 text-center">
+                    <div className="text-2xl font-bold text-yellow-400">
+                      {data.indexingStatus.notIndexed}
+                    </div>
                     <div className="text-sm text-slate-400">Not Indexed</div>
                   </div>
-                  <div className="bg-red-500/10 rounded-lg p-4 text-center">
-                    <div className="text-2xl font-bold text-red-400">{data.indexingStatus.errors}</div>
+                  <div className="rounded-lg bg-red-500/10 p-4 text-center">
+                    <div className="text-2xl font-bold text-red-400">
+                      {data.indexingStatus.errors}
+                    </div>
                     <div className="text-sm text-slate-400">Errors</div>
                   </div>
                 </div>
@@ -482,24 +568,30 @@ export default function SearchConsolePage() {
 
           {/* Crawl Errors */}
           {data.crawlErrors && data.crawlErrors.length > 0 && (
-            <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 p-6">
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <AlertTriangle className="w-5 h-5 text-yellow-500" />
+            <div className="rounded-xl border border-slate-700/50 bg-[#1E293B] p-6">
+              <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold text-white">
+                <AlertTriangle className="h-5 w-5 text-yellow-500" />
                 Crawl Issues
               </h3>
               <div className="space-y-3">
                 {data.crawlErrors.map((error, index) => (
                   <div
                     key={index}
-                    className={`flex items-center justify-between p-3 rounded-lg ${
-                      error.severity === 'error' ? 'bg-red-500/10' : 'bg-yellow-500/10'
+                    className={`flex items-center justify-between rounded-lg p-3 ${
+                      error.severity === 'error'
+                        ? 'bg-red-500/10'
+                        : 'bg-yellow-500/10'
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <AlertTriangle className={`w-5 h-5 ${error.severity === 'error' ? 'text-red-500' : 'text-yellow-500'}`} />
+                      <AlertTriangle
+                        className={`h-5 w-5 ${error.severity === 'error' ? 'text-red-500' : 'text-yellow-500'}`}
+                      />
                       <span className="text-slate-300">{error.type}</span>
                     </div>
-                    <span className={`font-semibold ${error.severity === 'error' ? 'text-red-400' : 'text-yellow-400'}`}>
+                    <span
+                      className={`font-semibold ${error.severity === 'error' ? 'text-red-400' : 'text-yellow-400'}`}
+                    >
                       {error.count} issues
                     </span>
                   </div>
@@ -527,16 +619,23 @@ function StatCard({
   color?: string;
 }) {
   return (
-    <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 p-4">
-      <div className="flex items-center gap-2 text-slate-400 mb-2">
+    <div className="rounded-xl border border-slate-700/50 bg-[#1E293B] p-4">
+      <div className="mb-2 flex items-center gap-2 text-slate-400">
         {icon}
         <span className="text-sm">{label}</span>
       </div>
       <div className={`text-2xl font-bold ${color}`}>{value}</div>
       {change !== undefined && (
-        <div className={`text-sm font-medium mt-1 flex items-center gap-1 ${change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-          {change >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-          {change >= 0 ? '+' : ''}{change.toFixed(1)}%
+        <div
+          className={`mt-1 flex items-center gap-1 text-sm font-medium ${change >= 0 ? 'text-green-400' : 'text-red-400'}`}
+        >
+          {change >= 0 ? (
+            <TrendingUp className="h-3 w-3" />
+          ) : (
+            <TrendingDown className="h-3 w-3" />
+          )}
+          {change >= 0 ? '+' : ''}
+          {change.toFixed(1)}%
         </div>
       )}
     </div>

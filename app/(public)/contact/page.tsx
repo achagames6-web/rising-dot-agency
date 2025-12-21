@@ -53,24 +53,28 @@ export default function ContactPage() {
       <Hero1
         eyebrow={heroContent?.eyebrow || "Let's Connect"}
         title={heroContent?.title || 'Get In Touch'}
-        subtitle={heroContent?.subtitle || "Ready to start your next project? Let's create something amazing together. We're here to help bring your vision to life."}
+        subtitle={
+          heroContent?.subtitle ||
+          "Ready to start your next project? Let's create something amazing together. We're here to help bring your vision to life."
+        }
         ctaLabel={heroContent?.ctaLabel || 'Send Message'}
         ctaHref={heroContent?.ctaHref || '#contact-form'}
       />
 
-      <section id="contact-form" className="py-24 px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <section id="contact-form" className="px-6 py-24">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-2">
           <div>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-3xl font-bold mb-8"
+              className="mb-8 text-3xl font-bold"
             >
               {formContent?.title || 'Send Us a'}{' '}
-              <span 
+              <span
                 className="bg-clip-text text-transparent"
                 style={{
-                  backgroundImage: 'linear-gradient(90deg, #37AFE1, #F58122, #37AFE1, #F58122)',
+                  backgroundImage:
+                    'linear-gradient(90deg, #37AFE1, #F58122, #37AFE1, #F58122)',
                   backgroundSize: '300% 100%',
                   animation: 'gradient-shift 4s ease-in-out infinite',
                 }}
@@ -85,12 +89,13 @@ export default function ContactPage() {
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-3xl font-bold mb-8"
+              className="mb-8 text-3xl font-bold"
             >
-              <span 
+              <span
                 className="bg-clip-text text-transparent"
                 style={{
-                  backgroundImage: 'linear-gradient(90deg, #F58122, #37AFE1, #F58122, #37AFE1)',
+                  backgroundImage:
+                    'linear-gradient(90deg, #F58122, #37AFE1, #F58122, #37AFE1)',
                   backgroundSize: '300% 100%',
                   animation: 'gradient-shift 4s ease-in-out infinite',
                 }}
@@ -105,12 +110,14 @@ export default function ContactPage() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.1 }}
-                className="flex items-start gap-4 p-6 rounded-lg bg-black border border-[#37AFE1]/20"
+                className="flex items-start gap-4 rounded-lg border border-[#37AFE1]/20 bg-black p-6"
               >
                 <div className="text-3xl">📧</div>
                 <div>
-                  <h3 className="font-semibold text-white mb-1">Email</h3>
-                  <p className="text-[#64748B]">{infoContent?.email || 'hello@risingdot.agency'}</p>
+                  <h3 className="mb-1 font-semibold text-white">Email</h3>
+                  <p className="text-[#64748B]">
+                    {infoContent?.email || 'hello@risingdot.agency'}
+                  </p>
                 </div>
               </motion.div>
 
@@ -118,12 +125,14 @@ export default function ContactPage() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2 }}
-                className="flex items-start gap-4 p-6 rounded-lg bg-black border border-[#37AFE1]/20"
+                className="flex items-start gap-4 rounded-lg border border-[#37AFE1]/20 bg-black p-6"
               >
                 <div className="text-3xl">📞</div>
                 <div>
-                  <h3 className="font-semibold text-white mb-1">Phone</h3>
-                  <p className="text-[#64748B]">{infoContent?.phone || '+1 (555) 123-4567'}</p>
+                  <h3 className="mb-1 font-semibold text-white">Phone</h3>
+                  <p className="text-[#64748B]">
+                    {infoContent?.phone || '+1 (555) 123-4567'}
+                  </p>
                 </div>
               </motion.div>
 
@@ -131,13 +140,14 @@ export default function ContactPage() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
-                className="flex items-start gap-4 p-6 rounded-lg bg-black border border-[#37AFE1]/20"
+                className="flex items-start gap-4 rounded-lg border border-[#37AFE1]/20 bg-black p-6"
               >
                 <div className="text-3xl">📍</div>
                 <div>
-                  <h3 className="font-semibold text-white mb-1">Office</h3>
-                  <p className="text-[#64748B] whitespace-pre-line">
-                    {infoContent?.address || '123 Innovation Street\nTech District, CA 94102'}
+                  <h3 className="mb-1 font-semibold text-white">Office</h3>
+                  <p className="whitespace-pre-line text-[#64748B]">
+                    {infoContent?.address ||
+                      '123 Innovation Street\nTech District, CA 94102'}
                   </p>
                 </div>
               </motion.div>
@@ -146,13 +156,14 @@ export default function ContactPage() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 }}
-                className="flex items-start gap-4 p-6 rounded-lg bg-black border border-[#37AFE1]/20"
+                className="flex items-start gap-4 rounded-lg border border-[#37AFE1]/20 bg-black p-6"
               >
                 <div className="text-3xl">🕐</div>
                 <div>
-                  <h3 className="font-semibold text-white mb-1">Hours</h3>
-                  <p className="text-[#64748B] whitespace-pre-line">
-                    {infoContent?.hours || 'Monday - Friday: 9:00 AM - 6:00 PM\nSaturday - Sunday: Closed'}
+                  <h3 className="mb-1 font-semibold text-white">Hours</h3>
+                  <p className="whitespace-pre-line text-[#64748B]">
+                    {infoContent?.hours ||
+                      'Monday - Friday: 9:00 AM - 6:00 PM\nSaturday - Sunday: Closed'}
                   </p>
                 </div>
               </motion.div>
@@ -161,8 +172,8 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="py-24 px-6 bg-black">
-        <div className="max-w-7xl mx-auto">
+      <section className="bg-black px-6 py-24">
+        <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow={mapContent?.eyebrow || 'Location'}
             title={mapContent?.title || 'Find'}
@@ -177,7 +188,10 @@ export default function ContactPage() {
         eyebrow={ctaContent?.eyebrow || 'Explore Our Work'}
         title={ctaContent?.title || 'View Our'}
         titleHighlight={ctaContent?.titleHighlight || 'Portfolio'}
-        subtitle={ctaContent?.subtitle || 'See how we\'ve helped businesses like yours achieve their goals.'}
+        subtitle={
+          ctaContent?.subtitle ||
+          "See how we've helped businesses like yours achieve their goals."
+        }
         ctaText={ctaContent?.ctaText || 'View Portfolio'}
         ctaLink={ctaContent?.ctaLink || '/portfolio'}
       />

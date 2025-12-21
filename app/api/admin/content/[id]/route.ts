@@ -23,7 +23,10 @@ export async function GET(
     return NextResponse.json(content);
   } catch (error) {
     console.error('Error fetching content:', error);
-    return NextResponse.json({ error: 'Failed to fetch content' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch content' },
+      { status: 500 }
+    );
   }
 }
 
@@ -49,11 +52,13 @@ export async function PUT(
     if (section !== undefined) updateData.section = section;
     if (visible !== undefined) updateData.visible = visible;
 
-    const result = await db.collection('siteContent').findOneAndUpdate(
-      { _id: new ObjectId(id) },
-      { $set: updateData },
-      { returnDocument: 'after' }
-    );
+    const result = await db
+      .collection('siteContent')
+      .findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        { $set: updateData },
+        { returnDocument: 'after' }
+      );
 
     if (!result) {
       return NextResponse.json({ error: 'Content not found' }, { status: 404 });
@@ -62,7 +67,10 @@ export async function PUT(
     return NextResponse.json(result);
   } catch (error) {
     console.error('Error updating content:', error);
-    return NextResponse.json({ error: 'Failed to update content' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to update content' },
+      { status: 500 }
+    );
   }
 }
 
@@ -87,6 +95,9 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting content:', error);
-    return NextResponse.json({ error: 'Failed to delete content' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to delete content' },
+      { status: 500 }
+    );
   }
 }

@@ -46,7 +46,8 @@ export const AccuracyChart: React.FC<AccuracyChartProps> = ({
   metrics: propMetrics,
   chartConfig: propChartConfig,
 }) => {
-  const metrics = propMetrics && propMetrics.length > 0 ? propMetrics : defaultMetrics;
+  const metrics =
+    propMetrics && propMetrics.length > 0 ? propMetrics : defaultMetrics;
   const chartConfig = propChartConfig || defaultChartConfig;
 
   const [data, setData] = useState<DataPoint[]>([]);
@@ -57,20 +58,20 @@ export const AccuracyChart: React.FC<AccuracyChartProps> = ({
     // Generate accuracy improvement data
     const points: DataPoint[] = [];
     const epochs = 20;
-    
+
     for (let i = 0; i <= epochs; i++) {
       // Simulate learning curve: starts low, improves quickly, then plateaus
       const baseAccuracy = 50;
       const improvement = 45 * (1 - Math.exp(-i / 5));
       const noise = (Math.random() - 0.5) * 3;
       const accuracy = Math.min(98, baseAccuracy + improvement + noise);
-      
+
       points.push({
         epoch: i,
         accuracy: Math.round(accuracy * 10) / 10,
       });
     }
-    
+
     setData(points);
   }, []);
 
@@ -81,7 +82,7 @@ export const AccuracyChart: React.FC<AccuracyChartProps> = ({
     let currentIndex = 0;
     const interval = setInterval(() => {
       if (currentIndex < data.length) {
-        setAnimatedData(prev => [...prev, data[currentIndex]]);
+        setAnimatedData((prev) => [...prev, data[currentIndex]]);
         currentIndex++;
       } else {
         clearInterval(interval);
@@ -93,7 +94,7 @@ export const AccuracyChart: React.FC<AccuracyChartProps> = ({
 
   useEffect(() => {
     if (!canvasRef.current || animatedData.length === 0) return;
-    
+
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -110,7 +111,7 @@ export const AccuracyChart: React.FC<AccuracyChartProps> = ({
     ctx.strokeStyle = chartConfig.gridColor;
     ctx.lineWidth = 1;
     ctx.globalAlpha = 0.2;
-    
+
     // Horizontal grid lines
     for (let i = 0; i <= 5; i++) {
       const y = padding + (chartHeight / 5) * i;
@@ -119,7 +120,7 @@ export const AccuracyChart: React.FC<AccuracyChartProps> = ({
       ctx.lineTo(width - padding, y);
       ctx.stroke();
     }
-    
+
     // Vertical grid lines
     for (let i = 0; i <= 10; i++) {
       const x = padding + (chartWidth / 10) * i;
@@ -128,7 +129,7 @@ export const AccuracyChart: React.FC<AccuracyChartProps> = ({
       ctx.lineTo(x, height - padding);
       ctx.stroke();
     }
-    
+
     ctx.globalAlpha = 1;
 
     // Draw axes
@@ -144,7 +145,7 @@ export const AccuracyChart: React.FC<AccuracyChartProps> = ({
     ctx.fillStyle = chartConfig.gridColor;
     ctx.font = '12px Inter';
     ctx.textAlign = 'center';
-    
+
     // Y-axis labels (accuracy)
     ctx.textAlign = 'right';
     for (let i = 0; i <= 5; i++) {
@@ -152,7 +153,7 @@ export const AccuracyChart: React.FC<AccuracyChartProps> = ({
       const value = 50 + i * 10;
       ctx.fillText(`${value}%`, padding - 10, y + 4);
     }
-    
+
     // X-axis labels (epochs)
     ctx.textAlign = 'center';
     for (let i = 0; i <= 10; i++) {
@@ -166,7 +167,7 @@ export const AccuracyChart: React.FC<AccuracyChartProps> = ({
     ctx.font = '14px Inter';
     ctx.textAlign = 'center';
     ctx.fillText(chartConfig.xAxisLabel, width / 2, height - 10);
-    
+
     ctx.save();
     ctx.translate(15, height / 2);
     ctx.rotate(-Math.PI / 2);
@@ -176,7 +177,10 @@ export const AccuracyChart: React.FC<AccuracyChartProps> = ({
     // Draw line chart
     const validData = animatedData.filter(
       (point): point is DataPoint =>
-        point !== undefined && point !== null && typeof point.epoch === 'number' && typeof point.accuracy === 'number'
+        point !== undefined &&
+        point !== null &&
+        typeof point.epoch === 'number' &&
+        typeof point.accuracy === 'number'
     );
 
     if (validData.length > 1) {
@@ -199,11 +203,19 @@ export const AccuracyChart: React.FC<AccuracyChartProps> = ({
 
       // Draw gradient fill under line
       const lastPoint = validData[validData.length - 1];
-      ctx.lineTo(padding + (lastPoint.epoch / 20) * chartWidth, height - padding);
+      ctx.lineTo(
+        padding + (lastPoint.epoch / 20) * chartWidth,
+        height - padding
+      );
       ctx.lineTo(padding, height - padding);
       ctx.closePath();
 
-      const gradient = ctx.createLinearGradient(0, padding, 0, height - padding);
+      const gradient = ctx.createLinearGradient(
+        0,
+        padding,
+        0,
+        height - padding
+      );
       gradient.addColorStop(0, `${chartConfig.lineColor}4D`); // 30% opacity
       gradient.addColorStop(1, `${chartConfig.lineColor}00`); // 0% opacity
       ctx.fillStyle = gradient;
@@ -229,10 +241,13 @@ export const AccuracyChart: React.FC<AccuracyChartProps> = ({
   }, [animatedData, chartConfig]);
 
   // Use final data values when animation is complete, otherwise use animated values
-  const isAnimationComplete = animatedData.length === data.length && data.length > 0;
-  const displayPoint = isAnimationComplete 
-    ? data[data.length - 1] 
-    : (animatedData.length > 0 ? animatedData[animatedData.length - 1] : null);
+  const isAnimationComplete =
+    animatedData.length === data.length && data.length > 0;
+  const displayPoint = isAnimationComplete
+    ? data[data.length - 1]
+    : animatedData.length > 0
+      ? animatedData[animatedData.length - 1]
+      : null;
   const currentAccuracy = displayPoint?.accuracy ?? 0;
   const currentEpoch = displayPoint?.epoch ?? 0;
 
@@ -240,7 +255,7 @@ export const AccuracyChart: React.FC<AccuracyChartProps> = ({
   const getMetricValue = (index: number): string => {
     const metric = metrics[index];
     if (metric?.value) return metric.value;
-    
+
     switch (index) {
       case 0: // Current Accuracy
         return `${metric?.prefix || ''}${currentAccuracy.toFixed(1)}${metric?.suffix || ''}`;
@@ -257,26 +272,26 @@ export const AccuracyChart: React.FC<AccuracyChartProps> = ({
 
   return (
     <div className="w-full">
-      <div className="relative w-full h-[500px] bg-[#0F172A] rounded-lg border border-[#64748B]/20 overflow-hidden p-6">
+      <div className="relative h-[500px] w-full overflow-hidden rounded-lg border border-[#64748B]/20 bg-[#0F172A] p-6">
         <canvas
           ref={canvasRef}
           width={1000}
           height={500}
-          className="w-full h-full"
+          className="h-full w-full"
         />
       </div>
 
       {/* Metrics */}
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-4">
         {metrics.map((metric, index) => (
           <motion.div
             key={index}
-            className="bg-[#0F172A] border border-[#64748B]/20 rounded-lg p-6"
+            className="rounded-lg border border-[#64748B]/20 bg-[#0F172A] p-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 + index * 0.1 }}
           >
-            <div className="text-[#64748B] text-sm mb-2">{metric.label}</div>
+            <div className="mb-2 text-sm text-[#64748B]">{metric.label}</div>
             <div className="text-3xl font-bold" style={{ color: metric.color }}>
               {getMetricValue(index)}
             </div>

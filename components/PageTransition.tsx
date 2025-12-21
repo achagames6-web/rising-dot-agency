@@ -14,7 +14,9 @@ export default function PageTransition({ children }: PageTransitionProps) {
   const { stop, start } = useLenis();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const videoStateRef = useRef<{ currentTime: number; src: string } | null>(null);
+  const videoStateRef = useRef<{ currentTime: number; src: string } | null>(
+    null
+  );
   const prevPathname = useRef(pathname);
 
   // Mark first load complete

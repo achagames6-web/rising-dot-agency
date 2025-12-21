@@ -2,7 +2,7 @@
  * Property-Based Tests for Magnetic Cursor System
  * Feature: rising-dot-website, Property 6: Cursor Lerp Interpolation
  * Validates: Requirements 3.2, 38.2, 38.6
- * 
+ *
  * Feature: rising-dot-website, Property 13: Magnetic Zone Detection
  * Validates: Requirements 3.3, 38.4, 38.5
  */
@@ -209,7 +209,7 @@ describe('Magnetic Cursor System', () => {
           }),
           ({ distance }) => {
             const lerpFactor = 0.15;
-            
+
             // Start at origin, target at distance along x-axis
             let currentX = 0;
             const targetX = distance;
@@ -272,7 +272,10 @@ describe('Magnetic Cursor System', () => {
               targetX,
               targetY,
             };
-            const ringPosition = updateCursorPosition(ringState, ringLerpFactor);
+            const ringPosition = updateCursorPosition(
+              ringState,
+              ringLerpFactor
+            );
 
             // Calculate distances moved
             const dotDistance = Math.sqrt(
@@ -301,7 +304,11 @@ describe('Magnetic Cursor System', () => {
             startX: fc.float({ min: 0, max: 1920, noNaN: true }),
             startY: fc.float({ min: 0, max: 1080, noNaN: true }),
             distance: fc.float({ min: 10, max: 500, noNaN: true }),
-            angle: fc.float({ min: 0, max: Math.fround(2 * Math.PI), noNaN: true }),
+            angle: fc.float({
+              min: 0,
+              max: Math.fround(2 * Math.PI),
+              noNaN: true,
+            }),
           }),
           ({ startX, startY, distance, angle }) => {
             const lerpFactor = 0.15;
@@ -370,8 +377,12 @@ describe('Magnetic Cursor System', () => {
               const currentDistanceY = Math.abs(targetY - currentY);
 
               // Distance should never increase (no overshoot)
-              expect(currentDistanceX).toBeLessThanOrEqual(initialDistanceX + 0.001);
-              expect(currentDistanceY).toBeLessThanOrEqual(initialDistanceY + 0.001);
+              expect(currentDistanceX).toBeLessThanOrEqual(
+                initialDistanceX + 0.001
+              );
+              expect(currentDistanceY).toBeLessThanOrEqual(
+                initialDistanceY + 0.001
+              );
             }
           }
         ),
@@ -400,13 +411,13 @@ describe('Magnetic Cursor System', () => {
 
       if (distance < radius && distance > 0) {
         // Calculate normalized strength (0-1) based on distance from edge
-        const normalizedStrength = (1 - distance / radius);
-        
+        const normalizedStrength = 1 - distance / radius;
+
         // Force should be a fraction of the distance to prevent overshooting
         // Strength parameter controls the pull intensity (0-100 typical range)
         // We scale it down to a reasonable fraction (0.01 = 1%)
         const forceMagnitude = normalizedStrength * (strength / 100) * distance;
-        
+
         return {
           x: cursorPos.x + (dx / distance) * forceMagnitude,
           y: cursorPos.y + (dy / distance) * forceMagnitude,
@@ -427,7 +438,14 @@ describe('Magnetic Cursor System', () => {
             magneticStrength: fc.integer({ min: 50, max: 150 }),
             magneticRadius: fc.integer({ min: 50, max: 200 }),
           }),
-          ({ cursorX, cursorY, elementX, elementY, magneticStrength, magneticRadius }) => {
+          ({
+            cursorX,
+            cursorY,
+            elementX,
+            elementY,
+            magneticStrength,
+            magneticRadius,
+          }) => {
             const cursorPos = { x: cursorX, y: cursorY };
             const elementCenter = { x: elementX, y: elementY };
 
@@ -481,7 +499,14 @@ describe('Magnetic Cursor System', () => {
             magneticStrength: fc.integer({ min: 50, max: 150 }),
             magneticRadius: fc.integer({ min: 50, max: 200 }),
           }),
-          ({ cursorX, cursorY, elementX, elementY, magneticStrength, magneticRadius }) => {
+          ({
+            cursorX,
+            cursorY,
+            elementX,
+            elementY,
+            magneticStrength,
+            magneticRadius,
+          }) => {
             const distance = Math.sqrt(
               Math.pow(elementX - cursorX, 2) + Math.pow(elementY - cursorY, 2)
             );
@@ -629,7 +654,14 @@ describe('Magnetic Cursor System', () => {
             magneticStrength: fc.integer({ min: 50, max: 150 }),
             magneticRadius: fc.integer({ min: 100, max: 200 }),
           }),
-          ({ cursorX, cursorY, elementX, elementY, magneticStrength, magneticRadius }) => {
+          ({
+            cursorX,
+            cursorY,
+            elementX,
+            elementY,
+            magneticStrength,
+            magneticRadius,
+          }) => {
             const distance = Math.sqrt(
               Math.pow(elementX - cursorX, 2) + Math.pow(elementY - cursorY, 2)
             );
@@ -655,13 +687,17 @@ describe('Magnetic Cursor System', () => {
             const attractedDy = elementY - attractedPos.y;
 
             // Distance after attraction should be less than or equal to before
-            const originalDistance = Math.sqrt(originalDx * originalDx + originalDy * originalDy);
+            const originalDistance = Math.sqrt(
+              originalDx * originalDx + originalDy * originalDy
+            );
             const attractedDistance = Math.sqrt(
               attractedDx * attractedDx + attractedDy * attractedDy
             );
 
             // Allow small tolerance for floating point precision
-            expect(attractedDistance).toBeLessThanOrEqual(originalDistance + 0.001);
+            expect(attractedDistance).toBeLessThanOrEqual(
+              originalDistance + 0.001
+            );
 
             // Verify movement is in the direction of the element
             const movementX = attractedPos.x - cursorX;
@@ -684,7 +720,11 @@ describe('Magnetic Cursor System', () => {
             elementY: fc.float({ min: 500, max: 580, noNaN: true }),
             magneticStrength: fc.integer({ min: 50, max: 150 }),
             magneticRadius: fc.integer({ min: 100, max: 200 }),
-            angle: fc.float({ min: 0, max: Math.fround(2 * Math.PI), noNaN: true }),
+            angle: fc.float({
+              min: 0,
+              max: Math.fround(2 * Math.PI),
+              noNaN: true,
+            }),
           }),
           ({ elementX, elementY, magneticStrength, magneticRadius, angle }) => {
             const elementCenter = { x: elementX, y: elementY };
@@ -703,7 +743,8 @@ describe('Magnetic Cursor System', () => {
 
             // Calculate movement
             const movement = Math.sqrt(
-              Math.pow(attractedPos.x - cursorX, 2) + Math.pow(attractedPos.y - cursorY, 2)
+              Math.pow(attractedPos.x - cursorX, 2) +
+                Math.pow(attractedPos.y - cursorY, 2)
             );
 
             // At edge, force should be minimal (less than 5% of strength)
@@ -722,7 +763,11 @@ describe('Magnetic Cursor System', () => {
             elementY: fc.float({ min: 500, max: 580, noNaN: true }),
             magneticStrength: fc.integer({ min: 50, max: 150 }),
             magneticRadius: fc.integer({ min: 100, max: 200 }),
-            angle: fc.float({ min: 0, max: Math.fround(2 * Math.PI), noNaN: true }),
+            angle: fc.float({
+              min: 0,
+              max: Math.fround(2 * Math.PI),
+              noNaN: true,
+            }),
           }),
           ({ elementX, elementY, magneticStrength, magneticRadius, angle }) => {
             const elementCenter = { x: elementX, y: elementY };
@@ -753,11 +798,13 @@ describe('Magnetic Cursor System', () => {
 
             // Calculate movement
             const closeMovement = Math.sqrt(
-              Math.pow(closeAttractedPos.x - cursorX, 2) + Math.pow(closeAttractedPos.y - cursorY, 2)
+              Math.pow(closeAttractedPos.x - cursorX, 2) +
+                Math.pow(closeAttractedPos.y - cursorY, 2)
             );
 
             const farMovement = Math.sqrt(
-              Math.pow(farAttractedPos.x - farCursorX, 2) + Math.pow(farAttractedPos.y - farCursorY, 2)
+              Math.pow(farAttractedPos.x - farCursorX, 2) +
+                Math.pow(farAttractedPos.y - farCursorY, 2)
             );
 
             // Near center should have stronger pull than near edge
@@ -785,11 +832,26 @@ describe('Magnetic Cursor System', () => {
             magneticRadius: fc.integer({ min: 100, max: 150 }),
             distance: fc.float({ min: 10, max: 90, noNaN: true }),
           }),
-          ({ elementX, elementY, magneticStrength, magneticRadius, distance }) => {
+          ({
+            elementX,
+            elementY,
+            magneticStrength,
+            magneticRadius,
+            distance,
+          }) => {
             const elementCenter = { x: elementX, y: elementY };
 
             // Test at 8 cardinal and ordinal directions
-            const angles = [0, Math.PI / 4, Math.PI / 2, (3 * Math.PI) / 4, Math.PI, (5 * Math.PI) / 4, (3 * Math.PI) / 2, (7 * Math.PI) / 4];
+            const angles = [
+              0,
+              Math.PI / 4,
+              Math.PI / 2,
+              (3 * Math.PI) / 4,
+              Math.PI,
+              (5 * Math.PI) / 4,
+              (3 * Math.PI) / 2,
+              (7 * Math.PI) / 4,
+            ];
 
             const movements: number[] = [];
 
@@ -805,17 +867,21 @@ describe('Magnetic Cursor System', () => {
               );
 
               const movement = Math.sqrt(
-                Math.pow(attractedPos.x - cursorX, 2) + Math.pow(attractedPos.y - cursorY, 2)
+                Math.pow(attractedPos.x - cursorX, 2) +
+                  Math.pow(attractedPos.y - cursorY, 2)
               );
 
               movements.push(movement);
             }
 
             // All movements should be approximately equal (within 1% tolerance)
-            const avgMovement = movements.reduce((a, b) => a + b, 0) / movements.length;
+            const avgMovement =
+              movements.reduce((a, b) => a + b, 0) / movements.length;
 
             for (const movement of movements) {
-              expect(Math.abs(movement - avgMovement)).toBeLessThan(avgMovement * 0.01);
+              expect(Math.abs(movement - avgMovement)).toBeLessThan(
+                avgMovement * 0.01
+              );
             }
           }
         ),

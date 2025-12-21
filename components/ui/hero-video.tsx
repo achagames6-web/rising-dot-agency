@@ -43,26 +43,27 @@ const useAnimationVariants = (animate: AnimateT) =>
     [animate]
   );
 
-const ContainerStagger = React.forwardRef<HTMLDivElement, HTMLMotionProps<'div'>>(
-  ({ children, className, ...props }, ref) => {
-    return (
-      <motion.div
-        className={cn('relative', className)}
-        ref={ref}
-        initial="hidden"
-        whileInView={'visible'}
-        viewport={{ once: true || props.viewport?.once, ...props.viewport }}
-        transition={{
-          staggerChildren: props.transition?.staggerChildren || 0.2,
-          ...props.transition,
-        }}
-        {...props}
-      >
-        {children}
-      </motion.div>
-    );
-  }
-);
+const ContainerStagger = React.forwardRef<
+  HTMLDivElement,
+  HTMLMotionProps<'div'>
+>(({ children, className, ...props }, ref) => {
+  return (
+    <motion.div
+      className={cn('relative', className)}
+      ref={ref}
+      initial="hidden"
+      whileInView={'visible'}
+      viewport={{ once: true || props.viewport?.once, ...props.viewport }}
+      transition={{
+        staggerChildren: props.transition?.staggerChildren || 0.2,
+        ...props.transition,
+      }}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  );
+});
 ContainerStagger.displayName = 'ContainerStagger';
 
 interface ContainerAnimatedProps extends HTMLMotionProps<'div'> {
@@ -73,19 +74,27 @@ interface ContainerScrollValue {
   scrollYProgress: MotionValue<number>;
 }
 
-const ContainerScrollContext = React.createContext<ContainerScrollValue | undefined>(undefined);
+const ContainerScrollContext = React.createContext<
+  ContainerScrollValue | undefined
+>(undefined);
 
 function useContainerScrollContext() {
   const context = React.useContext(ContainerScrollContext);
   if (!context) {
-    throw new Error('useContainerScrollContext must be used within <ContainerScroll> component');
+    throw new Error(
+      'useContainerScrollContext must be used within <ContainerScroll> component'
+    );
   }
   return context;
 }
 
 interface ContainerScrollProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-const ContainerScroll = ({ children, className, ...props }: ContainerScrollProps) => {
+const ContainerScroll = ({
+  children,
+  className,
+  ...props
+}: ContainerScrollProps) => {
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: scrollRef,
@@ -94,7 +103,10 @@ const ContainerScroll = ({ children, className, ...props }: ContainerScrollProps
   return (
     <ContainerScrollContext.Provider value={{ scrollYProgress }}>
       <section
-        className={cn('relative min-h-[120vh] w-full pb-[30%] pt-8 ', className)}
+        className={cn(
+          'relative min-h-[120vh] w-full pb-[30%] pt-8 ',
+          className
+        )}
         {...props}
         ref={scrollRef}
       >
@@ -105,22 +117,23 @@ const ContainerScroll = ({ children, className, ...props }: ContainerScrollProps
 };
 ContainerScroll.displayName = 'ContainerScroll';
 
-const ContainerAnimated = React.forwardRef<HTMLDivElement, ContainerAnimatedProps>(
-  ({ animation, children, className, ...props }, ref) => {
-    const variants = useAnimationVariants(animation);
-    return (
-      <motion.div
-        transition={SPRING_CONFIG || props.transition}
-        ref={ref}
-        variants={variants}
-        className={className}
-        {...props}
-      >
-        {children}
-      </motion.div>
-    );
-  }
-);
+const ContainerAnimated = React.forwardRef<
+  HTMLDivElement,
+  ContainerAnimatedProps
+>(({ animation, children, className, ...props }, ref) => {
+  const variants = useAnimationVariants(animation);
+  return (
+    <motion.div
+      transition={SPRING_CONFIG || props.transition}
+      ref={ref}
+      variants={variants}
+      className={className}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  );
+});
 ContainerAnimated.displayName = 'ContainerAnimated';
 
 interface ContainerInsetProps extends HTMLMotionProps<'div'> {

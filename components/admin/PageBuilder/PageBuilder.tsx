@@ -28,8 +28,11 @@ export default function PageBuilder({
     reset,
   } = useUndoRedo<PlacedComponent[]>(initialComponents);
 
-  const [selectedComponentId, setSelectedComponentId] = useState<string | null>(null);
-  const [draggingComponent, setDraggingComponent] = useState<ComponentDefinition | null>(null);
+  const [selectedComponentId, setSelectedComponentId] = useState<string | null>(
+    null
+  );
+  const [draggingComponent, setDraggingComponent] =
+    useState<ComponentDefinition | null>(null);
   const [isSaving, setIsSaving] = useState(false);
 
   // Load initial components
@@ -49,13 +52,19 @@ export default function PageBuilder({
       }
 
       // Redo: Ctrl+Shift+Z or Cmd+Shift+Z or Ctrl+Y
-      if (((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'z') || (e.ctrlKey && e.key === 'y')) {
+      if (
+        ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'z') ||
+        (e.ctrlKey && e.key === 'y')
+      ) {
         e.preventDefault();
         if (canRedo) redo();
       }
 
       // Delete: Delete or Backspace
-      if ((e.key === 'Delete' || e.key === 'Backspace') && selectedComponentId) {
+      if (
+        (e.key === 'Delete' || e.key === 'Backspace') &&
+        selectedComponentId
+      ) {
         e.preventDefault();
         handleComponentDelete(selectedComponentId);
       }
@@ -75,7 +84,10 @@ export default function PageBuilder({
     setSelectedComponentId(component.id);
   };
 
-  const handleComponentUpdate = (id: string, updates: Partial<PlacedComponent>) => {
+  const handleComponentUpdate = (
+    id: string,
+    updates: Partial<PlacedComponent>
+  ) => {
     setComponents(
       components.map((c) => (c.id === id ? { ...c, ...updates } : c))
     );
@@ -103,15 +115,18 @@ export default function PageBuilder({
     }
   };
 
-  const selectedComponent = components.find((c) => c.id === selectedComponentId) || null;
+  const selectedComponent =
+    components.find((c) => c.id === selectedComponentId) || null;
 
   return (
-    <div className="h-screen flex flex-col bg-slate-900">
+    <div className="flex h-screen flex-col bg-slate-900">
       {/* Toolbar */}
-      <div className="bg-[#1E293B] border-b border-slate-700 px-4 py-3 flex items-center justify-between">
+      <div className="flex items-center justify-between border-b border-slate-700 bg-[#1E293B] px-4 py-3">
         <div className="flex items-center gap-4">
           <h1 className="text-xl font-bold text-white">Visual Page Builder</h1>
-          {pageId && <span className="text-sm text-slate-400">Page ID: {pageId}</span>}
+          {pageId && (
+            <span className="text-sm text-slate-400">Page ID: {pageId}</span>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
@@ -119,10 +134,10 @@ export default function PageBuilder({
           <button
             onClick={undo}
             disabled={!canUndo}
-            className={`px-3 py-2 rounded text-sm transition-colors ${
+            className={`rounded px-3 py-2 text-sm transition-colors ${
               canUndo
                 ? 'bg-slate-700 text-white hover:bg-slate-600'
-                : 'bg-slate-800 text-slate-500 cursor-not-allowed'
+                : 'cursor-not-allowed bg-slate-800 text-slate-500'
             }`}
             title="Undo (Ctrl+Z)"
           >
@@ -132,26 +147,26 @@ export default function PageBuilder({
           <button
             onClick={redo}
             disabled={!canRedo}
-            className={`px-3 py-2 rounded text-sm transition-colors ${
+            className={`rounded px-3 py-2 text-sm transition-colors ${
               canRedo
                 ? 'bg-slate-700 text-white hover:bg-slate-600'
-                : 'bg-slate-800 text-slate-500 cursor-not-allowed'
+                : 'cursor-not-allowed bg-slate-800 text-slate-500'
             }`}
             title="Redo (Ctrl+Shift+Z)"
           >
             ↷ Redo
           </button>
 
-          <div className="w-px h-6 bg-slate-600 mx-2" />
+          <div className="mx-2 h-6 w-px bg-slate-600" />
 
           {/* Save Button */}
           {onSave && (
             <button
               onClick={handleSave}
               disabled={isSaving}
-              className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
+              className={`rounded px-4 py-2 text-sm font-medium transition-colors ${
                 isSaving
-                  ? 'bg-slate-600 text-slate-400 cursor-not-allowed'
+                  ? 'cursor-not-allowed bg-slate-600 text-slate-400'
                   : 'bg-[#2563EB] text-white hover:bg-[#1d4ed8]'
               }`}
             >
@@ -162,7 +177,7 @@ export default function PageBuilder({
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex flex-1 overflow-hidden">
         {/* Component Palette */}
         <ComponentPalette onDragStart={setDraggingComponent} />
 
@@ -188,13 +203,18 @@ export default function PageBuilder({
       </div>
 
       {/* Status Bar */}
-      <div className="bg-[#1E293B] border-t border-slate-700 px-4 py-2 flex items-center justify-between text-xs text-slate-400">
+      <div className="flex items-center justify-between border-t border-slate-700 bg-[#1E293B] px-4 py-2 text-xs text-slate-400">
         <div className="flex items-center gap-4">
           <span>{components.length} components</span>
-          {selectedComponentId && <span>Selected: {selectedComponent?.componentDef.name}</span>}
+          {selectedComponentId && (
+            <span>Selected: {selectedComponent?.componentDef.name}</span>
+          )}
         </div>
         <div className="flex items-center gap-4">
-          <span>Keyboard shortcuts: Ctrl+Z (Undo), Ctrl+Shift+Z (Redo), Delete (Remove)</span>
+          <span>
+            Keyboard shortcuts: Ctrl+Z (Undo), Ctrl+Shift+Z (Redo), Delete
+            (Remove)
+          </span>
         </div>
       </div>
     </div>

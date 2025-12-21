@@ -13,7 +13,7 @@ export default function ServiceEditor({ serviceId }: ServiceEditorProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     slug: '',
     name: '',
@@ -48,7 +48,9 @@ export default function ServiceEditor({ serviceId }: ServiceEditorProps) {
     setSaving(true);
 
     try {
-      const url = serviceId ? `/api/admin/services/${serviceId}` : '/api/admin/services';
+      const url = serviceId
+        ? `/api/admin/services/${serviceId}`
+        : '/api/admin/services';
       const method = serviceId ? 'PUT' : 'POST';
 
       const response = await fetch(url, {
@@ -58,7 +60,7 @@ export default function ServiceEditor({ serviceId }: ServiceEditorProps) {
       });
 
       if (!response.ok) throw new Error('Failed to save service');
-      
+
       router.push('/admin/services');
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Failed to save service');
@@ -69,8 +71,8 @@ export default function ServiceEditor({ serviceId }: ServiceEditorProps) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2563EB]"></div>
+      <div className="flex h-64 items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-[#2563EB]"></div>
       </div>
     );
   }
@@ -83,22 +85,22 @@ export default function ServiceEditor({ serviceId }: ServiceEditorProps) {
           onClick={() => router.back()}
           className="flex items-center gap-2 text-slate-600 hover:text-slate-900"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="h-4 w-4" />
           Back
         </button>
         <button
           type="submit"
           disabled={saving}
-          className="flex items-center gap-2 px-4 py-2 bg-[#2563EB] text-white rounded-lg hover:bg-[#1d4ed8] transition-colors disabled:opacity-50"
+          className="flex items-center gap-2 rounded-lg bg-[#2563EB] px-4 py-2 text-white transition-colors hover:bg-[#1d4ed8] disabled:opacity-50"
         >
-          <Save className="w-4 h-4" />
+          <Save className="h-4 w-4" />
           {saving ? 'Saving...' : 'Save Service'}
         </button>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-6">
+      <div className="space-y-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">
+          <label className="mb-2 block text-sm font-medium text-slate-700">
             Name *
           </label>
           <input
@@ -106,13 +108,13 @@ export default function ServiceEditor({ serviceId }: ServiceEditorProps) {
             required
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+            className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-[#2563EB]"
             placeholder="Service name"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">
+          <label className="mb-2 block text-sm font-medium text-slate-700">
             Slug *
           </label>
           <input
@@ -120,43 +122,49 @@ export default function ServiceEditor({ serviceId }: ServiceEditorProps) {
             required
             value={formData.slug}
             onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+            className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-[#2563EB]"
             placeholder="service-slug"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">
+          <label className="mb-2 block text-sm font-medium text-slate-700">
             Description
           </label>
           <RichTextEditor
             value={formData.description}
-            onChange={(description) => setFormData({ ...formData, description })}
+            onChange={(description) =>
+              setFormData({ ...formData, description })
+            }
             placeholder="Enter service description..."
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">
+          <label className="mb-2 block text-sm font-medium text-slate-700">
             Icon URL
           </label>
           <input
             type="url"
             value={formData.icon_url}
-            onChange={(e) => setFormData({ ...formData, icon_url: e.target.value })}
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+            onChange={(e) =>
+              setFormData({ ...formData, icon_url: e.target.value })
+            }
+            className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-[#2563EB]"
             placeholder="https://example.com/icon.svg"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">
+          <label className="mb-2 block text-sm font-medium text-slate-700">
             Hero Animation
           </label>
           <select
             value={formData.hero_animation}
-            onChange={(e) => setFormData({ ...formData, hero_animation: e.target.value })}
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+            onChange={(e) =>
+              setFormData({ ...formData, hero_animation: e.target.value })
+            }
+            className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-[#2563EB]"
           >
             <option value="">Select animation</option>
             <option value="particles">Particles</option>

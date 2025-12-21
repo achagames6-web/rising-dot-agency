@@ -135,7 +135,9 @@ interface CMSContent {
 /**
  * Generator for hex color strings
  */
-const hexColorArb = fc.hexaString({ minLength: 6, maxLength: 6 }).map((hex) => `#${hex}`);
+const hexColorArb = fc
+  .hexaString({ minLength: 6, maxLength: 6 })
+  .map((hex) => `#${hex}`);
 
 /**
  * Generator for Tailwind bg color classes
@@ -152,9 +154,11 @@ const bgColorArb = fc.constantFrom(
 /**
  * Generator for card content type
  */
-const cardTypeArb = fc.constantFrom('analytics', 'projects', 'chat-history') as fc.Arbitrary<
-  'analytics' | 'projects' | 'chat-history'
->;
+const cardTypeArb = fc.constantFrom(
+  'analytics',
+  'projects',
+  'chat-history'
+) as fc.Arbitrary<'analytics' | 'projects' | 'chat-history'>;
 
 /**
  * Generator for CardConfig
@@ -163,18 +167,27 @@ const cardConfigArb: fc.Arbitrary<CardConfig> = fc.record({
   bgColor: bgColorArb,
   content: fc.record({
     type: fc.option(cardTypeArb, { nil: undefined }),
-    greeting: fc.option(fc.string({ minLength: 1, maxLength: 100 }), { nil: undefined }),
-    subtitle: fc.option(fc.string({ minLength: 1, maxLength: 100 }), { nil: undefined }),
-    title: fc.option(fc.string({ minLength: 1, maxLength: 100 }), { nil: undefined }),
+    greeting: fc.option(fc.string({ minLength: 1, maxLength: 100 }), {
+      nil: undefined,
+    }),
+    subtitle: fc.option(fc.string({ minLength: 1, maxLength: 100 }), {
+      nil: undefined,
+    }),
+    title: fc.option(fc.string({ minLength: 1, maxLength: 100 }), {
+      nil: undefined,
+    }),
   }),
 });
 
 /**
  * Generator for node type
  */
-const nodeTypeArb = fc.constantFrom('trigger', 'action', 'condition', 'output') as fc.Arbitrary<
-  'trigger' | 'action' | 'condition' | 'output'
->;
+const nodeTypeArb = fc.constantFrom(
+  'trigger',
+  'action',
+  'condition',
+  'output'
+) as fc.Arbitrary<'trigger' | 'action' | 'condition' | 'output'>;
 
 /**
  * Generator for WorkflowNode
@@ -220,21 +233,23 @@ const processConfigArb: fc.Arbitrary<ProcessConfig> = fc.record({
 /**
  * Generator for ApiIntegrationContent
  */
-const apiIntegrationContentArb: fc.Arbitrary<ApiIntegrationContent> = fc.record({
-  circleText: fc.string({ minLength: 1, maxLength: 20 }),
-  badgeTexts: fc.record({
-    first: fc.string({ minLength: 1, maxLength: 30 }),
-    second: fc.string({ minLength: 1, maxLength: 30 }),
-    third: fc.string({ minLength: 1, maxLength: 30 }),
-    fourth: fc.string({ minLength: 1, maxLength: 30 }),
-  }),
-  buttonTexts: fc.record({
-    first: fc.string({ minLength: 1, maxLength: 30 }),
-    second: fc.string({ minLength: 1, maxLength: 30 }),
-  }),
-  boxTitle: fc.string({ minLength: 1, maxLength: 100 }),
-  lightColor: hexColorArb,
-});
+const apiIntegrationContentArb: fc.Arbitrary<ApiIntegrationContent> = fc.record(
+  {
+    circleText: fc.string({ minLength: 1, maxLength: 20 }),
+    badgeTexts: fc.record({
+      first: fc.string({ minLength: 1, maxLength: 30 }),
+      second: fc.string({ minLength: 1, maxLength: 30 }),
+      third: fc.string({ minLength: 1, maxLength: 30 }),
+      fourth: fc.string({ minLength: 1, maxLength: 30 }),
+    }),
+    buttonTexts: fc.record({
+      first: fc.string({ minLength: 1, maxLength: 30 }),
+      second: fc.string({ minLength: 1, maxLength: 30 }),
+    }),
+    boxTitle: fc.string({ minLength: 1, maxLength: 100 }),
+    lightColor: hexColorArb,
+  }
+);
 
 /**
  * Generator for N8N Hero Content
@@ -255,26 +270,29 @@ const n8nHeroContentArb: fc.Arbitrary<N8NHeroContent> = fc.record({
 /**
  * Generator for N8N WorkflowBuilder Content
  */
-const n8nWorkflowBuilderContentArb: fc.Arbitrary<N8NWorkflowBuilderContent> = fc.record({
-  eyebrow: fc.string({ minLength: 1, maxLength: 50 }),
-  title: fc.string({ minLength: 1, maxLength: 100 }),
-  titleHighlight: fc.string({ minLength: 1, maxLength: 50 }),
-  subtitle: fc.string({ minLength: 1, maxLength: 300 }),
-  nodes: fc.array(workflowNodeArb, { minLength: 1, maxLength: 10 }),
-  nodeColors: nodeTypeColorsArb,
-});
+const n8nWorkflowBuilderContentArb: fc.Arbitrary<N8NWorkflowBuilderContent> =
+  fc.record({
+    eyebrow: fc.string({ minLength: 1, maxLength: 50 }),
+    title: fc.string({ minLength: 1, maxLength: 100 }),
+    titleHighlight: fc.string({ minLength: 1, maxLength: 50 }),
+    subtitle: fc.string({ minLength: 1, maxLength: 300 }),
+    nodes: fc.array(workflowNodeArb, { minLength: 1, maxLength: 10 }),
+    nodeColors: nodeTypeColorsArb,
+  });
 
 /**
  * Generator for N8N BeforeAfter Content
  */
-const n8nBeforeAfterContentArb: fc.Arbitrary<N8NBeforeAfterContent> = fc.record({
-  eyebrow: fc.string({ minLength: 1, maxLength: 50 }),
-  title: fc.string({ minLength: 1, maxLength: 100 }),
-  titleHighlight: fc.string({ minLength: 1, maxLength: 50 }),
-  subtitle: fc.string({ minLength: 1, maxLength: 300 }),
-  manualProcess: processConfigArb,
-  automatedProcess: processConfigArb,
-});
+const n8nBeforeAfterContentArb: fc.Arbitrary<N8NBeforeAfterContent> = fc.record(
+  {
+    eyebrow: fc.string({ minLength: 1, maxLength: 50 }),
+    title: fc.string({ minLength: 1, maxLength: 100 }),
+    titleHighlight: fc.string({ minLength: 1, maxLength: 50 }),
+    subtitle: fc.string({ minLength: 1, maxLength: 300 }),
+    manualProcess: processConfigArb,
+    automatedProcess: processConfigArb,
+  }
+);
 
 // ============ Helper Functions ============
 
@@ -295,7 +313,10 @@ function fetchFromCMS(jsonString: string): CMSContent {
 /**
  * Validates that two CMS content objects are equivalent
  */
-function contentsAreEquivalent(original: CMSContent, retrieved: CMSContent): boolean {
+function contentsAreEquivalent(
+  original: CMSContent,
+  retrieved: CMSContent
+): boolean {
   if (original.page !== retrieved.page) return false;
   if (original.section !== retrieved.section) return false;
   return JSON.stringify(original.content) === JSON.stringify(retrieved.content);
@@ -329,29 +350,34 @@ describe('Feature: n8n-components-cms, Property 1: Content Round-Trip Consistenc
 
     it('should preserve all card configurations through round-trip', () => {
       fc.assert(
-        fc.property(fc.array(cardConfigArb, { minLength: 1, maxLength: 6 }), (cards) => {
-          const content: CMSContent = {
-            page: 'services-n8n',
-            section: 'hero',
-            content: {
-              eyebrow: 'Test',
-              title: 'Test Title',
-              cards,
-            },
-          };
+        fc.property(
+          fc.array(cardConfigArb, { minLength: 1, maxLength: 6 }),
+          (cards) => {
+            const content: CMSContent = {
+              page: 'services-n8n',
+              section: 'hero',
+              content: {
+                eyebrow: 'Test',
+                title: 'Test Title',
+                cards,
+              },
+            };
 
-          const savedData = saveToCMS(content);
-          const retrievedContent = fetchFromCMS(savedData);
-          const retrievedCards = (retrievedContent.content as { cards: CardConfig[] }).cards;
+            const savedData = saveToCMS(content);
+            const retrievedContent = fetchFromCMS(savedData);
+            const retrievedCards = (
+              retrievedContent.content as { cards: CardConfig[] }
+            ).cards;
 
-          expect(retrievedCards.length).toBe(cards.length);
-          for (let i = 0; i < cards.length; i++) {
-            expect(retrievedCards[i].bgColor).toBe(cards[i].bgColor);
-            expect(JSON.stringify(retrievedCards[i].content)).toBe(
-              JSON.stringify(cards[i].content)
-            );
+            expect(retrievedCards.length).toBe(cards.length);
+            for (let i = 0; i < cards.length; i++) {
+              expect(retrievedCards[i].bgColor).toBe(cards[i].bgColor);
+              expect(JSON.stringify(retrievedCards[i].content)).toBe(
+                JSON.stringify(cards[i].content)
+              );
+            }
           }
-        }),
+        ),
         { numRuns: 100 }
       );
     });
@@ -367,7 +393,9 @@ describe('Feature: n8n-components-cms, Property 1: Content Round-Trip Consistenc
 
           const savedData = saveToCMS(content);
           const retrievedContent = fetchFromCMS(savedData);
-          const retrievedCard = (retrievedContent.content as { cards: CardConfig[] }).cards[0];
+          const retrievedCard = (
+            retrievedContent.content as { cards: CardConfig[] }
+          ).cards[0];
 
           expect(retrievedCard.content.type).toBe(card.content.type);
         }),
@@ -401,27 +429,34 @@ describe('Feature: n8n-components-cms, Property 1: Content Round-Trip Consistenc
 
     it('should preserve all workflow nodes through round-trip', () => {
       fc.assert(
-        fc.property(fc.array(workflowNodeArb, { minLength: 1, maxLength: 10 }), (nodes) => {
-          const content: CMSContent = {
-            page: 'services-n8n',
-            section: 'workflowBuilder',
-            content: { nodes },
-          };
+        fc.property(
+          fc.array(workflowNodeArb, { minLength: 1, maxLength: 10 }),
+          (nodes) => {
+            const content: CMSContent = {
+              page: 'services-n8n',
+              section: 'workflowBuilder',
+              content: { nodes },
+            };
 
-          const savedData = saveToCMS(content);
-          const retrievedContent = fetchFromCMS(savedData);
-          const retrievedNodes = (retrievedContent.content as { nodes: WorkflowNode[] }).nodes;
+            const savedData = saveToCMS(content);
+            const retrievedContent = fetchFromCMS(savedData);
+            const retrievedNodes = (
+              retrievedContent.content as { nodes: WorkflowNode[] }
+            ).nodes;
 
-          expect(retrievedNodes.length).toBe(nodes.length);
-          for (let i = 0; i < nodes.length; i++) {
-            expect(retrievedNodes[i].id).toBe(nodes[i].id);
-            expect(retrievedNodes[i].type).toBe(nodes[i].type);
-            expect(retrievedNodes[i].label).toBe(nodes[i].label);
-            expect(retrievedNodes[i].x).toBe(nodes[i].x);
-            expect(retrievedNodes[i].y).toBe(nodes[i].y);
-            expect(retrievedNodes[i].connections).toEqual(nodes[i].connections);
+            expect(retrievedNodes.length).toBe(nodes.length);
+            for (let i = 0; i < nodes.length; i++) {
+              expect(retrievedNodes[i].id).toBe(nodes[i].id);
+              expect(retrievedNodes[i].type).toBe(nodes[i].type);
+              expect(retrievedNodes[i].label).toBe(nodes[i].label);
+              expect(retrievedNodes[i].x).toBe(nodes[i].x);
+              expect(retrievedNodes[i].y).toBe(nodes[i].y);
+              expect(retrievedNodes[i].connections).toEqual(
+                nodes[i].connections
+              );
+            }
           }
-        }),
+        ),
         { numRuns: 100 }
       );
     });
@@ -437,8 +472,9 @@ describe('Feature: n8n-components-cms, Property 1: Content Round-Trip Consistenc
 
           const savedData = saveToCMS(content);
           const retrievedContent = fetchFromCMS(savedData);
-          const retrievedColors = (retrievedContent.content as { nodeColors: NodeTypeColors })
-            .nodeColors;
+          const retrievedColors = (
+            retrievedContent.content as { nodeColors: NodeTypeColors }
+          ).nodeColors;
 
           expect(retrievedColors.trigger).toBe(nodeColors.trigger);
           expect(retrievedColors.action).toBe(nodeColors.action);
@@ -484,17 +520,26 @@ describe('Feature: n8n-components-cms, Property 1: Content Round-Trip Consistenc
 
           const savedData = saveToCMS(content);
           const retrievedContent = fetchFromCMS(savedData);
-          const retrievedProcess = (retrievedContent.content as { manualProcess: ProcessConfig })
-            .manualProcess;
+          const retrievedProcess = (
+            retrievedContent.content as { manualProcess: ProcessConfig }
+          ).manualProcess;
 
           expect(retrievedProcess.title).toBe(manualProcess.title);
           expect(retrievedProcess.totalTime).toBe(manualProcess.totalTime);
           expect(retrievedProcess.summary).toBe(manualProcess.summary);
-          expect(retrievedProcess.steps.length).toBe(manualProcess.steps.length);
+          expect(retrievedProcess.steps.length).toBe(
+            manualProcess.steps.length
+          );
           for (let i = 0; i < manualProcess.steps.length; i++) {
-            expect(retrievedProcess.steps[i].step).toBe(manualProcess.steps[i].step);
-            expect(retrievedProcess.steps[i].text).toBe(manualProcess.steps[i].text);
-            expect(retrievedProcess.steps[i].time).toBe(manualProcess.steps[i].time);
+            expect(retrievedProcess.steps[i].step).toBe(
+              manualProcess.steps[i].step
+            );
+            expect(retrievedProcess.steps[i].text).toBe(
+              manualProcess.steps[i].text
+            );
+            expect(retrievedProcess.steps[i].time).toBe(
+              manualProcess.steps[i].time
+            );
           }
         }),
         { numRuns: 100 }
@@ -519,7 +564,9 @@ describe('Feature: n8n-components-cms, Property 1: Content Round-Trip Consistenc
           expect(retrievedProcess.title).toBe(automatedProcess.title);
           expect(retrievedProcess.totalTime).toBe(automatedProcess.totalTime);
           expect(retrievedProcess.summary).toBe(automatedProcess.summary);
-          expect(retrievedProcess.steps.length).toBe(automatedProcess.steps.length);
+          expect(retrievedProcess.steps.length).toBe(
+            automatedProcess.steps.length
+          );
         }),
         { numRuns: 100 }
       );
@@ -561,7 +608,9 @@ describe('Feature: n8n-components-cms, Property 1: Content Round-Trip Consistenc
           const savedData = saveToCMS(content);
           const retrievedContent = fetchFromCMS(savedData);
           const retrievedBadges = (
-            retrievedContent.content as { badgeTexts: ApiIntegrationContent['badgeTexts'] }
+            retrievedContent.content as {
+              badgeTexts: ApiIntegrationContent['badgeTexts'];
+            }
           ).badgeTexts;
 
           expect(retrievedBadges.first).toBe(apiContent.badgeTexts.first);
@@ -585,7 +634,9 @@ describe('Feature: n8n-components-cms, Property 1: Content Round-Trip Consistenc
           const savedData = saveToCMS(content);
           const retrievedContent = fetchFromCMS(savedData);
           const retrievedButtons = (
-            retrievedContent.content as { buttonTexts: ApiIntegrationContent['buttonTexts'] }
+            retrievedContent.content as {
+              buttonTexts: ApiIntegrationContent['buttonTexts'];
+            }
           ).buttonTexts;
 
           expect(retrievedButtons.first).toBe(apiContent.buttonTexts.first);

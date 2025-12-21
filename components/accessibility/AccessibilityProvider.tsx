@@ -15,18 +15,20 @@ interface AccessibilityProviderProps {
   children: React.ReactNode;
 }
 
-export function AccessibilityProvider({ children }: AccessibilityProviderProps) {
+export function AccessibilityProvider({
+  children,
+}: AccessibilityProviderProps) {
   return (
     <>
       {/* Skip links for keyboard navigation */}
       <SkipLinks />
-      
+
       {/* Global focus indicator styles */}
       <FocusIndicatorStyles />
-      
+
       {/* Reduced motion styles */}
       <ReducedMotionStyles />
-      
+
       {/* Main content */}
       {children}
     </>

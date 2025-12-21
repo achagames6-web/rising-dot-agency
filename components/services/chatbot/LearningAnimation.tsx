@@ -17,7 +17,9 @@ interface Connection {
 }
 
 export const LearningAnimation: React.FC = () => {
-  const [stage, setStage] = useState<'input' | 'processing' | 'output'>('input');
+  const [stage, setStage] = useState<'input' | 'processing' | 'output'>(
+    'input'
+  );
   const [activeNodes, setActiveNodes] = useState<string[]>([]);
   const [pulseIndex, setPulseIndex] = useState(0);
 
@@ -37,7 +39,7 @@ export const LearningAnimation: React.FC = () => {
   layers.forEach((layer, layerIndex) => {
     const layerHeight = 280;
     const nodeSpacing = layerHeight / (layer.nodes + 1);
-    
+
     for (let i = 0; i < layer.nodes; i++) {
       nodes.push({
         id: `${layerIndex}-${i}`,
@@ -51,11 +53,11 @@ export const LearningAnimation: React.FC = () => {
   // Generate connections
   layers.forEach((layer, layerIndex) => {
     if (layerIndex < layers.length - 1) {
-      const currentLayerNodes = nodes.filter(n => n.layer === layerIndex);
-      const nextLayerNodes = nodes.filter(n => n.layer === layerIndex + 1);
-      
-      currentLayerNodes.forEach(fromNode => {
-        nextLayerNodes.forEach(toNode => {
+      const currentLayerNodes = nodes.filter((n) => n.layer === layerIndex);
+      const nextLayerNodes = nodes.filter((n) => n.layer === layerIndex + 1);
+
+      currentLayerNodes.forEach((fromNode) => {
+        nextLayerNodes.forEach((toNode) => {
           connections.push({
             from: fromNode.id,
             to: toNode.id,
@@ -69,7 +71,7 @@ export const LearningAnimation: React.FC = () => {
   // Animation cycle
   useEffect(() => {
     const stageInterval = setInterval(() => {
-      setStage(prev => {
+      setStage((prev) => {
         if (prev === 'input') return 'processing';
         if (prev === 'processing') return 'output';
         return 'input';
@@ -82,7 +84,7 @@ export const LearningAnimation: React.FC = () => {
   // Pulse animation through layers
   useEffect(() => {
     const pulseInterval = setInterval(() => {
-      setPulseIndex(prev => (prev + 1) % layers.length);
+      setPulseIndex((prev) => (prev + 1) % layers.length);
     }, 500);
 
     return () => clearInterval(pulseInterval);
@@ -90,7 +92,9 @@ export const LearningAnimation: React.FC = () => {
 
   // Update active nodes based on pulse
   useEffect(() => {
-    const layerNodes = nodes.filter(n => n.layer === pulseIndex).map(n => n.id);
+    const layerNodes = nodes
+      .filter((n) => n.layer === pulseIndex)
+      .map((n) => n.id);
     setActiveNodes(layerNodes);
   }, [pulseIndex]);
 
@@ -105,11 +109,11 @@ export const LearningAnimation: React.FC = () => {
   return (
     <div className="w-full">
       {/* Main visualization */}
-      <div className="relative w-full h-[450px] bg-black rounded-2xl border border-[#37AFE1]/30 overflow-hidden">
+      <div className="relative h-[450px] w-full overflow-hidden rounded-2xl border border-[#37AFE1]/30 bg-black">
         {/* Animated background grid */}
         <div className="absolute inset-0 opacity-10">
-          <div 
-            className="w-full h-full"
+          <div
+            className="h-full w-full"
             style={{
               backgroundImage: `
                 linear-gradient(rgba(55, 175, 225, 0.3) 1px, transparent 1px),
@@ -121,15 +125,16 @@ export const LearningAnimation: React.FC = () => {
         </div>
 
         {/* SVG for connections and nodes */}
-        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 880 450">
+        <svg className="absolute inset-0 h-full w-full" viewBox="0 0 880 450">
           {/* Connections */}
           {connections.map((conn, idx) => {
-            const fromNode = nodes.find(n => n.id === conn.from);
-            const toNode = nodes.find(n => n.id === conn.to);
+            const fromNode = nodes.find((n) => n.id === conn.from);
+            const toNode = nodes.find((n) => n.id === conn.to);
             if (!fromNode || !toNode) return null;
 
-            const isActive = isNodeActive(fromNode.id) || isNodeActive(toNode.id);
-            
+            const isActive =
+              isNodeActive(fromNode.id) || isNodeActive(toNode.id);
+
             return (
               <motion.line
                 key={idx}
@@ -141,7 +146,7 @@ export const LearningAnimation: React.FC = () => {
                 strokeWidth={isActive ? 2 : 0.5}
                 strokeOpacity={isActive ? 0.8 : 0.15}
                 initial={{ pathLength: 0 }}
-                animate={{ 
+                animate={{
                   pathLength: 1,
                   strokeOpacity: isActive ? 0.8 : 0.15,
                 }}
@@ -152,8 +157,8 @@ export const LearningAnimation: React.FC = () => {
 
           {/* Data flow particles */}
           {connections.slice(0, 30).map((conn, idx) => {
-            const fromNode = nodes.find(n => n.id === conn.from);
-            const toNode = nodes.find(n => n.id === conn.to);
+            const fromNode = nodes.find((n) => n.id === conn.from);
+            const toNode = nodes.find((n) => n.id === conn.to);
             if (!fromNode || !toNode) return null;
             if (fromNode.layer !== pulseIndex) return null;
 
@@ -164,10 +169,10 @@ export const LearningAnimation: React.FC = () => {
                 fill="#F58122"
                 initial={{ cx: fromNode.x, cy: fromNode.y, opacity: 1 }}
                 animate={{ cx: toNode.x, cy: toNode.y, opacity: 0 }}
-                transition={{ 
-                  duration: 0.5, 
+                transition={{
+                  duration: 0.5,
                   delay: idx * 0.02,
-                  ease: 'easeOut'
+                  ease: 'easeOut',
                 }}
               />
             );
@@ -177,7 +182,7 @@ export const LearningAnimation: React.FC = () => {
           {nodes.map((node) => {
             const isActive = isNodeActive(node.id);
             const color = getNodeColor(node);
-            
+
             return (
               <g key={node.id}>
                 {/* Glow effect */}
@@ -229,9 +234,16 @@ export const LearningAnimation: React.FC = () => {
                 scale: pulseIndex === idx ? 1.1 : 1,
               }}
             >
-              <div 
+              <div
                 className="text-sm font-semibold"
-                style={{ color: idx === 0 ? '#F58122' : idx === layers.length - 1 ? '#31A4DB' : '#37AFE1' }}
+                style={{
+                  color:
+                    idx === 0
+                      ? '#F58122'
+                      : idx === layers.length - 1
+                        ? '#31A4DB'
+                        : '#37AFE1',
+                }}
               >
                 {layer.label}
               </div>
@@ -241,25 +253,30 @@ export const LearningAnimation: React.FC = () => {
         </div>
 
         {/* Stage indicator */}
-        <div className="absolute top-4 left-4">
+        <div className="absolute left-4 top-4">
           <AnimatePresence mode="wait">
             <motion.div
               key={stage}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
-              className="bg-black/80 backdrop-blur-sm rounded-lg px-4 py-2 border border-[#37AFE1]/30"
+              className="rounded-lg border border-[#37AFE1]/30 bg-black/80 px-4 py-2 backdrop-blur-sm"
             >
               <div className="flex items-center gap-2">
                 <motion.div
-                  className="w-2 h-2 rounded-full"
-                  style={{ 
-                    backgroundColor: stage === 'input' ? '#F58122' : stage === 'processing' ? '#37AFE1' : '#31A4DB' 
+                  className="h-2 w-2 rounded-full"
+                  style={{
+                    backgroundColor:
+                      stage === 'input'
+                        ? '#F58122'
+                        : stage === 'processing'
+                          ? '#37AFE1'
+                          : '#31A4DB',
                   }}
                   animate={{ scale: [1, 1.5, 1] }}
                   transition={{ duration: 1, repeat: Infinity }}
                 />
-                <span className="text-white text-sm font-medium">
+                <span className="text-sm font-medium text-white">
                   {stage === 'input' && 'Receiving Input...'}
                   {stage === 'processing' && 'Processing Data...'}
                   {stage === 'output' && 'Generating Response...'}
@@ -271,67 +288,106 @@ export const LearningAnimation: React.FC = () => {
       </div>
 
       {/* Process steps */}
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
         <motion.div
-          className={`p-6 rounded-xl border transition-all ${
+          className={`rounded-xl border p-6 transition-all ${
             stage === 'input'
-              ? 'bg-[#F58122]/10 border-[#F58122] shadow-lg shadow-[#F58122]/20'
-              : 'bg-black border-[#37AFE1]/20'
+              ? 'border-[#F58122] bg-[#F58122]/10 shadow-lg shadow-[#F58122]/20'
+              : 'border-[#37AFE1]/20 bg-black'
           }`}
           animate={{ scale: stage === 'input' ? 1.02 : 1 }}
         >
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-lg bg-[#F58122]/20 flex items-center justify-center">
-              <svg className="w-5 h-5 text-[#F58122]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          <div className="mb-3 flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#F58122]/20">
+              <svg
+                className="h-5 w-5 text-[#F58122]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                />
               </svg>
             </div>
-            <div className="text-[#F58122] font-semibold text-lg">Input Layer</div>
+            <div className="text-lg font-semibold text-[#F58122]">
+              Input Layer
+            </div>
           </div>
-          <p className="text-[#64748B] text-sm">
-            User messages are tokenized and converted into numerical vectors for processing.
+          <p className="text-sm text-[#64748B]">
+            User messages are tokenized and converted into numerical vectors for
+            processing.
           </p>
         </motion.div>
 
         <motion.div
-          className={`p-6 rounded-xl border transition-all ${
+          className={`rounded-xl border p-6 transition-all ${
             stage === 'processing'
-              ? 'bg-[#37AFE1]/10 border-[#37AFE1] shadow-lg shadow-[#37AFE1]/20'
-              : 'bg-black border-[#37AFE1]/20'
+              ? 'border-[#37AFE1] bg-[#37AFE1]/10 shadow-lg shadow-[#37AFE1]/20'
+              : 'border-[#37AFE1]/20 bg-black'
           }`}
           animate={{ scale: stage === 'processing' ? 1.02 : 1 }}
         >
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-lg bg-[#37AFE1]/20 flex items-center justify-center">
-              <svg className="w-5 h-5 text-[#37AFE1]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+          <div className="mb-3 flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#37AFE1]/20">
+              <svg
+                className="h-5 w-5 text-[#37AFE1]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                />
               </svg>
             </div>
-            <div className="text-[#37AFE1] font-semibold text-lg">Hidden Layers</div>
+            <div className="text-lg font-semibold text-[#37AFE1]">
+              Hidden Layers
+            </div>
           </div>
-          <p className="text-[#64748B] text-sm">
-            Multiple neural layers analyze context, intent, and generate intelligent understanding.
+          <p className="text-sm text-[#64748B]">
+            Multiple neural layers analyze context, intent, and generate
+            intelligent understanding.
           </p>
         </motion.div>
 
         <motion.div
-          className={`p-6 rounded-xl border transition-all ${
+          className={`rounded-xl border p-6 transition-all ${
             stage === 'output'
-              ? 'bg-[#31A4DB]/10 border-[#31A4DB] shadow-lg shadow-[#31A4DB]/20'
-              : 'bg-black border-[#37AFE1]/20'
+              ? 'border-[#31A4DB] bg-[#31A4DB]/10 shadow-lg shadow-[#31A4DB]/20'
+              : 'border-[#37AFE1]/20 bg-black'
           }`}
           animate={{ scale: stage === 'output' ? 1.02 : 1 }}
         >
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-lg bg-[#31A4DB]/20 flex items-center justify-center">
-              <svg className="w-5 h-5 text-[#31A4DB]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <div className="mb-3 flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#31A4DB]/20">
+              <svg
+                className="h-5 w-5 text-[#31A4DB]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </div>
-            <div className="text-[#31A4DB] font-semibold text-lg">Output Layer</div>
+            <div className="text-lg font-semibold text-[#31A4DB]">
+              Output Layer
+            </div>
           </div>
-          <p className="text-[#64748B] text-sm">
-            Final layer produces natural language responses tailored to user queries.
+          <p className="text-sm text-[#64748B]">
+            Final layer produces natural language responses tailored to user
+            queries.
           </p>
         </motion.div>
       </div>

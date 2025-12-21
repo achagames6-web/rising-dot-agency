@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(result[0], { status: 201 });
   } catch (error: any) {
     console.error('Failed to create animation preset:', error);
-    
+
     // Handle unique constraint violation
     if (error.code === '23505') {
       return NextResponse.json(

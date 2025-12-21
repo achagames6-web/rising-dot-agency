@@ -8,9 +8,11 @@ export async function GET() {
   try {
     const client = await clientPromise;
     const db = client.db(DB_NAME);
-    
-    const settings = await db.collection('settings').findOne({ type: 'social' });
-    
+
+    const settings = await db
+      .collection('settings')
+      .findOne({ type: 'social' });
+
     // Return default values if not found
     const defaultLinks = {
       facebook: 'https://facebook.com/risingdot',
@@ -20,11 +22,14 @@ export async function GET() {
       youtube: '',
       github: 'https://github.com/risingdot',
     };
-    
+
     return NextResponse.json(settings?.data || defaultLinks);
   } catch (error) {
     console.error('Error fetching social links:', error);
-    return NextResponse.json({ error: 'Failed to fetch social links' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch social links' },
+      { status: 500 }
+    );
   }
 }
 
@@ -34,22 +39,25 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const client = await clientPromise;
     const db = client.db(DB_NAME);
-    
+
     await db.collection('settings').updateOne(
       { type: 'social' },
-      { 
-        $set: { 
+      {
+        $set: {
           type: 'social',
           data: body,
-          updatedAt: new Date()
-        }
+          updatedAt: new Date(),
+        },
       },
       { upsert: true }
     );
-    
+
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error saving social links:', error);
-    return NextResponse.json({ error: 'Failed to save social links' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to save social links' },
+      { status: 500 }
+    );
   }
 }

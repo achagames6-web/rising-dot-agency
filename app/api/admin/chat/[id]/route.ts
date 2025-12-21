@@ -54,19 +54,18 @@ export async function PATCH(
     const { status } = await request.json();
 
     if (!['ai', 'waiting', 'human', 'resolved'].includes(status)) {
-      return NextResponse.json(
-        { error: 'Invalid status' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid status' }, { status: 400 });
     }
 
     const client = await clientPromise;
     const db = client.db(DB_NAME);
 
-    await db.collection('conversations').updateOne(
-      { _id: new ObjectId(id) },
-      { $set: { status, updatedAt: new Date() } }
-    );
+    await db
+      .collection('conversations')
+      .updateOne(
+        { _id: new ObjectId(id) },
+        { $set: { status, updatedAt: new Date() } }
+      );
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -1,6 +1,6 @@
 /**
  * N8N Service Page Component Tests
- * 
+ *
  * Tests for WorkflowBuilder, BeforeAfterSlider, and PerformanceMetrics components
  * Requirements: 9.1-9.8
  */

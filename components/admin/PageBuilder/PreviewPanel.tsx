@@ -23,14 +23,14 @@ export default function PreviewPanel({ components }: PreviewPanelProps) {
   const dimensions = DEVICE_DIMENSIONS[deviceView];
 
   return (
-    <div className="w-96 bg-[#1E293B] border-l border-slate-700 flex flex-col">
+    <div className="flex w-96 flex-col border-l border-slate-700 bg-[#1E293B]">
       {/* Header */}
-      <div className="p-4 border-b border-slate-700">
-        <div className="flex items-center justify-between mb-4">
+      <div className="border-b border-slate-700 p-4">
+        <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-white">Preview</h2>
           <button
             onClick={() => setIsPreviewMode(!isPreviewMode)}
-            className={`px-3 py-1 rounded text-sm transition-colors ${
+            className={`rounded px-3 py-1 text-sm transition-colors ${
               isPreviewMode
                 ? 'bg-[#2563EB] text-white'
                 : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
@@ -46,7 +46,7 @@ export default function PreviewPanel({ components }: PreviewPanelProps) {
             <button
               key={device}
               onClick={() => setDeviceView(device)}
-              className={`flex-1 px-3 py-2 rounded text-sm capitalize transition-colors ${
+              className={`flex-1 rounded px-3 py-2 text-sm capitalize transition-colors ${
                 deviceView === device
                   ? 'bg-[#2563EB] text-white'
                   : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
@@ -60,13 +60,15 @@ export default function PreviewPanel({ components }: PreviewPanelProps) {
           ))}
         </div>
 
-        <div className="text-xs text-slate-400 mt-2 text-center">{dimensions.label}</div>
+        <div className="mt-2 text-center text-xs text-slate-400">
+          {dimensions.label}
+        </div>
       </div>
 
       {/* Preview Area */}
-      <div className="flex-1 p-4 overflow-auto bg-slate-800">
+      <div className="flex-1 overflow-auto bg-slate-800 p-4">
         <motion.div
-          className="mx-auto bg-white rounded-lg shadow-xl overflow-hidden"
+          className="mx-auto overflow-hidden rounded-lg bg-white shadow-xl"
           style={{
             width: dimensions.width,
             minHeight: dimensions.height,
@@ -80,16 +82,21 @@ export default function PreviewPanel({ components }: PreviewPanelProps) {
           {/* Preview Content */}
           <div className="p-4">
             {components.length === 0 ? (
-              <div className="text-center text-slate-400 py-20">
-                <p className="text-lg mb-2">No components yet</p>
-                <p className="text-sm">Drag components from the palette to get started</p>
+              <div className="py-20 text-center text-slate-400">
+                <p className="mb-2 text-lg">No components yet</p>
+                <p className="text-sm">
+                  Drag components from the palette to get started
+                </p>
               </div>
             ) : (
               <div className="space-y-4">
                 {components
                   .sort((a, b) => a.gridRow - b.gridRow)
                   .map((component) => (
-                    <PreviewComponent key={component.id} component={component} />
+                    <PreviewComponent
+                      key={component.id}
+                      component={component}
+                    />
                   ))}
               </div>
             )}
@@ -98,10 +105,11 @@ export default function PreviewPanel({ components }: PreviewPanelProps) {
       </div>
 
       {/* Info Panel */}
-      <div className="p-4 border-t border-slate-700">
+      <div className="border-t border-slate-700 p-4">
         <div className="text-xs text-slate-400">
           <div className="mb-2">
-            <span className="font-semibold">Components:</span> {components.length}
+            <span className="font-semibold">Components:</span>{' '}
+            {components.length}
           </div>
           <div className="text-[10px] text-slate-500">
             Real-time preview updates as you build
@@ -121,16 +129,20 @@ function PreviewComponent({ component }: PreviewComponentProps) {
 
   // Simplified preview rendering
   return (
-    <div className="border border-slate-200 rounded-lg p-4 bg-slate-50">
-      <div className="flex items-center gap-2 mb-2">
+    <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+      <div className="mb-2 flex items-center gap-2">
         <span className="text-xl">{componentDef.icon}</span>
-        <span className="font-semibold text-slate-800">{componentDef.name}</span>
+        <span className="font-semibold text-slate-800">
+          {componentDef.name}
+        </span>
       </div>
 
       {/* Render based on component type */}
       {componentDef.type === 'hero' && (
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-8 rounded">
-          <h1 className="text-3xl font-bold mb-2">{props.title || 'Hero Title'}</h1>
+        <div className="rounded bg-gradient-to-r from-blue-600 to-purple-600 p-8 text-white">
+          <h1 className="mb-2 text-3xl font-bold">
+            {props.title || 'Hero Title'}
+          </h1>
           <p className="text-lg">{props.subtitle || 'Hero Subtitle'}</p>
         </div>
       )}
@@ -142,7 +154,7 @@ function PreviewComponent({ component }: PreviewComponentProps) {
       )}
 
       {componentDef.type === 'image' && (
-        <div className="bg-slate-200 h-48 rounded flex items-center justify-center">
+        <div className="flex h-48 items-center justify-center rounded bg-slate-200">
           {props.src ? (
             <img src={props.src} alt={props.alt} className="max-h-full" />
           ) : (
@@ -152,9 +164,11 @@ function PreviewComponent({ component }: PreviewComponentProps) {
       )}
 
       {componentDef.type === 'cta' && (
-        <div className="bg-blue-600 text-white p-6 rounded text-center">
-          <h2 className="text-2xl font-bold mb-4">{props.title || 'Call to Action'}</h2>
-          <button className="bg-white text-blue-600 px-6 py-2 rounded font-semibold">
+        <div className="rounded bg-blue-600 p-6 text-center text-white">
+          <h2 className="mb-4 text-2xl font-bold">
+            {props.title || 'Call to Action'}
+          </h2>
+          <button className="rounded bg-white px-6 py-2 font-semibold text-blue-600">
             {props.buttonText || 'Click Here'}
           </button>
         </div>

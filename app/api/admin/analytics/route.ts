@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   try {
     const db = await getDatabase();
     const now = new Date();
-    
+
     // Calculate date range
     let startDate: Date;
     switch (range) {
@@ -24,39 +24,51 @@ export async function GET(request: Request) {
     }
 
     // Get page views in range
-    const pageViews = await db.collection(COLLECTIONS.ANALYTICS_PAGEVIEWS)
+    const pageViews = await db
+      .collection(COLLECTIONS.ANALYTICS_PAGEVIEWS)
       .find({ timestamp: { $gte: startDate } })
       .toArray();
 
     // Get sessions in range
-    const sessions = await db.collection(COLLECTIONS.ANALYTICS_SESSIONS)
+    const sessions = await db
+      .collection(COLLECTIONS.ANALYTICS_SESSIONS)
       .find({ createdAt: { $gte: startDate } })
       .toArray();
 
     // Get active sessions (last 5 minutes)
     const fiveMinutesAgo = new Date(now.getTime() - 5 * 60 * 1000);
-    const activeSessions = await db.collection(COLLECTIONS.ANALYTICS_SESSIONS)
+    const activeSessions = await db
+      .collection(COLLECTIONS.ANALYTICS_SESSIONS)
       .countDocuments({ lastActivity: { $gte: fiveMinutesAgo } });
 
     // Calculate metrics
     const totalVisits = pageViews.length;
-    const uniqueVisitors = new Set(sessions.map(s => s.sessionId)).size;
-    
+    const uniqueVisitors = new Set(sessions.map((s) => s.sessionId)).size;
+
     // Average session duration
-    const sessionsWithDuration = sessions.filter(s => s.duration > 0);
-    const avgSessionDuration = sessionsWithDuration.length > 0
-      ? Math.round(sessionsWithDuration.reduce((sum, s) => sum + (s.duration || 0), 0) / sessionsWithDuration.length)
-      : 0;
+    const sessionsWithDuration = sessions.filter((s) => s.duration > 0);
+    const avgSessionDuration =
+      sessionsWithDuration.length > 0
+        ? Math.round(
+            sessionsWithDuration.reduce(
+              (sum, s) => sum + (s.duration || 0),
+              0
+            ) / sessionsWithDuration.length
+          )
+        : 0;
 
     // Bounce rate (sessions with only 1 page viewed)
-    const bouncedSessions = sessions.filter(s => (s.pagesViewed?.length || 0) <= 1).length;
-    const bounceRate = sessions.length > 0 
-      ? Math.round((bouncedSessions / sessions.length) * 100 * 10) / 10
-      : 0;
+    const bouncedSessions = sessions.filter(
+      (s) => (s.pagesViewed?.length || 0) <= 1
+    ).length;
+    const bounceRate =
+      sessions.length > 0
+        ? Math.round((bouncedSessions / sessions.length) * 100 * 10) / 10
+        : 0;
 
     // Device breakdown
     const deviceCounts = { desktop: 0, tablet: 0, mobile: 0 };
-    sessions.forEach(s => {
+    sessions.forEach((s) => {
       if (s.deviceType && deviceCounts.hasOwnProperty(s.deviceType)) {
         deviceCounts[s.deviceType as keyof typeof deviceCounts]++;
       }
@@ -69,12 +81,12 @@ export async function GET(request: Request) {
     };
 
     // Scroll depth analysis
-    const scrollDepths = pageViews.map(pv => pv.scrollDepth || 0);
+    const scrollDepths = pageViews.map((pv) => pv.scrollDepth || 0);
     const scrollDepth = {
-      '0-25%': scrollDepths.filter(d => d <= 25).length,
-      '25-50%': scrollDepths.filter(d => d > 25 && d <= 50).length,
-      '50-75%': scrollDepths.filter(d => d > 50 && d <= 75).length,
-      '75-100%': scrollDepths.filter(d => d > 75).length,
+      '0-25%': scrollDepths.filter((d) => d <= 25).length,
+      '25-50%': scrollDepths.filter((d) => d > 25 && d <= 50).length,
+      '50-75%': scrollDepths.filter((d) => d > 50 && d <= 75).length,
+      '75-100%': scrollDepths.filter((d) => d > 75).length,
     };
     const totalScrolls = scrollDepths.length || 1;
     const scrollDepthPercent = {
@@ -86,7 +98,7 @@ export async function GET(request: Request) {
 
     // Page views by page (for top pages)
     const pageViewCounts: Record<string, number> = {};
-    pageViews.forEach(pv => {
+    pageViews.forEach((pv) => {
       const page = pv.page || '/';
       pageViewCounts[page] = (pageViewCounts[page] || 0) + 1;
     });
@@ -96,17 +108,28 @@ export async function GET(request: Request) {
       .map(([page, views]) => ({ page, views }));
 
     // Conversion funnel (simplified)
-    const homeVisits = pageViews.filter(pv => pv.page === '/' || pv.page === '/home').length;
-    const servicesVisits = pageViews.filter(pv => pv.page?.includes('/services')).length;
-    const contactVisits = pageViews.filter(pv => pv.page === '/contact').length;
-    
+    const homeVisits = pageViews.filter(
+      (pv) => pv.page === '/' || pv.page === '/home'
+    ).length;
+    const servicesVisits = pageViews.filter((pv) =>
+      pv.page?.includes('/services')
+    ).length;
+    const contactVisits = pageViews.filter(
+      (pv) => pv.page === '/contact'
+    ).length;
+
     // Get form submissions from contacts collection
-    const formSubmissions = await db.collection(COLLECTIONS.CONTACTS)
+    const formSubmissions = await db
+      .collection(COLLECTIONS.CONTACTS)
       .countDocuments({ createdAt: { $gte: startDate } });
 
     const conversionFunnel = [
       { stage: 'Page Visit', users: totalVisits, dropoffRate: 0 },
-      { stage: 'Engaged (30s+)', users: sessionsWithDuration.filter(s => s.duration >= 30).length, dropoffRate: 0 },
+      {
+        stage: 'Engaged (30s+)',
+        users: sessionsWithDuration.filter((s) => s.duration >= 30).length,
+        dropoffRate: 0,
+      },
       { stage: 'Viewed Services', users: servicesVisits, dropoffRate: 0 },
       { stage: 'Contact Page', users: contactVisits, dropoffRate: 0 },
       { stage: 'Form Submitted', users: formSubmissions, dropoffRate: 0 },
@@ -116,23 +139,30 @@ export async function GET(request: Request) {
     for (let i = 1; i < conversionFunnel.length; i++) {
       const prev = conversionFunnel[i - 1].users || 1;
       const curr = conversionFunnel[i].users;
-      conversionFunnel[i].dropoffRate = Math.round(((prev - curr) / prev) * 100 * 10) / 10;
+      conversionFunnel[i].dropoffRate =
+        Math.round(((prev - curr) / prev) * 100 * 10) / 10;
     }
 
     // Conversion rate
-    const conversionRate = totalVisits > 0 
-      ? Math.round((formSubmissions / totalVisits) * 100 * 10) / 10
-      : 0;
+    const conversionRate =
+      totalVisits > 0
+        ? Math.round((formSubmissions / totalVisits) * 100 * 10) / 10
+        : 0;
 
     // Get events for animation engagement
-    const events = await db.collection(COLLECTIONS.ANALYTICS_EVENTS)
+    const events = await db
+      .collection(COLLECTIONS.ANALYTICS_EVENTS)
       .find({ timestamp: { $gte: startDate } })
       .toArray();
 
     const animationEngagement = {
-      heroInteractions: events.filter(e => e.event === 'hero_interaction').length,
-      particleInteractions: events.filter(e => e.event === 'particle_interaction').length,
-      magneticCursorUsage: events.filter(e => e.event === 'magnetic_cursor').length,
+      heroInteractions: events.filter((e) => e.event === 'hero_interaction')
+        .length,
+      particleInteractions: events.filter(
+        (e) => e.event === 'particle_interaction'
+      ).length,
+      magneticCursorUsage: events.filter((e) => e.event === 'magnetic_cursor')
+        .length,
       avgEngagementTime: avgSessionDuration,
     };
 
@@ -157,8 +187,9 @@ export async function GET(request: Request) {
       },
       realTimeMetrics: {
         activeUsers: activeSessions,
-        pageViews: pageViews.filter(pv => 
-          new Date(pv.timestamp).getTime() > now.getTime() - 60 * 60 * 1000
+        pageViews: pageViews.filter(
+          (pv) =>
+            new Date(pv.timestamp).getTime() > now.getTime() - 60 * 60 * 1000
         ).length, // Last hour
         avgLoadTime: 850, // Would need real performance tracking
       },
@@ -177,7 +208,7 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error('Analytics fetch error:', error);
-    
+
     // Return empty data structure on error
     return NextResponse.json({
       overview: {

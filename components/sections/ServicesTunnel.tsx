@@ -6,21 +6,69 @@ import * as THREE from 'three';
 
 // Services data
 const services = [
-  { id: 1, title: 'N8N Automation', description: 'Workflow automation that scales your business operations', icon: '⚡', color: '#2563EB' },
-  { id: 2, title: 'Shopify Development', description: 'E-commerce solutions that convert visitors to customers', icon: '🛒', color: '#31A4DB' },
-  { id: 3, title: 'WordPress Sites', description: 'Custom CMS experiences built for performance', icon: '📝', color: '#F97316' },
-  { id: 4, title: 'SEO Optimization', description: 'Rank higher and grow your organic traffic', icon: '📈', color: '#F59E0B' },
-  { id: 5, title: 'Web Design', description: 'Stunning visual experiences that captivate', icon: '🎨', color: '#37AFE1' },
-  { id: 6, title: 'AI Chatbots', description: 'Intelligent conversations that engage users', icon: '🤖', color: '#F58122' },
-  { id: 7, title: 'SaaS Development', description: 'Scalable cloud solutions for modern businesses', icon: '☁️', color: '#EC4899' },
-  { id: 8, title: 'E-commerce', description: 'Online stores that drive sales and growth', icon: '💳', color: '#06B6D4' },
+  {
+    id: 1,
+    title: 'N8N Automation',
+    description: 'Workflow automation that scales your business operations',
+    icon: '⚡',
+    color: '#2563EB',
+  },
+  {
+    id: 2,
+    title: 'Shopify Development',
+    description: 'E-commerce solutions that convert visitors to customers',
+    icon: '🛒',
+    color: '#31A4DB',
+  },
+  {
+    id: 3,
+    title: 'WordPress Sites',
+    description: 'Custom CMS experiences built for performance',
+    icon: '📝',
+    color: '#F97316',
+  },
+  {
+    id: 4,
+    title: 'SEO Optimization',
+    description: 'Rank higher and grow your organic traffic',
+    icon: '📈',
+    color: '#F59E0B',
+  },
+  {
+    id: 5,
+    title: 'Web Design',
+    description: 'Stunning visual experiences that captivate',
+    icon: '🎨',
+    color: '#37AFE1',
+  },
+  {
+    id: 6,
+    title: 'AI Chatbots',
+    description: 'Intelligent conversations that engage users',
+    icon: '🤖',
+    color: '#F58122',
+  },
+  {
+    id: 7,
+    title: 'SaaS Development',
+    description: 'Scalable cloud solutions for modern businesses',
+    icon: '☁️',
+    color: '#EC4899',
+  },
+  {
+    id: 8,
+    title: 'E-commerce',
+    description: 'Online stores that drive sales and growth',
+    icon: '💳',
+    color: '#06B6D4',
+  },
 ];
 
 // Warp particles
 function WarpParticles({ speed }: { speed: number }) {
   const pointsRef = useRef<THREE.Points>(null);
   const count = 400;
-  
+
   const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
@@ -35,7 +83,8 @@ function WarpParticles({ speed }: { speed: number }) {
 
   useFrame((_, delta) => {
     if (pointsRef.current) {
-      const posArray = pointsRef.current.geometry.attributes.position.array as Float32Array;
+      const posArray = pointsRef.current.geometry.attributes.position
+        .array as Float32Array;
       for (let i = 0; i < count; i++) {
         posArray[i * 3 + 2] += (40 + speed * 20) * delta;
         if (posArray[i * 3 + 2] > 5) {
@@ -49,9 +98,21 @@ function WarpParticles({ speed }: { speed: number }) {
   return (
     <points ref={pointsRef}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
+        <bufferAttribute
+          attach="attributes-position"
+          count={count}
+          array={positions}
+          itemSize={3}
+        />
       </bufferGeometry>
-      <pointsMaterial size={0.12} color="#37AFE1" transparent opacity={0.6} sizeAttenuation blending={THREE.AdditiveBlending} />
+      <pointsMaterial
+        size={0.12}
+        color="#37AFE1"
+        transparent
+        opacity={0.6}
+        sizeAttenuation
+        blending={THREE.AdditiveBlending}
+      />
     </points>
   );
 }
@@ -60,7 +121,8 @@ function WarpParticles({ speed }: { speed: number }) {
 function TunnelRings() {
   const groupRef = useRef<THREE.Group>(null);
   useFrame((state) => {
-    if (groupRef.current) groupRef.current.rotation.z = state.clock.elapsedTime * 0.04;
+    if (groupRef.current)
+      groupRef.current.rotation.z = state.clock.elapsedTime * 0.04;
   });
 
   return (
@@ -68,7 +130,12 @@ function TunnelRings() {
       {[...Array(10)].map((_, i) => (
         <mesh key={i} position={[0, 0, -i * 8]}>
           <torusGeometry args={[10, 0.015, 4, 64]} />
-          <meshBasicMaterial color="#2563EB" transparent opacity={0.12} blending={THREE.AdditiveBlending} />
+          <meshBasicMaterial
+            color="#2563EB"
+            transparent
+            opacity={0.12}
+            blending={THREE.AdditiveBlending}
+          />
         </mesh>
       ))}
     </group>
@@ -85,14 +152,14 @@ function BackgroundScene({ speed }: { speed: number }) {
 }
 
 // Service Card - FIXED sizing and visibility
-function ServiceCard({ 
-  service, 
+function ServiceCard({
+  service,
   isActive,
   position, // -1 = previous, 0 = current, 1 = next, etc.
   index,
-  total
-}: { 
-  service: typeof services[0]; 
+  total,
+}: {
+  service: (typeof services)[0];
   isActive: boolean;
   position: number;
   index: number;
@@ -101,16 +168,16 @@ function ServiceCard({
   // Cards in view: current (0), next few positive, previous few negative
   const absPos = Math.abs(position);
   if (absPos > 3) return null; // Only show nearby cards
-  
+
   // Scale: current = 1, others smaller based on distance
   const scale = isActive ? 1 : Math.max(0.6, 1 - absPos * 0.15);
-  
+
   // Opacity: current = 1, fade others
   const opacity = isActive ? 1 : Math.max(0.3, 1 - absPos * 0.25);
-  
+
   // Y offset: stack cards vertically with current in center
   const yOffset = position * 120;
-  
+
   // Z-index: current on top
   const zIndex = 100 - absPos;
 
@@ -125,33 +192,34 @@ function ServiceCard({
         pointerEvents: isActive ? 'auto' : 'none',
       }}
     >
-      <div 
-        className="relative p-10 rounded-2xl overflow-hidden"
+      <div
+        className="relative overflow-hidden rounded-2xl p-10"
         style={{
-          background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%)',
+          background:
+            'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%)',
           border: `1px solid ${isActive ? service.color + '60' : 'rgba(139, 92, 246, 0.25)'}`,
-          boxShadow: isActive 
+          boxShadow: isActive
             ? `0 0 80px ${service.color}30, 0 25px 50px -12px rgba(0, 0, 0, 0.5)`
             : '0 10px 30px -10px rgba(0, 0, 0, 0.3)',
         }}
       >
         {/* Scanlines */}
-        <div 
-          className="absolute inset-0 pointer-events-none opacity-15"
+        <div
+          className="pointer-events-none absolute inset-0 opacity-15"
           style={{
             background: `repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139, 92, 246, 0.1) 2px, rgba(139, 92, 246, 0.1) 4px)`,
           }}
         />
-        
+
         {/* Glow */}
-        <div 
-          className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl"
+        <div
+          className="absolute -right-20 -top-20 h-40 w-40 rounded-full blur-3xl"
           style={{ background: service.color, opacity: isActive ? 0.3 : 0.15 }}
         />
-        
+
         {/* Icon */}
-        <div 
-          className="rounded-xl flex items-center justify-center text-4xl mb-6"
+        <div
+          className="mb-6 flex items-center justify-center rounded-xl text-4xl"
           style={{
             width: '72px',
             height: '72px',
@@ -162,10 +230,10 @@ function ServiceCard({
         >
           {service.icon}
         </div>
-        
+
         {/* Title */}
-        <h3 
-          className="text-3xl font-bold mb-4"
+        <h3
+          className="mb-4 text-3xl font-bold"
           style={{
             background: `linear-gradient(135deg, #ffffff 0%, ${service.color} 100%)`,
             WebkitBackgroundClip: 'text',
@@ -174,15 +242,15 @@ function ServiceCard({
         >
           {service.title}
         </h3>
-        
+
         {/* Description */}
-        <p className="text-[#94A3B8] text-lg leading-relaxed mb-8">
+        <p className="mb-8 text-lg leading-relaxed text-[#94A3B8]">
           {service.description}
         </p>
-        
+
         {/* Button */}
         <button
-          className="flex items-center gap-3 px-6 py-3 rounded-lg font-medium text-base transition-all hover:scale-105"
+          className="flex items-center gap-3 rounded-lg px-6 py-3 text-base font-medium transition-all hover:scale-105"
           style={{
             background: `linear-gradient(135deg, ${service.color}25 0%, ${service.color}40 100%)`,
             border: `1px solid ${service.color}50`,
@@ -192,16 +260,18 @@ function ServiceCard({
           Learn More
           <span className="text-lg">→</span>
         </button>
-        
+
         {/* Card number */}
-        <div className="absolute top-4 right-4 text-xs font-mono opacity-50" style={{ color: service.color }}>
+        <div
+          className="absolute right-4 top-4 font-mono text-xs opacity-50"
+          style={{ color: service.color }}
+        >
           0{index + 1}/0{total}
         </div>
       </div>
     </div>
   );
 }
-
 
 // Main component
 export default function ServicesTunnel() {
@@ -224,10 +294,11 @@ export default function ServicesTunnel() {
     const handleWheel = (e: WheelEvent) => {
       const rect = container.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
-      
+
       // Check if section is visible
-      const isInView = rect.top < viewportHeight * 0.4 && rect.bottom > viewportHeight * 0.6;
-      
+      const isInView =
+        rect.top < viewportHeight * 0.4 && rect.bottom > viewportHeight * 0.6;
+
       if (!isInView) {
         setIsLocked(false);
         return;
@@ -242,23 +313,23 @@ export default function ServicesTunnel() {
       if (!isLocked) return;
 
       e.preventDefault();
-      
+
       // Accumulate scroll
       const now = Date.now();
       if (now - lastScrollTime.current > 300) {
         scrollAccumulator.current = 0;
       }
       lastScrollTime.current = now;
-      
+
       scrollAccumulator.current += e.deltaY;
-      
+
       // Change card when accumulated enough scroll
       const threshold = 80;
-      
+
       if (scrollAccumulator.current > threshold) {
         // Next card
         if (currentIndex < services.length - 1) {
-          setCurrentIndex(prev => prev + 1);
+          setCurrentIndex((prev) => prev + 1);
         } else {
           // At last card, release scroll
           setIsLocked(false);
@@ -267,7 +338,7 @@ export default function ServicesTunnel() {
       } else if (scrollAccumulator.current < -threshold) {
         // Previous card
         if (currentIndex > 0) {
-          setCurrentIndex(prev => prev - 1);
+          setCurrentIndex((prev) => prev - 1);
         } else {
           // At first card, release scroll
           setIsLocked(false);
@@ -283,41 +354,45 @@ export default function ServicesTunnel() {
   // Keyboard navigation
   useEffect(() => {
     if (!isLocked) return;
-    
+
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-        if (currentIndex < services.length - 1) setCurrentIndex(prev => prev + 1);
+        if (currentIndex < services.length - 1)
+          setCurrentIndex((prev) => prev + 1);
       } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-        if (currentIndex > 0) setCurrentIndex(prev => prev - 1);
+        if (currentIndex > 0) setCurrentIndex((prev) => prev - 1);
       } else if (e.key === 'Escape') {
         setIsLocked(false);
       }
     };
-    
+
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, [isLocked, currentIndex]);
 
   return (
-    <section 
+    <section
       ref={containerRef}
-      className="relative h-screen bg-[#0F172A] overflow-hidden"
+      className="relative h-screen overflow-hidden bg-[#0F172A]"
     >
       {/* Background */}
       <div className="absolute inset-0 bg-[#0F172A]" />
-      
+
       {/* Radial glow */}
-      <div 
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at center, rgba(139, 92, 246, 0.08) 0%, transparent 60%)' }}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(ellipse at center, rgba(139, 92, 246, 0.08) 0%, transparent 60%)',
+        }}
       />
 
       {/* Header */}
-      <div className="absolute top-12 left-0 right-0 text-center z-30 pointer-events-none">
-        <span className="text-[#37AFE1] text-sm font-semibold tracking-wider uppercase mb-2 block">
+      <div className="pointer-events-none absolute left-0 right-0 top-12 z-30 text-center">
+        <span className="mb-2 block text-sm font-semibold uppercase tracking-wider text-[#37AFE1]">
           Our Services
         </span>
-        <h2 className="text-3xl md:text-4xl font-bold text-white">
+        <h2 className="text-3xl font-bold text-white md:text-4xl">
           Explore Our Solutions
         </h2>
       </div>
@@ -326,7 +401,11 @@ export default function ServicesTunnel() {
       <div className="absolute inset-0 z-0">
         {isClient && (
           <Suspense fallback={null}>
-            <Canvas camera={{ position: [0, 0, 5], fov: 75 }} gl={{ antialias: true, alpha: true }} dpr={[1, 1.5]}>
+            <Canvas
+              camera={{ position: [0, 0, 5], fov: 75 }}
+              gl={{ antialias: true, alpha: true }}
+              dpr={[1, 1.5]}
+            >
               <BackgroundScene speed={isLocked ? 1 : 0.3} />
             </Canvas>
           </Suspense>
@@ -348,15 +427,19 @@ export default function ServicesTunnel() {
       </div>
 
       {/* Navigation dots */}
-      <div className="absolute right-6 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-2">
+      <div className="absolute right-6 top-1/2 z-20 flex -translate-y-1/2 flex-col gap-2">
         {services.map((service, index) => (
           <button
             key={index}
-            onClick={() => { setCurrentIndex(index); setIsLocked(true); }}
-            className="w-2.5 h-2.5 rounded-full transition-all duration-300"
+            onClick={() => {
+              setCurrentIndex(index);
+              setIsLocked(true);
+            }}
+            className="h-2.5 w-2.5 rounded-full transition-all duration-300"
             style={{
               background: index === currentIndex ? service.color : '#334155',
-              boxShadow: index === currentIndex ? `0 0 10px ${service.color}` : 'none',
+              boxShadow:
+                index === currentIndex ? `0 0 10px ${service.color}` : 'none',
               transform: index === currentIndex ? 'scale(1.3)' : 'scale(1)',
             }}
           />
@@ -364,27 +447,32 @@ export default function ServicesTunnel() {
       </div>
 
       {/* Progress */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3">
+      <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-3">
         <div className="flex gap-1">
           {services.map((_, i) => (
-            <div 
+            <div
               key={i}
-              className="w-8 h-1 rounded-full transition-all duration-300"
+              className="h-1 w-8 rounded-full transition-all duration-300"
               style={{
                 background: i <= currentIndex ? '#37AFE1' : '#334155',
               }}
             />
           ))}
         </div>
-        <p className="text-[#64748B] text-xs">
-          {isLocked ? `${currentIndex + 1} of ${services.length} • Scroll to navigate` : 'Scroll to explore'}
+        <p className="text-xs text-[#64748B]">
+          {isLocked
+            ? `${currentIndex + 1} of ${services.length} • Scroll to navigate`
+            : 'Scroll to explore'}
         </p>
       </div>
 
       {/* Vignette */}
-      <div 
-        className="absolute inset-0 pointer-events-none z-5"
-        style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(15, 23, 42, 0.6) 100%)' }}
+      <div
+        className="z-5 pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(ellipse at center, transparent 40%, rgba(15, 23, 42, 0.6) 100%)',
+        }}
       />
     </section>
   );

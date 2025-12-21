@@ -86,19 +86,21 @@ export default function Testimonials() {
   const lastTimeRef = useRef(Date.now());
   const springRef = useRef<EnterpriseSpringSystem | null>(null);
   const animationFrameRef = useRef<number>();
-  
+
   // Modal state
   const [showSubmitModal, setShowSubmitModal] = useState(false);
-  
+
   // Audio waveform state
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  const [waveformData, setWaveformData] = useState<number[]>(new Array(32).fill(0));
+  const [waveformData, setWaveformData] = useState<number[]>(
+    new Array(32).fill(0)
+  );
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const audioSourceRef = useRef<MediaElementAudioSourceNode | null>(null);
   const audioElementRef = useRef<HTMLAudioElement | null>(null);
-  
+
   // Particle state for navigation arrows
   const [particles, setParticles] = useState<Particle[]>([]);
   const particleIdRef = useRef(0);
@@ -119,7 +121,7 @@ export default function Testimonials() {
   // Calculate bounds
   const getScrollBounds = () => {
     if (!scrollContainerRef.current) return { min: 0, max: 0 };
-    
+
     const container = scrollContainerRef.current;
     const maxScroll = container.scrollWidth - container.clientWidth;
     return { min: 0, max: maxScroll };
@@ -141,12 +143,12 @@ export default function Testimonials() {
   // Handle mouse/touch move
   const handlePointerMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (!isDragging) return;
-    
+
     e.preventDefault();
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const deltaX = clientX - dragStart.x;
     const newScrollPosition = dragStart.scrollLeft - deltaX;
-    
+
     // Track velocity
     const currentTime = Date.now();
     const deltaTime = currentTime - lastTimeRef.current;
@@ -154,17 +156,17 @@ export default function Testimonials() {
       const deltaPosition = clientX - lastPositionRef.current;
       velocityRef.current = (deltaPosition / deltaTime) * 1000; // px/s
     }
-    
+
     lastPositionRef.current = clientX;
     lastTimeRef.current = currentTime;
-    
+
     setScrollPosition(newScrollPosition);
   };
 
   // Handle mouse/touch up
   const handlePointerUp = () => {
     setIsDragging(false);
-    
+
     // Start momentum scrolling with inertia
     if (Math.abs(velocityRef.current) > 10) {
       startMomentumScroll();
@@ -179,11 +181,11 @@ export default function Testimonials() {
     const animate = () => {
       // Apply damping (0.95 per frame)
       velocityRef.current *= 0.95;
-      
+
       // Update position
       const newPosition = scrollPosition - velocityRef.current / 60; // Assuming 60fps
       setScrollPosition(newPosition);
-      
+
       // Check bounds
       const bounds = getScrollBounds();
       if (newPosition < bounds.min || newPosition > bounds.max) {
@@ -191,13 +193,13 @@ export default function Testimonials() {
         checkBounds();
         return;
       }
-      
+
       // Continue if velocity is significant
       if (Math.abs(velocityRef.current) > 1) {
         animationFrameRef.current = requestAnimationFrame(animate);
       }
     };
-    
+
     animationFrameRef.current = requestAnimationFrame(animate);
   };
 
@@ -206,10 +208,10 @@ export default function Testimonials() {
     const bounds = getScrollBounds();
     const spring = springRef.current;
     if (!spring) return;
-    
+
     let targetPosition = scrollPosition;
     let needsBounce = false;
-    
+
     // Check if out of bounds
     if (scrollPosition < bounds.min) {
       targetPosition = bounds.min;
@@ -218,36 +220,37 @@ export default function Testimonials() {
       targetPosition = bounds.max;
       needsBounce = true;
     }
-    
+
     if (needsBounce) {
       // Allow 20% overshoot
-      const overshoot = scrollPosition < bounds.min 
-        ? bounds.min - scrollPosition 
-        : scrollPosition - bounds.max;
+      const overshoot =
+        scrollPosition < bounds.min
+          ? bounds.min - scrollPosition
+          : scrollPosition - bounds.max;
       const maxOvershoot = 100; // pixels
       const clampedOvershoot = Math.min(overshoot, maxOvershoot);
-      
+
       spring.setPosition(scrollPosition);
       spring.setTarget(targetPosition);
-      
+
       // Animate bounce back over 600ms
       const startTime = Date.now();
       const duration = 600;
-      
+
       const bounceAnimate = () => {
         const elapsed = Date.now() - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        
+
         spring.update(1 / 60);
         setScrollPosition(spring.getCurrentPosition());
-        
+
         if (progress < 1 && !spring.isSettled()) {
           animationFrameRef.current = requestAnimationFrame(bounceAnimate);
         } else {
           setScrollPosition(targetPosition);
         }
       };
-      
+
       animationFrameRef.current = requestAnimationFrame(bounceAnimate);
     }
   };
@@ -271,29 +274,29 @@ export default function Testimonials() {
   // Audio waveform visualization
   useEffect(() => {
     if (!isPlaying) return;
-    
+
     let animationId: number;
-    
+
     const updateWaveform = () => {
       if (analyserRef.current) {
         const dataArray = new Uint8Array(32); // 32 frequency bands
         analyserRef.current.getByteFrequencyData(dataArray);
-        
+
         // Normalize to 0-1 range and apply exponential moving average smoothing
         const normalized = Array.from(dataArray).map((value, index) => {
           const newValue = value / 255;
           const oldValue = waveformData[index] || 0;
           return oldValue * 0.7 + newValue * 0.3; // EMA smoothing
         });
-        
+
         setWaveformData(normalized);
       }
-      
+
       animationId = requestAnimationFrame(updateWaveform);
     };
-    
+
     animationId = requestAnimationFrame(updateWaveform);
-    
+
     return () => {
       if (animationId) {
         cancelAnimationFrame(animationId);
@@ -304,7 +307,9 @@ export default function Testimonials() {
   // Initialize audio context (mock for now since we don't have actual audio files)
   const initAudioContext = () => {
     if (!audioContextRef.current) {
-      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      audioContextRef.current = new (
+        window.AudioContext || (window as any).webkitAudioContext
+      )();
       analyserRef.current = audioContextRef.current.createAnalyser();
       analyserRef.current.fftSize = 64; // 32 frequency bands
       analyserRef.current.connect(audioContextRef.current.destination);
@@ -315,16 +320,14 @@ export default function Testimonials() {
   const toggleAudio = () => {
     initAudioContext();
     setIsPlaying(!isPlaying);
-    
+
     // Mock waveform animation when playing
     if (!isPlaying) {
       // Simulate audio waveform
       const interval = setInterval(() => {
-        setWaveformData(prev => 
-          prev.map(() => Math.random() * 0.8 + 0.2)
-        );
+        setWaveformData((prev) => prev.map(() => Math.random() * 0.8 + 0.2));
       }, 16); // ~60fps
-      
+
       return () => clearInterval(interval);
     }
   };
@@ -334,27 +337,27 @@ export default function Testimonials() {
     emitParticles('prev');
     const newIndex = Math.max(0, currentTestimonial - 1);
     setCurrentTestimonial(newIndex);
-    
+
     // Scroll to testimonial
     const cardWidth = 400; // Approximate card width
     const gap = 32; // Gap between cards
     const targetScroll = newIndex * (cardWidth + gap);
-    
+
     // Animate scroll
     const spring = springRef.current;
     if (spring) {
       spring.setPosition(scrollPosition);
       spring.setTarget(targetScroll);
-      
+
       const animate = () => {
         spring.update(1 / 60);
         setScrollPosition(spring.getCurrentPosition());
-        
+
         if (!spring.isSettled()) {
           animationFrameRef.current = requestAnimationFrame(animate);
         }
       };
-      
+
       animationFrameRef.current = requestAnimationFrame(animate);
     }
   };
@@ -364,48 +367,49 @@ export default function Testimonials() {
     emitParticles('next');
     const newIndex = Math.min(testimonials.length - 1, currentTestimonial + 1);
     setCurrentTestimonial(newIndex);
-    
+
     // Scroll to testimonial
     const cardWidth = 400;
     const gap = 32;
     const targetScroll = newIndex * (cardWidth + gap);
-    
+
     // Animate scroll
     const spring = springRef.current;
     if (spring) {
       spring.setPosition(scrollPosition);
       spring.setTarget(targetScroll);
-      
+
       const animate = () => {
         spring.update(1 / 60);
         setScrollPosition(spring.getCurrentPosition());
-        
+
         if (!spring.isSettled()) {
           animationFrameRef.current = requestAnimationFrame(animate);
         }
       };
-      
+
       animationFrameRef.current = requestAnimationFrame(animate);
     }
   };
 
   // Emit particles from navigation arrows
   const emitParticles = (direction: 'prev' | 'next') => {
-    const button = direction === 'prev' 
-      ? document.querySelector('[data-nav="prev"]')
-      : document.querySelector('[data-nav="next"]');
-    
+    const button =
+      direction === 'prev'
+        ? document.querySelector('[data-nav="prev"]')
+        : document.querySelector('[data-nav="next"]');
+
     if (!button) return;
-    
+
     const rect = button.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    
+
     const newParticles: Particle[] = [];
     for (let i = 0; i < 5; i++) {
       const angle = (Math.PI * 2 * i) / 5;
       const speed = 100 + Math.random() * 50;
-      
+
       newParticles.push({
         id: particleIdRef.current++,
         x: centerX,
@@ -416,37 +420,37 @@ export default function Testimonials() {
         maxLife: 1.0,
       });
     }
-    
-    setParticles(prev => [...prev, ...newParticles]);
+
+    setParticles((prev) => [...prev, ...newParticles]);
   };
 
   // Animate particles
   useEffect(() => {
     if (particles.length === 0) return;
-    
+
     let animationId: number;
     let lastTime = performance.now();
-    
+
     const animate = (currentTime: number) => {
       const deltaTime = (currentTime - lastTime) / 1000;
       lastTime = currentTime;
-      
-      setParticles(prevParticles =>
+
+      setParticles((prevParticles) =>
         prevParticles
-          .map(particle => ({
+          .map((particle) => ({
             ...particle,
             x: particle.x + particle.vx * deltaTime,
             y: particle.y + particle.vy * deltaTime,
             life: particle.life - deltaTime,
           }))
-          .filter(particle => particle.life > 0)
+          .filter((particle) => particle.life > 0)
       );
-      
+
       animationId = requestAnimationFrame(animate);
     };
-    
+
     animationId = requestAnimationFrame(animate);
-    
+
     return () => {
       cancelAnimationFrame(animationId);
     };
@@ -456,16 +460,16 @@ export default function Testimonials() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    
+
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    particles.forEach(particle => {
+
+    particles.forEach((particle) => {
       const opacity = particle.life / particle.maxLife;
       ctx.fillStyle = `rgba(55, 175, 225, ${opacity})`;
       ctx.beginPath();
@@ -477,17 +481,18 @@ export default function Testimonials() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen py-20 px-6 overflow-hidden"
+      className="relative min-h-screen overflow-hidden px-6 py-20"
       style={{ backgroundColor: '#000000' }}
     >
       {/* Animated gradient orbs background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <motion.div
           className="absolute rounded-full"
           style={{
             width: '400px',
             height: '400px',
-            background: 'radial-gradient(circle, rgba(55, 175, 225, 0.35) 0%, rgba(49, 164, 219, 0.15) 40%, transparent 70%)',
+            background:
+              'radial-gradient(circle, rgba(55, 175, 225, 0.35) 0%, rgba(49, 164, 219, 0.15) 40%, transparent 70%)',
             filter: 'blur(40px)',
           }}
           animate={{
@@ -505,7 +510,8 @@ export default function Testimonials() {
           style={{
             width: '350px',
             height: '350px',
-            background: 'radial-gradient(circle, rgba(49, 164, 219, 0.3) 0%, rgba(55, 175, 225, 0.12) 50%, transparent 70%)',
+            background:
+              'radial-gradient(circle, rgba(49, 164, 219, 0.3) 0%, rgba(55, 175, 225, 0.12) 50%, transparent 70%)',
             filter: 'blur(35px)',
           }}
           animate={{
@@ -523,7 +529,8 @@ export default function Testimonials() {
           style={{
             width: '420px',
             height: '420px',
-            background: 'radial-gradient(circle, rgba(245, 129, 34, 0.3) 0%, rgba(245, 129, 34, 0.12) 50%, transparent 70%)',
+            background:
+              'radial-gradient(circle, rgba(245, 129, 34, 0.3) 0%, rgba(245, 129, 34, 0.12) 50%, transparent 70%)',
             filter: 'blur(42px)',
           }}
           animate={{
@@ -541,23 +548,23 @@ export default function Testimonials() {
       {/* Particle canvas */}
       <canvas
         ref={canvasRef}
-        className="fixed inset-0 pointer-events-none z-10"
+        className="pointer-events-none fixed inset-0 z-10"
         style={{ mixBlendMode: 'screen' }}
       />
-      
-      <div className="max-w-7xl mx-auto relative z-20">
+
+      <div className="relative z-20 mx-auto max-w-7xl">
         {/* Section header */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-white font-montserrat mb-4">
+        <div className="mb-12 text-center">
+          <h2 className="mb-4 font-montserrat text-4xl font-bold text-white md:text-5xl">
             Client Success Stories
           </h2>
-          <p className="text-xl text-[#64748B] font-inter mb-6">
+          <p className="mb-6 font-inter text-xl text-[#64748B]">
             Hear what our clients have to say
           </p>
           <ParticleWrapper>
             <button
               onClick={() => setShowSubmitModal(true)}
-              className="px-6 py-3 bg-[#F58122] hover:bg-[#e0741d] text-white rounded-lg font-semibold transition-colors"
+              className="rounded-lg bg-[#F58122] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#e0741d]"
             >
               ✍️ Leave a Review
             </button>
@@ -567,36 +574,36 @@ export default function Testimonials() {
         {/* Carousel container */}
         <div className="relative">
           {/* Navigation arrows */}
-          <ParticleWrapper className="absolute left-0 top-1/2 -translate-y-1/2 z-30">
+          <ParticleWrapper className="absolute left-0 top-1/2 z-30 -translate-y-1/2">
             <motion.button
               data-nav="prev"
               onClick={navigatePrev}
               disabled={currentTestimonial === 0}
               whileHover={{ scale: 1.2 }}
               transition={{ duration: 0.2 }}
-              className="w-12 h-12 rounded-full
-                       bg-[#37AFE1] hover:bg-[#F58122] transition-colors duration-200
-                       flex items-center justify-center text-white text-2xl
-                       disabled:opacity-30 disabled:cursor-not-allowed
-                       shadow-lg hover:shadow-[0_0_20px_rgba(55,175,225,0.5)]"
+              className="flex h-12 w-12
+                       items-center justify-center rounded-full bg-[#37AFE1]
+                       text-2xl text-white shadow-lg transition-colors duration-200
+                       hover:bg-[#F58122] hover:shadow-[0_0_20px_rgba(55,175,225,0.5)]
+                       disabled:cursor-not-allowed disabled:opacity-30"
               style={{ backdropFilter: 'blur(10px)' }}
             >
               ←
             </motion.button>
           </ParticleWrapper>
 
-          <ParticleWrapper className="absolute right-0 top-1/2 -translate-y-1/2 z-30">
+          <ParticleWrapper className="absolute right-0 top-1/2 z-30 -translate-y-1/2">
             <motion.button
               data-nav="next"
               onClick={navigateNext}
               disabled={currentTestimonial === testimonials.length - 1}
               whileHover={{ scale: 1.2 }}
               transition={{ duration: 0.2 }}
-              className="w-12 h-12 rounded-full
-                       bg-[#37AFE1] hover:bg-[#F58122] transition-colors duration-200
-                       flex items-center justify-center text-white text-2xl
-                       disabled:opacity-30 disabled:cursor-not-allowed
-                       shadow-lg hover:shadow-[0_0_20px_rgba(55,175,225,0.5)]"
+              className="flex h-12 w-12
+                       items-center justify-center rounded-full bg-[#37AFE1]
+                       text-2xl text-white shadow-lg transition-colors duration-200
+                       hover:bg-[#F58122] hover:shadow-[0_0_20px_rgba(55,175,225,0.5)]
+                       disabled:cursor-not-allowed disabled:opacity-30"
               style={{ backdropFilter: 'blur(10px)' }}
             >
               →
@@ -613,36 +620,36 @@ export default function Testimonials() {
             onTouchStart={handlePointerDown}
             onTouchMove={handlePointerMove}
             onTouchEnd={handlePointerUp}
-            className="flex gap-8 overflow-x-hidden cursor-grab active:cursor-grabbing px-16"
+            className="flex cursor-grab gap-8 overflow-x-hidden px-16 active:cursor-grabbing"
             style={{ scrollBehavior: 'auto' }}
           >
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={testimonial.id}
-                className="flex-shrink-0 w-[400px]"
+                className="w-[400px] flex-shrink-0"
               >
                 <GlowCard
                   backgroundColor="#1E293B"
                   accentColor="#37AFE1"
                   borderRadius="1rem"
                   borderWidth="2px"
-                  className="p-8 h-full shadow-lg hover:shadow-[0_0_30px_rgba(55,175,225,0.3)] transition-shadow"
+                  className="h-full p-8 shadow-lg transition-shadow hover:shadow-[0_0_30px_rgba(55,175,225,0.3)]"
                 >
                   {/* Avatar and info */}
-                  <div className="flex items-center gap-4 mb-6">
+                  <div className="mb-6 flex items-center gap-4">
                     <div className="text-5xl">{testimonial.avatar}</div>
                     <div>
-                      <h3 className="text-xl font-semibold text-white font-montserrat">
+                      <h3 className="font-montserrat text-xl font-semibold text-white">
                         {testimonial.name}
                       </h3>
-                      <p className="text-sm text-[#64748B] font-inter">
+                      <p className="font-inter text-sm text-[#64748B]">
                         {testimonial.role} at {testimonial.company}
                       </p>
                     </div>
                   </div>
 
                   {/* Testimonial content */}
-                  <p className="text-[#F8FAFC] font-inter leading-relaxed mb-6">
+                  <p className="mb-6 font-inter leading-relaxed text-[#F8FAFC]">
                     "{testimonial.content}"
                   </p>
 
@@ -652,19 +659,19 @@ export default function Testimonials() {
                       <ParticleWrapper>
                         <button
                           onClick={toggleAudio}
-                          className="mb-4 px-4 py-2 bg-[#37AFE1] hover:bg-[#F58122] text-white rounded-lg
-                                   transition-colors duration-200 font-inter text-sm"
+                          className="mb-4 rounded-lg bg-[#37AFE1] px-4 py-2 font-inter text-sm
+                                   text-white transition-colors duration-200 hover:bg-[#F58122]"
                         >
                           {isPlaying ? '⏸ Pause' : '▶ Play Audio'}
                         </button>
                       </ParticleWrapper>
-                      
+
                       {/* Waveform bars */}
-                      <div className="flex items-end gap-1 h-24">
+                      <div className="flex h-24 items-end gap-1">
                         {waveformData.map((value, i) => (
                           <motion.div
                             key={i}
-                            className="flex-1 bg-[#F58122] rounded-t"
+                            className="flex-1 rounded-t bg-[#F58122]"
                             style={{
                               height: `${Math.max(value * 100, 5)}%`,
                               opacity: 0.8,
@@ -688,7 +695,7 @@ export default function Testimonials() {
         </div>
 
         {/* Progress indicators */}
-        <div className="flex justify-center gap-2 mt-8">
+        <div className="mt-8 flex justify-center gap-2">
           {testimonials.map((_, index) => (
             <ParticleWrapper key={index}>
               <button
@@ -699,9 +706,9 @@ export default function Testimonials() {
                   const targetScroll = index * (cardWidth + gap);
                   setScrollPosition(targetScroll);
                 }}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                className={`h-3 w-3 rounded-full transition-all duration-300 ${
                   index === currentTestimonial
-                    ? 'bg-[#F58122] w-8'
+                    ? 'w-8 bg-[#F58122]'
                     : 'bg-[#64748B] hover:bg-[#37AFE1]'
                 }`}
               />

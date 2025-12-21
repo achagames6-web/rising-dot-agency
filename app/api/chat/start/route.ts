@@ -58,8 +58,9 @@ export async function POST(request: NextRequest) {
 
     // Send email notification
     try {
-      const notificationEmail = process.env.CHAT_NOTIFICATION_EMAIL || process.env.ADMIN_EMAIL;
-      
+      const notificationEmail =
+        process.env.CHAT_NOTIFICATION_EMAIL || process.env.ADMIN_EMAIL;
+
       if (notificationEmail) {
         await resend.emails.send({
           from: 'Rising Dot <onboarding@resend.dev>',
@@ -84,10 +85,12 @@ export async function POST(request: NextRequest) {
         });
 
         // Mark notification as sent
-        await db.collection('conversations').updateOne(
-          { _id: result.insertedId },
-          { $set: { notificationSent: true } }
-        );
+        await db
+          .collection('conversations')
+          .updateOne(
+            { _id: result.insertedId },
+            { $set: { notificationSent: true } }
+          );
       }
     } catch (emailError) {
       console.error('Failed to send notification email:', emailError);

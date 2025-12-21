@@ -51,16 +51,19 @@ interface SliderBtnProps {
   progressBarClass?: string;
 }
 
-const ProgressSliderContext = createContext<ProgressSliderContextType | undefined>(undefined);
+const ProgressSliderContext = createContext<
+  ProgressSliderContextType | undefined
+>(undefined);
 
 export const useProgressSliderContext = (): ProgressSliderContextType => {
   const context = useContext(ProgressSliderContext);
   if (!context) {
-    throw new Error('useProgressSliderContext must be used within a ProgressSlider');
+    throw new Error(
+      'useProgressSliderContext must be used within a ProgressSlider'
+    );
   }
   return context;
 };
-
 
 export const ProgressSlider: FC<ProgressSliderProps> = ({
   children,
@@ -149,12 +152,18 @@ export const ProgressSlider: FC<ProgressSliderProps> = ({
   );
 };
 
-
-export const SliderContent: FC<SliderContentProps> = ({ children, className }) => {
+export const SliderContent: FC<SliderContentProps> = ({
+  children,
+  className,
+}) => {
   return <div className={cn('', className)}>{children}</div>;
 };
 
-export const SliderWrapper: FC<SliderWrapperProps> = ({ children, value, className }) => {
+export const SliderWrapper: FC<SliderWrapperProps> = ({
+  children,
+  value,
+  className,
+}) => {
   const { active } = useProgressSliderContext();
   return (
     <AnimatePresence mode="popLayout">
@@ -173,7 +182,10 @@ export const SliderWrapper: FC<SliderWrapperProps> = ({ children, value, classNa
   );
 };
 
-export const SliderBtnGroup: FC<ProgressBarProps> = ({ children, className }) => {
+export const SliderBtnGroup: FC<ProgressBarProps> = ({
+  children,
+  className,
+}) => {
   return <div className={cn('', className)}>{children}</div>;
 };
 
@@ -183,7 +195,8 @@ export const SliderBtn: FC<SliderBtnProps> = ({
   className,
   progressBarClass,
 }) => {
-  const { active, progress, handleButtonClick, vertical } = useProgressSliderContext();
+  const { active, progress, handleButtonClick, vertical } =
+    useProgressSliderContext();
   return (
     <button
       className={cn(
@@ -194,14 +207,15 @@ export const SliderBtn: FC<SliderBtnProps> = ({
     >
       {children}
       <div
-        className="absolute inset-0 overflow-hidden -z-10 max-h-full max-w-full"
+        className="absolute inset-0 -z-10 max-h-full max-w-full overflow-hidden"
         role="progressbar"
         aria-valuenow={active === value ? progress : 0}
       >
         <span
           className={cn('absolute left-0', progressBarClass)}
           style={{
-            [vertical ? 'height' : 'width']: active === value ? `${progress}%` : '0%',
+            [vertical ? 'height' : 'width']:
+              active === value ? `${progress}%` : '0%',
           }}
         />
       </div>

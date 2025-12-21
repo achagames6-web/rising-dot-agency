@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  
+
   // Image optimization
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -44,7 +44,7 @@ const nextConfig = {
     config.infrastructureLogging = {
       level: 'error',
     };
-    
+
     // Code splitting for animation libraries
     if (!isServer) {
       config.optimization = {
@@ -97,7 +97,8 @@ const nextConfig = {
           // Resource hints
           {
             key: 'Link',
-            value: '<https://fonts.googleapis.com>; rel=preconnect; crossorigin',
+            value:
+              '<https://fonts.googleapis.com>; rel=preconnect; crossorigin',
           },
           // Content Security Policy
           {
@@ -115,7 +116,7 @@ const nextConfig = {
               "base-uri 'self'",
               "form-action 'self'",
               "frame-ancestors 'none'",
-              "upgrade-insecure-requests",
+              'upgrade-insecure-requests',
             ].join('; '),
           },
           // Strict Transport Security (HSTS)

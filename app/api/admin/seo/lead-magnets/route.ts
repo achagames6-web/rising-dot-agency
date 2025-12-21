@@ -6,16 +6,20 @@ export async function GET() {
   try {
     const client = await clientPromise;
     const db = client.db('rising-dot');
-    
-    const magnets = await db.collection('seoLeadMagnets')
+
+    const magnets = await db
+      .collection('seoLeadMagnets')
       .find({})
       .sort({ createdAt: -1 })
       .toArray();
-    
+
     return NextResponse.json(magnets);
   } catch (error) {
     console.error('Error fetching lead magnets:', error);
-    return NextResponse.json({ error: 'Failed to fetch lead magnets' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch lead magnets' },
+      { status: 500 }
+    );
   }
 }
 
@@ -23,10 +27,21 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { title, description, type, fileUrl, thumbnailUrl, landingPage, enabled } = body;
+    const {
+      title,
+      description,
+      type,
+      fileUrl,
+      thumbnailUrl,
+      landingPage,
+      enabled,
+    } = body;
 
     if (!title || !fileUrl) {
-      return NextResponse.json({ error: 'Title and file URL are required' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Title and file URL are required' },
+        { status: 400 }
+      );
     }
 
     const client = await clientPromise;
@@ -48,9 +63,15 @@ export async function POST(request: NextRequest) {
     };
 
     const result = await db.collection('seoLeadMagnets').insertOne(magnet);
-    return NextResponse.json({ _id: result.insertedId, ...magnet }, { status: 201 });
+    return NextResponse.json(
+      { _id: result.insertedId, ...magnet },
+      { status: 201 }
+    );
   } catch (error) {
     console.error('Error creating lead magnet:', error);
-    return NextResponse.json({ error: 'Failed to create lead magnet' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to create lead magnet' },
+      { status: 500 }
+    );
   }
 }

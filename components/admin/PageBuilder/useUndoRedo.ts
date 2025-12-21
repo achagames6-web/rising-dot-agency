@@ -29,7 +29,10 @@ export function useUndoRedo<T>(initialState: T) {
       if (currentHistory.past.length === 0) return currentHistory;
 
       const previous = currentHistory.past[currentHistory.past.length - 1];
-      const newPast = currentHistory.past.slice(0, currentHistory.past.length - 1);
+      const newPast = currentHistory.past.slice(
+        0,
+        currentHistory.past.length - 1
+      );
 
       return {
         past: newPast,

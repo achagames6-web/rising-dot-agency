@@ -143,15 +143,15 @@ export default function TwoFactorManager({
   if (!user) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div className="bg-[#1E293B] rounded-xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+      <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-xl bg-[#1E293B] shadow-xl">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-700">
+        <div className="flex items-center justify-between border-b border-slate-700 p-6">
           <div className="flex items-center gap-3">
             {user.two_factor_enabled ? (
-              <ShieldCheck className="w-6 h-6 text-green-400" />
+              <ShieldCheck className="h-6 w-6 text-green-400" />
             ) : (
-              <Shield className="w-6 h-6 text-slate-400" />
+              <Shield className="h-6 w-6 text-slate-400" />
             )}
             <h2 className="text-xl font-semibold text-white">
               Two-Factor Authentication
@@ -159,22 +159,22 @@ export default function TwoFactorManager({
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-slate-700 rounded-lg transition-colors"
+            className="rounded-lg p-2 transition-colors hover:bg-slate-700"
           >
-            <X className="w-5 h-5 text-slate-400" />
+            <X className="h-5 w-5 text-slate-400" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-4">
+        <div className="space-y-4 p-6">
           {error && (
-            <div className="p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-sm text-red-400">
+            <div className="rounded-lg border border-red-500/30 bg-red-500/20 p-3 text-sm text-red-400">
               {error}
             </div>
           )}
 
           <div className="text-sm text-slate-400">
-            <p className="font-medium text-white mb-1">{user.name}</p>
+            <p className="mb-1 font-medium text-white">{user.name}</p>
             <p>{user.email}</p>
           </div>
 
@@ -182,9 +182,9 @@ export default function TwoFactorManager({
             <div className="space-y-4">
               {user.two_factor_enabled ? (
                 <>
-                  <div className="p-4 bg-green-500/20 border border-green-500/30 rounded-lg">
-                    <div className="flex items-center gap-2 text-green-400 mb-2">
-                      <ShieldCheck className="w-5 h-5" />
+                  <div className="rounded-lg border border-green-500/30 bg-green-500/20 p-4">
+                    <div className="mb-2 flex items-center gap-2 text-green-400">
+                      <ShieldCheck className="h-5 w-5" />
                       <span className="font-medium">2FA is enabled</span>
                     </div>
                     <p className="text-sm text-green-300">
@@ -200,15 +200,17 @@ export default function TwoFactorManager({
                     <input
                       type="text"
                       value={token}
-                      onChange={(e) => setToken(e.target.value.replace(/\D/g, ''))}
+                      onChange={(e) =>
+                        setToken(e.target.value.replace(/\D/g, ''))
+                      }
                       maxLength={6}
                       placeholder="000000"
-                      className="w-full px-3 py-2 bg-[#0F172A] border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#37AFE1] text-center text-2xl tracking-widest"
+                      className="w-full rounded-lg border border-slate-700 bg-[#0F172A] px-3 py-2 text-center text-2xl tracking-widest text-white placeholder-slate-500 focus:border-[#37AFE1] focus:outline-none"
                     />
                     <button
                       onClick={handleDisable2FA}
                       disabled={loading || token.length !== 6}
-                      className="w-full px-4 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full rounded-lg bg-red-500/20 px-4 py-2 text-red-400 transition-colors hover:bg-red-500/30 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       {loading ? 'Disabling...' : 'Disable 2FA'}
                     </button>
@@ -216,9 +218,9 @@ export default function TwoFactorManager({
                 </>
               ) : (
                 <>
-                  <div className="p-4 bg-[#0F172A] border border-slate-700 rounded-lg">
-                    <div className="flex items-center gap-2 text-slate-300 mb-2">
-                      <Shield className="w-5 h-5" />
+                  <div className="rounded-lg border border-slate-700 bg-[#0F172A] p-4">
+                    <div className="mb-2 flex items-center gap-2 text-slate-300">
+                      <Shield className="h-5 w-5" />
                       <span className="font-medium">2FA is not enabled</span>
                     </div>
                     <p className="text-sm text-slate-400">
@@ -230,7 +232,7 @@ export default function TwoFactorManager({
                   <button
                     onClick={handleGenerateSecret}
                     disabled={loading}
-                    className="w-full px-4 py-2 bg-[#37AFE1] text-white rounded-lg hover:bg-[#37AFE1]/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full rounded-lg bg-[#37AFE1] px-4 py-2 text-white transition-colors hover:bg-[#37AFE1]/80 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {loading ? 'Generating...' : 'Enable 2FA'}
                   </button>
@@ -241,10 +243,8 @@ export default function TwoFactorManager({
 
           {step === 'setup' && (
             <div className="space-y-4">
-              <div className="text-sm text-slate-400 space-y-2">
-                <p className="font-medium text-white">
-                  Step 1: Scan QR Code
-                </p>
+              <div className="space-y-2 text-sm text-slate-400">
+                <p className="font-medium text-white">Step 1: Scan QR Code</p>
                 <p>
                   Scan this QR code with your authenticator app (Google
                   Authenticator, Authy, etc.)
@@ -252,7 +252,7 @@ export default function TwoFactorManager({
               </div>
 
               {qrCode && (
-                <div className="flex justify-center p-4 bg-white border border-slate-700 rounded-lg">
+                <div className="flex justify-center rounded-lg border border-slate-700 bg-white p-4">
                   <Image
                     src={qrCode}
                     alt="2FA QR Code"
@@ -267,17 +267,17 @@ export default function TwoFactorManager({
                   Or enter this code manually:
                 </p>
                 <div className="flex items-center gap-2">
-                  <code className="flex-1 px-3 py-2 bg-[#0F172A] border border-slate-700 rounded-lg text-sm font-mono text-slate-300">
+                  <code className="flex-1 rounded-lg border border-slate-700 bg-[#0F172A] px-3 py-2 font-mono text-sm text-slate-300">
                     {secret}
                   </code>
                   <button
                     onClick={copySecret}
-                    className="p-2 hover:bg-slate-700 rounded-lg transition-colors"
+                    className="rounded-lg p-2 transition-colors hover:bg-slate-700"
                   >
                     {copied ? (
-                      <Check className="w-5 h-5 text-green-400" />
+                      <Check className="h-5 w-5 text-green-400" />
                     ) : (
-                      <Copy className="w-5 h-5 text-slate-400" />
+                      <Copy className="h-5 w-5 text-slate-400" />
                     )}
                   </button>
                 </div>
@@ -285,7 +285,7 @@ export default function TwoFactorManager({
 
               <button
                 onClick={() => setStep('verify')}
-                className="w-full px-4 py-2 bg-[#37AFE1] text-white rounded-lg hover:bg-[#37AFE1]/80 transition-colors"
+                className="w-full rounded-lg bg-[#37AFE1] px-4 py-2 text-white transition-colors hover:bg-[#37AFE1]/80"
               >
                 Continue to Verification
               </button>
@@ -294,10 +294,8 @@ export default function TwoFactorManager({
 
           {step === 'verify' && (
             <div className="space-y-4">
-              <div className="text-sm text-slate-400 space-y-2">
-                <p className="font-medium text-white">
-                  Step 2: Verify Code
-                </p>
+              <div className="space-y-2 text-sm text-slate-400">
+                <p className="font-medium text-white">Step 2: Verify Code</p>
                 <p>
                   Enter the 6-digit code from your authenticator app to complete
                   setup.
@@ -311,20 +309,20 @@ export default function TwoFactorManager({
                   onChange={(e) => setToken(e.target.value.replace(/\D/g, ''))}
                   maxLength={6}
                   placeholder="000000"
-                  className="w-full px-3 py-2 bg-[#0F172A] border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#37AFE1] text-center text-2xl tracking-widest"
+                  className="w-full rounded-lg border border-slate-700 bg-[#0F172A] px-3 py-2 text-center text-2xl tracking-widest text-white placeholder-slate-500 focus:border-[#37AFE1] focus:outline-none"
                   autoFocus
                 />
                 <div className="flex gap-3">
                   <button
                     onClick={() => setStep('setup')}
-                    className="flex-1 px-4 py-2 text-slate-300 hover:text-white transition-colors"
+                    className="flex-1 px-4 py-2 text-slate-300 transition-colors hover:text-white"
                   >
                     Back
                   </button>
                   <button
                     onClick={handleEnable2FA}
                     disabled={loading || token.length !== 6}
-                    className="flex-1 px-4 py-2 bg-[#37AFE1] text-white rounded-lg hover:bg-[#37AFE1]/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 rounded-lg bg-[#37AFE1] px-4 py-2 text-white transition-colors hover:bg-[#37AFE1]/80 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {loading ? 'Verifying...' : 'Enable 2FA'}
                   </button>

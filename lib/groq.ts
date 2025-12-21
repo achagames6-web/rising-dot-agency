@@ -9,7 +9,11 @@ const groq = new Groq({
 // Load agency knowledge base
 function getKnowledgeBase(): string {
   try {
-    const knowledgePath = path.join(process.cwd(), 'data', 'agency-knowledge.md');
+    const knowledgePath = path.join(
+      process.cwd(),
+      'data',
+      'agency-knowledge.md'
+    );
     return fs.readFileSync(knowledgePath, 'utf-8');
   } catch (error) {
     console.error('Error loading knowledge base:', error);
@@ -67,11 +71,14 @@ export async function getChatResponse(
   ];
 
   const lowerMessage = userMessage.toLowerCase();
-  const wantsHuman = humanKeywords.some(keyword => lowerMessage.includes(keyword));
+  const wantsHuman = humanKeywords.some((keyword) =>
+    lowerMessage.includes(keyword)
+  );
 
   if (wantsHuman) {
     return {
-      response: "I understand you'd like to speak with a team member. I'm connecting you now - someone from our team will be with you shortly. In the meantime, feel free to share any details about what you need help with!",
+      response:
+        "I understand you'd like to speak with a team member. I'm connecting you now - someone from our team will be with you shortly. In the meantime, feel free to share any details about what you need help with!",
       wantsHuman: true,
     };
   }
@@ -90,14 +97,16 @@ export async function getChatResponse(
       max_tokens: 500,
     });
 
-    const response = completion.choices[0]?.message?.content || 
+    const response =
+      completion.choices[0]?.message?.content ||
       "I apologize, but I'm having trouble responding right now. Please try again or contact us directly.";
 
     return { response, wantsHuman: false };
   } catch (error) {
     console.error('Groq API error:', error);
     return {
-      response: "I'm sorry, I'm experiencing some technical difficulties. Please try again in a moment, or feel free to contact us directly at contact@risingdot.com",
+      response:
+        "I'm sorry, I'm experiencing some technical difficulties. Please try again in a moment, or feel free to contact us directly at contact@risingdot.com",
       wantsHuman: false,
     };
   }

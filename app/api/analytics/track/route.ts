@@ -8,7 +8,7 @@ function generateSessionId(ip: string, userAgent: string): string {
   let hash = 0;
   for (let i = 0; i < data.length; i++) {
     const char = data.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = (hash << 5) - hash + char;
     hash = hash & hash;
   }
   return Math.abs(hash).toString(36);
@@ -21,11 +21,12 @@ export async function POST(request: NextRequest) {
     const { page, referrer, scrollDepth, duration, event, eventData } = body;
 
     const headersList = await headers();
-    const ip = headersList.get('x-forwarded-for')?.split(',')[0] || 
-               headersList.get('x-real-ip') || 
-               'unknown';
+    const ip =
+      headersList.get('x-forwarded-for')?.split(',')[0] ||
+      headersList.get('x-real-ip') ||
+      'unknown';
     const userAgent = headersList.get('user-agent') || 'unknown';
-    
+
     const sessionId = generateSessionId(ip, userAgent);
     const db = await getDatabase();
     const now = new Date();
@@ -50,10 +51,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Track or update session
-    const existingSession = await db.collection(COLLECTIONS.ANALYTICS_SESSIONS).findOne({
-      sessionId,
-      createdAt: { $gte: new Date(now.getTime() - 30 * 60 * 1000) } // Within 30 min
-    });
+    const existingSession = await db
+      .collection(COLLECTIONS.ANALYTICS_SESSIONS)
+      .findOne({
+        sessionId,
+        createdAt: { $gte: new Date(now.getTime() - 30 * 60 * 1000) }, // Within 30 min
+      });
 
     if (!existingSession) {
       // New session
@@ -75,16 +78,25 @@ export async function POST(request: NextRequest) {
       if (!pagesViewed.includes(page)) {
         pagesViewed.push(page);
       }
-      
+
       await db.collection(COLLECTIONS.ANALYTICS_SESSIONS).updateOne(
         { _id: existingSession._id },
         {
           $set: {
             pagesViewed,
             lastActivity: now,
-            duration: duration || Math.floor((now.getTime() - new Date(existingSession.startTime).getTime()) / 1000),
-            scrollDepth: Math.max(scrollDepth || 0, existingSession.scrollDepth || 0),
-          }
+            duration:
+              duration ||
+              Math.floor(
+                (now.getTime() -
+                  new Date(existingSession.startTime).getTime()) /
+                  1000
+              ),
+            scrollDepth: Math.max(
+              scrollDepth || 0,
+              existingSession.scrollDepth || 0
+            ),
+          },
         }
       );
     }

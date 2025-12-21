@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
 
 const GLOW_CARD_STYLES = `
 .glow-card {
@@ -15,10 +15,10 @@ const GLOW_CARD_STYLES = `
 `;
 
 function injectGlowCardStyles() {
-  if (typeof window === "undefined") return;
-  if (!document.getElementById("glow-card-styles")) {
-    const style = document.createElement("style");
-    style.id = "glow-card-styles";
+  if (typeof window === 'undefined') return;
+  if (!document.getElementById('glow-card-styles')) {
+    const style = document.createElement('style');
+    style.id = 'glow-card-styles';
     style.innerHTML = GLOW_CARD_STYLES;
     document.head.appendChild(style);
   }
@@ -35,11 +35,11 @@ export interface GlowCardProps {
 
 export const GlowCard: React.FC<GlowCardProps> = ({
   children,
-  className = "",
-  backgroundColor = "#1E293B",
-  accentColor = "#37AFE1",
-  borderRadius = "1rem",
-  borderWidth = "2px",
+  className = '',
+  backgroundColor = '#1E293B',
+  accentColor = '#37AFE1',
+  borderRadius = '1rem',
+  borderWidth = '2px',
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -53,17 +53,17 @@ export const GlowCard: React.FC<GlowCardProps> = ({
         const x = e.clientX - rect.left - rect.width / 2;
         const y = e.clientY - rect.top - rect.height / 2;
         const angle = Math.atan2(-x, y);
-        card.style.setProperty("--rotation", angle + "rad");
+        card.style.setProperty('--rotation', angle + 'rad');
       }
     };
 
     if (card) {
-      card.addEventListener("mousemove", handleMouseMove);
+      card.addEventListener('mousemove', handleMouseMove);
     }
 
     return () => {
       if (card) {
-        card.removeEventListener("mousemove", handleMouseMove);
+        card.removeEventListener('mousemove', handleMouseMove);
       }
     };
   }, []);
@@ -72,12 +72,14 @@ export const GlowCard: React.FC<GlowCardProps> = ({
     <div
       ref={cardRef}
       className={`glow-card ${className}`}
-      style={{
-        "--card-bg": backgroundColor,
-        "--card-accent": accentColor,
-        borderRadius: borderRadius,
-        border: `${borderWidth} solid transparent`,
-      } as React.CSSProperties}
+      style={
+        {
+          '--card-bg': backgroundColor,
+          '--card-accent': accentColor,
+          borderRadius: borderRadius,
+          border: `${borderWidth} solid transparent`,
+        } as React.CSSProperties
+      }
     >
       {children}
     </div>

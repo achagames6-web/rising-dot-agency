@@ -89,7 +89,7 @@ const Icon = ({
       className={cn('absolute', iconData.className)}
     >
       <motion.div
-        className="flex items-center justify-center w-14 h-14 md:w-18 md:h-18 p-3 rounded-2xl shadow-xl bg-white/5 backdrop-blur-md border border-white/10"
+        className="md:w-18 md:h-18 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/5 p-3 shadow-xl backdrop-blur-md"
         animate={{
           y: [0, -8, 0, 8, 0],
           x: [0, 6, 0, -6, 0],
@@ -102,7 +102,7 @@ const Icon = ({
           ease: 'easeInOut',
         }}
       >
-        <iconData.icon className="w-7 h-7 md:w-9 md:h-9" />
+        <iconData.icon className="h-7 w-7 md:h-9 md:w-9" />
       </motion.div>
     </motion.div>
   );
@@ -111,101 +111,126 @@ const Icon = ({
 const FloatingIconsHero = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & FloatingIconsHeroProps
->(({ className, title, titleHighlight, subtitle, ctaText, ctaHref, icons, ...props }, ref) => {
-  const mouseX = React.useRef(0);
-  const mouseY = React.useRef(0);
+>(
+  (
+    {
+      className,
+      title,
+      titleHighlight,
+      subtitle,
+      ctaText,
+      ctaHref,
+      icons,
+      ...props
+    },
+    ref
+  ) => {
+    const mouseX = React.useRef(0);
+    const mouseY = React.useRef(0);
 
-  // Reset scroll position on mount
-  React.useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    // Reset scroll position on mount
+    React.useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
 
-  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    mouseX.current = event.clientX;
-    mouseY.current = event.clientY;
-  };
+    const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+      mouseX.current = event.clientX;
+      mouseY.current = event.clientY;
+    };
 
-  return (
-    <section
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      className={cn(
-        'relative w-full h-screen min-h-[700px] flex items-center justify-center overflow-hidden bg-black',
-        className
-      )}
-      {...props}
-    >
-      {/* Container for the background floating icons */}
-      <div className="absolute inset-0 w-full h-full">
-        {icons.map((iconData, index) => (
-          <Icon
-            key={iconData.id}
-            mouseX={mouseX}
-            mouseY={mouseY}
-            iconData={iconData}
-            index={index}
-          />
-        ))}
-      </div>
+    return (
+      <section
+        ref={ref}
+        onMouseMove={handleMouseMove}
+        className={cn(
+          'relative flex h-screen min-h-[700px] w-full items-center justify-center overflow-hidden bg-black',
+          className
+        )}
+        {...props}
+      >
+        {/* Container for the background floating icons */}
+        <div className="absolute inset-0 h-full w-full">
+          {icons.map((iconData, index) => (
+            <Icon
+              key={iconData.id}
+              mouseX={mouseX}
+              mouseY={mouseY}
+              iconData={iconData}
+              index={index}
+            />
+          ))}
+        </div>
 
-      {/* Container for the foreground content */}
-      <div className="relative z-10 text-center px-4">
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-3xl md:text-5xl font-bold tracking-tight font-montserrat"
-        >
-          {titleHighlight ? (
-            <>
-              <span 
-                className="bg-clip-text text-transparent"
-                style={{
-                  backgroundImage: 'linear-gradient(90deg, #37AFE1, #F58122, #37AFE1, #F58122)',
-                  backgroundSize: '300% 100%',
-                  animation: 'gradient-shift 4s ease-in-out infinite',
-                }}
-              >
-                {titleHighlight}
-              </span>{' '}
+        {/* Container for the foreground content */}
+        <div className="relative z-10 px-4 text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="font-montserrat text-3xl font-bold tracking-tight md:text-5xl"
+          >
+            {titleHighlight ? (
+              <>
+                <span
+                  className="bg-clip-text text-transparent"
+                  style={{
+                    backgroundImage:
+                      'linear-gradient(90deg, #37AFE1, #F58122, #37AFE1, #F58122)',
+                    backgroundSize: '300% 100%',
+                    animation: 'gradient-shift 4s ease-in-out infinite',
+                  }}
+                >
+                  {titleHighlight}
+                </span>{' '}
+                <span className="text-white">{title}</span>
+              </>
+            ) : (
               <span className="text-white">{title}</span>
-            </>
-          ) : (
-            <span className="text-white">{title}</span>
-          )}
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-gray-400 font-inter"
-        >
-          {subtitle}
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-10"
-        >
-          <ParticleWrapper>
-            <Link href={ctaHref}>
-              <StarButton
-                className="h-12 px-6 text-sm font-semibold hover:scale-105 transition-transform"
-                duration={2.5}
-              >
-                {ctaText}
-                <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </StarButton>
-            </Link>
-          </ParticleWrapper>
-        </motion.div>
-      </div>
-    </section>
-  );
-});
+            )}
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mx-auto mt-6 max-w-2xl font-inter text-lg text-gray-400 md:text-xl"
+          >
+            {subtitle}
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mt-10"
+          >
+            <ParticleWrapper>
+              <Link href={ctaHref}>
+                <StarButton
+                  className="h-12 px-6 text-sm font-semibold transition-transform hover:scale-105"
+                  duration={2.5}
+                >
+                  {ctaText}
+                  <svg
+                    className="ml-2 h-5 w-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </StarButton>
+              </Link>
+            </ParticleWrapper>
+          </motion.div>
+        </div>
+      </section>
+    );
+  }
+);
 
 FloatingIconsHero.displayName = 'FloatingIconsHero';
 

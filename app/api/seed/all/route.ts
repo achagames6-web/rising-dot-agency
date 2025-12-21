@@ -16,7 +16,9 @@ export async function GET(request: Request) {
     }
 
     // Seed site content (with force if specified)
-    const contentRes = await fetch(`${baseUrl}/api/seed/content${force ? '?force=true' : ''}`);
+    const contentRes = await fetch(
+      `${baseUrl}/api/seed/content${force ? '?force=true' : ''}`
+    );
     results.content = await contentRes.json();
 
     // Seed team members
@@ -40,7 +42,9 @@ export async function GET(request: Request) {
     results.projects = await projectsRes.json();
 
     return NextResponse.json({
-      message: force ? 'All content cleared and re-seeded successfully' : 'All content seeded successfully',
+      message: force
+        ? 'All content cleared and re-seeded successfully'
+        : 'All content seeded successfully',
       results,
     });
   } catch (error) {

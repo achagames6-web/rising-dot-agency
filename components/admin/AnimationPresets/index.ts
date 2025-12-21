@@ -11,5 +11,5 @@ export type {
   AnimationPreset,
   TimelineKeyframe,
   TriggerConfig,
-  ConditionConfig
+  ConditionConfig,
 } from './AnimationPresetLibrary';

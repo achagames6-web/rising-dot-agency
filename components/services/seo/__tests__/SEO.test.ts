@@ -1,6 +1,6 @@
 /**
  * SEO Service Components Test Suite
- * 
+ *
  * Validates SEO service page implementation against requirements 14.1-14.8.
  * Tests animation timing, color palette, data structures, and requirements compliance.
  */
@@ -8,14 +8,13 @@
 import { describe, it, expect } from '@jest/globals';
 
 describe('SEO Service Components', () => {
-
   describe('Animation Timing', () => {
     it('should use correct animation durations', () => {
       // Validates: Requirements 14.2, 14.4, 14.6
       const expectedDurations = {
         serpAnimation: 2000, // 2 seconds for keyword movement
-        trafficChart: 2000,  // 2 seconds for chart animation
-        filterTransition: 400 // 400ms for category filtering
+        trafficChart: 2000, // 2 seconds for chart animation
+        filterTransition: 400, // 400ms for category filtering
       };
 
       expect(expectedDurations.serpAnimation).toBe(2000);
@@ -28,10 +27,10 @@ describe('SEO Service Components', () => {
     it('should use correct colors for rankings', () => {
       // Validates: Requirements 14.2, 14.3
       const colors = {
-        successGreen: '#10B981',  // Your rankings
-        warningAmber: '#F59E0B',  // Competitors
-        primaryBlue: '#2563EB',   // Accents
-        darkNavy: '#1E293B'       // Background
+        successGreen: '#10B981', // Your rankings
+        warningAmber: '#F59E0B', // Competitors
+        primaryBlue: '#2563EB', // Accents
+        darkNavy: '#1E293B', // Background
       };
 
       expect(colors.successGreen).toBe('#10B981');
@@ -48,10 +47,12 @@ describe('SEO Service Components', () => {
         keyword: 'Web Design Agency',
         startPosition: 10,
         endPosition: 1,
-        color: '#10B981'
+        color: '#10B981',
       };
 
-      expect(keywordRanking.startPosition).toBeGreaterThan(keywordRanking.endPosition);
+      expect(keywordRanking.startPosition).toBeGreaterThan(
+        keywordRanking.endPosition
+      );
       expect(keywordRanking.color).toBe('#10B981');
     });
 
@@ -60,7 +61,7 @@ describe('SEO Service Components', () => {
       const dataPoint = {
         month: 'Jan',
         traffic: 1200,
-        conversions: 24
+        conversions: 24,
       };
 
       expect(dataPoint.traffic).toBeGreaterThan(0);
@@ -73,7 +74,7 @@ describe('SEO Service Components', () => {
       const keyword = {
         text: 'Web Design',
         importance: 10,
-        category: 'design'
+        category: 'design',
       };
 
       expect(keyword.importance).toBeGreaterThanOrEqual(1);
@@ -114,7 +115,7 @@ describe('SEO Service Components', () => {
       const minFontSize = 12;
       const maxFontSize = 42;
       const getFontSize = (importance: number) => minFontSize + importance * 3;
-      
+
       expect(getFontSize(1)).toBe(15);
       expect(getFontSize(10)).toBe(42);
     });
@@ -137,9 +138,9 @@ describe('SEO Service Components', () => {
         { index: 2, label: '2.5K Visitors', icon: '🎯' },
         { index: 5, label: '5K Visitors', icon: '🚀' },
         { index: 8, label: '10K Visitors', icon: '⭐' },
-        { index: 11, label: '18K Visitors', icon: '🎉' }
+        { index: 11, label: '18K Visitors', icon: '🎉' },
       ];
-      
+
       expect(milestones.length).toBe(4);
       expect(milestones[0].icon).toBeDefined();
     });

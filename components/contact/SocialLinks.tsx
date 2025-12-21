@@ -32,26 +32,62 @@ export default function SocialLinks() {
   // Build social links from settings
   const socialLinks: SocialLink[] = useMemo(() => {
     const links: SocialLink[] = [];
-    
+
     if (settings.twitter) {
-      links.push({ id: 'twitter', name: 'Twitter', icon: '𝕏', url: settings.twitter, color: '#000000' });
+      links.push({
+        id: 'twitter',
+        name: 'Twitter',
+        icon: '𝕏',
+        url: settings.twitter,
+        color: '#000000',
+      });
     }
     if (settings.linkedin) {
-      links.push({ id: 'linkedin', name: 'LinkedIn', icon: '💼', url: settings.linkedin, color: '#0A66C2' });
+      links.push({
+        id: 'linkedin',
+        name: 'LinkedIn',
+        icon: '💼',
+        url: settings.linkedin,
+        color: '#0A66C2',
+      });
     }
     if (settings.github) {
-      links.push({ id: 'github', name: 'GitHub', icon: '🐙', url: settings.github, color: '#181717' });
+      links.push({
+        id: 'github',
+        name: 'GitHub',
+        icon: '🐙',
+        url: settings.github,
+        color: '#181717',
+      });
     }
     if (settings.instagram) {
-      links.push({ id: 'instagram', name: 'Instagram', icon: '📷', url: settings.instagram, color: '#E4405F' });
+      links.push({
+        id: 'instagram',
+        name: 'Instagram',
+        icon: '📷',
+        url: settings.instagram,
+        color: '#E4405F',
+      });
     }
     if (settings.youtube) {
-      links.push({ id: 'youtube', name: 'YouTube', icon: '▶️', url: settings.youtube, color: '#FF0000' });
+      links.push({
+        id: 'youtube',
+        name: 'YouTube',
+        icon: '▶️',
+        url: settings.youtube,
+        color: '#FF0000',
+      });
     }
     if (settings.facebook) {
-      links.push({ id: 'facebook', name: 'Facebook', icon: 'f', url: settings.facebook, color: '#1877F2' });
+      links.push({
+        id: 'facebook',
+        name: 'Facebook',
+        icon: 'f',
+        url: settings.facebook,
+        color: '#1877F2',
+      });
     }
-    
+
     return links;
   }, [settings]);
 
@@ -61,7 +97,7 @@ export default function SocialLinks() {
       const rect = containerRef.current.getBoundingClientRect();
       setMousePosition({
         x: e.clientX - rect.left,
-        y: e.clientY - rect.top
+        y: e.clientY - rect.top,
       });
     };
 
@@ -74,15 +110,15 @@ export default function SocialLinks() {
     if (particles.length === 0) return;
 
     const animate = () => {
-      setParticles(prev =>
+      setParticles((prev) =>
         prev
-          .map(p => ({
+          .map((p) => ({
             ...p,
             x: p.x + (p.targetX - p.x) * 0.1,
             y: p.y + (p.targetY - p.y) * 0.1,
-            life: p.life - 0.02
+            life: p.life - 0.02,
           }))
-          .filter(p => p.life > 0)
+          .filter((p) => p.life > 0)
       );
     };
 
@@ -97,7 +133,9 @@ export default function SocialLinks() {
       return;
     }
 
-    const hoveredIndex = socialLinks.findIndex(link => link.id === hoveredLink);
+    const hoveredIndex = socialLinks.findIndex(
+      (link) => link.id === hoveredLink
+    );
     if (hoveredIndex === -1) return;
 
     // Create particles connecting to nearby links
@@ -115,7 +153,7 @@ export default function SocialLinks() {
             y: Math.floor(hoveredIndex / 3) * 200 + 100,
             targetX: (index % 3) * 200 + 100,
             targetY: Math.floor(index / 3) * 200 + 100,
-            life: 1.0
+            life: 1.0,
           });
         }
       }
@@ -127,23 +165,23 @@ export default function SocialLinks() {
   return (
     <div ref={containerRef} className="relative">
       {/* Particle connections */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {particles.map(particle => (
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        {particles.map((particle) => (
           <div
             key={particle.id}
-            className="absolute w-2 h-2 rounded-full bg-[#2563EB]"
+            className="absolute h-2 w-2 rounded-full bg-[#2563EB]"
             style={{
               left: particle.x,
               top: particle.y,
               opacity: particle.life * 0.5,
-              boxShadow: `0 0 ${particle.life * 10}px rgba(37, 99, 235, ${particle.life})`
+              boxShadow: `0 0 ${particle.life * 10}px rgba(37, 99, 235, ${particle.life})`,
             }}
           />
         ))}
       </div>
 
       {/* Social links grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+      <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-6">
         {socialLinks.map((link, index) => (
           <SocialLinkCard
             key={link.id}
@@ -169,7 +207,14 @@ interface SocialLinkCardProps {
   mousePosition: { x: number; y: number };
 }
 
-function SocialLinkCard({ link, index, isHovered, onHover, onLeave, mousePosition }: SocialLinkCardProps) {
+function SocialLinkCard({
+  link,
+  index,
+  isHovered,
+  onHover,
+  onLeave,
+  mousePosition,
+}: SocialLinkCardProps) {
   const cardRef = useRef<HTMLAnchorElement>(null);
   const [magneticOffset, setMagneticOffset] = useState({ x: 0, y: 0 });
 
@@ -177,8 +222,14 @@ function SocialLinkCard({ link, index, isHovered, onHover, onLeave, mousePositio
     if (!cardRef.current) return;
 
     const rect = cardRef.current.getBoundingClientRect();
-    const cardCenterX = rect.left + rect.width / 2 - cardRef.current.offsetParent!.getBoundingClientRect().left;
-    const cardCenterY = rect.top + rect.height / 2 - cardRef.current.offsetParent!.getBoundingClientRect().top;
+    const cardCenterX =
+      rect.left +
+      rect.width / 2 -
+      cardRef.current.offsetParent!.getBoundingClientRect().left;
+    const cardCenterY =
+      rect.top +
+      rect.height / 2 -
+      cardRef.current.offsetParent!.getBoundingClientRect().top;
 
     const dx = mousePosition.x - cardCenterX;
     const dy = mousePosition.y - cardCenterY;
@@ -189,7 +240,7 @@ function SocialLinkCard({ link, index, isHovered, onHover, onLeave, mousePositio
       const strength = (150 - distance) / 150;
       setMagneticOffset({
         x: (dx / distance) * strength * 20,
-        y: (dy / distance) * strength * 20
+        y: (dy / distance) * strength * 20,
       });
     } else {
       setMagneticOffset({ x: 0, y: 0 });
@@ -206,31 +257,33 @@ function SocialLinkCard({ link, index, isHovered, onHover, onLeave, mousePositio
       animate={{
         opacity: 1,
         x: magneticOffset.x,
-        y: magneticOffset.y
+        y: magneticOffset.y,
       }}
       transition={{ delay: index * 0.1 }}
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
-      className="relative group"
+      className="group relative"
     >
       <motion.div
-        className="flex flex-col items-center justify-center p-8 rounded-lg bg-[#0F172A] border border-[#64748B]/20 transition-all"
+        className="flex flex-col items-center justify-center rounded-lg border border-[#64748B]/20 bg-[#0F172A] p-8 transition-all"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         animate={{
           borderColor: isHovered ? link.color : 'rgba(100, 116, 139, 0.2)',
-          boxShadow: isHovered ? `0 0 30px ${link.color}40` : '0 0 0px transparent'
+          boxShadow: isHovered
+            ? `0 0 30px ${link.color}40`
+            : '0 0 0px transparent',
         }}
       >
         {/* Icon */}
-        <div className="text-5xl mb-3">{link.icon}</div>
+        <div className="mb-3 text-5xl">{link.icon}</div>
 
         {/* Name */}
         <h3 className="font-semibold text-white">{link.name}</h3>
 
         {/* Hover glow */}
         <motion.div
-          className="absolute inset-0 rounded-lg pointer-events-none"
+          className="pointer-events-none absolute inset-0 rounded-lg"
           initial={{ opacity: 0 }}
           animate={{ opacity: isHovered ? 0.1 : 0 }}
           style={{ backgroundColor: link.color }}

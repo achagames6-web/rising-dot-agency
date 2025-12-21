@@ -120,15 +120,15 @@ export default function ProcessTimeline() {
 
   return (
     <section className="bg-black py-16 md:py-24">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="mx-auto max-w-7xl px-4">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-8">
+        <div className="mx-auto mb-8 max-w-3xl text-center">
           <h2
             ref={headerRef as React.RefObject<HTMLHeadingElement>}
-            className={`text-4xl md:text-5xl font-bold font-montserrat transition-all duration-700 ease-out ${
+            className={`font-montserrat text-4xl font-bold transition-all duration-700 ease-out md:text-5xl ${
               headerInView
-                ? 'opacity-100 translate-y-0'
-                : 'opacity-0 translate-y-10'
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-10 opacity-0'
             }`}
           >
             <span className="text-[#37AFE1]">Our</span>{' '}
@@ -136,10 +136,8 @@ export default function ProcessTimeline() {
           </h2>
           <p
             ref={pRef as React.RefObject<HTMLParagraphElement>}
-            className={`text-lg text-gray-400 mt-4 font-inter transition-all duration-700 ease-out delay-200 ${
-              pInView
-                ? 'opacity-100 translate-y-0'
-                : 'opacity-0 translate-y-10'
+            className={`mt-4 font-inter text-lg text-gray-400 transition-all delay-200 duration-700 ease-out ${
+              pInView ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
             }`}
           >
             A proven methodology that delivers results every time
@@ -150,7 +148,7 @@ export default function ProcessTimeline() {
         <RadialOrbitalTimeline timelineData={processData} />
 
         {/* Instructions */}
-        <p className="text-center text-white/50 text-sm mt-4">
+        <p className="mt-4 text-center text-sm text-white/50">
           Click on any node to explore • Click outside to reset
         </p>
       </div>
