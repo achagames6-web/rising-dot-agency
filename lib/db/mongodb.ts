@@ -22,8 +22,8 @@ const mongoOptions = {
   socketTimeoutMS: 30000,
 };
 
-let client: MongoClient | null = null;
-let clientPromise: Promise<MongoClient> | null = null;
+let client: MongoClient;
+let clientPromise: Promise<MongoClient>;
 
 // Only initialize MongoDB client if we have a URI (not during build)
 if (uri && !isBuildPhase) {
@@ -43,18 +43,19 @@ if (uri && !isBuildPhase) {
     client = new MongoClient(uri, mongoOptions);
     clientPromise = client.connect();
   }
+} else {
+  // During build phase, create a dummy promise that will never be used
+  // This keeps TypeScript happy while allowing the build to proceed
+  clientPromise = Promise.reject(
+    new Error('MongoDB not available during build phase')
+  ) as Promise<MongoClient>;
 }
 
-// Export clientPromise with runtime check
+// Export clientPromise
 export default clientPromise;
 
-// Helper to get database instance with runtime check
+// Helper to get database instance
 export async function getDatabase(): Promise<Db> {
-  if (!clientPromise) {
-    throw new Error(
-      'MongoDB client not initialized. Please ensure MONGODB_URI is set.'
-    );
-  }
   const client = await clientPromise;
   return client.db(dbName);
 }
