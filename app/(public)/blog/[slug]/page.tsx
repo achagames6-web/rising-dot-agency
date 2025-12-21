@@ -143,18 +143,6 @@ export default function SingleBlogPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.slug]);
 
-  const fetchRelatedBlogs = async (category: string) => {
-    try {
-      const res = await fetch(`/api/blogs?category=${category}&limit=3`);
-      const data = await res.json();
-      setRelatedBlogs(
-        data.filter((b: BlogPost) => b.slug !== params.slug).slice(0, 2)
-      );
-    } catch (error) {
-      console.error('Error fetching related blogs:', error);
-    }
-  };
-
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
