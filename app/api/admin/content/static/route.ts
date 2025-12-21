@@ -13,18 +13,18 @@ interface ContentSection {
 
 // Map pages to their media folders
 const mediaFolderMap: Record<string, string> = {
-  home: '/public/media/home/',
-  about: '/public/media/about/',
-  portfolio: '/public/media/portfolio/',
-  contact: '/public/media/contact/',
-  'services-webdesign': '/public/media/services/',
-  'services-seo': '/public/media/services/',
-  'services-wordpress': '/public/media/services/',
-  'services-shopify': '/public/media/services/',
-  'services-chatbot': '/public/media/services/',
-  'services-n8n': '/public/media/services/',
-  'services-saas': '/public/media/services/',
-  blog: '/public/media/blog/',
+  home: '/media/home/',
+  about: '/media/about/',
+  portfolio: '/media/portfolio/',
+  contact: '/media/contact/',
+  'services-webdesign': '/media/services/',
+  'services-seo': '/media/services/',
+  'services-wordpress': '/media/services/',
+  'services-shopify': '/media/services/',
+  'services-chatbot': '/media/services/',
+  'services-n8n': '/media/services/',
+  'services-saas': '/media/services/',
+  blog: '/media/blog/',
 };
 
 // GET - Read all static JSON files from /public/content/

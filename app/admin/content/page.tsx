@@ -266,7 +266,7 @@ export default function ContentManagerPage() {
               <div className="mb-4 space-y-2 text-xs">
                 <div className="flex items-center gap-2 text-slate-500">
                   <FileJson className="h-3 w-3 text-[#37AFE1]" />
-                  <span className="truncate">{section.contentPath}</span>
+                  <span className="truncate">/content/{section.page}.json</span>
                 </div>
                 {section.mediaPath && (
                   <div className="flex items-center gap-2 text-slate-500">
@@ -313,7 +313,7 @@ export default function ContentManagerPage() {
               <div className="mt-2 flex items-center gap-4 text-sm">
                 <span className="flex items-center gap-1 text-slate-400">
                   <FileJson className="h-4 w-4" />
-                  {editingSection.contentPath}
+                  /content/{editingSection.page}.json
                 </span>
                 {editingSection.mediaPath && (
                   <span className="flex items-center gap-1 text-slate-400">
