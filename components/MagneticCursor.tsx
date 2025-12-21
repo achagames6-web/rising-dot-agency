@@ -263,7 +263,7 @@ export default function MagneticCursor() {
           <div 
             className="absolute inset-[3px] rounded-full blur-sm"
             style={{
-              background: 'radial-gradient(circle, transparent 60%, rgba(59, 130, 246, 0.2
+              background: 'radial-gradient(circle, transparent 60%, rgba(59, 130, 246, 0.2))'
             }}
           />
           {/* Inner blur for depth */}

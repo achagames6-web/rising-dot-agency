@@ -149,3 +149,24 @@ export function TimelineContent({
     </motion.div>
   );
 }
+
+// Timeline wrapper component for blog pages
+interface TimelineProps {
+  data: Array<{
+    title: string;
+    content: React.ReactNode;
+  }>;
+}
+
+export function Timeline({ data }: TimelineProps) {
+  return (
+    <div className="space-y-8">
+      {data.map((item, index) => (
+        <TimelineContent key={index} animationNum={index} className="space-y-4">
+          <h2 className="text-2xl font-bold text-white mb-4">{item.title}</h2>
+          {item.content}
+        </TimelineContent>
+      ))}
+    </div>
+  );
+}
