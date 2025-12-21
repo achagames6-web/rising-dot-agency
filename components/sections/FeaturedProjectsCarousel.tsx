@@ -106,7 +106,7 @@ const DEFAULT_HEADINGS = {
 /**
  * Hook to fetch projects from the API
  */
-function useProjects(featured: boolean = true) {
+function useProjects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -148,7 +148,7 @@ function useProjects(featured: boolean = true) {
     };
 
     fetchProjects();
-  }, [featured]);
+  }, []);
 
   return { projects, loading, error };
 }
@@ -175,7 +175,7 @@ export default function FeaturedProjectsCarousel() {
   );
 
   // Fetch projects dynamically from API
-  const { projects, loading: projectsLoading } = useProjects(true);
+  const { projects, loading: projectsLoading } = useProjects();
 
   // Map projects to slides format
   const slides =
