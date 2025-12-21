@@ -16,7 +16,16 @@ import { Badge } from '@/components/ui/badge';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
 
-// Interface for featured slide data
+interface Project {
+  id: string;
+  _id?: string;
+  title: string;
+  description: string;
+  tags: string[];
+  thumbnail: string;
+  featured?: boolean;
+}
+
 interface FeaturedSlide {
   id: string;
   title: string;
@@ -26,74 +35,13 @@ interface FeaturedSlide {
   imageUrl: string;
 }
 
-// Interface for featured work section content
 interface FeaturedWorkContent {
   eyebrow?: string;
   title?: string;
   titleHighlight?: string;
   subtitle?: string;
-  slides?: FeaturedSlide[];
 }
 
-// Default slides as fallback when CMS data is unavailable
-const DEFAULT_SLIDES: FeaturedSlide[] = [
-  {
-    id: 'slide-1',
-    title: 'E-Commerce Platform',
-    description:
-      'We built a complete e-commerce solution with focus on conversion optimization and seamless checkout experience.',
-    services: ['shopify', 'web design', 'seo'],
-    type: 'E-Commerce',
-    imageUrl: '/media/portfolio/featured-projects/ecommerce-platform.jpg',
-  },
-  {
-    id: 'slide-2',
-    title: 'AI Chatbot Integration',
-    description:
-      'Custom AI-powered chatbot with natural language processing for 24/7 customer support automation.',
-    services: ['chatbot', 'n8n automation', 'ai'],
-    type: 'Automation',
-    imageUrl: '/media/portfolio/featured-projects/ai-chatbot.jpg',
-  },
-  {
-    id: 'slide-3',
-    title: 'SaaS Dashboard',
-    description:
-      'Modern SaaS platform with real-time analytics, user management, and seamless integrations.',
-    services: ['web design', 'development', 'saas'],
-    type: 'SaaS',
-    imageUrl: '/media/portfolio/featured-projects/saas-dashboard.jpg',
-  },
-  {
-    id: 'slide-4',
-    title: 'WordPress Blog Platform',
-    description:
-      'High-performance WordPress site with custom theme, advanced SEO, and blazing fast load times.',
-    services: ['wordpress', 'seo', 'web design'],
-    type: 'CMS',
-    imageUrl: '/media/portfolio/featured-projects/wordpress-blog.jpg',
-  },
-  {
-    id: 'slide-5',
-    title: 'N8N Workflow Automation',
-    description:
-      'Complex automation workflows connecting CRM, email, and inventory systems for seamless operations.',
-    services: ['n8n automation', 'integration'],
-    type: 'Automation',
-    imageUrl: '/media/portfolio/featured-projects/n8n-workflow.jpg',
-  },
-  {
-    id: 'slide-6',
-    title: 'SEO Campaign Success',
-    description:
-      'Comprehensive SEO strategy that increased organic traffic by 250% and achieved top rankings.',
-    services: ['seo', 'content', 'analytics'],
-    type: 'Marketing',
-    imageUrl: '/media/portfolio/featured-projects/seo-campaign.jpg',
-  },
-];
-
-// Default section headings
 const DEFAULT_HEADINGS = {
   eyebrow: 'Featured Work',
   title: 'Projects That',
@@ -102,27 +50,29 @@ const DEFAULT_HEADINGS = {
 };
 
 export default function FeaturedProjectsCarousel() {
-  // Fetch featuredWork section data from CMS
-  const { content, loading: contentLoading } = useSiteContent<FeaturedWorkContent>('portfolio', 'featuredWork');
-  const [dynamicProjects, setDynamicProjects] = useState<FeaturedSlide[]>([]);
+  const { content } = useSiteContent<FeaturedWorkContent>('portfolio', 'featuredWork');
+  const [slides, setSlides] = useState<FeaturedSlide[]>([]);
   const [loadingProjects, setLoadingProjects] = useState(true);
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
+        // Fetch featured projects from your API
         const res = await fetch('/api/projects?featured=true');
         if (res.ok) {
           const data = await res.json();
-          if (data.projects && data.projects.length > 0) {
-            const mapped = data.projects.map((p: any) => ({
-              id: p._id || p.id || Math.random().toString(),
+          const projects: Project[] = data.projects || [];
+          
+          if (projects.length > 0) {
+            const mappedSlides = projects.map((p) => ({
+              id: p._id || p.id,
               title: p.title,
               description: p.description,
-              services: p.tags || [],
-              type: p.tags?.[0] || 'Featured',
-              imageUrl: p.thumbnail || p.thumbnailUrl || '/media/portfolio/featured-projects/ecommerce-platform.jpg'
+              services: p.tags,
+              type: p.tags[0] || 'Project',
+              imageUrl: p.thumbnail || '/media/portfolio/featured-projects/ecommerce-platform.jpg',
             }));
-            setDynamicProjects(mapped);
+            setSlides(mappedSlides);
           }
         }
       } catch (error) {
@@ -135,27 +85,24 @@ export default function FeaturedProjectsCarousel() {
     fetchProjects();
   }, []);
 
-  // Use dynamic projects if available, otherwise CMS content, otherwise fallbacks
-  const slides = dynamicProjects.length > 0 
-    ? dynamicProjects 
-    : (content?.slides && content.slides.length > 0 ? content.slides : DEFAULT_SLIDES);
-
   const eyebrow = content?.eyebrow || DEFAULT_HEADINGS.eyebrow;
   const title = content?.title || DEFAULT_HEADINGS.title;
   const titleHighlight = content?.titleHighlight || DEFAULT_HEADINGS.titleHighlight;
   const subtitle = content?.subtitle || DEFAULT_HEADINGS.subtitle;
 
-  if (loadingProjects && dynamicProjects.length === 0) {
+  if (loadingProjects) {
     return (
-      <div className="h-[50vh] flex items-center justify-center bg-black">
-        <div className="w-12 h-12 border-2 border-[#37AFE1]/30 border-t-[#37AFE1] rounded-full animate-spin" />
+      <div className="py-32 flex justify-center items-center bg-black">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
       </div>
     );
   }
 
+  // Hide section if no projects are found
+  if (slides.length === 0) return null;
+
   return (
     <section className="bg-black">
-      {/* Section Header */}
       <div className="py-16 px-6">
         <SectionHeading
           eyebrow={eyebrow}
@@ -167,9 +114,7 @@ export default function FeaturedProjectsCarousel() {
 
       <ScrollXCarousel className="h-[150vh]">
         <ScrollXCarouselContainer className="h-dvh place-content-center flex flex-col gap-8 py-12">
-          {/* Left fade gradient */}
           <div className="pointer-events-none w-[12vw] h-[103%] absolute inset-[0_auto_0_0] z-10 bg-[linear-gradient(90deg,_#000_35%,_transparent)]" />
-          {/* Right fade gradient */}
           <div className="pointer-events-none bg-[linear-gradient(270deg,_#000_35%,_transparent)] w-[15vw] h-[103%] absolute inset-[0_0_0_auto] z-10" />
 
           <ScrollXCarouselWrap className="flex-4/5 flex space-x-8 [&>*:first-child]:ml-8">
@@ -218,7 +163,6 @@ export default function FeaturedProjectsCarousel() {
             ))}
           </ScrollXCarouselWrap>
 
-          {/* Progress bar */}
           <ScrollXCarouselProgress
             className="bg-white/10 mx-8 h-1 rounded-full overflow-hidden"
             progressStyle="size-full bg-gradient-to-r from-[#F58122] to-[#37AFE1] rounded-full"
