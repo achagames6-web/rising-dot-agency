@@ -21,7 +21,7 @@ export function useSiteContent<T = any>(page: string, section?: string) {
   useEffect(() => {
     const fetchContent = async () => {
       const cacheKey = section ? `${page}_${section}` : page;
-      
+
       // Check cache first
       const cached = contentCache[cacheKey];
       if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
@@ -32,27 +32,25 @@ export function useSiteContent<T = any>(page: string, section?: string) {
       }
 
       try {
-        const params = new URLSearchParams({ page });
-        if (section) params.append('section', section);
-        
-        const res = await fetch(`/api/content?${params}`);
+        // Fetch from static JSON file instead of API
+        const res = await fetch(`/content/${page}.json`);
         if (!res.ok) throw new Error('Failed to fetch content');
-        
+
         const data = await res.json();
-        
+
         // If section specified, return just that section's content
         const result = section ? data[section] : data;
-        
+
         // Check visibility status
         const visible = result?._visible !== false;
         setIsVisible(visible);
-        
+
         // Update cache
         contentCache[cacheKey] = {
           data: result,
           timestamp: Date.now(),
         };
-        
+
         setContent(result);
       } catch (err) {
         console.error('Error fetching site content:', err);
@@ -158,7 +156,8 @@ export function usePortfolioProjects() {
       }
 
       try {
-        const res = await fetch('/api/content?page=portfolio&section=projects');
+        // Fetch from static JSON file instead of API
+        const res = await fetch('/content/portfolio.json');
         if (!res.ok) throw new Error('Failed to fetch portfolio projects');
 
         const data = await res.json();
@@ -185,7 +184,6 @@ export function usePortfolioProjects() {
   return { projects, loading, error };
 }
 
-
 /**
  * Hook to check if a specific section is visible
  * Returns true if section is visible or not configured (default visible)
@@ -197,16 +195,16 @@ export function useSectionVisibility(page: string, section: string) {
   useEffect(() => {
     const checkVisibility = async () => {
       try {
-        const params = new URLSearchParams({ page, section });
-        const res = await fetch(`/api/content?${params}`);
+        // Fetch from static JSON file instead of API
+        const res = await fetch(`/content/${page}.json`);
         if (!res.ok) {
           setIsVisible(true); // Default to visible if fetch fails
           return;
         }
-        
+
         const data = await res.json();
         const sectionData = data[section];
-        
+
         // Section is visible if _visible is not explicitly false
         setIsVisible(sectionData?._visible !== false);
       } catch (err) {
