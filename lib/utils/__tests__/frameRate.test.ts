@@ -200,7 +200,7 @@ describe('Frame Rate Maintenance - Property Tests', () => {
     test('frame budget is sufficient for rendering', () => {
       fc.assert(
         fc.property(
-          fc.constantFrom('mobile', 'tablet', 'desktop'),
+          fc.constantFrom('mobile' as const, 'tablet' as const, 'desktop' as const),
           (deviceType) => {
             const targetFPS = getTargetFPS(deviceType);
             const frameBudget = 1000 / targetFPS; // ms per frame

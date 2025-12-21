@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+// @ts-ignore - Internal Tailwind CSS utility without type definitions
 import flattenColorPalette from 'tailwindcss/lib/util/flattenColorPalette';
 
 // Plugin to add Tailwind colors as CSS variables
