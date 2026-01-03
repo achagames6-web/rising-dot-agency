@@ -13,15 +13,6 @@ export {
   sanitizeJSON,
 } from './sanitization';
 
-// Rate Limiting
-export {
-  checkRateLimit,
-  rateLimitMiddleware,
-  RateLimits,
-  type RateLimitConfig,
-  type RateLimitResult,
-} from './rateLimit';
-
 // Cookie Consent
 export {
   getCookieConsent,
@@ -40,12 +31,3 @@ export {
   createSessionTimeout,
   type SessionTimeoutConfig,
 } from './sessionTimeout';
-
-// API Helpers
-export {
-  secureAPI,
-  validateOrigin,
-  getClientIP,
-  logSecurityEvent,
-  type SecureAPIOptions,
-} from './apiHelpers';
