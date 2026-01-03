@@ -1,10 +1,24 @@
 import dynamic from 'next/dynamic';
-import Hero from '@/components/sections/Hero';
 import ValueProposition from '@/components/sections/ValueProposition';
 import ServiceCards from '@/components/sections/ServiceCards';
 import SimpleCTA from '@/components/sections/SimpleCTA';
 import { BatchSectionProvider } from '@/components/sections/BatchSectionProvider';
 import OptimizedSectionWrapper from '@/components/sections/OptimizedSectionWrapper';
+
+// SpaceHero - dynamic import for canvas starfield
+const SpaceHero = dynamic(() => import('@/components/sections/SpaceHero'), {
+  ssr: false,
+  loading: () => (
+    <section
+      className="flex min-h-screen items-center justify-center py-20"
+      style={{
+        background: 'linear-gradient(180deg, #0A0F1E 0%, #050810 100%)',
+      }}
+    >
+      <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
+    </section>
+  ),
+});
 
 // Connect section - dynamic import for framer-motion animations
 const Connect = dynamic(() => import('@/components/sections/Connect'), {
@@ -159,7 +173,7 @@ export default function Home() {
     <BatchSectionProvider page="home" sections={HOME_SECTIONS}>
       <main className="min-h-screen bg-black">
         <OptimizedSectionWrapper section="hero">
-          <Hero />
+          <SpaceHero />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="showreel">
           <CinematicShowreel />
