@@ -10,7 +10,8 @@ import Hero3DFramerComponent from './hero-3-d';
  */
 export default function Hero3DClient() {
   // Access the Responsive property in client component context
-  const ResponsiveHero = Hero3DFramerComponent.Responsive;
+  // Type assertion needed since hero-3-d.jsx has @ts-nocheck
+  const ResponsiveHero = (Hero3DFramerComponent as any).Responsive;
 
   return (
     <Suspense
