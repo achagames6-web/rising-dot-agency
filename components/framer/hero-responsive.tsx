@@ -35,8 +35,8 @@ export default function Hero3DResponsive() {
     const ResponsiveComponent = (Hero3DFramerComponent as any)?.Responsive;
 
     if (!ResponsiveComponent) {
-      console.error('Responsive component not found');
-      return <HeroErrorFallback message="Hero component loading..." />;
+      console.error('Responsive component not found on Hero3DFramerComponent');
+      return <HeroErrorFallback message="Hero component unavailable" />;
     }
 
     return (
