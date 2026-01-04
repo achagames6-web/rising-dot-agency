@@ -7,12 +7,9 @@ import { useAnalytics } from '@/components/analytics/AnalyticsTracker';
 import dynamic from 'next/dynamic';
 
 // Dynamic import of Framer component (client-side only)
-const Hero3DFramerComponent = dynamic(
-  () => import('../framer/hero-3-d').then((mod) => mod.default.Responsive),
-  {
-    ssr: false,
-  }
-);
+const Hero3DClient = dynamic(() => import('../framer/Hero3DClient'), {
+  ssr: false,
+});
 
 export default function AriseHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -59,7 +56,7 @@ export default function AriseHero() {
     >
       {/* Framer 3D Background - Absolute positioned behind content */}
       <div className="absolute inset-0 z-0">
-        <Hero3DFramerComponent />
+        <Hero3DClient />
       </div>
 
       {/* Content Overlay - Above the 3D background */}
