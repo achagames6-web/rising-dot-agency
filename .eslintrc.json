@@ -1,5 +1,6 @@
 {
   "extends": ["next/core-web-vitals"],
+  "ignorePatterns": ["components/framer/**"],
   "rules": {
     "prefer-const": "off",
     "no-console": "off",
