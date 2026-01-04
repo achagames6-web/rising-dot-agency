@@ -4,19 +4,26 @@ import ServiceCards from '@/components/sections/ServiceCards';
 import SimpleCTA from '@/components/sections/SimpleCTA';
 import { BatchSectionProvider } from '@/components/sections/BatchSectionProvider';
 import OptimizedSectionWrapper from '@/components/sections/OptimizedSectionWrapper';
+import '@/components/framer/styles.css';
 
-// AriseHero - dynamic import with Rising Dot 3D background (SSR disabled)
-const AriseHero = dynamic(() => import('@/components/sections/AriseHero'), {
-  ssr: false,
-  loading: () => (
-    <section
-      className="flex min-h-screen items-center justify-center"
-      style={{ background: 'rgb(0, 2, 15)' }}
-    >
-      <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
-    </section>
-  ),
-});
+// Hero 3D Framer Component - dynamic import (SSR disabled)
+const Hero3DFramerComponent = dynamic(
+  () =>
+    import('@/components/framer/hero-3-d').then(
+      (mod) => mod.default.Responsive
+    ),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        className="flex min-h-screen items-center justify-center"
+        style={{ background: 'rgb(0, 2, 15)' }}
+      >
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
+      </div>
+    ),
+  }
+);
 
 // Connect section - dynamic import for framer-motion animations
 const Connect = dynamic(() => import('@/components/sections/Connect'), {
@@ -171,7 +178,9 @@ export default function Home() {
     <BatchSectionProvider page="home" sections={HOME_SECTIONS}>
       <main className="min-h-screen bg-black">
         <OptimizedSectionWrapper section="hero">
-          <AriseHero />
+          <div className="flex flex-col items-center gap-3 bg-[rgb(0,_2,_15)]">
+            <Hero3DFramerComponent />
+          </div>
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="showreel">
           <CinematicShowreel />
