@@ -5,15 +5,15 @@ import SimpleCTA from '@/components/sections/SimpleCTA';
 import { BatchSectionProvider } from '@/components/sections/BatchSectionProvider';
 import OptimizedSectionWrapper from '@/components/sections/OptimizedSectionWrapper';
 
-// Hero component - Framer 3D animation (client-side only)
-const Hero3DClient = dynamic(() => import('@/components/framer/Hero3DClient'), {
+// Hero component - Clean hero with particle background (client-side only)
+const CleanHero = dynamic(() => import('@/components/sections/CleanHero'), {
   ssr: false,
   loading: () => (
     <section
       className="flex min-h-screen items-center justify-center"
-      style={{ background: 'rgb(0, 2, 15)' }}
+      style={{ background: '#000212' }}
     >
-      <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
+      <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#4285F4]/30 border-t-[#4285F4]" />
     </section>
   ),
 });
@@ -171,9 +171,7 @@ export default function Home() {
     <BatchSectionProvider page="home" sections={HOME_SECTIONS}>
       <main className="min-h-screen bg-black">
         <OptimizedSectionWrapper section="hero">
-          <div className="flex flex-col items-center gap-3 bg-[rgb(0,_2,_15)]">
-            <Hero3DClient />
-          </div>
+          <CleanHero />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="showreel">
           <CinematicShowreel />
