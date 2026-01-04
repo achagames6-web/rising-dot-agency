@@ -5,7 +5,6 @@ import { StarButton } from '@/components/ui/star-button';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
 import { useAnalytics } from '@/components/analytics/AnalyticsTracker';
 import dynamic from 'next/dynamic';
-import '../framer/styles.css';
 
 // Dynamic import of Framer component (client-side only)
 const Hero3DFramerComponent = dynamic(

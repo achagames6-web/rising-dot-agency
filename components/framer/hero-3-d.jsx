@@ -1,12 +1,15 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { animate, inView } from '@motionone/dom';
+
+// Configuration constants
+const PARTICLE_COUNT = 100;
+const CONNECTION_DISTANCE = 150;
 
 /**
  * Hero3D Framer Component
  * 3D animated background with Rising Dot branding colors
- * Uses @motionone/dom for GPU-accelerated animations
+ * Uses canvas API for GPU-accelerated animations
  */
 function Hero3D() {
   const canvasRef = useRef(null);
@@ -84,7 +87,10 @@ function Hero3D() {
     }
 
     // Create particles
-    const particles = Array.from({ length: 100 }, () => new Particle());
+    const particles = Array.from(
+      { length: PARTICLE_COUNT },
+      () => new Particle()
+    );
 
     // Animation loop
     const animate = () => {
@@ -107,7 +113,7 @@ function Hero3D() {
           const dy = particles[i].y - particles[j].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 150) {
+          if (distance < CONNECTION_DISTANCE) {
             const scale1 = 1000 / (1000 + particles[i].z);
             const scale2 = 1000 / (1000 + particles[j].z);
             const x1 =
