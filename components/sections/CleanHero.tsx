@@ -107,11 +107,7 @@ export default function CleanHero() {
             <div className="mt-4 flex flex-col items-center gap-6">
               {/* Primary CTA Button */}
               <Link href={ctaLink}>
-                <StarButton
-                  className="px-8 py-4 text-base"
-                  backgroundColor="#F58122"
-                  lightColor="#FFFFFF"
-                >
+                <StarButton className="px-8 py-4 text-base">
                   {ctaText}
                 </StarButton>
               </Link>
