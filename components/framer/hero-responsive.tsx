@@ -1,6 +1,5 @@
 'use client';
 
-import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 
 // Loading fallback component
@@ -23,7 +22,7 @@ const HeroErrorFallback = ({ message }: { message: string }) => (
   </div>
 );
 
-// Direct import with error handling
+// Direct import with error handling - dynamic() handles Suspense internally
 const Hero3DFramerComponent = dynamic(() => import('./hero-3-d'), {
   ssr: false,
   loading: () => <HeroLoadingFallback />,
@@ -31,7 +30,8 @@ const Hero3DFramerComponent = dynamic(() => import('./hero-3-d'), {
 
 export default function Hero3DResponsive() {
   try {
-    // Access Responsive variant - using type assertion for better type safety
+    // Access Responsive variant - using type assertion
+    // Note: The Framer component exports a Responsive property dynamically
     const ResponsiveComponent = (Hero3DFramerComponent as any)?.Responsive;
 
     if (!ResponsiveComponent) {
@@ -39,11 +39,7 @@ export default function Hero3DResponsive() {
       return <HeroErrorFallback message="Hero component unavailable" />;
     }
 
-    return (
-      <Suspense fallback={<HeroLoadingFallback />}>
-        <ResponsiveComponent />
-      </Suspense>
-    );
+    return <ResponsiveComponent />;
   } catch (error) {
     console.error('Error rendering Hero3D component:', error);
     return <HeroErrorFallback message="Unable to load hero section" />;
