@@ -6,6 +6,8 @@ import { useAnalytics } from '@/components/analytics/AnalyticsTracker';
 import dynamic from 'next/dynamic';
 import PlanetGlow from '../framer/PlanetGlow';
 import { ArrowRight } from 'lucide-react';
+import { StarButton } from '@/components/ui/star-button';
+import Link from 'next/link';
 
 // Dynamic import of ParticleBackground (client-side only, avoid SSR issues)
 const ParticleBackground = dynamic(
@@ -69,7 +71,7 @@ export default function CleanHero() {
         className="absolute inset-0 z-0"
         style={{
           background:
-            'linear-gradient(180deg, #000212 0%, #001840 50%, #000212 100%)',
+            'linear-gradient(180deg, #000212 0%, rgba(55, 175, 225, 0.15) 30%, rgba(245, 129, 34, 0.1) 60%, #000000 100%)',
         }}
       />
 
@@ -82,7 +84,7 @@ export default function CleanHero() {
               <span className="text-base font-medium text-white/90 md:text-lg">
                 {eyebrow}
               </span>
-              <ArrowRight className="h-5 w-5 text-[#4285F4]" />
+              <ArrowRight className="h-5 w-5 text-[#F58122]" />
             </div>
 
             {/* Main Heading */}
@@ -104,26 +106,11 @@ export default function CleanHero() {
             {/* CTA Section */}
             <div className="mt-4 flex flex-col items-center gap-6">
               {/* Primary CTA Button */}
-              <a
-                href={ctaLink}
-                className="group relative inline-flex items-center justify-center overflow-hidden rounded-full px-8 py-4 font-medium text-white transition-all hover:scale-105 active:scale-95"
-                style={{
-                  background:
-                    'linear-gradient(135deg, #4285F4 0%, #1E5EFF 100%)',
-                  boxShadow: '0 8px 24px rgba(66, 133, 244, 0.3)',
-                }}
-              >
-                <span className="relative z-10 text-base font-semibold">
+              <Link href={ctaLink}>
+                <StarButton className="px-8 py-4 text-base">
                   {ctaText}
-                </span>
-                <div
-                  className="absolute inset-0 opacity-0 transition-opacity group-hover:opacity-100"
-                  style={{
-                    background:
-                      'linear-gradient(135deg, #5295FF 0%, #2E6EFF 100%)',
-                  }}
-                />
-              </a>
+                </StarButton>
+              </Link>
 
               {/* Pulse Indicator */}
               <div className="flex items-center gap-2">
