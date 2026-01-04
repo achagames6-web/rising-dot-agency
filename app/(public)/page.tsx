@@ -7,11 +7,8 @@ import OptimizedSectionWrapper from '@/components/sections/OptimizedSectionWrapp
 import '@/components/framer/styles.css';
 
 // Hero 3D Framer Component - dynamic import (SSR disabled)
-const Hero3DFramerComponent = dynamic(
-  () =>
-    import('@/components/framer/hero-3-d').then(
-      (mod) => mod.default.Responsive
-    ),
+const Hero3DResponsive = dynamic(
+  () => import('@/components/framer/hero-responsive'),
   {
     ssr: false,
     loading: () => (
@@ -179,7 +176,7 @@ export default function Home() {
       <main className="min-h-screen bg-black">
         <OptimizedSectionWrapper section="hero">
           <div className="flex flex-col items-center gap-3 bg-[rgb(0,_2,_15)]">
-            <Hero3DFramerComponent />
+            <Hero3DResponsive />
           </div>
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="showreel">
