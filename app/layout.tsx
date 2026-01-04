@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Montserrat, Inter, Fira_Code } from 'next/font/google';
 import dynamic from 'next/dynamic';
+import '@/components/framer/styles.css';
 import './globals.css';
 
 // Dynamic imports for client-only components
