@@ -8,9 +8,12 @@ import dynamic from 'next/dynamic';
 import '../framer/styles.css';
 
 // Dynamic import of Framer component (client-side only)
-const Hero3DFramerComponent = dynamic(() => import('../framer/hero-3-d'), {
-  ssr: false,
-});
+const Hero3DFramerComponent = dynamic(
+  () => import('../framer/hero-3-d').then((mod) => mod.default.Responsive),
+  {
+    ssr: false,
+  }
+);
 
 export default function AriseHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -57,7 +60,7 @@ export default function AriseHero() {
     >
       {/* Framer 3D Background - Absolute positioned behind content */}
       <div className="absolute inset-0 z-0">
-        <Hero3DFramerComponent.Responsive />
+        <Hero3DFramerComponent />
       </div>
 
       {/* Content Overlay - Above the 3D background */}
