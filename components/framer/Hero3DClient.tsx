@@ -10,7 +10,10 @@ import Hero3DFramerComponent from './hero-3-d';
  */
 export default function Hero3DClient() {
   // Access the Responsive property in client component context
-  // Type assertion needed since hero-3-d.jsx has @ts-nocheck
+  // Type assertion needed because:
+  // 1. hero-3-d.jsx is auto-generated JavaScript with @ts-nocheck
+  // 2. The .Responsive property is added dynamically at runtime by Framer
+  // 3. Creating type definitions for generated Framer code would break on regeneration
   const ResponsiveHero = (Hero3DFramerComponent as any).Responsive;
 
   return (
