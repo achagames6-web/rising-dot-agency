@@ -59,6 +59,10 @@ export const metadata: Metadata = {
   title: 'Rising Dot Agency',
   description:
     'Premium digital solutions provider specializing in N8N Automations, Chatbot Development, Web Design, WordPress, Shopify, and SEO services.',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
   other: {
     // Resource hints for performance
     preconnect: 'https://fonts.googleapis.com',
