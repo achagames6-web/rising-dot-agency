@@ -38,6 +38,9 @@ const nextConfig = {
     ],
   },
 
+  // Transpile packages for unframer compatibility
+  transpilePackages: ['unframer', '@motionone/dom'],
+
   // Webpack configuration for code splitting
   webpack: (config, { isServer }) => {
     // Suppress cache serialization warnings

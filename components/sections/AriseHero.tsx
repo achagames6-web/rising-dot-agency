@@ -5,14 +5,13 @@ import { StarButton } from '@/components/ui/star-button';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
 import { useAnalytics } from '@/components/analytics/AnalyticsTracker';
 import dynamic from 'next/dynamic';
+import type Hero3DType from '../framer/hero-3-d';
+import '../framer/styles.css';
 
 // Dynamic import of Framer component (client-side only)
-const Hero3DFramerComponent = dynamic(
-  () => import('../framer/hero-3-d').then((mod) => mod.default.Responsive),
-  {
-    ssr: false,
-  }
-);
+const Hero3DFramerComponent = dynamic(() => import('../framer/hero-3-d'), {
+  ssr: false,
+}) as typeof Hero3DType;
 
 export default function AriseHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -59,7 +58,7 @@ export default function AriseHero() {
     >
       {/* Framer 3D Background - Absolute positioned behind content */}
       <div className="absolute inset-0 z-0">
-        <Hero3DFramerComponent />
+        <Hero3DFramerComponent.Responsive />
       </div>
 
       {/* Content Overlay - Above the 3D background */}
