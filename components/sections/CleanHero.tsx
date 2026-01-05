@@ -4,14 +4,13 @@ import { useRef, useCallback } from 'react';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
 import { useAnalytics } from '@/components/analytics/AnalyticsTracker';
 import dynamic from 'next/dynamic';
-import PlanetGlow from '../framer/PlanetGlow';
 import { ArrowRight } from 'lucide-react';
 import { StarButton } from '@/components/ui/star-button';
 import Link from 'next/link';
 
-// Dynamic import of ParticleBackground (client-side only, avoid SSR issues)
-const ParticleBackground = dynamic(
-  () => import('../framer/ParticleBackground'),
+// Dynamic import of AnimatedBackground (client-side only, avoid SSR issues)
+const AnimatedBackground = dynamic(
+  () => import('@/components/backgrounds/AnimatedBackground'),
   {
     ssr: false,
   }
@@ -54,28 +53,13 @@ export default function CleanHero() {
     <section
       ref={containerRef}
       className="relative min-h-screen overflow-hidden"
-      style={{ background: '#000212' }}
       onMouseMove={trackHeroInteraction}
       onTouchStart={trackHeroInteraction}
     >
-      {/* Layer 1: Particle Background */}
-      <ParticleBackground />
+      {/* New AnimatedBackground - replaces ParticleBackground, PlanetGlow, and gradient overlays */}
+      <AnimatedBackground />
 
-      {/* Layer 2: Planet Glow */}
-      <div className="absolute inset-0 z-0">
-        <PlanetGlow />
-      </div>
-
-      {/* Layer 3: Gradient Overlay */}
-      <div
-        className="absolute inset-0 z-0"
-        style={{
-          background:
-            'linear-gradient(180deg, #000212 0%, rgba(55, 175, 225, 0.15) 30%, rgba(245, 129, 34, 0.1) 60%, #000000 100%)',
-        }}
-      />
-
-      {/* Layer 4: Content */}
+      {/* Content with z-10 */}
       <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-20">
         <div className="mx-auto w-full max-w-5xl">
           <div className="flex flex-col items-center gap-8 text-center">

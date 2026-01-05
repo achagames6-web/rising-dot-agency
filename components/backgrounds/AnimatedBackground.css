@@ -1,0 +1,112 @@
+.animated-background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(180deg, rgb(0, 2, 15) 0%, rgb(0, 4, 31) 40%, rgb(0, 2, 20) 100%);
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* Main centered background - Planet/Sphere image */
+.background-main {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 120%;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+/* Gradient overlay at bottom - fade effect */
+.animated-background-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60%;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 2, 15, 0.5) 40%, rgb(0, 2, 15) 100%);
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* Left light image */
+.light-left {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: auto;
+  height: 100%;
+  z-index: 2;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+/* Right light image */
+.light-right {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: auto;
+  height: 100%;
+  z-index: 2;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.light-image {
+  width: auto;
+  height: 100%;
+  max-height: 100vh;
+  object-fit: contain;
+  object-position: center;
+}
+
+#particles-main {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: auto;
+  z-index: 3;
+}
+
+#particles-left,
+#particles-right {
+  position: absolute !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: auto !important;
+  z-index: 3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .light-left,
+  .light-right {
+    height: auto;
+  }
+  
+  .light-image {
+    height: auto;
+    width: 100%;
+  }
+}
