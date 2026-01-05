@@ -18,7 +18,7 @@
 /* Main centered background - Planet/Sphere image */
 .background-main {
   position: absolute;
-  top: 20%;
+  top: 10%;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -43,12 +43,14 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 60%;
+  height: 75%;
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgba(0, 2, 15, 0.5) 40%,
-    rgb(0, 2, 15) 100%
+    rgba(0, 2, 15, 0.3) 20%,
+    rgba(0, 2, 15, 0.7) 50%,
+    rgba(0, 2, 15, 0.95) 80%,
+    rgb(0, 0, 0) 100%
   );
   z-index: 6;
   pointer-events: none;
@@ -113,11 +115,22 @@
 @media (max-width: 768px) {
   .light-left,
   .light-right {
-    height: auto;
+    top: 0;
+    transform: translateY(0);
+    height: 60vh;
   }
 
   .light-image {
-    height: auto;
-    width: 100%;
+    height: 100%;
+    width: auto;
+    object-position: top;
+  }
+
+  .background-main {
+    top: 5%;
+  }
+
+  .animated-background-container::after {
+    height: 80%;
   }
 }

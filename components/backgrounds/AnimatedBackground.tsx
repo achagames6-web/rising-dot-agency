@@ -56,55 +56,91 @@ const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({
           fpsLimit: 120,
           particles: {
             number: {
-              value: 150,
+              value: 300,
               density: {
                 enable: true,
-                area: 800,
+                area: 1000,
               },
             },
             color: { value: '#ffffff' },
             shape: { type: 'circle' },
             opacity: {
-              value: { min: 0.3, max: 0.7 },
+              value: 0.6,
               animation: {
                 enable: true,
-                speed: 0.5,
-                minimumValue: 0.1,
+                speed: 1,
+                minimumValue: 0.2,
+                sync: false,
               },
             },
             size: {
-              value: { min: 1, max: 2.5 },
+              value: 2,
             },
             move: {
               enable: true,
-              speed: { min: 1.2, max: 2.5 },
+              speed: 2.5,
               direction: 'bottom',
-              random: true,
-              straight: false,
+              random: false,
+              straight: true,
               outModes: {
                 default: 'out',
                 bottom: 'out',
                 top: 'out',
               },
             },
+            life: {
+              duration: {
+                value: 8,
+              },
+            },
             links: {
               enable: false,
             },
           },
-          emitters: {
-            position: {
-              x: 50,
-              y: 0,
+          emitters: [
+            {
+              position: {
+                x: 50,
+                y: 0,
+              },
+              rate: {
+                delay: 0.05,
+                quantity: 3,
+              },
+              size: {
+                width: 60,
+                height: 0,
+              },
             },
-            rate: {
-              delay: 0.1,
-              quantity: 5,
+            {
+              position: {
+                x: 10,
+                y: 0,
+              },
+              rate: {
+                delay: 0.08,
+                quantity: 2,
+              },
+              size: {
+                width: 20,
+                height: 0,
+              },
             },
-            size: {
-              width: 100,
-              height: 0,
+            {
+              position: {
+                x: 90,
+                y: 0,
+              },
+              rate: {
+                delay: 0.08,
+                quantity: 2,
+              },
+              size: {
+                width: 20,
+                height: 0,
+              },
             },
-          },
+          ],
           background: { color: 'transparent' },
         }}
       />

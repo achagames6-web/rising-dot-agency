@@ -61,15 +61,15 @@ export default function CleanHero() {
       <AnimatedBackground />
 
       {/* Content with z-10 */}
-      <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-20">
+      <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-12 pt-16">
         <div className="mx-auto w-full max-w-5xl">
           <div className="flex flex-col items-center gap-8 text-center">
             {/* Top Badge */}
-            <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-6 py-3 backdrop-blur-sm">
-              <span className="text-base font-medium text-white/90 md:text-lg">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2 backdrop-blur-sm">
+              <span className="text-sm font-medium text-white/90 md:text-base">
                 {eyebrow}
               </span>
-              <ArrowRight className="h-5 w-5 text-[#F58122]" />
+              <ArrowRight className="h-4 w-4 text-[#37AFE1]" />
             </div>
 
             {/* Main Heading */}
@@ -96,23 +96,6 @@ export default function CleanHero() {
                   {ctaText}
                 </StarButton>
               </Link>
-
-              {/* Pulse Indicator */}
-              <div className="flex items-center gap-2">
-                <div className="relative flex h-3 w-3">
-                  <span
-                    className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
-                    style={{ background: '#0DDE33' }}
-                  />
-                  <span
-                    className="relative inline-flex h-3 w-3 rounded-full"
-                    style={{ background: '#0DDE33' }}
-                  />
-                </div>
-                <span className="text-sm font-medium text-white/80">
-                  2 Spots Available
-                </span>
-              </div>
             </div>
           </div>
         </div>
