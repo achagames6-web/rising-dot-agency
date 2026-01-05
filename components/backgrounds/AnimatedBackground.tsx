@@ -7,7 +7,9 @@ interface AnimatedBackgroundProps {
   className?: string;
 }
 
-const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({ className = '' }) => {
+const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({
+  className = '',
+}) => {
   const particlesInit = useCallback(async (engine: any) => {
     await loadFull(engine);
   }, []);
@@ -20,8 +22,8 @@ const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({ className = '' 
     <div className={`animated-background-container ${className}`}>
       {/* Main centered background image - Planet/Sphere */}
       <div className="background-main">
-        <img 
-          src="https://framerusercontent.com/images/xdaPXOEtPIASFiIeYk976HyJA.svg?width=1440&height=818" 
+        <img
+          src="https://framerusercontent.com/images/xdaPXOEtPIASFiIeYk976HyJA.svg?width=1440&height=818"
           alt="Main background"
           className="background-image"
         />
@@ -29,8 +31,8 @@ const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({ className = '' 
 
       {/* Left light image */}
       <div className="light-left">
-        <img 
-          src="https://framerusercontent.com/images/UKLIsmbXPgsNWAAoMY12jQuP2ZI.svg?width=853&height=730" 
+        <img
+          src="https://framerusercontent.com/images/UKLIsmbXPgsNWAAoMY12jQuP2ZI.svg?width=853&height=730"
           alt="Left light"
           className="light-image"
         />
@@ -38,8 +40,8 @@ const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({ className = '' 
 
       {/* Right light image */}
       <div className="light-right">
-        <img 
-          src="https://framerusercontent.com/images/NTKgB6h2Q6llqcAO5km5305uDk0.svg?width=804&height=730" 
+        <img
+          src="https://framerusercontent.com/images/NTKgB6h2Q6llqcAO5km5305uDk0.svg?width=804&height=730"
           alt="Right light"
           className="light-image"
         />
@@ -54,40 +56,53 @@ const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({ className = '' 
           fpsLimit: 120,
           particles: {
             number: {
-              value: 280,
+              value: 150,
               density: {
-                enable: false,
+                enable: true,
+                area: 800,
               },
             },
             color: { value: '#ffffff' },
             shape: { type: 'circle' },
             opacity: {
-              value: { min: 0.15, max: 0.35 },
+              value: { min: 0.3, max: 0.7 },
+              animation: {
+                enable: true,
+                speed: 0.5,
+                minimumValue: 0.1,
+              },
             },
             size: {
-              value: { min: 0.8, max: 1.8 },
+              value: { min: 1, max: 2.5 },
             },
             move: {
               enable: true,
-              speed: 0.12,
+              speed: { min: 1.2, max: 2.5 },
               direction: 'bottom',
-              random: false,
-              straight: true,
-              gravity: {
-                enable: false,
-              },
+              random: true,
+              straight: false,
               outModes: {
-                default: 'destroy',
+                default: 'out',
+                bottom: 'out',
+                top: 'out',
               },
             },
             links: {
               enable: false,
             },
-            spawn: {
-              rate: {
-                delay: 0.05,
-                quantity: 4,
-              },
+          },
+          emitters: {
+            position: {
+              x: 50,
+              y: 0,
+            },
+            rate: {
+              delay: 0.1,
+              quantity: 5,
+            },
+            size: {
+              width: 100,
+              height: 0,
             },
           },
           background: { color: 'transparent' },

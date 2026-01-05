@@ -1,12 +1,18 @@
 .animated-background-container {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(180deg, rgb(0, 2, 15) 0%, rgb(0, 4, 31) 40%, rgb(0, 2, 20) 100%);
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgb(0, 2, 15) 0%,
+    rgb(0, 4, 31) 40%,
+    rgb(0, 2, 20) 100%
+  );
   overflow: hidden;
   z-index: 0;
+  pointer-events: none;
 }
 
 /* Main centered background - Planet/Sphere image */
@@ -38,8 +44,13 @@
   left: 0;
   width: 100%;
   height: 60%;
-  background: linear-gradient(180deg, transparent 0%, rgba(0, 2, 15, 0.5) 40%, rgb(0, 2, 15) 100%);
-  z-index: 4;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 2, 15, 0.5) 40%,
+    rgb(0, 2, 15) 100%
+  );
+  z-index: 6;
   pointer-events: none;
 }
 
@@ -80,13 +91,13 @@
 }
 
 #particles-main {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: auto;
-  z-index: 3;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
 }
 
 #particles-left,
@@ -104,7 +115,7 @@
   .light-right {
     height: auto;
   }
-  
+
   .light-image {
     height: auto;
     width: 100%;
