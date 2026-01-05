@@ -53,6 +53,7 @@ export default function CleanHero() {
     <section
       ref={containerRef}
       className="relative min-h-screen overflow-hidden"
+      style={{ isolation: 'isolate' }}
       onMouseMove={trackHeroInteraction}
       onTouchStart={trackHeroInteraction}
     >
