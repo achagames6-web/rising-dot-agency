@@ -178,10 +178,6 @@ export default function ServicesShowcase() {
                     alt={service.title}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
-                  {/* Gradient Overlay */}
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-t ${service.color} opacity-60`}
-                  />
 
                   {/* Icon Badge on Image */}
                   <div className="absolute left-4 top-4">

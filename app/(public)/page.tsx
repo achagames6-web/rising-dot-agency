@@ -65,12 +65,6 @@ const ServicesShowcase = dynamic(
   }
 );
 
-// TechStackShowcase - Premium tech stack cards
-const TechStackShowcase = dynamic(
-  () => import('@/components/sections/TechStackShowcase'),
-  { ssr: false }
-);
-
 // HolographicTeam - Team carousel section
 const HolographicTeam = dynamic(
   () => import('@/components/sections/HolographicTeam'),
@@ -157,7 +151,6 @@ const HOME_SECTIONS = [
   'hero',
   'portfolioGallery',
   'servicesShowcase',
-  'techStackShowcase',
   'stackFeature',
   'techStack',
   'caseStudies',
@@ -181,9 +174,6 @@ export default function Home() {
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="servicesShowcase">
           <ServicesShowcase />
-        </OptimizedSectionWrapper>
-        <OptimizedSectionWrapper section="techStackShowcase">
-          <TechStackShowcase />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="stackFeature">
           <StackFeatureSection />
