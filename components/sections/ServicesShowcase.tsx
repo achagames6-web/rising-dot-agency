@@ -1,176 +1,245 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { Sparkles, ArrowRight } from 'lucide-react';
+import { StarButton } from '@/components/ui/star-button';
+import { ParticleWrapper } from '@/components/ui/particle-button';
 
 interface Service {
   id: number;
-  badge: string;
   icon: string;
   title: string;
   description: string;
   image: string;
   features: string[];
   link: string;
-  reverse?: boolean;
+  color: string;
 }
 
 const services: Service[] = [
   {
     id: 1,
-    badge: "Automation",
-    icon: "⚡",
-    title: "N8N Automations",
-    description: "Streamline your business workflows with powerful N8N automation solutions. We build custom integrations that connect your apps, automate repetitive tasks, and save you countless hours.",
-    image: "/media/home/featured-services/n8n-automations.jpg",
-    features: [
-      "Custom workflow design",
-      "API integrations",
-      "Real-time monitoring",
-      "Scalable solutions"
-    ],
-    link: "/services/n8n-automations"
+    icon: '⚡',
+    title: 'N8N Automations',
+    description:
+      'Streamline workflows with powerful automation solutions. Connect apps, automate tasks, and save countless hours.',
+    image: '/media/home/featured-services/n8n-automations.jpg',
+    features: ['Custom workflows', 'API integrations', 'Real-time monitoring'],
+    link: '/services/n8n-automations',
+    color: 'from-[#37AFE1] to-[#31A4DB]',
   },
   {
     id: 2,
-    badge: "AI Solutions",
-    icon: "🤖",
-    title: "Chatbot Development",
-    description: "AI-powered conversational interfaces that engage users and provide instant support 24/7. Create intelligent chatbots that understand context and deliver personalized experiences.",
-    image: "/media/home/featured-services/chatbot-development.jpg",
+    icon: '🤖',
+    title: 'Chatbot Development',
+    description:
+      'AI-powered conversational interfaces that engage users and provide instant support 24/7.',
+    image: '/media/home/featured-services/chatbot-development.jpg',
     features: [
-      "Natural language processing",
-      "Multi-platform support",
-      "Custom training",
-      "Analytics dashboard"
+      'Natural language processing',
+      'Multi-platform support',
+      'Custom training',
     ],
-    link: "/services/chatbot-development",
-    reverse: true
+    link: '/services/chatbot-development',
+    color: 'from-[#F58122] to-[#FF9E5C]',
   },
   {
     id: 3,
-    badge: "Design",
-    icon: "🎨",
-    title: "Web Design",
-    description: "Beautiful, responsive websites that captivate visitors and drive conversions. We combine stunning aesthetics with intuitive user experiences to create digital masterpieces.",
-    image: "/media/home/featured-services/web-design.jpg",
+    icon: '🎨',
+    title: 'Web Design',
+    description:
+      'Beautiful, responsive websites that captivate visitors and drive conversions.',
+    image: '/media/home/featured-services/web-design.jpg',
+    features: ['Responsive design', 'UI/UX optimization', 'Brand identity'],
+    link: '/services/web-design',
+    color: 'from-[#37AFE1] to-[#F58122]',
+  },
+  {
+    id: 4,
+    icon: '🔍',
+    title: 'SEO Services',
+    description:
+      'Boost your visibility and rank higher in search results with data-driven SEO strategies.',
+    image: '/media/home/featured-services/seo.jpg',
+    features: ['Keyword research', 'On-page optimization', 'Link building'],
+    link: '/services/seo',
+    color: 'from-[#31A4DB] to-[#37AFE1]',
+  },
+  {
+    id: 5,
+    icon: '🛍️',
+    title: 'Shopify Development',
+    description:
+      'Powerful e-commerce solutions that turn visitors into customers and boost sales.',
+    image: '/media/home/featured-services/shopify.jpg',
+    features: ['Custom themes', 'App integration', 'Conversion optimization'],
+    link: '/services/shopify',
+    color: 'from-[#F58122] to-[#37AFE1]',
+  },
+  {
+    id: 6,
+    icon: '📝',
+    title: 'WordPress Development',
+    description:
+      'Enterprise-grade WordPress solutions with custom themes, plugins, and optimization.',
+    image: '/media/home/featured-services/wordpress.jpg',
     features: [
-      "Responsive design",
-      "UI/UX optimization",
-      "Brand identity",
-      "Performance focused"
+      'Custom plugins',
+      'Performance optimization',
+      'Security hardening',
     ],
-    link: "/services/web-design"
-  }
+    link: '/services/wordpress',
+    color: 'from-[#37AFE1] to-[#F58122]',
+  },
 ];
 
 export default function ServicesShowcase() {
   return (
-    <section className="py-20 bg-black">
-      <div className="container mx-auto px-6 max-w-7xl">
-        
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="flex justify-center mb-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#F58122]/30 bg-[#F58122]/10 px-5 py-2 backdrop-blur-sm">
-              <span className="text-xl">✨</span>
-              <span className="text-sm font-medium text-white/90">What We Offer</span>
-              <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
-            </div>
-          </div>
+    <section className="bg-black py-20">
+      <div className="container mx-auto max-w-7xl px-6">
+        {/* Animated Badge - Matches testimonials/case studies pattern */}
+        <motion.div
+          className="mb-6 flex justify-center"
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <motion.div
+            className="inline-flex items-center gap-3 rounded-full border border-white/[0.15] bg-white/[0.08] px-5 py-2 backdrop-blur-sm"
+            whileHover={{
+              scale: 1.05,
+              borderColor: 'rgba(255, 255, 255, 0.3)',
+            }}
+          >
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+            >
+              <Sparkles className="h-4 w-4 text-[#F58122]" />
+            </motion.div>
+            <span className="text-sm font-medium text-white/80">
+              What We Offer
+            </span>
+            <div className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
+          </motion.div>
+        </motion.div>
 
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+        {/* Section Heading with Gradient Animation */}
+        <motion.div
+          className="mb-16 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <h2 className="mb-4 text-4xl font-bold md:text-5xl">
             <span className="text-white">Premium </span>
-            <span className="bg-clip-text text-transparent"
-                  style={{
-                    backgroundImage: 'linear-gradient(90deg, #37AFE1, #F58122, #37AFE1, #F58122)',
-                    backgroundSize: '300% 100%',
-                    animation: 'gradient-shift 4s ease-in-out infinite'
-                  }}>
+            <span
+              className="bg-clip-text text-transparent"
+              style={{
+                backgroundImage:
+                  'linear-gradient(90deg, #37AFE1, #F58122, #37AFE1, #F58122)',
+                backgroundSize: '300% 100%',
+                animation: 'gradient-shift 4s ease-in-out infinite',
+              }}
+            >
               Digital Services
             </span>
           </h2>
-
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Comprehensive solutions tailored to elevate your digital presence and drive measurable results
+          <p className="mx-auto max-w-3xl text-xl text-gray-400">
+            Comprehensive solutions tailored to elevate your digital presence
+            and drive measurable results
           </p>
-        </div>
+        </motion.div>
 
-        {/* Services Grid - Alternating Layout */}
-        <div className="space-y-24">
-          {services.map((service) => (
-            <div key={service.id} 
-                 className={`flex flex-col ${service.reverse ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-12 items-center`}>
-              
-              {/* Image Card */}
-              <div className="lg:w-1/2">
-                <div className="relative group">
-                  {/* Gradient Border Effect */}
-                  <div className="absolute -inset-1 bg-gradient-to-r from-[#37AFE1] to-[#F58122] rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-500"></div>
-                  
-                  {/* Image Container */}
-                  <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800 p-1">
-                    <img 
-                      src={service.image} 
-                      alt={service.title}
-                      className="w-full h-[400px] object-cover rounded-xl"
-                    />
-                    
-                    {/* Overlay on Hover */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl flex items-end p-6">
-                      <span className="text-white font-semibold text-lg">View Details →</span>
+        {/* Bento Grid Layout - 2 columns on desktop, 1 on mobile */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          {services.map((service, index) => (
+            <motion.div
+              key={service.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className="group relative"
+            >
+              {/* Gradient Glow Effect */}
+              <div
+                className={`absolute -inset-0.5 bg-gradient-to-r ${service.color} rounded-2xl opacity-20 blur transition duration-500 group-hover:opacity-60`}
+              />
+
+              {/* Card Content */}
+              <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900/90 backdrop-blur-sm">
+                {/* Image Container with Overlay */}
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  {/* Gradient Overlay */}
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-t ${service.color} opacity-60`}
+                  />
+
+                  {/* Icon Badge on Image */}
+                  <div className="absolute left-4 top-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/20 bg-black/50 text-2xl backdrop-blur-md">
+                      {service.icon}
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Content */}
-              <div className="lg:w-1/2">
-                {/* Badge */}
-                <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 mb-4 backdrop-blur-sm">
-                  <span className="text-xl">{service.icon}</span>
-                  <span className="text-sm font-medium text-white/80">{service.badge}</span>
+                {/* Content */}
+                <div className="p-6">
+                  {/* Title with Gradient Animation */}
+                  <h3
+                    className="mb-3 bg-clip-text text-2xl font-bold text-transparent"
+                    style={{
+                      backgroundImage:
+                        'linear-gradient(90deg, #37AFE1, #F58122, #37AFE1, #F58122)',
+                      backgroundSize: '200% 100%',
+                      animation: 'gradient-shift 3s ease-in-out infinite',
+                    }}
+                  >
+                    {service.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="mb-4 line-clamp-2 text-gray-400">
+                    {service.description}
+                  </p>
+
+                  {/* Features Pills */}
+                  <div className="mb-4 flex flex-wrap gap-2">
+                    {service.features.map((feature, idx) => (
+                      <span
+                        key={idx}
+                        className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-gray-300"
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* CTA with StarButton */}
+                  <Link href={service.link}>
+                    <ParticleWrapper>
+                      <StarButton
+                        className="group h-11 w-full text-sm font-semibold"
+                        duration={2.5}
+                      >
+                        Learn More
+                        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </StarButton>
+                    </ParticleWrapper>
+                  </Link>
                 </div>
-
-                {/* Title */}
-                <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                  {service.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-lg text-gray-400 mb-6 leading-relaxed">
-                  {service.description}
-                </p>
-
-                {/* Features List */}
-                <ul className="space-y-3 mb-8">
-                  {service.features.map((feature, index) => (
-                    <li key={index} className="flex items-center gap-3">
-                      <div className="h-6 w-6 rounded-full bg-gradient-to-br from-[#37AFE1] to-[#F58122] flex items-center justify-center flex-shrink-0">
-                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                      </div>
-                      <span className="text-gray-300">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* CTA Button */}
-                <Link href={service.link}
-                   className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#37AFE1] to-[#F58122] text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-[#37AFE1]/50 transition-all duration-300 group">
-                  Learn More
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </Link>
               </div>
-
-            </div>
+            </motion.div>
           ))}
         </div>
-
       </div>
     </section>
   );
