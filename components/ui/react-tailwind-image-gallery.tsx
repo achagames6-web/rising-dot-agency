@@ -71,10 +71,20 @@ export function Gallery({
 export function ImageModal({ src, alt, onClose }: ImageModalProps) {
   if (!src) return null;
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onClose();
+    }
+  };
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Image gallery modal"
     >
       <img
         src={src}
@@ -85,6 +95,8 @@ export function ImageModal({ src, alt, onClose }: ImageModalProps) {
       <button
         className="absolute right-5 top-5 text-4xl font-bold text-white transition-colors hover:text-[#F58122]"
         onClick={onClose}
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
         aria-label="Close modal"
       >
         &times;

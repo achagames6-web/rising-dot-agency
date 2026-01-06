@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Gallery,
   ImageModal,
@@ -80,10 +80,10 @@ export default function PortfolioGallery() {
     setModalImage(src);
     setModalAlt(alt);
   };
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setModalImage(null);
     setModalAlt('');
-  };
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -91,7 +91,7 @@ export default function PortfolioGallery() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [closeModal]);
 
   return (
     <>
