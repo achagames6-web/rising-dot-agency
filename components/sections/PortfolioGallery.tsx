@@ -5,6 +5,8 @@ import {
   Gallery,
   ImageModal,
 } from '@/components/ui/react-tailwind-image-gallery';
+import { motion } from 'framer-motion';
+import { Sparkles } from 'lucide-react';
 
 const galleryData = [
   {
@@ -96,16 +98,30 @@ export default function PortfolioGallery() {
   return (
     <section className="bg-black py-20">
       <div className="container mx-auto max-w-7xl px-6">
-        {/* Badge */}
-        <div className="mb-6 flex justify-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#37AFE1]/30 bg-[#37AFE1]/10 px-5 py-2 backdrop-blur-sm">
-            <span className="text-xl">✨</span>
-            <span className="text-sm font-medium text-white/90">
-              Our Portfolio
-            </span>
-            <div className="h-2 w-2 animate-pulse rounded-full bg-green-500"></div>
-          </div>
-        </div>
+        {/* Badge with Animated Sparkles */}
+        <motion.div 
+          className="mb-6 flex justify-center"
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <motion.div
+            className="inline-flex items-center gap-3 rounded-full border border-white/[0.15] bg-white/[0.08] px-5 py-2 backdrop-blur-sm"
+            whileHover={{
+              scale: 1.05,
+              borderColor: 'rgba(255, 255, 255, 0.3)',
+            }}
+          >
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+            >
+              <Sparkles className="h-4 w-4 text-[#F58122]" />
+            </motion.div>
+            <span className="text-sm font-medium text-white/80">Our Portfolio</span>
+            <div className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
+          </motion.div>
+        </motion.div>
 
         {/* Gradient Animated Heading */}
         <h2 className="mb-4 text-center text-4xl font-bold md:text-5xl">
