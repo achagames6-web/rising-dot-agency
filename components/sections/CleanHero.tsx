@@ -4,9 +4,10 @@ import { useRef, useCallback } from 'react';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
 import { useAnalytics } from '@/components/analytics/AnalyticsTracker';
 import dynamic from 'next/dynamic';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { StarButton } from '@/components/ui/star-button';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 // Dynamic import of AnimatedBackground (client-side only, avoid SSR issues)
 const AnimatedBackground = dynamic(
@@ -64,13 +65,25 @@ export default function CleanHero() {
       <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-12 pt-16">
         <div className="mx-auto w-full max-w-5xl">
           <div className="flex flex-col items-center gap-8 text-center">
-            {/* Top Badge */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2 backdrop-blur-sm">
-              <span className="text-sm font-medium text-white/90 md:text-base">
+            {/* Top Badge with Animated Sparkles */}
+            <motion.div
+              className="inline-flex items-center gap-3 rounded-full border border-white/[0.15] bg-white/[0.08] px-5 py-2 backdrop-blur-sm"
+              whileHover={{
+                scale: 1.05,
+                borderColor: 'rgba(255, 255, 255, 0.3)',
+              }}
+            >
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+              >
+                <Sparkles className="h-4 w-4 text-[#F58122]" />
+              </motion.div>
+              <span className="text-sm font-medium text-white/80 md:text-base">
                 {eyebrow}
               </span>
               <ArrowRight className="h-4 w-4 text-[#37AFE1]" />
-            </div>
+            </motion.div>
 
             {/* Main Heading */}
             <h1

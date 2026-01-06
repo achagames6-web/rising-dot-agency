@@ -218,7 +218,7 @@ export default function Header() {
         }}
       >
         <nav
-          className="relative flex items-center justify-center gap-2 rounded-full px-3 py-3 backdrop-blur-2xl"
+          className="relative flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-4 py-3 backdrop-blur-2xl"
           style={{
             background: 'rgba(15, 23, 42, 0.6)',
             border: '1px solid rgba(255, 255, 255, 0.08)',
@@ -237,7 +237,10 @@ export default function Header() {
             <img
               src={settings.header.logo || '/logo.png'}
               alt="Rising Dot"
-              className="h-10 w-auto"
+              className="h-10 w-auto object-contain"
+              onError={(e) => {
+                e.currentTarget.src = '/logo.png';
+              }}
             />
           </Link>
 
