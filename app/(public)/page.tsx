@@ -41,14 +41,14 @@ const HolographicContact = dynamic(
   }
 );
 
-// Cinematic Showreel - dynamic import for GSAP ScrollTrigger
-const CinematicShowreel = dynamic(
-  () => import('@/components/sections/CinematicShowreel'),
+// Portfolio Gallery - dynamic import for image gallery
+const PortfolioGallery = dynamic(
+  () => import('@/components/sections/PortfolioGallery'),
   {
     ssr: false,
     loading: () => (
-      <section className="flex h-[70vh] items-center justify-center bg-[#0A0F1E] md:h-[85vh]">
-        <div className="h-12 w-12 animate-spin rounded-full border-2 border-purple-500/30 border-t-purple-500" />
+      <section className="flex items-center justify-center bg-black py-20">
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
       </section>
     ),
   }
@@ -151,7 +151,7 @@ export const revalidate = 30;
 // All sections on homepage
 const HOME_SECTIONS = [
   'hero',
-  'showreel',
+  'portfolioGallery',
   'featuredServices',
   'valueProposition',
   'serviceCards',
@@ -173,8 +173,8 @@ export default function Home() {
         <OptimizedSectionWrapper section="hero">
           <CleanHero />
         </OptimizedSectionWrapper>
-        <OptimizedSectionWrapper section="showreel">
-          <CinematicShowreel />
+        <OptimizedSectionWrapper section="portfolioGallery">
+          <PortfolioGallery />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="featuredServices">
           <FeaturedServices />
