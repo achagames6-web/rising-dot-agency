@@ -149,24 +149,32 @@ function TiltCard({ tech, index }: TiltCardProps) {
       >
         {/* Floating Particles Background */}
         <div className="absolute inset-0 overflow-hidden opacity-30">
-          {[...Array(tech.particles)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute h-1 w-1 rounded-full bg-white"
-              initial={{
-                x: Math.random() * 100 + '%',
-                y: Math.random() * 100 + '%',
-              }}
-              animate={{
-                y: ['-100%', '200%'],
-              }}
-              transition={{
-                duration: Math.random() * 3 + 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
+          {[...Array(tech.particles)].map((_, i) => {
+            // Use deterministic positioning based on index
+            const xPos = (i * 37) % 100;
+            const yPos = (i * 73) % 100;
+            const duration = 2 + (i % 3) * 0.5;
+            const delay = (i % 10) * 0.2;
+
+            return (
+              <motion.div
+                key={i}
+                className="absolute h-1 w-1 rounded-full bg-white"
+                initial={{
+                  x: `${xPos}%`,
+                  y: `${yPos}%`,
+                }}
+                animate={{
+                  y: ['-100%', '200%'],
+                }}
+                transition={{
+                  duration,
+                  repeat: Infinity,
+                  delay,
+                }}
+              />
+            );
+          })}
         </div>
 
         {/* Icon */}
