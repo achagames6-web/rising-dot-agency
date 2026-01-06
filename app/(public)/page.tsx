@@ -1,6 +1,4 @@
 import dynamic from 'next/dynamic';
-import ValueProposition from '@/components/sections/ValueProposition';
-import ServiceCards from '@/components/sections/ServiceCards';
 import SimpleCTA from '@/components/sections/SimpleCTA';
 import { BatchSectionProvider } from '@/components/sections/BatchSectionProvider';
 import OptimizedSectionWrapper from '@/components/sections/OptimizedSectionWrapper';
@@ -54,17 +52,23 @@ const PortfolioGallery = dynamic(
   }
 );
 
-// Featured Services - Sticky scroll cards for each service
-const FeaturedServices = dynamic(
-  () => import('@/components/sections/FeaturedServices'),
-  {
+// ServicesShowcase - Alternating image/content layout for featured services
+const ServicesShowcase = dynamic(
+  () => import('@/components/sections/ServicesShowcase'),
+  { 
     ssr: false,
     loading: () => (
-      <section className="flex items-center justify-center bg-black py-20 md:py-32">
+      <section className="flex items-center justify-center bg-black py-20">
         <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
       </section>
     ),
   }
+);
+
+// TechStackShowcase - Premium tech stack cards
+const TechStackShowcase = dynamic(
+  () => import('@/components/sections/TechStackShowcase'),
+  { ssr: false }
 );
 
 // HolographicTeam - Team carousel section
@@ -152,9 +156,8 @@ export const revalidate = 30;
 const HOME_SECTIONS = [
   'hero',
   'portfolioGallery',
-  'featuredServices',
-  'valueProposition',
-  'serviceCards',
+  'servicesShowcase',
+  'techStackShowcase',
   'stackFeature',
   'techStack',
   'caseStudies',
@@ -176,14 +179,11 @@ export default function Home() {
         <OptimizedSectionWrapper section="portfolioGallery">
           <PortfolioGallery />
         </OptimizedSectionWrapper>
-        <OptimizedSectionWrapper section="featuredServices">
-          <FeaturedServices />
+        <OptimizedSectionWrapper section="servicesShowcase">
+          <ServicesShowcase />
         </OptimizedSectionWrapper>
-        <OptimizedSectionWrapper section="valueProposition">
-          <ValueProposition />
-        </OptimizedSectionWrapper>
-        <OptimizedSectionWrapper section="serviceCards">
-          <ServiceCards />
+        <OptimizedSectionWrapper section="techStackShowcase">
+          <TechStackShowcase />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="stackFeature">
           <StackFeatureSection />
