@@ -74,9 +74,16 @@ const galleryData = [
 
 export default function PortfolioGallery() {
   const [modalImage, setModalImage] = useState<string | null>(null);
+  const [modalAlt, setModalAlt] = useState<string>('');
 
-  const openModal = (src: string) => setModalImage(src);
-  const closeModal = () => setModalImage(null);
+  const openModal = (src: string, alt: string) => {
+    setModalImage(src);
+    setModalAlt(alt);
+  };
+  const closeModal = () => {
+    setModalImage(null);
+    setModalAlt('');
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -90,11 +97,11 @@ export default function PortfolioGallery() {
     <>
       <Gallery
         data={galleryData}
-        onImageClick={openModal}
+        onImageClick={(src, alt) => openModal(src, alt)}
         title="Transform Your Digital Presence"
         subtitle="Premium digital solutions powered by cutting-edge technology"
       />
-      <ImageModal src={modalImage} onClose={closeModal} />
+      <ImageModal src={modalImage} alt={modalAlt} onClose={closeModal} />
     </>
   );
 }

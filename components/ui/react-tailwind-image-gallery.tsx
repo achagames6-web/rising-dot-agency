@@ -12,13 +12,14 @@ interface GalleryImage {
 
 interface GalleryProps {
   data: GalleryImage[];
-  onImageClick: (src: string) => void;
+  onImageClick: (src: string, alt: string) => void;
   title?: string;
   subtitle?: string;
 }
 
 interface ImageModalProps {
   src: string | null;
+  alt: string;
   onClose: () => void;
 }
 
@@ -45,11 +46,12 @@ export function Gallery({
             <div
               key={img.id}
               className={`group relative cursor-pointer overflow-hidden rounded-lg ${img.span || 'col-span-1'}`}
-              onClick={() => onImageClick(img.src)}
+              onClick={() => onImageClick(img.src, img.alt)}
             >
               <img
                 src={img.src}
                 alt={img.alt}
+                loading="lazy"
                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
               {/* Hover Overlay with Brand Colors */}
@@ -66,7 +68,7 @@ export function Gallery({
   );
 }
 
-export function ImageModal({ src, onClose }: ImageModalProps) {
+export function ImageModal({ src, alt, onClose }: ImageModalProps) {
   if (!src) return null;
 
   return (
@@ -76,7 +78,7 @@ export function ImageModal({ src, onClose }: ImageModalProps) {
     >
       <img
         src={src}
-        alt="Enlarged view"
+        alt={alt}
         className="max-h-[90vh] max-w-[90vw] rounded-lg shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       />
