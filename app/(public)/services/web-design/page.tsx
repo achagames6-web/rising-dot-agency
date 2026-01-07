@@ -13,7 +13,7 @@ import {
   ServiceItem,
 } from '@/components/ui/services-hero-section';
 import ServiceCaseStudies from '@/components/sections/ServiceCaseStudies';
-import Connect from '@/components/sections/Connect';
+import ServiceCTA from '@/components/sections/ServiceCTA';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
 
@@ -567,7 +567,14 @@ export default function WebDesignPage() {
       <StackFeatureSection page="services-web-design" />
 
       {/* CTA Section with Social Links - Uses CMS content with fallback */}
-      <Connect />
+      <ServiceCTA
+        eyebrow={cta.eyebrow}
+        title={cta.title}
+        titleHighlight={cta.titleHighlight}
+        subtitle={cta.subtitle}
+        ctaText={cta.ctaText}
+        ctaLink={cta.ctaHref}
+      />
     </main>
   );
 }
