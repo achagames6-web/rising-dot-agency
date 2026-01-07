@@ -180,29 +180,6 @@ const WebDesignSkeleton = () => {
   );
 };
 
-const SEOSkeleton = () => {
-  return (
-    <motion.div
-      initial="initial"
-      animate="animate"
-      whileHover="hover"
-      className="flex h-full min-h-[6rem] w-full flex-1 flex-col items-center justify-center space-y-3 rounded-lg bg-gradient-to-br from-[#37AFE1]/10 to-transparent p-4"
-    >
-      <motion.div
-        animate={{ scale: [1, 1.2, 1] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        className="text-6xl"
-      >
-        📈
-      </motion.div>
-      <div className="space-y-2 text-center">
-        <div className="mx-auto h-3 w-32 rounded-full bg-slate-700"></div>
-        <div className="mx-auto h-3 w-24 rounded-full bg-slate-700"></div>
-      </div>
-    </motion.div>
-  );
-};
-
 const WordPressSEOSkeleton = () => {
   return (
     <motion.div
