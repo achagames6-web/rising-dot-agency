@@ -52,7 +52,7 @@ export default function CleanHero() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen overflow-hidden"
+      className="relative min-h-screen overflow-hidden pb-8 md:pb-12"
       style={{ isolation: 'isolate' }}
       onMouseMove={trackHeroInteraction}
       onTouchStart={trackHeroInteraction}
@@ -61,30 +61,24 @@ export default function CleanHero() {
       <AnimatedBackground />
 
       {/* Content with z-10 */}
-      <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-8 pt-16">
+      <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-8 pt-16 md:py-12">
         <div className="mx-auto w-full max-w-5xl">
           <div className="flex flex-col items-center gap-8 text-center">
             {/* Top Badge */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2 backdrop-blur-sm">
-              <span className="text-sm font-medium text-white/90 md:text-base">
-                {eyebrow}
-              </span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs backdrop-blur-sm sm:px-5 sm:text-sm">
+              <span className="font-medium text-white/90">{eyebrow}</span>
               <ArrowRight className="h-4 w-4 text-[#37AFE1]" />
             </div>
 
             {/* Main Heading */}
-            <h1
-              className="text-4xl font-bold leading-tight text-white sm:text-5xl md:text-6xl lg:text-7xl"
-              style={{ fontSize: 'clamp(2.5rem, 5vw, 3.625rem)' }}
-            >
-              {title}
+            <h1 className="bg-clip-text font-montserrat text-4xl font-bold text-transparent sm:text-5xl md:text-6xl lg:text-7xl">
+              <span className="bg-gradient-to-r from-white to-white/90 bg-clip-text">
+                {title}
+              </span>
             </h1>
 
             {/* Subtitle */}
-            <p
-              className="mx-auto max-w-2xl text-lg font-medium leading-relaxed md:text-xl"
-              style={{ color: '#A7ADBE' }}
-            >
+            <p className="mx-auto max-w-2xl text-base text-white/80 sm:text-lg md:text-xl">
               {subtitle}
             </p>
 
@@ -92,7 +86,7 @@ export default function CleanHero() {
             <div className="mt-4 flex flex-col items-center gap-6">
               {/* Primary CTA Button */}
               <Link href={ctaLink}>
-                <StarButton className="px-8 py-4 text-base">
+                <StarButton className="h-10 px-6 text-sm font-semibold transition-transform hover:scale-105 sm:h-12 sm:px-8 sm:text-base">
                   {ctaText}
                 </StarButton>
               </Link>

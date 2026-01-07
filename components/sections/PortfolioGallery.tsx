@@ -94,21 +94,19 @@ export default function PortfolioGallery() {
   }, [closeModal]);
 
   return (
-    <section className="bg-black py-16">
-      <div className="container mx-auto max-w-7xl px-6">
-        {/* Badge */}
-        <div className="mb-6 flex justify-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#37AFE1]/30 bg-[#37AFE1]/10 px-5 py-2 backdrop-blur-sm">
+    <section className="bg-black px-4 py-12 sm:px-6 md:py-16 lg:px-8">
+      <div className="container mx-auto max-w-7xl">
+        {/* Badge - responsive */}
+        <div className="mb-4 flex justify-center sm:mb-6">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#37AFE1]/30 bg-[#37AFE1]/10 px-4 py-2 text-xs backdrop-blur-sm sm:px-5 sm:text-sm">
             <span className="text-xl">✨</span>
-            <span className="text-sm font-medium text-white/90">
-              Our Portfolio
-            </span>
+            <span className="font-medium text-white/90">Our Portfolio</span>
             <div className="h-2 w-2 animate-pulse rounded-full bg-green-500"></div>
           </div>
         </div>
 
-        {/* Gradient Animated Heading */}
-        <h2 className="mb-4 text-center text-4xl font-bold md:text-5xl">
+        {/* Gradient Animated Heading - responsive */}
+        <h2 className="mb-3 text-center text-3xl font-bold sm:mb-4 sm:text-4xl md:mb-6 md:text-5xl">
           <span
             className="bg-clip-text text-transparent"
             style={{
@@ -123,14 +121,14 @@ export default function PortfolioGallery() {
           <span className="text-white">Digital Excellence</span>
         </h2>
 
-        {/* Description */}
-        <p className="mx-auto mb-12 max-w-3xl text-center text-xl text-gray-400">
+        {/* Description - responsive */}
+        <p className="mx-auto mb-8 max-w-3xl text-center text-base text-gray-400 sm:mb-10 sm:text-lg md:mb-12 md:text-xl">
           Explore our curated collection of innovative projects that showcase
           cutting-edge design and powerful functionality
         </p>
 
-        {/* Gallery Grid */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {/* Gallery Grid - responsive columns */}
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
           {galleryData.map((img) => (
             <div
               key={img.id}

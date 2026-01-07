@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import {
   SliderBtnGroup,
   ProgressSlider,
@@ -105,15 +106,49 @@ export default function CaseStudiesCarousel({
   const caseStudies = sectionContent?.studies || defaultCaseStudies;
 
   return (
-    <section className="relative overflow-hidden bg-black py-16">
-      <div className="mx-auto max-w-6xl px-6">
+    <section className="relative overflow-hidden bg-black px-4 pb-16 pt-12 sm:px-6 md:pb-24 md:pt-16 lg:px-8">
+      <div className="container relative z-10 mx-auto max-w-7xl">
         {/* Section Header */}
-        <SectionHeading
-          eyebrow={eyebrow}
-          title={title}
-          titleHighlight={titleHighlight}
-          subtitle={subtitle}
-        />
+        <div className="mb-12 text-center">
+          {/* Badge - responsive */}
+          <motion.div
+            className="mb-4 flex justify-center sm:mb-6"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <motion.div
+              className="inline-flex items-center gap-2 rounded-full border border-white/[0.15] bg-white/[0.08] px-4 py-2 text-xs backdrop-blur-sm sm:gap-3 sm:px-5 sm:text-sm"
+              whileHover={{
+                scale: 1.05,
+                borderColor: 'rgba(255, 255, 255, 0.3)',
+              }}
+            >
+              <span className="font-medium text-white/80">{eyebrow}</span>
+            </motion.div>
+          </motion.div>
+
+          {/* Heading - responsive */}
+          <h2 className="mb-3 text-center text-3xl font-bold sm:mb-4 sm:text-4xl md:mb-6 md:text-5xl">
+            <span className="text-white">{title} </span>
+            <span
+              className="bg-clip-text text-transparent"
+              style={{
+                backgroundImage:
+                  'linear-gradient(90deg, #37AFE1, #F58122, #37AFE1, #F58122)',
+                backgroundSize: '300% 100%',
+                animation: 'gradient-shift 4s ease-in-out infinite',
+              }}
+            >
+              {titleHighlight}
+            </span>
+          </h2>
+
+          {/* Description - responsive */}
+          <p className="mx-auto mb-8 max-w-3xl text-center text-base text-gray-400 sm:mb-10 sm:text-lg md:mb-12 md:text-xl">
+            {subtitle}
+          </p>
+        </div>
 
         {/* Carousel */}
         <ProgressSlider
@@ -159,6 +194,19 @@ export default function CaseStudiesCarousel({
           </SliderBtnGroup>
         </ProgressSlider>
       </div>
+
+      {/* Add gradient-shift animation */}
+      <style jsx>{`
+        @keyframes gradient-shift {
+          0%,
+          100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+      `}</style>
     </section>
   );
 }

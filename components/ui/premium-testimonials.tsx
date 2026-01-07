@@ -165,11 +165,11 @@ export function PremiumTestimonials() {
   return (
     <section
       id="testimonials"
-      className="relative overflow-hidden bg-black py-16 text-white"
+      className="relative overflow-hidden bg-black px-4 py-12 text-white sm:px-6 md:py-16 lg:px-8"
     >
       <motion.div
         ref={containerRef}
-        className="relative z-10 mx-auto max-w-7xl px-6"
+        className="container relative z-10 mx-auto max-w-7xl"
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
@@ -178,7 +178,7 @@ export function PremiumTestimonials() {
         {/* Header */}
         <motion.div className="mb-20 text-center" variants={fadeInUp}>
           <motion.div
-            className="mb-6 inline-flex items-center gap-3 rounded-full border border-white/[0.15] bg-white/[0.08] px-4 py-2 backdrop-blur-sm"
+            className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/[0.15] bg-white/[0.08] px-4 py-2 text-xs backdrop-blur-sm sm:mb-6 sm:gap-3 sm:px-5 sm:text-sm"
             whileHover={{
               scale: 1.05,
               borderColor: 'rgba(255, 255, 255, 0.3)',
@@ -188,9 +188,9 @@ export function PremiumTestimonials() {
               animate={{ rotate: 360 }}
               transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
             >
-              <Sparkles className="h-4 w-4 text-[#F58122]" />
+              <Sparkles className="h-3 w-3 text-[#F58122] sm:h-4 sm:w-4" />
             </motion.div>
-            <span className="text-sm font-medium text-white/80">{eyebrow}</span>
+            <span className="font-medium text-white/80">{eyebrow}</span>
             <div className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
           </motion.div>
 
@@ -221,7 +221,7 @@ export function PremiumTestimonials() {
           </motion.h2>
 
           <motion.p
-            className="mx-auto max-w-4xl text-xl leading-relaxed text-white/60 sm:text-2xl"
+            className="mx-auto max-w-4xl text-base leading-relaxed text-white/60 sm:text-lg md:text-xl"
             variants={fadeInUp}
           >
             {subtitle}
@@ -459,10 +459,10 @@ export function PremiumTestimonials() {
           <ParticleWrapper>
             <StarButton
               onClick={() => setShowSubmitModal(true)}
-              className="h-12 px-8 text-base font-semibold transition-transform hover:scale-105"
+              className="h-10 px-6 text-sm font-semibold transition-transform hover:scale-105 sm:h-12 sm:px-8 sm:text-base"
               duration={2.5}
             >
-              <PenLine className="h-5 w-5" />
+              <PenLine className="h-4 w-4 sm:h-5 sm:w-5" />
               Leave a Review
             </StarButton>
           </ParticleWrapper>

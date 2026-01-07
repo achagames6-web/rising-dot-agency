@@ -76,8 +76,9 @@ export default function SimpleCTA() {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-black py-16">
+    <section className="relative overflow-hidden bg-black px-4 py-12 sm:px-6 md:py-16 lg:px-8">
       {/* Background gradient */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#37AFE1]/5 to-transparent" />
       <div className="absolute inset-0">
         <div
           className="absolute left-1/4 top-1/4 h-[600px] w-[600px] rounded-full opacity-20 blur-[100px]"
@@ -96,19 +97,51 @@ export default function SimpleCTA() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 mx-auto max-w-4xl px-4 text-center md:px-6">
+      <div className="container relative z-10 mx-auto max-w-4xl text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <SectionHeading
-            eyebrow={eyebrow}
-            title={title}
-            titleHighlight={titleHighlight}
-            subtitle={subtitle}
-          />
+          {/* Badge - responsive */}
+          <motion.div
+            className="mb-4 flex justify-center sm:mb-6"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <motion.div
+              className="inline-flex items-center gap-2 rounded-full border border-white/[0.15] bg-white/[0.08] px-4 py-2 text-xs backdrop-blur-sm sm:gap-3 sm:px-5 sm:text-sm"
+              whileHover={{
+                scale: 1.05,
+                borderColor: 'rgba(255, 255, 255, 0.3)',
+              }}
+            >
+              <span className="font-medium text-white/80">{eyebrow}</span>
+            </motion.div>
+          </motion.div>
+
+          {/* Title - responsive */}
+          <motion.h2 className="mb-3 text-3xl font-bold sm:mb-4 sm:text-4xl md:mb-6 md:text-5xl">
+            <span className="text-white">{title} </span>
+            <span
+              className="bg-clip-text text-transparent"
+              style={{
+                backgroundImage:
+                  'linear-gradient(90deg, #37AFE1, #F58122, #37AFE1, #F58122)',
+                backgroundSize: '300% 100%',
+                animation: 'gradient-shift 4s ease-in-out infinite',
+              }}
+            >
+              {titleHighlight}
+            </span>
+          </motion.h2>
+
+          {/* Subtitle - responsive */}
+          <motion.p className="mb-6 text-base text-gray-400 sm:mb-8 sm:text-lg md:text-xl">
+            {subtitle}
+          </motion.p>
 
           <div className="mb-12" />
 
@@ -120,7 +153,7 @@ export default function SimpleCTA() {
               >
                 <Link href={ctaLink}>
                   <StarButton
-                    className="h-12 px-6 text-sm font-semibold"
+                    className="h-10 px-6 text-sm font-semibold sm:h-12 sm:px-8 sm:text-base"
                     duration={2.5}
                   >
                     {ctaText}
@@ -137,7 +170,7 @@ export default function SimpleCTA() {
                 <Link href={secondaryCtaLink}>
                   <StarButton
                     variant="secondary"
-                    className="h-12 px-6 text-sm font-semibold"
+                    className="h-10 px-6 text-sm font-semibold sm:h-12 sm:px-8 sm:text-base"
                     duration={3}
                   >
                     {secondaryCtaText}
@@ -168,25 +201,19 @@ export default function SimpleCTA() {
             ))}
           </div>
 
-          {/* 3D Social Media Icons - 50% Size */}
+          {/* Social Icons - Direct on Page Background */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="mt-16"
+            transition={{ delay: 0.3 }}
+            className="mt-8 flex justify-center sm:mt-10 md:mt-12"
           >
-            <p className="mb-6 text-sm text-[#64748B]">
-              Follow us on social media
-            </p>
-            <div
-              className="overflow-hidden rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-800/80 to-gray-900/90 p-4 backdrop-blur-3xl"
-              style={{
-                boxShadow:
-                  '0 0 25px rgba(139, 92, 246, 0.3), 0 0 40px rgba(124, 58, 237, 0.2)',
-              }}
-            >
-              <div className="flex flex-wrap justify-center gap-4">
+            <div>
+              <p className="mb-6 text-center text-sm text-[#64748B]">
+                Follow us on social media
+              </p>
+              <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6">
                 {socialLinks.map((social) => {
                   const IconComponent = social.icon;
                   return (
@@ -210,6 +237,16 @@ export default function SimpleCTA() {
 
       {/* Social Media Styles */}
       <style jsx>{`
+        @keyframes gradient-shift {
+          0%,
+          100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+
         .social-icon {
           display: flex;
           flex-direction: column;
