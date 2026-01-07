@@ -140,6 +140,19 @@ const BlogSection = dynamic(() => import('@/components/sections/BlogSection'), {
   ),
 });
 
+// Bento Grid - Services showcase
+const BentoGridSection = dynamic(
+  () => import('@/components/sections/BentoGridSection'),
+  {
+    ssr: false,
+    loading: () => (
+      <section className="flex items-center justify-center bg-black py-20">
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
+      </section>
+    ),
+  }
+);
+
 // ISR with 30-second revalidation - CMS changes appear within 30 seconds
 export const revalidate = 30;
 
@@ -149,6 +162,7 @@ const HOME_SECTIONS = [
   'portfolioGallery',
   'servicesShowcase',
   'about',
+  'bentoGrid',
   'techStack',
   'caseStudies',
   'testimonials',
@@ -174,6 +188,9 @@ export default function Home() {
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="about">
           <AboutSection />
+        </OptimizedSectionWrapper>
+        <OptimizedSectionWrapper section="bentoGrid">
+          <BentoGridSection />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="techStack">
           <TechStackMarquee />
