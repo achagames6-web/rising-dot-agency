@@ -207,6 +207,12 @@ export default function ConnectWithUs() {
           animation: shake 0.5s;
         }
 
+        @media (prefers-reduced-motion: reduce) {
+          .social-icon:hover svg {
+            animation: none;
+          }
+        }
+
         @keyframes shake {
           0%,
           100% {
