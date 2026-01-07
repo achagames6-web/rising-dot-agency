@@ -9,7 +9,7 @@ import {
 } from '@/components/services';
 import { FluxCardHero } from '@/components/ui/flux-card-hero';
 import ServiceCaseStudies from '@/components/sections/ServiceCaseStudies';
-import ServiceCTA from '@/components/sections/ServiceCTA';
+import Connect from '@/components/sections/Connect';
 import DatabaseWithRestApi from '@/components/ui/database-with-rest-api';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
@@ -600,14 +600,7 @@ export default function N8NAutomationsPage() {
       <StackFeatureSection page="services-n8n" />
 
       {/* CTA Section with Social Links - Uses CMS content with fallback */}
-      <ServiceCTA
-        eyebrow={cta.eyebrow}
-        title={cta.title}
-        titleHighlight={cta.titleHighlight}
-        subtitle={cta.subtitle}
-        ctaText={cta.ctaText}
-        ctaLink={cta.ctaHref}
-      />
+      <Connect />
     </main>
   );
 }

@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import { GradientHero } from '@/components/ui/gradient-hero';
 import ServiceCaseStudies from '@/components/sections/ServiceCaseStudies';
-import ServiceCTA from '@/components/sections/ServiceCTA';
+import Connect from '@/components/sections/Connect';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
 
@@ -770,14 +770,7 @@ export default function SaasPage() {
       />
 
       {/* CTA Section with Social Links - Uses CMS content with fallback */}
-      <ServiceCTA
-        eyebrow={cta.eyebrow}
-        title={cta.title}
-        titleHighlight={cta.titleHighlight}
-        subtitle={cta.subtitle}
-        ctaText={cta.ctaText}
-        ctaLink={cta.ctaHref}
-      />
+      <Connect />
     </main>
   );
 }

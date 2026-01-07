@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import ContactForm from '@/components/contact/ContactForm';
 import ContactMap from '@/components/contact/ContactMap';
 import MiniCTA from '@/components/sections/MiniCTA';
+import Connect from '@/components/sections/Connect';
 import { Hero1 } from '@/components/ui/hero-1';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
@@ -182,6 +183,9 @@ export default function ContactPage() {
           <ContactMap />
         </div>
       </section>
+
+      {/* Connect Section - Social Links and CTA */}
+      <Connect />
 
       {/* CTA Section with Social Links */}
       <MiniCTA

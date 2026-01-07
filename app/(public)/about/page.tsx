@@ -5,6 +5,7 @@ import CompanyTimeline from '@/components/about/CompanyTimeline';
 import SkillVisualization from '@/components/about/SkillVisualization';
 import OfficeTour from '@/components/about/OfficeTour';
 import MiniCTA from '@/components/sections/MiniCTA';
+import Connect from '@/components/sections/Connect';
 import { Hero1 } from '@/components/ui/hero-1';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
@@ -104,6 +105,7 @@ export default function AboutPage() {
     'timeline',
     'officeTour',
     'testimonials',
+    'connect',
     'cta',
   ];
 
@@ -183,6 +185,11 @@ export default function AboutPage() {
         {/* Testimonials */}
         <OptimizedSectionWrapper section="testimonials">
           <PremiumTestimonials />
+        </OptimizedSectionWrapper>
+
+        {/* Connect Section - Social Links and CTA */}
+        <OptimizedSectionWrapper section="connect">
+          <Connect />
         </OptimizedSectionWrapper>
 
         {/* CTA Section */}
