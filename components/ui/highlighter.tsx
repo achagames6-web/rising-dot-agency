@@ -184,9 +184,9 @@ export const Particles: React.FC<ParticlesProps> = ({
     const y = Math.floor(Math.random() * canvasSize.current.h);
     const translateX = 0;
     const translateY = 0;
-    const size = Math.random() * 1 + 2.5; // Range: 2.5-3.5px for better visibility
+    const size = 1; // Fixed 1px radius = 2px diameter
     const alpha = 0;
-    const targetAlpha = parseFloat((Math.random() * 0.3 + 0.1).toFixed(1));
+    const targetAlpha = parseFloat((Math.random() * 0.4 + 0.2).toFixed(1));
     const dx = (Math.random() - 0.5) * 0.2;
     const dy = (Math.random() - 0.5) * 0.2;
     const magnetism = 0.1 + Math.random() * 4;
@@ -209,13 +209,7 @@ export const Particles: React.FC<ParticlesProps> = ({
       const { x, y, translateX, translateY, size, alpha } = circle;
       context.current.translate(translateX, translateY);
 
-      // Draw glow effect (larger, more transparent circle)
-      context.current.beginPath();
-      context.current.arc(x, y, size * 3, 0, 2 * Math.PI);
-      context.current.fillStyle = `rgba(${rgb.join(', ')}, ${alpha * 0.2})`;
-      context.current.fill();
-
-      // Draw main particle
+      // Draw main particle - borderless dot
       context.current.beginPath();
       context.current.arc(x, y, size, 0, 2 * Math.PI);
       context.current.fillStyle = `rgba(${rgb.join(', ')}, ${alpha})`;
