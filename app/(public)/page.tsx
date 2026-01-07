@@ -159,8 +159,8 @@ export const revalidate = 30;
 // All sections on homepage
 const HOME_SECTIONS = [
   'hero',
-  'portfolioGallery',
   'servicesShowcase',
+  'portfolioGallery',
   'about',
   'bentoGrid',
   'techStack',
@@ -180,11 +180,11 @@ export default function Home() {
         <OptimizedSectionWrapper section="hero">
           <CleanHero />
         </OptimizedSectionWrapper>
-        <OptimizedSectionWrapper section="portfolioGallery">
-          <PortfolioGallery />
-        </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="servicesShowcase">
           <ServicesShowcase />
+        </OptimizedSectionWrapper>
+        <OptimizedSectionWrapper section="portfolioGallery">
+          <PortfolioGallery />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="about">
           <AboutSection />

@@ -4,7 +4,6 @@ import { Sparkles } from '@/components/ui/sparkles';
 import { InfiniteSlider } from '@/components/ui/infinite-slider';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
-import { Particles } from '@/components/ui/highlighter';
 
 const logos = [
   { name: 'React', src: '/media/home/tech-stack-marquee/react.svg' },
@@ -34,10 +33,10 @@ export default function TechStackMarquee() {
   const titleHighlight = content?.titleHighlight || 'Used by Leaders.';
 
   return (
-    <section className="relative bg-black py-16 overflow-hidden">
+    <section className="relative overflow-hidden bg-black py-16">
       {/* Blue glow background - matching particles */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#37AFE1]/5 to-transparent pointer-events-none" />
-      
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#37AFE1]/5 to-transparent" />
+
       <div className="container relative z-10 mx-auto max-w-7xl px-6">
         <div className="mx-auto w-full max-w-3xl">
           <SectionHeading
@@ -65,19 +64,7 @@ export default function TechStackMarquee() {
         <div className="relative -mt-32 h-96 w-full overflow-hidden [mask-image:radial-gradient(50%_50%,white,transparent)]">
           <div className="absolute inset-0 before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_bottom_center,#37AFE1,transparent_70%)] before:opacity-40" />
           <div className="absolute -left-1/2 top-1/2 z-10 aspect-[1/0.7] w-[200%] rounded-[100%] border-t border-[#37AFE1]/20 bg-transparent" />
-          
-          {/* Moving Particles with larger size and blue glow */}
-          <Particles
-            className="absolute inset-0"
-            quantity={100}
-            staticity={50}
-            ease={50}
-            color="#37AFE1"
-            vx={0.02}
-            vy={0.02}
-            refresh={false}
-          />
-          
+
           <Sparkles
             density={1200}
             className="absolute inset-x-0 bottom-0 h-full w-full [mask-image:radial-gradient(50%_50%,white,transparent_85%)]"
