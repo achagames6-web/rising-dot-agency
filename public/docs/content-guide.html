@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rising Dot Agency - Content Management Guide</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}:root{--primary-blue:#37AFE1;--primary-orange:#F58122;--bg-dark:#0a0a0a;--bg-card:#1E293B;--text-primary:#fff;--text-secondary:#94a3b8;--border-color:#334155;--success:#10b981;--code-bg:#1e1e1e}body{font-family:'Inter',-apple-system,sans-serif;background:linear-gradient(135deg,#000 0%,var(--bg-dark) 100%);color:var(--text-primary);line-height:1.6}h1,h2,h3{font-family:'Montserrat',sans-serif;font-weight:700;margin-bottom:1rem}h1{font-size:2.5rem}h2{font-size:2rem;color:var(--primary-blue)}h3{font-size:1.5rem;color:var(--primary-orange)}.container{display:flex;min-height:100vh}.sidebar{width:280px;background:var(--bg-card);border-right:1px solid var(--border-color);position:sticky;top:0;height:100vh;overflow-y:auto}.sidebar-header{padding:2rem 1.5rem;border-bottom:1px solid var(--border-color)}.logo{font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,var(--primary-blue),var(--primary-orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-menu{padding:1rem 0}.nav-item{display:block;padding:.75rem 1.5rem;color:var(--text-secondary);text-decoration:none;transition:all .2s;border-left:3px solid transparent}.nav-item:hover{background:rgba(55,175,225,.1);color:var(--primary-blue);border-left-color:var(--primary-blue)}.nav-item.active{background:rgba(55,175,225,.2);color:var(--primary-blue);border-left-color:var(--primary-blue);font-weight:600}.nav-section{padding:.5rem 1.5rem;font-size:.75rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-secondary);font-weight:600;margin-top:1rem}.main-content{flex:1;padding:3rem;max-width:1200px;margin:0 auto}.search-container{position:sticky;top:0;z-index:100;background:var(--bg-dark);padding:1rem 0 2rem 0;margin-bottom:2rem}.search-input{width:100%;padding:1rem 1rem 1rem 3rem;background:var(--bg-card);border:2px solid var(--border-color);border-radius:8px;color:var(--text-primary);font-size:1rem}.search-input:focus{outline:0;border-color:var(--primary-blue);box-shadow:0 0 0 3px rgba(55,175,225,.1)}.content-section{margin-bottom:4rem;scroll-margin-top:100px}.section-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;padding:2rem;margin-bottom:2rem;transition:all .3s}.section-card:hover{border-color:var(--primary-blue);box-shadow:0 8px 24px rgba(55,175,225,.15)}.badge{display:inline-block;padding:.375rem .75rem;border-radius:999px;font-size:.75rem;font-weight:600;text-transform:uppercase}.badge-cms{background:rgba(16,185,129,.1);color:var(--success);border:1px solid var(--success)}.badge-local{background:rgba(148,163,184,.1);color:var(--text-secondary);border:1px solid var(--border-color)}.code-block{position:relative;background:var(--code-bg);border:1px solid var(--border-color);border-radius:8px;margin:1rem 0;overflow:hidden}.code-header{display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;background:rgba(0,0,0,.3);border-bottom:1px solid var(--border-color)}.copy-button{padding:.375rem .75rem;background:var(--primary-blue);color:#fff;border:none;border-radius:4px;font-size:.75rem;cursor:pointer;transition:all .2s}.copy-button:hover{background:var(--primary-orange)}pre{padding:1rem;overflow-x:auto;margin:0}code{font-family:'Fira Code',monospace;font-size:.875rem}:not(pre)>code{background:rgba(55,175,225,.1);color:var(--primary-blue);padding:.2rem .4rem;border-radius:4px}ul{margin:1rem 0;padding-left:1.5rem}li{margin:.5rem 0;color:var(--text-secondary)}a{color:var(--primary-blue);text-decoration:none}.button{display:inline-block;padding:.75rem 1.5rem;background:var(--primary-blue);color:#fff;border-radius:8px;font-weight:600;transition:all .3s}.button:hover{background:var(--primary-orange);transform:translateY(-2px)}@media(max-width:768px){.container{flex-direction:column}.sidebar{width:100%;height:auto;position:static}.main-content{padding:1.5rem}}
+</style>
+</head>
+<body>
+<div class="container">
+<aside class="sidebar">
+<div class="sidebar-header">
+<div class="logo">Rising Dot Agency</div>
+<div style="font-size:.875rem;color:var(--text-secondary);margin-top:.5rem">Content Management Guide</div>
+</div>
+<nav class="nav-menu">
+<div class="nav-section">Overview</div>
+<a href="#intro" class="nav-item">Introduction</a>
+<a href="#quick-start" class="nav-item">Quick Start</a>
+<div class="nav-section">Homepage Sections</div>
+<a href="#hero" class="nav-item">Hero Section</a>
+<a href="#services" class="nav-item">Services</a>
+<a href="#portfolio" class="nav-item">Portfolio</a>
+<a href="#about" class="nav-item">About</a>
+<a href="#bento" class="nav-item">Bento Grid</a>
+<a href="#tech-stack" class="nav-item">Tech Stack</a>
+<a href="#case-studies" class="nav-item">Case Studies</a>
+<a href="#testimonials" class="nav-item">Testimonials</a>
+<a href="#blog" class="nav-item">Blog</a>
+<a href="#connect" class="nav-item">Connect</a>
+<a href="#team" class="nav-item">Team</a>
+<a href="#contact" class="nav-item">Contact</a>
+<a href="#cta" class="nav-item">CTA/Footer</a>
+<div class="nav-section">Resources</div>
+<a href="#media" class="nav-item">Media Library</a>
+<a href="#help" class="nav-item">Troubleshooting</a>
+</nav>
+</aside>
+<main class="main-content">
+<div class="search-container">
+<input type="text" class="search-input" id="searchInput" placeholder="Search documentation...">
+</div>
+<section id="intro" class="content-section">
+<h1>🚀 Complete Content Management Guide</h1>
+<p style="font-size:1.125rem;color:var(--text-secondary);margin-bottom:2rem">Learn where to edit every section of the Rising Dot Agency website. This guide covers all 13 homepage sections and 5 service pages.</p>
+<div style="background:rgba(55,175,225,.1);padding:1rem 1.5rem;border-radius:8px;border-left:4px solid var(--primary-blue);margin:1rem 0">
+<strong>📌 Important:</strong> Most content is stored in local files for optimal performance. Only blogs and select CMS sections use the database.
+</div>
+</section>
+<section id="quick-start" class="content-section">
+<h2>⚡ Quick Start Guide</h2>
+<div class="section-card">
+<h3>How to Edit Hero Section Text</h3>
+<p><strong>Method 1: Via Admin Dashboard (CMS)</strong></p>
+<ol>
+<li>Go to <code>/admin/pages/home</code></li>
+<li>Find "Hero Section" card</li>
+<li>Click "Edit" button</li>
+<li>Modify the JSON content</li>
+<li>Click "Save"</li>
+<li>Wait 30 seconds for ISR revalidation</li>
+<li>Refresh homepage to see changes</li>
+</ol>
+<p><strong>Method 2: Edit Code Directly</strong></p>
+<ol>
+<li>Open <code>components/sections/CleanHero.tsx</code></li>
+<li>Find the text you want to change (lines 67-130)</li>
+<li>Edit and save</li>
+<li>Commit: <code>git commit -am "Update hero text"</code></li>
+<li>Push: <code>git push origin main</code></li>
+<li>Vercel auto-deploys</li>
+</ol>
+</div>
+<div class="section-card">
+<h3>How to Add Portfolio Project</h3>
+<ol>
+<li>Prepare image: 1470x980px, < 500KB</li>
+<li>Upload to <code>/public/media/homepage/portfolio/</code></li>
+<li>Open <code>components/sections/PortfolioGallery.tsx</code></li>
+<li>Add to galleryData array:</li>
+</ol>
+<div class="code-block">
+<div class="code-header">
+<span>TypeScript</span>
+<button class="copy-button" onclick="copyCode(this)">Copy</button>
+</div>
+<pre><code>{
+  id: 10,
+  src: '/media/homepage/portfolio/project-name.jpg',
+  alt: 'Project Description',
+  title: 'Project Name',
+  span: 'col-span-1'
+}</code></pre>
+</div>
+<ol start="5">
+<li>Save, commit, and push</li>
+</ol>
+</div>
+</section>
+<section id="hero" class="content-section">
+<h2>🎯 Hero Section</h2>
+<div class="section-card">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem">
+<div>
+<h3>Hero Section</h3>
+<p style="color:var(--text-secondary)">First impression with main CTA</p>
+</div>
+<span class="badge badge-cms">CMS Enabled</span>
+</div>
+<div style="display:grid;gap:1rem;margin-bottom:1.5rem">
+<div style="background:rgba(255,255,255,.03);padding:1rem;border-radius:8px;border:1px solid var(--border-color)">
+<div style="font-size:.875rem;color:var(--text-secondary);margin-bottom:.5rem;font-weight:600">📁 File Location</div>
+<div style="font-family:monospace;font-size:.875rem">components/sections/CleanHero.tsx</div>
+<div style="font-family:monospace;font-size:.875rem;margin-top:.25rem">Lines 1-250</div>
+</div>
+<div style="background:rgba(255,255,255,.03);padding:1rem;border-radius:8px;border:1px solid var(--border-color)">
+<div style="font-size:.875rem;color:var(--text-secondary);margin-bottom:.5rem;font-weight:600">⚡ CMS Path</div>
+<div style="font-family:monospace;font-size:.875rem">/admin/pages/home → Hero Section</div>
+</div>
+</div>
+<h4>📝 Editable Content</h4>
+<ul>
+<li><strong>Badge text</strong> (Lines 67-75): Welcome message with animated icon</li>
+<li><strong>Main title</strong> (Lines 89-95): Primary headline with gradient</li>
+<li><strong>Subtitle</strong> (Lines 102-108): Descriptive text about services</li>
+<li><strong>Primary CTA</strong> (Lines 115-120): Main call-to-action button</li>
+<li><strong>Secondary CTA</strong> (Lines 125-130): Alternative action button</li>
+</ul>
+<div style="margin-top:1.5rem">
+<a href="/admin/pages/home" class="button">Edit via CMS</a>
+</div>
+</div>
+</section>
+<section id="services" class="content-section">
+<h2>💼 Services Showcase</h2>
+<div class="section-card">
+<div style="display:flex;justify-content:space-between;margin-bottom:1.5rem">
+<div>
+<h3>Services Showcase</h3>
+<p style="color:var(--text-secondary)">Display all service offerings</p>
+</div>
+<span class="badge badge-cms">CMS Enabled</span>
+</div>
+<p><strong>File:</strong> <code>components/sections/ServicesShowcase.tsx</code></p>
+<p><strong>Lines:</strong> 1-350</p>
+<p><strong>Image Folder:</strong> <code>public/media/homepage/services/</code></p>
+<p><strong>Requirements:</strong> 800x600px, < 300KB</p>
+<h4>📝 Editable Content</h4>
+<ul>
+<li>Section title (Lines 50-60)</li>
+<li>Service cards array (Lines 78-145)</li>
+<li>Service details: Title, description, icon, link</li>
+</ul>
+</div>
+</section>
+<section id="portfolio" class="content-section">
+<h2>🎨 Portfolio Gallery</h2>
+<div class="section-card">
+<div style="display:flex;justify-content:space-between;margin-bottom:1.5rem">
+<div>
+<h3>Portfolio Gallery</h3>
+<p style="color:var(--text-secondary)">Masonry-style grid showcasing projects</p>
+</div>
+<span class="badge badge-local">Local Files Only</span>
+</div>
+<p><strong>File:</strong> <code>components/sections/PortfolioGallery.tsx</code></p>
+<p><strong>Image Requirements:</strong> 1470x980px (3:2 ratio), < 500KB</p>
+<p><strong>Folder:</strong> <code>public/media/homepage/portfolio/</code></p>
+<h4>💻 How to Add Project</h4>
+<div class="code-block">
+<div class="code-header">
+<span>TypeScript</span>
+<button class="copy-button" onclick="copyCode(this)">Copy</button>
+</div>
+<pre><code>{
+  id: 10,
+  src: '/media/homepage/portfolio/new-project.jpg',
+  alt: 'New Project - Description',
+  title: 'Project Name',
+  span: 'col-span-1'
+}</code></pre>
+</div>
+</div>
+</section>
+<section id="media" class="content-section">
+<h2>📁 Media Library Guide</h2>
+<div class="section-card">
+<h3>Image Folder Structure</h3>
+<div class="code-block">
+<div class="code-header">
+<span>Folder Structure</span>
+<button class="copy-button" onclick="copyCode(this)">Copy</button>
+</div>
+<pre><code>public/media/
+├── homepage/
+│   ├── services/     (800x600px, < 300KB)
+│   ├── portfolio/    (1470x980px, < 500KB)
+│   ├── about/        (1200x800px, < 400KB)
+│   ├── team/         (600x600px, < 200KB)
+│   └── testimonials/ (400x400px, < 150KB)
+├── blog/
+│   ├── thumbnails/   (1200x630px, < 400KB)
+│   ├── heroes/       (1920x1080px, < 600KB)
+│   └── content/      (Variable sizes)
+└── icons/
+    ├── tech/         (120x120px, SVG)
+    └── social/       (24-48px, SVG)</code></pre>
+</div>
+<div style="background:rgba(55,175,225,.1);padding:1rem 1.5rem;border-radius:8px;margin-top:1rem">
+<strong>📖 Detailed Guides:</strong> Each folder contains a README.md file with specific requirements.
+</div>
+</div>
+</section>
+<section id="help" class="content-section">
+<h2>🔧 Troubleshooting</h2>
+<div class="section-card">
+<h3>CMS changes not appearing</h3>
+<p><strong>Solutions:</strong></p>
+<ol>
+<li>Wait 30 seconds for ISR revalidation</li>
+<li>Hard refresh: Ctrl+Shift+R (Win) or Cmd+Shift+R (Mac)</li>
+<li>Clear browser cache or try incognito mode</li>
+<li>Check JSON syntax with a validator</li>
+</ol>
+</div>
+<div class="section-card">
+<h3>Images not displaying</h3>
+<p><strong>Check:</strong></p>
+<ol>
+<li>File path starts with <code>/</code></li>
+<li>File name is case-sensitive</li>
+<li>File format is supported (JPG, PNG, WebP, SVG)</li>
+<li>Image is actually uploaded to correct folder</li>
+</ol>
+</div>
+</section>
+<section style="text-align:center;padding-top:2rem;margin-top:4rem;border-top:1px solid var(--border-color)">
+<p style="color:var(--text-secondary)">Rising Dot Agency © 2026</p>
+<p style="margin-top:.5rem;color:var(--text-secondary)">Content Management Guide v2.0.0</p>
+<p style="margin-top:1rem">
+<a href="/admin" class="button">Admin Dashboard</a>
+<a href="/" class="button" style="margin-left:.5rem">Visit Website</a>
+</p>
+</section>
+</main>
+</div>
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));t&&t.scrollIntoView({behavior:'smooth'})})});
+function copyCode(btn){const code=btn.closest('.code-block').querySelector('code').textContent;navigator.clipboard.writeText(code).then(()=>{btn.textContent='Copied!';setTimeout(()=>btn.textContent='Copy',2000)}).catch(()=>alert('Failed to copy'))}
+const searchInput=document.getElementById('searchInput');searchInput.addEventListener('input',function(){const term=this.value.toLowerCase();const sections=document.querySelectorAll('.content-section');if(!term){sections.forEach(s=>s.style.display='block');return}sections.forEach(s=>{const text=s.textContent.toLowerCase();s.style.display=text.includes(term)?'block':'none'})});
+document.addEventListener('DOMContentLoaded',()=>{const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){const id=entry.target.id;document.querySelectorAll('.nav-item').forEach(item=>{item.classList.toggle('active',item.getAttribute('href')==='#'+id)})}})},{threshold:.5});document.querySelectorAll('.content-section').forEach(s=>observer.observe(s))});
+</script>
+</body>
+</html>
