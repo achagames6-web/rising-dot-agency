@@ -240,7 +240,13 @@ export default function Header() {
               alt="Rising Dot"
               className="h-10 w-auto object-contain"
               onError={(e) => {
-                e.currentTarget.src = '/logo.png';
+                // Prevent infinite loop by only setting fallback once
+                if (
+                  e.currentTarget.src !==
+                  window.location.origin + '/logo.png'
+                ) {
+                  e.currentTarget.src = '/logo.png';
+                }
               }}
             />
           </Link>

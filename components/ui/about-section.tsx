@@ -76,6 +76,9 @@ export default function AboutSection() {
                 src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/aboutSection/flashEmoji.png"
                 alt="Lightning fast"
                 className="h-6 w-6"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
               />
             </div>
             <div className="mt-5 space-y-2">
@@ -100,6 +103,9 @@ export default function AboutSection() {
                 src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/aboutSection/colorsEmoji.png"
                 alt="Beautiful design"
                 className="h-6 w-6"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
               />
             </div>
             <div className="mt-5 space-y-2">
@@ -120,9 +126,12 @@ export default function AboutSection() {
           >
             <div className="flex size-12 items-center justify-center rounded-xl border border-[#37AFE1]/30 bg-gradient-to-br from-[#37AFE1]/20 to-[#37AFE1]/5 p-2.5">
               <img
-                src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/aboutSection/puzzelEmoji.png"
+                src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/aboutSection/puzzleEmoji.png"
                 alt="Integration"
                 className="h-6 w-6"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
               />
             </div>
             <div className="mt-5 space-y-2">
@@ -147,6 +156,9 @@ export default function AboutSection() {
                 src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/aboutSection/bookEmoji.png"
                 alt="Documentation"
                 className="h-6 w-6"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
               />
             </div>
             <div className="mt-5 space-y-2">
@@ -170,6 +182,9 @@ export default function AboutSection() {
                 src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/aboutSection/boxEmoji.png"
                 alt="Customizable"
                 className="h-6 w-6"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
               />
             </div>
             <div className="mt-5 space-y-2">
@@ -193,6 +208,9 @@ export default function AboutSection() {
                 src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/aboutSection/brainEmoji.png"
                 alt="Accessibility"
                 className="h-6 w-6"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
               />
             </div>
             <div className="mt-5 space-y-2">
