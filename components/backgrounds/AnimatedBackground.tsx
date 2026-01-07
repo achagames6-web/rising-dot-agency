@@ -79,68 +79,22 @@ const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({
             move: {
               enable: true,
               speed: 2.5,
-              direction: 'bottom',
-              random: false,
-              straight: true,
+              direction: 'none',
+              random: true,
+              straight: false,
               outModes: {
-                default: 'out',
-                bottom: 'out',
-                top: 'out',
+                default: 'bounce',
+                bottom: 'bounce',
+                top: 'bounce',
+                left: 'bounce',
+                right: 'bounce',
               },
-            },
-            life: {
-              duration: {
-                value: 8,
-              },
+              bounce: true,
             },
             links: {
               enable: false,
             },
           },
-          emitters: [
-            {
-              position: {
-                x: 50,
-                y: 0,
-              },
-              rate: {
-                delay: 0.05,
-                quantity: 3,
-              },
-              size: {
-                width: 60,
-                height: 0,
-              },
-            },
-            {
-              position: {
-                x: 10,
-                y: 0,
-              },
-              rate: {
-                delay: 0.08,
-                quantity: 2,
-              },
-              size: {
-                width: 20,
-                height: 0,
-              },
-            },
-            {
-              position: {
-                x: 90,
-                y: 0,
-              },
-              rate: {
-                delay: 0.08,
-                quantity: 2,
-              },
-              size: {
-                width: 20,
-                height: 0,
-              },
-            },
-          ],
           background: { color: 'transparent' },
         }}
       />
