@@ -55,7 +55,7 @@ const PortfolioGallery = dynamic(
 // ServicesShowcase - Alternating image/content layout for featured services
 const ServicesShowcase = dynamic(
   () => import('@/components/sections/ServicesShowcase'),
-  { 
+  {
     ssr: false,
     loading: () => (
       <section className="flex items-center justify-center bg-black py-20">
@@ -91,18 +91,15 @@ const TechStackMarquee = dynamic(
   }
 );
 
-// StackFeatureSection - Tech stack orbit animation
-const StackFeatureSection = dynamic(
-  () => import('@/components/ui/stack-feature-section'),
-  {
-    ssr: false,
-    loading: () => (
-      <section className="flex items-center justify-center bg-black py-16 md:py-24">
-        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
-      </section>
-    ),
-  }
-);
+// About Section - Who we are
+const AboutSection = dynamic(() => import('@/components/ui/about-section'), {
+  ssr: false,
+  loading: () => (
+    <section className="flex items-center justify-center bg-black py-20">
+      <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
+    </section>
+  ),
+});
 
 // CaseStudiesCarousel - Progressive auto-advancing carousel
 const CaseStudiesCarousel = dynamic(
@@ -151,7 +148,7 @@ const HOME_SECTIONS = [
   'hero',
   'portfolioGallery',
   'servicesShowcase',
-  'stackFeature',
+  'about',
   'techStack',
   'caseStudies',
   'testimonials',
@@ -175,8 +172,8 @@ export default function Home() {
         <OptimizedSectionWrapper section="servicesShowcase">
           <ServicesShowcase />
         </OptimizedSectionWrapper>
-        <OptimizedSectionWrapper section="stackFeature">
-          <StackFeatureSection />
+        <OptimizedSectionWrapper section="about">
+          <AboutSection />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="techStack">
           <TechStackMarquee />
