@@ -321,7 +321,7 @@ export default function BentoGridSection() {
         </p>
 
         {/* Bento Grid */}
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 md:auto-rows-[18rem] md:grid-cols-3">
           {items.map((item, i) => (
             <BentoGridItem
               key={i}
