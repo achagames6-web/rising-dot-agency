@@ -19,6 +19,7 @@ interface ServiceVideoSectionProps {
   subtitle?: string;
   videoSrc: string;
   posterSrc?: string;
+  videoWebmSrc?: string; // Optional WebM fallback source
   ctaText?: string;
   ctaHref?: string;
 }
@@ -30,6 +31,7 @@ export default function ServiceVideoSection({
   subtitle = 'Experience our process and see the results we achieve for our clients.',
   videoSrc,
   posterSrc,
+  videoWebmSrc,
   ctaText = 'Start Your Project',
   ctaHref = '/contact',
 }: ServiceVideoSectionProps) {
@@ -169,10 +171,7 @@ export default function ServiceVideoSection({
               className="relative z-10 block h-auto max-h-full max-w-full rounded-2xl object-contain align-middle"
             >
               <source src={videoSrc} type="video/mp4" />
-              <source
-                src={videoSrc.replace('.mp4', '.webm')}
-                type="video/webm"
-              />
+              {videoWebmSrc && <source src={videoWebmSrc} type="video/webm" />}
               Your browser doesn&apos;t support video playback.
             </motion.video>
           )}
