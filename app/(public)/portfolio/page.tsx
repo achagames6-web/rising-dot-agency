@@ -9,6 +9,7 @@ import PortfolioFeatures from '@/components/sections/PortfolioFeatures';
 import FeaturedProjectsCarousel from '@/components/sections/FeaturedProjectsCarousel';
 import CaseStudiesCarousel from '@/components/sections/CaseStudiesCarousel';
 import MiniCTA from '@/components/sections/MiniCTA';
+import Connect from '@/components/sections/Connect';
 import { ImageAccordionHero } from '@/components/ui/interactive-image-accordion';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
@@ -280,6 +281,9 @@ export default function PortfolioPage() {
 
       {/* Features Section */}
       <PortfolioFeatures />
+
+      {/* Connect Section - Social Links and CTA */}
+      <Connect />
 
       {/* CTA Section */}
       <MiniCTA

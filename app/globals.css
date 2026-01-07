@@ -5,6 +5,18 @@
 @tailwind utilities;
 
 @layer base {
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  
+  html,
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden;
+  }
+  
   body {
     @apply bg-black font-inter text-body-desktop text-dark-text;
     background-color: #000000 !important;
