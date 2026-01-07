@@ -208,45 +208,21 @@ export default function MagneticCursor() {
 
   return (
     <>
-      {/* Inner dot with blur effect */}
+      {/* Center dot - Orange from branding (#F58122) */}
       <div
         ref={cursorDotRef}
-        className="pointer-events-none fixed left-0 top-0 z-[99999] mix-blend-screen will-change-transform"
+        className="pointer-events-none fixed left-0 top-0 z-[99999] will-change-transform"
         style={{
           width: `${DOT_SIZE}px`,
           height: `${DOT_SIZE}px`,
           marginLeft: `${-DOT_SIZE / 2}px`,
           marginTop: `${-DOT_SIZE / 2}px`,
+          backgroundColor: '#F58122',
+          borderRadius: '50%',
+          boxShadow:
+            '0 0 10px rgba(245, 129, 34, 0.8), 0 0 20px rgba(245, 129, 34, 0.4)',
         }}
-      >
-        <div className="relative h-full w-full">
-          {/* Outer glow */}
-          <div
-            className="absolute -inset-4 rounded-full blur-xl"
-            style={{
-              background:
-                'radial-gradient(circle, rgba(59, 130, 246, 0.5) 0%, rgba(37, 99, 235, 0.2) 50%, transparent 100%)',
-            }}
-          />
-          {/* Inner glow */}
-          <div
-            className="absolute inset-0 rounded-full blur-md"
-            style={{
-              background:
-                'radial-gradient(circle, rgba(59, 130, 246, 0.9) 0%, rgba(37, 99, 235, 0.6) 50%, transparent 100%)',
-            }}
-          />
-          {/* Core dot */}
-          <div
-            className="absolute inset-0 rounded-full"
-            style={{
-              background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
-              boxShadow:
-                '0 0 20px rgba(59, 130, 246, 1), 0 0 40px rgba(59, 130, 246, 0.5)',
-            }}
-          />
-        </div>
-      </div>
+      />
 
       {/* Outer ring with gradient border */}
       <div
