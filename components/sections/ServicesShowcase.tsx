@@ -97,7 +97,7 @@ const services: Service[] = [
 
 export default function ServicesShowcase() {
   return (
-    <section className="bg-black py-20">
+    <section className="bg-black py-16">
       <div className="container mx-auto max-w-7xl px-6">
         {/* Animated Badge - Matches testimonials/case studies pattern */}
         <motion.div

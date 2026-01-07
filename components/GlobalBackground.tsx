@@ -1,60 +1,18 @@
 'use client';
 
-/**
- * GlobalBackground - Static gradient orbs for consistent background effects
- * Optimized for performance - no animations, reduced blur
- */
+import { usePathname } from 'next/navigation';
+
 export default function GlobalBackground() {
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
+
+  // Only show background effects on hero section of homepage
+  if (isHomePage) {
+    return null;
+  }
+
+  // For other pages, return minimal pure black background
   return (
-    <div
-      className="pointer-events-none fixed inset-0 overflow-hidden"
-      style={{ zIndex: 0 }}
-    >
-      {/* Large purple orb - top left */}
-      <div
-        className="pointer-events-none fixed rounded-full"
-        style={{
-          left: '5%',
-          top: '10%',
-          width: '500px',
-          height: '500px',
-          background:
-            'radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 70%)',
-          filter: 'blur(60px)',
-          zIndex: 0,
-        }}
-      />
-
-      {/* Blue orb - top right */}
-      <div
-        className="pointer-events-none fixed rounded-full"
-        style={{
-          right: '10%',
-          top: '20%',
-          width: '400px',
-          height: '400px',
-          background:
-            'radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%)',
-          filter: 'blur(50px)',
-          zIndex: 0,
-        }}
-      />
-
-      {/* Purple orb - bottom */}
-      <div
-        className="pointer-events-none fixed rounded-full"
-        style={{
-          left: '50%',
-          bottom: '10%',
-          width: '500px',
-          height: '500px',
-          background:
-            'radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%)',
-          filter: 'blur(60px)',
-          transform: 'translateX(-50%)',
-          zIndex: 0,
-        }}
-      />
-    </div>
+    <div className="fixed inset-0 -z-50 bg-black" />
   );
 }

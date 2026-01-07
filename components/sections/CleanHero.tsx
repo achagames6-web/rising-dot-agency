@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 import { ArrowRight } from 'lucide-react';
 import { StarButton } from '@/components/ui/star-button';
 import Link from 'next/link';
+import { Particles } from '@/components/ui/highlighter';
 
 // Dynamic import of AnimatedBackground (client-side only, avoid SSR issues)
 const AnimatedBackground = dynamic(
@@ -60,8 +61,19 @@ export default function CleanHero() {
       {/* New AnimatedBackground - replaces ParticleBackground, PlanetGlow, and gradient overlays */}
       <AnimatedBackground />
 
+      {/* Add Moving Particles - same as Tech Stack */}
+      <Particles
+        className="absolute inset-0 z-[1]"
+        quantity={100}
+        staticity={50}
+        color="#37AFE1"
+        vx={0.02}
+        vy={0.02}
+        refresh={false}
+      />
+
       {/* Content with z-10 */}
-      <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-12 pt-16">
+      <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-8 pt-16">
         <div className="mx-auto w-full max-w-5xl">
           <div className="flex flex-col items-center gap-8 text-center">
             {/* Top Badge */}

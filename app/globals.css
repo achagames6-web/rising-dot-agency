@@ -6,7 +6,8 @@
 
 @layer base {
   body {
-    @apply bg-light-bg font-inter text-body-desktop text-dark-text;
+    @apply bg-black font-inter text-body-desktop text-dark-text;
+    background-color: #000000 !important;
   }
 
   h1 {

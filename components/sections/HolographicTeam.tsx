@@ -549,7 +549,7 @@ export default function HolographicTeam() {
 
   return (
     <section
-      className={`relative overflow-hidden bg-transparent ${isMobile ? 'min-h-[80vh] py-8' : 'min-h-screen py-12'}`}
+      className="relative min-h-screen overflow-hidden bg-black py-16"
     >
       {/* Background */}
       <div className="absolute inset-0">

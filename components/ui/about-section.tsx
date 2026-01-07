@@ -9,7 +9,7 @@ import { ParticleWrapper } from "@/components/ui/particle-button";
 
 export default function AboutSection() {
   return (
-    <section className="relative bg-black py-20 overflow-hidden">
+    <section className="relative bg-black py-16 overflow-hidden">
       {/* Background glow effect */}
       <div className="size-[520px] rounded-full absolute blur-[300px] -z-10 bg-[#FBFFE1]"></div>
 
@@ -58,25 +58,26 @@ export default function AboutSection() {
         </h1>
 
         {/* Description */}
-        <p className="text-center text-slate-400 mt-2 max-w-3xl mx-auto text-lg mb-12">
+        <p className="text-center text-slate-400 mt-2 max-w-3xl mx-auto text-lg mb-8">
           Ship Beautiful Frontends Without the Overhead — Customizable,
           Scalable and Developer-Friendly Solutions.
         </p>
 
         {/* Two Column Layout: Image + Features */}
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-center gap-12 px-4 md:px-0">
-          {/* Left: Image */}
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-center gap-8 px-4 md:px-0">
+          {/* Left: Image - Centered and properly sized */}
           <motion.div
-            className="w-full md:w-1/2"
+            className="w-full md:w-1/2 flex items-center"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
             <img
-              className="max-w-full w-full rounded-2xl h-auto shadow-2xl border border-white/10"
-              src="https://images.unsplash.com/photo-1555212697-194d092e3b8f?q=80&w=830&h=844&auto=format&fit=crop"
-              alt="Our workspace"
+              className="max-w-full w-full rounded-2xl shadow-2xl border border-white/10 object-cover mx-auto"
+              style={{ maxHeight: '500px', height: '500px' }}
+              src="https://images.unsplash.com/photo-1555212697-194d092e3b8f?q=80&w=830&h=500&auto=format&fit=crop"
+              alt="Rising Dot Agency workspace"
             />
           </motion.div>
 

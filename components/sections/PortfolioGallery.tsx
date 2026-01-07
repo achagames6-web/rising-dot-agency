@@ -94,7 +94,7 @@ export default function PortfolioGallery() {
   }, [closeModal]);
 
   return (
-    <section className="bg-black py-20">
+    <section className="bg-black py-16">
       <div className="container mx-auto max-w-7xl px-6">
         {/* Badge */}
         <div className="mb-6 flex justify-center">

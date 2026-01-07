@@ -165,7 +165,7 @@ export function PremiumTestimonials() {
   return (
     <section
       id="testimonials"
-      className="relative overflow-hidden bg-transparent py-32 text-white"
+      className="relative overflow-hidden bg-black py-16 text-white"
     >
       <motion.div
         ref={containerRef}
