@@ -127,7 +127,7 @@ function MagneticNavLink({
           rotate: isHovered ? -3 : 0,
         }}
         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-        className="relative px-6 py-2 text-sm font-medium text-white/90 transition-colors duration-200 hover:text-white"
+        className="relative px-4 py-2 text-sm font-medium text-white/90 transition-colors duration-200 hover:text-white"
       >
         {content}
       </motion.button>
@@ -148,7 +148,7 @@ function MagneticNavLink({
         onMouseMove={handleMouseMove}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className="relative block px-6 py-2 text-sm font-medium text-white/90 transition-colors duration-200 hover:text-white"
+        className="relative block px-4 py-2 text-sm font-medium text-white/90 transition-colors duration-200 hover:text-white"
       >
         {content}
       </Link>
@@ -218,7 +218,7 @@ export default function Header() {
         }}
       >
         <nav
-          className="relative flex items-center gap-3 rounded-full px-6 py-3 backdrop-blur-2xl"
+          className="relative flex items-center gap-1.5 rounded-full px-5 py-3 backdrop-blur-2xl"
           style={{
             background: 'rgba(15, 23, 42, 0.6)',
             border: '1px solid rgba(255, 255, 255, 0.08)',
@@ -254,7 +254,7 @@ export default function Header() {
           <div className="mx-1 hidden h-6 w-px shrink-0 bg-white/10 md:block" />
 
           {/* Desktop Navigation */}
-          <div className="hidden items-center gap-2 md:flex">
+          <div className="hidden items-center gap-1 md:flex">
             {navLinks.map((link) => (
               <div
                 key={link.href}
