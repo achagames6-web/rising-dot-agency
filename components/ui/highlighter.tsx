@@ -145,6 +145,11 @@ function hexToRgb(hex: string): number[] {
   return [red, green, blue];
 }
 
+// Particle configuration constants
+const PARTICLE_RADIUS = 1; // 1px radius = 2px diameter
+const MIN_ALPHA = 0.2;
+const ALPHA_RANGE = 0.4;
+
 export const Particles: React.FC<ParticlesProps> = ({
   className = '',
   quantity = 30,
@@ -184,9 +189,11 @@ export const Particles: React.FC<ParticlesProps> = ({
     const y = Math.floor(Math.random() * canvasSize.current.h);
     const translateX = 0;
     const translateY = 0;
-    const size = Math.random() * 1 + 2.5; // Range: 2.5-3.5px for better visibility
+    const size = PARTICLE_RADIUS;
     const alpha = 0;
-    const targetAlpha = parseFloat((Math.random() * 0.3 + 0.1).toFixed(1));
+    const targetAlpha = parseFloat(
+      (Math.random() * ALPHA_RANGE + MIN_ALPHA).toFixed(1)
+    );
     const dx = (Math.random() - 0.5) * 0.2;
     const dy = (Math.random() - 0.5) * 0.2;
     const magnetism = 0.1 + Math.random() * 4;
@@ -209,13 +216,8 @@ export const Particles: React.FC<ParticlesProps> = ({
       const { x, y, translateX, translateY, size, alpha } = circle;
       context.current.translate(translateX, translateY);
 
-      // Draw glow effect (larger, more transparent circle)
-      context.current.beginPath();
-      context.current.arc(x, y, size * 3, 0, 2 * Math.PI);
-      context.current.fillStyle = `rgba(${rgb.join(', ')}, ${alpha * 0.2})`;
-      context.current.fill();
-
-      // Draw main particle
+      // Draw main particle as a clean borderless dot (2px diameter)
+      // No glow effect or stroke to ensure particles appear as pure colored dots
       context.current.beginPath();
       context.current.arc(x, y, size, 0, 2 * Math.PI);
       context.current.fillStyle = `rgba(${rgb.join(', ')}, ${alpha})`;
