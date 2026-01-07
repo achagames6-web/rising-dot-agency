@@ -127,7 +127,7 @@ function MagneticNavLink({
           rotate: isHovered ? -3 : 0,
         }}
         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-        className="relative px-5 py-2 text-sm font-medium text-white/90 transition-colors duration-200 hover:text-white"
+        className="relative px-6 py-2 text-sm font-medium text-white/90 transition-colors duration-200 hover:text-white"
       >
         {content}
       </motion.button>
@@ -148,7 +148,7 @@ function MagneticNavLink({
         onMouseMove={handleMouseMove}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className="relative block px-5 py-2 text-sm font-medium text-white/90 transition-colors duration-200 hover:text-white"
+        className="relative block px-6 py-2 text-sm font-medium text-white/90 transition-colors duration-200 hover:text-white"
       >
         {content}
       </Link>
@@ -218,7 +218,7 @@ export default function Header() {
         }}
       >
         <nav
-          className="relative flex items-center justify-center gap-2 rounded-full px-3 py-3 backdrop-blur-2xl"
+          className="relative flex items-center gap-3 rounded-full px-6 py-3 backdrop-blur-2xl"
           style={{
             background: 'rgba(15, 23, 42, 0.6)',
             border: '1px solid rgba(255, 255, 255, 0.08)',
@@ -226,25 +226,29 @@ export default function Header() {
               0 4px 30px rgba(0, 0, 0, 0.2),
               inset 0 1px 0 rgba(255, 255, 255, 0.05)
             `,
-            minWidth: 'fit-content',
+            width: 'auto',
+            minWidth: 'max-content',
           }}
         >
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-2 rounded-full px-4 py-1.5 transition-all duration-300 hover:bg-white/5"
+            className="flex shrink-0 items-center gap-2 rounded-full px-4 py-1.5 transition-all duration-300 hover:bg-white/5"
           >
             <img
               src={settings.header.logo || '/logo.png'}
               alt="Rising Dot"
-              className="h-10 w-auto"
+              className="h-10 w-auto object-contain"
+              onError={(e) => {
+                e.currentTarget.src = '/logo.png';
+              }}
             />
           </Link>
 
-          <div className="mx-1 hidden h-6 w-px bg-white/10 md:block" />
+          <div className="mx-1 hidden h-6 w-px shrink-0 bg-white/10 md:block" />
 
           {/* Desktop Navigation */}
-          <div className="hidden items-center gap-1 md:flex">
+          <div className="hidden items-center gap-2 md:flex">
             {navLinks.map((link) => (
               <div
                 key={link.href}
