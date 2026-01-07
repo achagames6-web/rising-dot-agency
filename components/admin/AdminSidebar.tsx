@@ -20,6 +20,7 @@ import {
   Palette,
   Navigation,
   MessageCircle,
+  BookOpen,
 } from 'lucide-react';
 
 interface AdminSidebarProps {
@@ -40,6 +41,7 @@ interface NavItem {
 
 const navigation: NavItem[] = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+  { name: 'Documentation', href: '/admin/pages/documentation', icon: BookOpen },
   { name: 'Content Manager', href: '/admin/content', icon: FileText },
   {
     name: 'Pages',
