@@ -73,7 +73,7 @@ export default function BlogSection() {
 
   if (loading) {
     return (
-      <section className="bg-black px-6 py-24">
+      <section className="bg-black px-6 py-16">
         <div className="mx-auto flex max-w-7xl justify-center">
           <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
         </div>
@@ -91,7 +91,7 @@ export default function BlogSection() {
     .slice(0, 3);
 
   return (
-    <section className="relative overflow-hidden bg-transparent px-6 py-24">
+    <section className="bg-black py-16">
       {/* Background Elements */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-10 top-20 h-72 w-72 rounded-full bg-[#37AFE1]/5 blur-3xl" />

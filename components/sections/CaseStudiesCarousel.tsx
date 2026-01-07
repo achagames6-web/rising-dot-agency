@@ -105,7 +105,7 @@ export default function CaseStudiesCarousel({
   const caseStudies = sectionContent?.studies || defaultCaseStudies;
 
   return (
-    <section className="bg-transparent py-20 md:py-32">
+    <section className="relative overflow-hidden bg-black py-16">
       <div className="mx-auto max-w-6xl px-6">
         {/* Section Header */}
         <SectionHeading

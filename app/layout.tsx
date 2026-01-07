@@ -91,7 +91,7 @@ export default function RootLayout({
         />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
       </head>
-      <body className="bg-[#0F172A] font-inter">
+      <body className="bg-black font-inter">
         <GlobalBackground />
         <MagneticCursor />
         {children}

@@ -384,7 +384,7 @@ export default function HolographicContact() {
   );
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-transparent py-20">
+    <section className="relative min-h-screen overflow-hidden bg-black py-16">
       <div className="mx-auto max-w-7xl px-4 md:px-6">
         <SectionHeading
           eyebrow={eyebrow}

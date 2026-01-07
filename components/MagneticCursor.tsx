@@ -10,7 +10,7 @@ interface CursorPosition {
 type CursorState = 'default' | 'hover' | 'click';
 
 const LERP_FACTOR = 0.15;
-const DOT_SIZE = 10;
+const DOT_SIZE = 8; // Updated to 8px as per requirements
 const RING_SIZE = 50;
 const THROTTLE_MS = 16; // 60fps
 

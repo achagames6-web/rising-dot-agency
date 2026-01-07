@@ -41,7 +41,7 @@ export default function SimpleCTA() {
   ];
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-transparent">
+    <section className="relative bg-black py-16 overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0">
         <div

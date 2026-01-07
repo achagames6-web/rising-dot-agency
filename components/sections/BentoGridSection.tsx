@@ -7,7 +7,7 @@ import { Sparkles, Zap, Palette, Code, MessageSquare, Workflow, TrendingUp } fro
 
 export default function BentoGridSection() {
   return (
-    <section className="relative bg-black py-20 overflow-hidden">
+    <section className="relative bg-black py-16 overflow-hidden">
       <div className="container mx-auto max-w-7xl px-6">
         {/* Animated Badge */}
         <motion.div
