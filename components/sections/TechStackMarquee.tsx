@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import { Sparkles } from '@/components/ui/sparkles';
 import { InfiniteSlider } from '@/components/ui/infinite-slider';
 import { SectionHeading } from '@/components/ui/section-heading';
@@ -34,16 +35,47 @@ export default function TechStackMarquee() {
 
   return (
     <section className="relative overflow-hidden bg-black py-16">
-      {/* Blue glow background - matching particles */}
+      {/* Blue ambient glow - subtle at 0.3 opacity */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(circle at 50% 50%, rgba(55, 175, 225, 0.3) 0%, transparent 70%)',
+          opacity: 0.3,
+        }}
+      />
+
+      {/* Additional blue tint overlay */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#37AFE1]/5 to-transparent" />
 
       <div className="container relative z-10 mx-auto max-w-7xl px-6">
         <div className="mx-auto w-full max-w-3xl">
-          <SectionHeading
-            eyebrow={eyebrow}
-            title={title}
-            titleHighlight={titleHighlight}
-          />
+          {/* Badge with blue glow */}
+          <motion.div
+            className="mb-6 flex justify-center"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <motion.div
+              className="inline-flex items-center gap-3 rounded-full border px-5 py-2 backdrop-blur-sm"
+              style={{
+                borderColor: 'rgba(55, 175, 225, 0.3)',
+                background: 'rgba(55, 175, 225, 0.08)',
+                boxShadow: '0 0 20px rgba(55, 175, 225, 0.3)',
+              }}
+              whileHover={{
+                scale: 1.05,
+                boxShadow: '0 0 30px rgba(55, 175, 225, 0.5)',
+              }}
+            >
+              <span className="text-sm font-medium text-[#37AFE1]">
+                {eyebrow}
+              </span>
+            </motion.div>
+          </motion.div>
+
+          <SectionHeading title={title} titleHighlight={titleHighlight} />
 
           {/* Sliding logos */}
           <div className="mt-14 overflow-hidden py-4 [mask-image:linear-gradient(to_right,transparent,black,transparent)]">

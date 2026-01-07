@@ -4,9 +4,20 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ParticleWrapper } from '@/components/ui/particle-button';
 import { StarButton } from '@/components/ui/star-button';
-import { SocialLinks, defaultSocials } from '@/components/ui/social-links';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
+import {
+  FacebookIcon,
+  InstagramIcon,
+  TwitterIcon,
+  TikTokIcon,
+  YouTubeIcon,
+  LinkedInIcon,
+  TelegramIcon,
+  DiscordIcon,
+  PinterestIcon,
+  GitHubIcon,
+} from '@/components/ui/social-icons';
 
 export default function SimpleCTA() {
   // Fetch CMS content
@@ -40,8 +51,32 @@ export default function SimpleCTA() {
     { number: '24/7', label: 'Support Available' },
   ];
 
+  // Social media configuration
+  const socialLinks = [
+    {
+      name: 'Instagram',
+      icon: InstagramIcon,
+      href: '#',
+      hoverClass: 'instagram',
+    },
+    { name: 'Facebook', icon: FacebookIcon, href: '#', hoverClass: 'facebook' },
+    { name: 'Twitter', icon: TwitterIcon, href: '#', hoverClass: 'twitter' },
+    { name: 'TikTok', icon: TikTokIcon, href: '#', hoverClass: 'tiktok' },
+    { name: 'YouTube', icon: YouTubeIcon, href: '#', hoverClass: 'youtube' },
+    { name: 'LinkedIn', icon: LinkedInIcon, href: '#', hoverClass: 'linkedin' },
+    { name: 'Telegram', icon: TelegramIcon, href: '#', hoverClass: 'telegram' },
+    { name: 'Discord', icon: DiscordIcon, href: '#', hoverClass: 'discord' },
+    {
+      name: 'Pinterest',
+      icon: PinterestIcon,
+      href: '#',
+      hoverClass: 'pinterest',
+    },
+    { name: 'GitHub', icon: GitHubIcon, href: '#', hoverClass: 'github' },
+  ];
+
   return (
-    <section className="relative bg-black py-16 overflow-hidden">
+    <section className="relative overflow-hidden bg-black py-16">
       {/* Background gradient */}
       <div className="absolute inset-0">
         <div
@@ -133,7 +168,7 @@ export default function SimpleCTA() {
             ))}
           </div>
 
-          {/* Social Links */}
+          {/* 3D Social Media Icons - 50% Size */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -141,13 +176,193 @@ export default function SimpleCTA() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="mt-16"
           >
-            <p className="mb-4 text-sm text-[#64748B]">
+            <p className="mb-6 text-sm text-[#64748B]">
               Follow us on social media
             </p>
-            <SocialLinks socials={defaultSocials} />
+            <div
+              className="overflow-hidden rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-800/80 to-gray-900/90 p-4 backdrop-blur-3xl"
+              style={{
+                boxShadow:
+                  '0 0 25px rgba(139, 92, 246, 0.3), 0 0 40px rgba(124, 58, 237, 0.2)',
+              }}
+            >
+              <div className="flex flex-wrap justify-center gap-4">
+                {socialLinks.map((social) => {
+                  const IconComponent = social.icon;
+                  return (
+                    <a
+                      key={social.name}
+                      href={social.href}
+                      className={`social-icon ${social.hoverClass}`}
+                    >
+                      <div className="icon-container-small">
+                        <IconComponent className="h-4 w-4 text-white" />
+                      </div>
+                      <span className="icon-label-small">{social.name}</span>
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
           </motion.div>
         </motion.div>
       </div>
+
+      {/* Social Media Styles */}
+      <style jsx>{`
+        .social-icon {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-decoration: none;
+          transition: all 0.3s ease;
+          position: relative;
+          z-index: 1;
+        }
+
+        .icon-container-small {
+          display: inline-flex;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          transition: all 0.3s ease;
+          position: relative;
+          justify-content: center;
+          align-items: center;
+          background: rgba(255, 255, 255, 0.05);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+          backdrop-filter: blur(4px);
+          -webkit-backdrop-filter: blur(4px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-icon:hover .icon-container-small {
+          transform: translateY(-5px) scale(1.1);
+        }
+
+        .social-icon:hover .icon-label-small {
+          opacity: 1;
+          transform: translateY(2px);
+        }
+
+        .icon-label-small {
+          margin-top: 6px;
+          color: white;
+          font-weight: 500;
+          font-size: 0.75rem;
+          opacity: 0.7;
+          transition: all 0.3s ease;
+        }
+
+        /* Platform-specific hover colors */
+        .social-icon.instagram:hover .icon-container-small {
+          background: radial-gradient(
+            circle at 30% 107%,
+            #fdf497 0%,
+            #fdf497 5%,
+            #fd5949 45%,
+            #d6249f 60%,
+            #285aeb 90%
+          );
+          box-shadow: 0 0 15px rgba(225, 48, 108, 0.6);
+        }
+
+        .social-icon.facebook:hover .icon-container-small {
+          background: #1877f2;
+          box-shadow: 0 0 15px rgba(24, 119, 242, 0.6);
+        }
+
+        .social-icon.twitter:hover .icon-container-small {
+          background: #1da1f2;
+          box-shadow: 0 0 15px rgba(29, 161, 242, 0.6);
+        }
+
+        .social-icon.tiktok:hover .icon-container-small {
+          background: #000000;
+          box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+        .social-icon.youtube:hover .icon-container-small {
+          background: #ff0000;
+          box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+        }
+
+        .social-icon.linkedin:hover .icon-container-small {
+          background: #0077b5;
+          box-shadow: 0 0 15px rgba(0, 119, 181, 0.6);
+        }
+
+        .social-icon.telegram:hover .icon-container-small {
+          background: #0088cc;
+          box-shadow: 0 0 15px rgba(0, 136, 204, 0.6);
+        }
+
+        .social-icon.discord:hover .icon-container-small {
+          background: #7289da;
+          box-shadow: 0 0 15px rgba(114, 137, 218, 0.6);
+        }
+
+        .social-icon.pinterest:hover .icon-container-small {
+          background: #e60023;
+          box-shadow: 0 0 15px rgba(230, 0, 35, 0.6);
+        }
+
+        .social-icon.github:hover .icon-container-small {
+          background: #333333;
+          box-shadow: 0 0 15px rgba(51, 51, 51, 0.6);
+        }
+
+        .social-icon:hover svg {
+          animation: shake 0.5s;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .social-icon:hover svg {
+            animation: none;
+          }
+        }
+
+        @keyframes shake {
+          0%,
+          100% {
+            transform: translateX(0) rotate(0);
+          }
+          20% {
+            transform: translateX(-2.5px) rotate(-2.5deg);
+          }
+          40% {
+            transform: translateX(2.5px) rotate(2.5deg);
+          }
+          60% {
+            transform: translateX(-2.5px) rotate(-2.5deg);
+          }
+          80% {
+            transform: translateX(2.5px) rotate(2.5deg);
+          }
+        }
+
+        .icon-container-small::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          border-radius: 50%;
+          background: radial-gradient(
+            circle at center,
+            rgba(255, 255, 255, 0.4) 0%,
+            transparent 70%
+          );
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          z-index: -1;
+        }
+
+        .social-icon:hover .icon-container-small::before {
+          opacity: 1;
+        }
+      `}</style>
     </section>
   );
 }
