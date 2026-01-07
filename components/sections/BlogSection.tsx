@@ -73,8 +73,8 @@ export default function BlogSection() {
 
   if (loading) {
     return (
-      <section className="bg-black px-6 py-16">
-        <div className="mx-auto flex max-w-7xl justify-center">
+      <section className="bg-black px-4 py-12 sm:px-6 md:py-16 lg:px-8">
+        <div className="container mx-auto flex max-w-7xl justify-center">
           <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
         </div>
       </section>
@@ -91,14 +91,14 @@ export default function BlogSection() {
     .slice(0, 3);
 
   return (
-    <section className="bg-black py-16">
+    <section className="bg-black px-4 py-12 sm:px-6 md:py-16 lg:px-8">
       {/* Background Elements */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-10 top-20 h-72 w-72 rounded-full bg-[#37AFE1]/5 blur-3xl" />
         <div className="absolute bottom-20 right-10 h-96 w-96 rounded-full bg-[#F58122]/5 blur-3xl" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl">
+      <div className="container relative mx-auto max-w-7xl">
         {/* Section Header */}
         <SectionHeading
           eyebrow={eyebrow}
@@ -107,7 +107,7 @@ export default function BlogSection() {
           subtitle={subtitle}
         />
 
-        {/* Blog Grid - Unique Bento Layout */}
+        {/* Blog Grid - Unique Bento Layout - responsive */}
         <div className="grid gap-6 lg:grid-cols-2">
           {/* Featured Post - Large Card */}
           <motion.article
@@ -238,7 +238,7 @@ export default function BlogSection() {
           </div>
         </div>
 
-        {/* View All Button */}
+        {/* View All Button - responsive */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -248,11 +248,11 @@ export default function BlogSection() {
           <ParticleWrapper>
             <Link href="/blog">
               <StarButton
-                className="h-12 px-8 text-base font-semibold transition-transform hover:scale-105"
+                className="h-10 px-6 text-sm font-semibold transition-transform hover:scale-105 sm:h-12 sm:px-8 sm:text-base"
                 duration={2.5}
               >
                 View All Posts
-                <ArrowRight className="h-5 w-5" />
+                <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
               </StarButton>
             </Link>
           </ParticleWrapper>

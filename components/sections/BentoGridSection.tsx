@@ -14,17 +14,17 @@ import {
 
 export default function BentoGridSection() {
   return (
-    <section className="relative overflow-hidden bg-black py-16">
-      <div className="container mx-auto max-w-7xl px-6">
-        {/* Animated Badge */}
+    <section className="relative overflow-hidden bg-black px-4 py-12 sm:px-6 md:py-16 lg:px-8">
+      <div className="container mx-auto max-w-7xl">
+        {/* Animated Badge - responsive */}
         <motion.div
-          className="mb-6 flex justify-center"
+          className="mb-4 flex justify-center sm:mb-6"
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
           <motion.div
-            className="inline-flex items-center gap-3 rounded-full border border-white/[0.15] bg-white/[0.08] px-5 py-2 backdrop-blur-sm"
+            className="inline-flex items-center gap-2 rounded-full border border-white/[0.15] bg-white/[0.08] px-4 py-2 text-xs backdrop-blur-sm sm:gap-3 sm:px-5 sm:text-sm"
             whileHover={{
               scale: 1.05,
               borderColor: 'rgba(255, 255, 255, 0.3)',
@@ -34,17 +34,15 @@ export default function BentoGridSection() {
               animate={{ rotate: 360 }}
               transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
             >
-              <Sparkles className="h-4 w-4 text-[#F58122]" />
+              <Sparkles className="h-3 w-3 text-[#F58122] sm:h-4 sm:w-4" />
             </motion.div>
-            <span className="text-sm font-medium text-white/80">
-              ✨ Featured Work
-            </span>
+            <span className="font-medium text-white/80">✨ Featured Work</span>
             <div className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
           </motion.div>
         </motion.div>
 
-        {/* Gradient Animated Heading */}
-        <h2 className="mb-4 text-center text-4xl font-bold md:text-5xl">
+        {/* Gradient Animated Heading - responsive */}
+        <h2 className="mb-3 text-center text-3xl font-bold sm:mb-4 sm:text-4xl md:mb-6 md:text-5xl">
           <span
             className="bg-clip-text text-transparent"
             style={{
@@ -59,7 +57,7 @@ export default function BentoGridSection() {
           <span className="text-white">Showcase</span>
         </h2>
 
-        <p className="mx-auto mb-12 mt-2 max-w-3xl text-center text-lg text-slate-400">
+        <p className="mx-auto mb-8 mt-2 max-w-3xl text-center text-base text-slate-400 sm:mb-10 sm:text-lg md:mb-12 md:text-xl">
           Explore our cutting-edge solutions that combine powerful technology
           with exceptional user experiences
         </p>

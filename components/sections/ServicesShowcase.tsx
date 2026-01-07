@@ -97,17 +97,17 @@ const services: Service[] = [
 
 export default function ServicesShowcase() {
   return (
-    <section className="bg-black py-16">
-      <div className="container mx-auto max-w-7xl px-6">
+    <section className="relative overflow-hidden bg-black px-4 pb-16 pt-8 sm:px-6 md:pb-20 md:pt-12 lg:px-8">
+      <div className="container mx-auto max-w-7xl">
         {/* Animated Badge - Matches testimonials/case studies pattern */}
         <motion.div
-          className="mb-6 flex justify-center"
+          className="mb-4 flex justify-center sm:mb-6"
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
           <motion.div
-            className="inline-flex items-center gap-3 rounded-full border border-white/[0.15] bg-white/[0.08] px-5 py-2 backdrop-blur-sm"
+            className="inline-flex items-center gap-2 rounded-full border border-white/[0.15] bg-white/[0.08] px-4 py-2 text-xs backdrop-blur-sm sm:gap-3 sm:px-5 sm:text-sm"
             whileHover={{
               scale: 1.05,
               borderColor: 'rgba(255, 255, 255, 0.3)',
@@ -117,23 +117,21 @@ export default function ServicesShowcase() {
               animate={{ rotate: 360 }}
               transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
             >
-              <Sparkles className="h-4 w-4 text-[#F58122]" />
+              <Sparkles className="h-3 w-3 text-[#F58122] sm:h-4 sm:w-4" />
             </motion.div>
-            <span className="text-sm font-medium text-white/80">
-              What We Offer
-            </span>
+            <span className="font-medium text-white/80">What We Offer</span>
             <div className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
           </motion.div>
         </motion.div>
 
         {/* Section Heading with Gradient Animation */}
         <motion.div
-          className="mb-16 text-center"
+          className="mb-8 text-center sm:mb-12 md:mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="mb-4 text-4xl font-bold md:text-5xl">
+          <h2 className="mb-3 text-3xl font-bold sm:mb-4 sm:text-4xl md:text-5xl">
             <span className="text-white">Premium </span>
             <span
               className="bg-clip-text text-transparent"
@@ -147,14 +145,14 @@ export default function ServicesShowcase() {
               Digital Services
             </span>
           </h2>
-          <p className="mx-auto max-w-3xl text-xl text-gray-400">
+          <p className="mx-auto mb-8 max-w-3xl text-center text-base text-slate-400 sm:mb-12 sm:text-lg md:text-xl">
             Comprehensive solutions tailored to elevate your digital presence
             and drive measurable results
           </p>
         </motion.div>
 
         {/* Bento Grid Layout - 2 columns on desktop, 1 on mobile */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:gap-12">
           {services.map((service, index) => (
             <motion.div
               key={service.id}

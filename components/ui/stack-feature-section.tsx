@@ -126,25 +126,25 @@ export default function StackFeatureSection({
 
   return (
     <section
-      className="relative mx-auto my-16 flex min-h-[26rem] max-w-6xl flex-col items-center justify-between overflow-hidden rounded-3xl bg-transparent px-6 md:my-24 md:flex-row md:px-10"
+      className="relative mx-auto my-12 flex min-h-[26rem] max-w-6xl flex-col items-center justify-between overflow-hidden rounded-3xl bg-transparent px-4 sm:my-16 sm:px-6 md:my-24 md:flex-row md:px-10"
       style={{ border: `1px solid ${colors.borderColor}30` }}
     >
       {/* Left side: Heading and Text */}
-      <div className="z-10 w-full py-8 md:w-1/2 md:py-0">
+      <div className="z-10 w-full py-6 sm:py-8 md:w-1/2 md:py-0">
         <motion.div
-          className="mb-6 inline-flex items-center gap-3 rounded-full border border-white/[0.15] bg-white/[0.08] px-4 py-2 backdrop-blur-sm"
+          className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/[0.15] bg-white/[0.08] px-4 py-2 text-xs backdrop-blur-sm sm:mb-6 sm:gap-3 sm:text-sm"
           whileHover={{ scale: 1.05, borderColor: 'rgba(255, 255, 255, 0.3)' }}
         >
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
           >
-            <Sparkles className="h-4 w-4 text-[#F58122]" />
+            <Sparkles className="h-3 w-3 text-[#F58122] sm:h-4 sm:w-4" />
           </motion.div>
-          <span className="text-sm font-medium text-white/80">{eyebrow}</span>
+          <span className="font-medium text-white/80">{eyebrow}</span>
           <div className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
         </motion.div>
-        <h2 className="mb-4 text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+        <h2 className="mb-3 text-2xl font-bold tracking-tight sm:mb-4 sm:text-3xl md:text-4xl lg:text-5xl">
           <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
             {title}
           </span>{' '}
@@ -165,14 +165,14 @@ export default function StackFeatureSection({
             {titleHighlight}
           </motion.span>
         </h2>
-        <p className="mb-8 max-w-lg text-lg leading-relaxed text-white/60">
+        <p className="mb-6 max-w-lg text-base leading-relaxed text-white/60 sm:mb-8 sm:text-lg">
           {subtitle}
         </p>
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Link href={ctaHref}>
               <StarButton
-                className="h-12 px-6 text-base font-semibold"
+                className="h-10 px-6 text-sm font-semibold sm:h-12 sm:text-base"
                 duration={2.5}
               >
                 {ctaText}
@@ -183,7 +183,7 @@ export default function StackFeatureSection({
             <Link href={secondaryCtaHref}>
               <StarButton
                 variant="secondary"
-                className="h-12 px-6 text-base font-semibold"
+                className="h-10 px-6 text-sm font-semibold sm:h-12 sm:text-base"
                 duration={3}
               >
                 {secondaryCtaText}
@@ -193,8 +193,8 @@ export default function StackFeatureSection({
         </div>
       </div>
 
-      {/* Right side: Orbit animation */}
-      <div className="relative flex h-[20rem] w-full items-center justify-center overflow-hidden md:h-full md:w-1/2 md:justify-start">
+      {/* Right side: Orbit animation - responsive */}
+      <div className="relative flex h-[20rem] w-full items-center justify-center overflow-hidden sm:h-[24rem] md:h-full md:w-1/2 md:justify-start">
         <div className="relative flex h-[40rem] w-[40rem] items-center justify-center md:h-[50rem] md:w-[50rem] md:translate-x-[30%]">
           {/* Center Circle */}
           <div

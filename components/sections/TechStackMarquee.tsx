@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Sparkles as SparklesIcon } from 'lucide-react';
 import { Sparkles } from '@/components/ui/sparkles';
 import { InfiniteSlider } from '@/components/ui/infinite-slider';
 import { SectionHeading } from '@/components/ui/section-heading';
@@ -34,7 +35,7 @@ export default function TechStackMarquee() {
   const titleHighlight = content?.titleHighlight || 'Used by Leaders.';
 
   return (
-    <section className="relative overflow-hidden bg-black py-16">
+    <section className="relative overflow-hidden bg-black px-4 pb-12 pt-16 sm:px-6 md:pb-16 md:pt-20 lg:px-8">
       {/* Blue ambient glow - subtle at 0.3 opacity */}
       <div
         className="pointer-events-none absolute inset-0"
@@ -48,30 +49,30 @@ export default function TechStackMarquee() {
       {/* Additional blue tint overlay */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#37AFE1]/5 to-transparent" />
 
-      <div className="container relative z-10 mx-auto max-w-7xl px-6">
+      <div className="container relative z-10 mx-auto max-w-7xl">
         <div className="mx-auto w-full max-w-3xl">
-          {/* Badge with blue glow */}
+          {/* Standard Badge - matches all other sections */}
           <motion.div
-            className="mb-6 flex justify-center"
+            className="mb-4 flex justify-center sm:mb-6"
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
             <motion.div
-              className="inline-flex items-center gap-3 rounded-full border px-5 py-2 backdrop-blur-sm"
-              style={{
-                borderColor: 'rgba(55, 175, 225, 0.3)',
-                background: 'rgba(55, 175, 225, 0.08)',
-                boxShadow: '0 0 20px rgba(55, 175, 225, 0.3)',
-              }}
+              className="inline-flex items-center gap-2 rounded-full border border-white/[0.15] bg-white/[0.08] px-4 py-2 text-xs backdrop-blur-sm sm:gap-3 sm:px-5 sm:text-sm"
               whileHover={{
                 scale: 1.05,
-                boxShadow: '0 0 30px rgba(55, 175, 225, 0.5)',
+                borderColor: 'rgba(255, 255, 255, 0.3)',
               }}
             >
-              <span className="text-sm font-medium text-[#37AFE1]">
-                {eyebrow}
-              </span>
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+              >
+                <SparklesIcon className="h-3 w-3 text-[#F58122] sm:h-4 sm:w-4" />
+              </motion.div>
+              <span className="font-medium text-white/80">✨ Tech Stack</span>
+              <div className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
             </motion.div>
           </motion.div>
 
