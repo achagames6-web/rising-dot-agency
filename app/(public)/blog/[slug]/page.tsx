@@ -6,7 +6,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { Calendar, Clock, ArrowLeft, Tag, User, Share2 } from 'lucide-react';
-import { Timeline } from '@/components/ui/timeline-animation';
+import { Timeline } from '@/components/ui/timeline';
+import { getBlogTimelineData } from '@/lib/blog-timeline-data';
 
 interface BlogPost {
   _id: string;
@@ -274,33 +275,55 @@ export default function SingleBlogPage() {
         </div>
       </section>
 
-      {/* Content with Timeline */}
-      <section className="py-12">
-        <BlogTimeline content={blog.content} />
+      {/* Content with Two-Column Layout */}
+      <section className="bg-black py-12">
+        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+            {/* Main Content - Left Column */}
+            <div className="lg:col-span-8">
+              <BlogTimeline content={blog.content} />
 
-        {/* Tags */}
-        {blog.tags && blog.tags.length > 0 && (
-          <div className="mx-auto max-w-4xl px-6">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="mt-12 border-t border-slate-800 pt-8"
-            >
-              <div className="flex flex-wrap items-center gap-3">
-                <Tag className="h-4 w-4 text-slate-500" />
-                {blog.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="cursor-pointer rounded-full bg-[#1E293B] px-3 py-1 text-sm text-slate-300 transition-colors hover:bg-[#37AFE1]/20 hover:text-[#37AFE1]"
-                  >
-                    {tag}
-                  </span>
-                ))}
+              {/* Tags */}
+              {blog.tags && blog.tags.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                  className="mt-12 border-t border-slate-800 pt-8"
+                >
+                  <div className="flex flex-wrap items-center gap-3">
+                    <Tag className="h-4 w-4 text-slate-500" />
+                    {blog.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="cursor-pointer rounded-full bg-[#1E293B] px-3 py-1 text-sm text-slate-300 transition-colors hover:bg-[#37AFE1]/20 hover:text-[#37AFE1]"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </div>
+
+            {/* Sidebar Timeline - Right Column (Sticky) */}
+            <div className="hidden lg:col-span-4 lg:block">
+              <div className="sticky top-32">
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="rounded-2xl border border-[#37AFE1]/20 bg-[#0F172A]/50 p-6 backdrop-blur-sm"
+                >
+                  <h3 className="mb-6 text-xl font-bold text-white">
+                    About Rising Dot
+                  </h3>
+                  <Timeline data={getBlogTimelineData()} />
+                </motion.div>
               </div>
-            </motion.div>
+            </div>
           </div>
-        )}
+        </div>
       </section>
 
       {/* Related Posts */}

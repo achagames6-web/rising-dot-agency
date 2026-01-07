@@ -1,6 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import {
   ContainerAnimated,
@@ -17,6 +18,7 @@ interface ServiceVideoSectionProps {
   titleHighlight?: string;
   subtitle?: string;
   videoSrc: string;
+  posterSrc?: string;
   ctaText?: string;
   ctaHref?: string;
 }
@@ -27,9 +29,23 @@ export default function ServiceVideoSection({
   titleHighlight = 'Deliver',
   subtitle = 'Experience our process and see the results we achieve for our clients.',
   videoSrc,
+  posterSrc,
   ctaText = 'Start Your Project',
   ctaHref = '/contact',
 }: ServiceVideoSectionProps) {
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+
+  const handleVideoLoad = useCallback(() => {
+    setVideoLoaded(true);
+    setVideoError(false);
+  }, []);
+
+  const handleVideoError = useCallback(() => {
+    setVideoError(true);
+    setVideoLoaded(true);
+  }, []);
+
   return (
     <ContainerScroll className="bg-black text-center text-white">
       <ContainerStagger viewport={{ once: false }}>
@@ -98,17 +114,69 @@ export default function ServiceVideoSection({
         </ContainerAnimated>
       </ContainerStagger>
       <ContainerInset insetXRange={[30, 0]} className="mx-8">
-        <video
-          width="100%"
-          height="100%"
-          loop
-          playsInline
-          autoPlay
-          muted
-          className="relative z-10 block h-auto max-h-full max-w-full rounded-2xl object-contain align-middle"
-        >
-          <source src={videoSrc} type="video/mp4" />
-        </video>
+        <div className="relative">
+          {/* Loading skeleton */}
+          <AnimatePresence>
+            {!videoLoaded && !videoError && (
+              <motion.div
+                initial={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+                className="absolute inset-0 z-20 flex items-center justify-center rounded-2xl bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1e]"
+              >
+                <div className="flex flex-col items-center gap-4">
+                  <div className="h-16 w-16 animate-spin rounded-full border-4 border-[#37AFE1]/30 border-t-[#37AFE1]" />
+                  <p className="text-sm text-white/60">Loading video...</p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Error fallback */}
+          {videoError && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex aspect-video items-center justify-center rounded-2xl border border-[#37AFE1]/20 bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1e]"
+            >
+              <div className="text-center">
+                <p className="mb-2 text-lg font-semibold text-white">
+                  Video temporarily unavailable
+                </p>
+                <p className="text-sm text-white/60">
+                  Please check back later or contact us for a demo
+                </p>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Video element */}
+          {!videoError && (
+            <motion.video
+              initial={{ opacity: 0 }}
+              animate={{ opacity: videoLoaded ? 1 : 0 }}
+              transition={{ duration: 0.5 }}
+              width="100%"
+              height="100%"
+              loop
+              playsInline
+              autoPlay
+              muted
+              preload="metadata"
+              poster={posterSrc}
+              onLoadedData={handleVideoLoad}
+              onError={handleVideoError}
+              className="relative z-10 block h-auto max-h-full max-w-full rounded-2xl object-contain align-middle"
+            >
+              <source src={videoSrc} type="video/mp4" />
+              <source
+                src={videoSrc.replace('.mp4', '.webm')}
+                type="video/webm"
+              />
+              Your browser doesn&apos;t support video playback.
+            </motion.video>
+          )}
+        </div>
       </ContainerInset>
     </ContainerScroll>
   );
