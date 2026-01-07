@@ -204,7 +204,7 @@ const IconBot = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 import ServiceCaseStudies from '@/components/sections/ServiceCaseStudies';
-import Connect from '@/components/sections/Connect';
+import ServiceCTA from '@/components/sections/ServiceCTA';
 
 // Define interfaces for CMS content types
 interface HeroContent {
@@ -560,9 +560,16 @@ export default function ChatbotDevelopmentPage() {
         <StackFeatureSection page="services-chatbot" />
       </SectionWrapper>
 
-      {/* Connect Section - Social Links and CTA */}
-      <SectionWrapper page="services-chatbot" section="connect">
-        <Connect />
+      {/* CTA Section with Social Links - Uses CMS content with fallback */}
+      <SectionWrapper page="services-chatbot" section="cta">
+        <ServiceCTA
+          eyebrow={cta.eyebrow}
+          title={cta.title}
+          titleHighlight={cta.titleHighlight}
+          subtitle={cta.subtitle}
+          ctaText={cta.ctaText}
+          ctaLink={cta.ctaHref}
+        />
       </SectionWrapper>
     </main>
   );
