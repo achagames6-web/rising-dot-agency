@@ -63,186 +63,145 @@ export default function AboutSection() {
           intention, emotion and style.
         </p>
 
-        {/* Features Grid */}
-        <div className="relative mx-auto grid max-w-5xl grid-cols-1 gap-12 px-8 pt-16 md:grid-cols-2 md:px-0 lg:grid-cols-3">
+        {/* Two Column Layout: Image + Features - REDUCED HEIGHT */}
+        <div className="mx-auto flex max-w-6xl flex-col items-start justify-center gap-8 px-4 md:flex-row md:px-0">
+          {/* Left: Image - REDUCED HEIGHT */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            className="w-full md:w-1/2"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+            transition={{ duration: 0.6 }}
           >
-            <div className="flex size-12 items-center justify-center rounded-xl border border-[#37AFE1]/30 bg-gradient-to-br from-[#37AFE1]/20 to-[#37AFE1]/5 p-2.5">
-              <img
-                src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/aboutSection/flashEmoji.png"
-                alt="Lightning fast"
-                className="h-6 w-6"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }}
-              />
-            </div>
-            <div className="mt-5 space-y-2">
-              <h3 className="text-lg font-semibold text-white">
-                Lightning-Fast Performance
-              </h3>
-              <p className="text-sm text-slate-400">
-                Built with speed — minimal load times and optimized for
-                performance.
-              </p>
-            </div>
+            <img
+              className="w-full max-w-full rounded-2xl border border-white/10 object-cover shadow-2xl"
+              style={{ maxHeight: '400px' }}
+              src="https://images.unsplash.com/photo-1555212697-194d092e3b8f?q=80&w=830&h=400&auto=format&fit=crop"
+              alt="Rising Dot Agency workspace"
+            />
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-          >
-            <div className="flex size-12 items-center justify-center rounded-xl border border-[#F58122]/30 bg-gradient-to-br from-[#F58122]/20 to-[#F58122]/5 p-2.5">
-              <img
-                src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/aboutSection/colorsEmoji.png"
-                alt="Beautiful design"
-                className="h-6 w-6"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }}
-              />
-            </div>
-            <div className="mt-5 space-y-2">
-              <h3 className="text-lg font-semibold text-white">
-                Beautifully Designed Solutions
-              </h3>
-              <p className="text-sm text-slate-400">
-                Modern, pixel-perfect UI components ready for any project.
-              </p>
-            </div>
-          </motion.div>
+          {/* Right: Features - REDUCED HEIGHT */}
+          <div className="w-full md:w-1/2">
+            <h2 className="mb-3 text-2xl font-bold text-white md:text-3xl">
+              Our Core Values
+            </h2>
+            <p className="mb-6 text-sm text-slate-400">
+              We deliver cutting-edge digital solutions that transform
+              businesses through innovation, quality, and excellence.
+            </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-          >
-            <div className="flex size-12 items-center justify-center rounded-xl border border-[#37AFE1]/30 bg-gradient-to-br from-[#37AFE1]/20 to-[#37AFE1]/5 p-2.5">
-              <img
-                src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/aboutSection/puzzleEmoji.png"
-                alt="Integration"
-                className="h-6 w-6"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }}
-              />
-            </div>
-            <div className="mt-5 space-y-2">
-              <h3 className="text-lg font-semibold text-white">
-                Plug-and-Play Integration
-              </h3>
-              <p className="text-sm text-slate-400">
-                Simple setup with support for React, Next.js and modern tech
-                stacks.
-              </p>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
-          >
-            <div className="flex size-12 items-center justify-center rounded-xl border border-[#F58122]/30 bg-gradient-to-br from-[#F58122]/20 to-[#F58122]/5 p-2.5">
-              <img
-                src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/aboutSection/bookEmoji.png"
-                alt="Documentation"
-                className="h-6 w-6"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }}
-              />
-            </div>
-            <div className="mt-5 space-y-2">
-              <h3 className="text-lg font-semibold text-white">
-                Clear & Comprehensive
-              </h3>
-              <p className="text-sm text-slate-400">
-                Get started fast with usage examples, live previews and code.
-              </p>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
-          >
-            <div className="flex size-12 items-center justify-center rounded-xl border border-[#37AFE1]/30 bg-gradient-to-br from-[#37AFE1]/20 to-[#37AFE1]/5 p-2.5">
-              <img
-                src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/aboutSection/boxEmoji.png"
-                alt="Customizable"
-                className="h-6 w-6"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }}
-              />
-            </div>
-            <div className="mt-5 space-y-2">
-              <h3 className="text-lg font-semibold text-white">
-                Fully Customizable
-              </h3>
-              <p className="text-sm text-slate-400">
-                Easily adapt styles, colors and layout to match your brand.
-              </p>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.6 }}
-          >
-            <div className="flex size-12 items-center justify-center rounded-xl border border-[#F58122]/30 bg-gradient-to-br from-[#F58122]/20 to-[#F58122]/5 p-2.5">
-              <img
-                src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/aboutSection/brainEmoji.png"
-                alt="Accessibility"
-                className="h-6 w-6"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }}
-              />
-            </div>
-            <div className="mt-5 space-y-2">
-              <h3 className="text-lg font-semibold text-white">
-                Accessibility First
-              </h3>
-              <p className="text-sm text-slate-400">
-                Built with WCAG standards to ensure inclusive experiences.
-              </p>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* CTA Button */}
-        <motion.div
-          className="mt-12 flex justify-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.7 }}
-        >
-          <ParticleWrapper>
-            <Link href="/about">
-              <StarButton
-                className="h-12 px-8 text-base font-semibold"
-                duration={2.5}
+            <div className="flex flex-col gap-6">
+              {/* Feature 1 - N8N Automations */}
+              <motion.div
+                className="flex items-start gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
               >
-                Learn More About Us
-              </StarButton>
-            </Link>
-          </ParticleWrapper>
-        </motion.div>
+                <div className="flex size-12 shrink-0 items-center justify-center rounded-xl border border-[#EA4B71]/30 bg-gradient-to-br from-[#EA4B71]/20 to-[#EA4B71]/5 p-2.5">
+                  <span className="text-2xl">⚙️</span>
+                </div>
+                <div>
+                  <h3 className="mb-1 text-lg font-semibold text-white">
+                    Workflow Automation
+                  </h3>
+                  <p className="text-sm text-slate-400">
+                    N8N-powered automations that streamline your business
+                    processes and save hours of manual work.
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Feature 2 - AI Chatbots */}
+              <motion.div
+                className="flex items-start gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+              >
+                <div className="flex size-12 shrink-0 items-center justify-center rounded-xl border border-[#37AFE1]/30 bg-gradient-to-br from-[#37AFE1]/20 to-[#37AFE1]/5 p-2.5">
+                  <span className="text-2xl">🤖</span>
+                </div>
+                <div>
+                  <h3 className="mb-1 text-lg font-semibold text-white">
+                    Intelligent Chatbots
+                  </h3>
+                  <p className="text-sm text-slate-400">
+                    AI-powered chatbots that handle customer queries 24/7 with
+                    95%+ accuracy and satisfaction.
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Feature 3 - Web Design */}
+              <motion.div
+                className="flex items-start gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+              >
+                <div className="flex size-12 shrink-0 items-center justify-center rounded-xl border border-[#F58122]/30 bg-gradient-to-br from-[#F58122]/20 to-[#F58122]/5 p-2.5">
+                  <span className="text-2xl">🎨</span>
+                </div>
+                <div>
+                  <h3 className="mb-1 text-lg font-semibold text-white">
+                    Modern Web Design
+                  </h3>
+                  <p className="text-sm text-slate-400">
+                    Stunning, responsive websites built with Next.js, React, and
+                    Tailwind CSS for maximum performance.
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Feature 4 - E-commerce */}
+              <motion.div
+                className="flex items-start gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+              >
+                <div className="flex size-12 shrink-0 items-center justify-center rounded-xl border border-[#37AFE1]/30 bg-gradient-to-br from-[#37AFE1]/20 to-[#37AFE1]/5 p-2.5">
+                  <span className="text-2xl">🛒</span>
+                </div>
+                <div>
+                  <h3 className="mb-1 text-lg font-semibold text-white">
+                    E-Commerce Solutions
+                  </h3>
+                  <p className="text-sm text-slate-400">
+                    Custom Shopify and WordPress WooCommerce stores that drive
+                    sales and delight customers.
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* CTA Button - REDUCED MARGIN */}
+            <motion.div
+              className="mt-6"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5 }}
+            >
+              <ParticleWrapper>
+                <Link href="/about">
+                  <StarButton
+                    className="h-12 px-8 text-base font-semibold"
+                    duration={2.5}
+                  >
+                    Learn More About Us
+                  </StarButton>
+                </Link>
+              </ParticleWrapper>
+            </motion.div>
+          </div>
+        </div>
       </div>
 
       {/* Add gradient-shift animation */}
