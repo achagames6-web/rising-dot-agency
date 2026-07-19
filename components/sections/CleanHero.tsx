@@ -1,19 +1,10 @@
 'use client';
 
-import { useRef, useEffect, useState, useCallback } from 'react';
-import dynamic from 'next/dynamic';
+import { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
-const Hero3DOrb = dynamic(
-  () =>
-    import('@/components/ui/hero-3d-orb').then((m) => ({
-      default: m.Hero3DOrb,
-    })),
-  { ssr: false }
-);
-
-/* ── Services for marquee ──────────────────────────────────── */
+/* ── Services ─────────────────────────────────────────────── */
 const SERVICES = [
   { label: 'Web Design', icon: '🎨' },
   { label: 'Shopify Stores', icon: '🛒' },
@@ -24,7 +15,7 @@ const SERVICES = [
   { label: 'SaaS Products', icon: '🚀' },
 ];
 
-/* ── Animated cycling words ─────────────────────────────────── */
+/* ── Animated word swap ──────────────────────────────────── */
 const WORDS = [
   'Websites',
   'Shopify Stores',
@@ -35,33 +26,31 @@ const WORDS = [
 
 function AnimatedWord() {
   const [idx, setIdx] = useState(0);
-  const [visible, setVisible] = useState(true);
-
+  const [vis, setVis] = useState(true);
   useEffect(() => {
-    const cycle = setInterval(() => {
-      setVisible(false);
+    const t = setInterval(() => {
+      setVis(false);
       setTimeout(() => {
         setIdx((i) => (i + 1) % WORDS.length);
-        setVisible(true);
-      }, 400);
+        setVis(true);
+      }, 380);
     }, 2600);
-    return () => clearInterval(cycle);
+    return () => clearInterval(t);
   }, []);
-
   return (
     <span
-      className="duration-400 inline-block transition-all"
       style={{
-        background: 'linear-gradient(90deg, #37AFE1, #F58122)',
+        display: 'inline-block',
+        background: 'linear-gradient(90deg,#37AFE1,#F58122)',
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
         backgroundClip: 'text',
-        opacity: visible ? 1 : 0,
-        transform: visible
+        opacity: vis ? 1 : 0,
+        transform: vis
           ? 'translateY(0) scale(1)'
-          : 'translateY(-16px) scale(0.96)',
-        transition: 'opacity 0.35s ease, transform 0.35s ease',
-        filter: visible ? 'blur(0px)' : 'blur(4px)',
+          : 'translateY(-10px) scale(0.97)',
+        filter: vis ? 'blur(0px)' : 'blur(3px)',
+        transition: 'opacity .35s ease, transform .35s ease, filter .35s ease',
       }}
     >
       {WORDS[idx]}
@@ -69,8 +58,8 @@ function AnimatedWord() {
   );
 }
 
-/* ── Rising dots canvas ─────────────────────────────────────── */
-function RisingDots() {
+/* ── Colored rising particles from orb ──────────────────── */
+function OrbParticles() {
   const ref = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     const c = ref.current;
@@ -83,26 +72,56 @@ function RisingDots() {
     };
     resize();
     window.addEventListener('resize', resize);
-    const dots = Array.from({ length: 130 }, () => ({
-      x: Math.random() * c.width,
-      y: c.height + Math.random() * c.height,
-      r: Math.random() * 2 + 0.4,
-      spd: Math.random() * 0.55 + 0.18,
-      a: Math.random() * 0.45 + 0.08,
-    }));
+
+    // Blue 65%, Orange 22%, White 13%
+    const COLS = ['55,175,225', '245,129,34', '255,255,255'];
+    const pick = () => {
+      const r = Math.random();
+      return r < 0.65 ? COLS[0] : r < 0.87 ? COLS[1] : COLS[2];
+    };
+
+    const make = () => {
+      const cx = c.width / 2;
+      const spread = c.width * 0.44;
+      const rx = (Math.random() - 0.5) * 2;
+      const x = cx + rx * spread * (0.5 + Math.abs(rx) * 0.5);
+      const orbH = Math.min(c.height * 0.3, 300);
+      const rimY = c.height - orbH * Math.sqrt(Math.max(0, 1 - rx * rx));
+      return {
+        x,
+        y: rimY + Math.random() * orbH * 0.7,
+        vy: -(Math.random() * 0.75 + 0.25),
+        vx: (Math.random() - 0.5) * 0.12,
+        r: Math.random() * 2 + 0.4,
+        alpha: Math.random() * 0.55 + 0.2,
+        col: pick(),
+      };
+    };
+
+    const dots = Array.from({ length: 200 }, () => {
+      const d = make();
+      d.y -= Math.random() * c.height * 0.85;
+      return d;
+    });
+
     let raf: number;
     const draw = () => {
       raf = requestAnimationFrame(draw);
       ctx.clearRect(0, 0, c.width, c.height);
+      const topFade = c.height * 0.2;
+      const orbH = Math.min(c.height * 0.3, 300);
+      const orbRimY = c.height - orbH;
       dots.forEach((d) => {
-        d.y -= d.spd;
-        if (d.y < -6) {
-          d.y = c.height + 6;
-          d.x = Math.random() * c.width;
-        }
+        d.y += d.vy;
+        d.x += d.vx;
+        if (d.y < c.height * 0.04 || d.x < -8 || d.x > c.width + 8)
+          Object.assign(d, make());
+        const risenFrac = (orbRimY - d.y) / (orbRimY - topFade);
+        const topAlpha = d.y < topFade ? Math.max(0, d.y / topFade) : 1;
+        const fade = Math.max(0, Math.min(1, risenFrac * 2)) * topAlpha;
         ctx.beginPath();
         ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(55,175,225,${d.a})`;
+        ctx.fillStyle = `rgba(${d.col},${d.alpha * fade})`;
         ctx.fill();
       });
     };
@@ -116,12 +135,12 @@ function RisingDots() {
     <canvas
       ref={ref}
       className="pointer-events-none absolute inset-0 h-full w-full"
-      style={{ zIndex: 1 }}
+      style={{ zIndex: 2 }}
     />
   );
 }
 
-/* ── Service marquee ────────────────────────────────────────── */
+/* ── Marquee with both-sides fade ────────────────────────── */
 function ServiceMarquee() {
   const items = [...SERVICES, ...SERVICES];
   return (
@@ -129,7 +148,9 @@ function ServiceMarquee() {
       className="relative w-full overflow-hidden"
       style={{
         maskImage:
-          'linear-gradient(90deg,transparent,black 8%,black 92%,transparent)',
+          'linear-gradient(90deg,transparent,black 10%,black 90%,transparent)',
+        WebkitMaskImage:
+          'linear-gradient(90deg,transparent,black 10%,black 90%,transparent)',
       }}
     >
       <div
@@ -139,7 +160,7 @@ function ServiceMarquee() {
         {items.map((s, i) => (
           <div
             key={i}
-            className="flex shrink-0 items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-xs font-medium text-white/55 backdrop-blur-sm"
+            className="flex shrink-0 items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-xs font-medium text-white/50 backdrop-blur-sm"
             style={{ background: 'rgba(55,175,225,0.05)' }}
           >
             <span>{s.icon}</span>
@@ -151,81 +172,48 @@ function ServiceMarquee() {
   );
 }
 
-/* ══════════════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════
    HERO
-══════════════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════════════ */
 export default function CleanHero() {
   const [mounted, setMounted] = useState(false);
-  const [mouse, setMouse] = useState({ x: 0, y: 0 });
-  const secRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const onMove = useCallback((e: React.MouseEvent) => {
-    const r = secRef.current?.getBoundingClientRect();
-    if (!r) return;
-    setMouse({
-      x: ((e.clientX - r.left) / r.width - 0.5) * 28,
-      y: ((e.clientY - r.top) / r.height - 0.5) * 14,
-    });
-  }, []);
+  useEffect(() => setMounted(true), []);
 
   return (
     <section
-      ref={secRef}
-      className="relative flex min-h-screen w-full flex-col items-center justify-between overflow-hidden"
-      onMouseMove={onMove}
+      className="relative flex min-h-screen w-full flex-col items-center overflow-hidden"
       style={{ isolation: 'isolate' }}
     >
-      {/* ── Background layers ──────────────────────────────── */}
-      <div
-        className="absolute inset-0 z-0"
-        style={{
-          background:
-            'radial-gradient(ellipse 100% 80% at 50% 40%, #000e22 0%, #00060f 50%, #000000 100%)',
-        }}
-      />
+      {/* ── Backgrounds ────────────────────────────────── */}
+      <div className="absolute inset-0 z-0" style={{ background: '#000913' }} />
 
       {/* top blue aurora */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[55vh] opacity-35"
+        className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[38vh] opacity-20"
         style={{
           background:
-            'radial-gradient(ellipse 90% 70% at 50% -5%, #37AFE1 0%, transparent 65%)',
-        }}
-      />
-
-      {/* bottom-right orange */}
-      <div
-        className="opacity-18 pointer-events-none absolute bottom-[-10%] right-[-5%] z-0 h-[50vh] w-[55vw]"
-        style={{
-          background:
-            'radial-gradient(ellipse 90% 90% at 100% 100%, #F58122 0%, transparent 65%)',
+            'radial-gradient(ellipse 80% 65% at 50% -8%,#37AFE1 0%,transparent 68%)',
         }}
       />
 
       {/* dot grid */}
       <div
-        className="pointer-events-none absolute inset-0 z-0 opacity-[0.022]"
+        className="pointer-events-none absolute inset-0 z-0 opacity-[0.018]"
         style={{
           backgroundImage:
-            'radial-gradient(rgba(55,175,225,0.9) 1px, transparent 1px)',
+            'radial-gradient(rgba(55,175,225,0.9) 1px,transparent 1px)',
           backgroundSize: '38px 38px',
         }}
       />
 
-      {/* rising dots */}
-      {mounted && <RisingDots />}
+      {/* rising colored particles */}
+      {mounted && <OrbParticles />}
 
-      {/* ════════════════════════════════════════════════════
-          TOP SECTION  –  badge + sphere
-      ════════════════════════════════════════════════════ */}
-      <div className="relative z-10 flex w-full flex-col items-center pt-28 sm:pt-32">
+      {/* ── TOP CONTENT ────────────────────────────────── */}
+      <div className="relative z-10 flex w-full flex-col items-center px-5 pt-28 text-center sm:pt-32">
         {/* Badge */}
         <div
-          className="mb-6 opacity-0"
+          className="mb-5 opacity-0"
           style={{ animation: 'hfu .6s ease forwards .1s' }}
         >
           <div
@@ -244,68 +232,19 @@ export default function CleanHero() {
           </div>
         </div>
 
-        {/* ── 3-D ORB ─ main visual ───────────────────────── */}
+        {/* Headline — smaller */}
         <div
-          className="relative opacity-0"
-          style={{
-            animation: 'hfi 1.3s ease forwards .05s',
-            transform: `translate(${mouse.x * 0.12}px,${mouse.y * 0.08}px)`,
-            transition: 'transform .12s ease-out',
-          }}
+          className="mb-4 opacity-0"
+          style={{ animation: 'hfu .75s ease forwards .28s' }}
         >
-          {/* glow disc */}
-          <div
-            className="pointer-events-none absolute inset-0 m-auto rounded-full"
-            style={{
-              background:
-                'radial-gradient(circle, rgba(55,175,225,.22) 0%, rgba(245,129,34,.1) 55%, transparent 72%)',
-              filter: 'blur(70px)',
-            }}
-          />
-
-          {/* thin CSS orbit rings */}
-          {[420, 490, 560].map((s, i) => (
-            <div
-              key={i}
-              className="pointer-events-none absolute rounded-full"
-              style={{
-                width: s,
-                height: s,
-                top: '50%',
-                left: '50%',
-                border: `1px solid rgba(55,175,225,${0.09 - i * 0.025})`,
-                animation: `spinOrb ${20 + i * 9}s linear ${i % 2 ? 'reverse' : ''} infinite`,
-              }}
-            />
-          ))}
-
-          {/* THREE.js canvas */}
-          <div className="relative z-10 h-[280px] w-[280px] sm:h-[360px] sm:w-[360px] md:h-[460px] md:w-[460px] lg:h-[520px] lg:w-[520px]">
-            {mounted && <Hero3DOrb />}
-          </div>
-        </div>
-      </div>
-
-      {/* ════════════════════════════════════════════════════
-          MIDDLE  –  headline + CTA + stats
-      ════════════════════════════════════════════════════ */}
-      <div className="relative z-10 -mt-6 flex w-full max-w-5xl flex-col items-center px-5 sm:px-8">
-        {/* Headline */}
-        <div
-          className="mb-5 text-center opacity-0"
-          style={{ animation: 'hfu .75s ease forwards .55s' }}
-        >
-          <h1 className="font-montserrat font-extrabold leading-[1.08] tracking-tight">
-            {/* line 1 */}
-            <span className="block text-[2.2rem] text-white/85 sm:text-[3rem] md:text-[3.8rem] lg:text-[4.4rem]">
+          <h1 className="font-montserrat font-extrabold leading-[1.12] tracking-tight">
+            <span className="block text-[1.55rem] text-white/85 sm:text-[2rem] md:text-[2.5rem] lg:text-[3rem]">
               We Build
             </span>
-            {/* line 2 – animated word */}
-            <span className="block text-[2.4rem] sm:text-[3.3rem] md:text-[4.2rem] lg:text-[5rem]">
+            <span className="block text-[1.75rem] sm:text-[2.25rem] md:text-[2.85rem] lg:text-[3.4rem]">
               <AnimatedWord />
             </span>
-            {/* line 3 */}
-            <span className="block text-[2.2rem] text-white/70 sm:text-[3rem] md:text-[3.8rem] lg:text-[4.4rem]">
+            <span className="block text-[1.55rem] text-white/65 sm:text-[2rem] md:text-[2.5rem] lg:text-[3rem]">
               That Convert.
             </span>
           </h1>
@@ -313,10 +252,10 @@ export default function CleanHero() {
 
         {/* Subtitle */}
         <div
-          className="mb-8 opacity-0"
-          style={{ animation: 'hfu .7s ease forwards .72s' }}
+          className="mb-7 opacity-0"
+          style={{ animation: 'hfu .7s ease forwards .46s' }}
         >
-          <p className="max-w-lg text-center text-sm leading-relaxed text-white/40 sm:text-base md:text-lg">
+          <p className="text-white/38 max-w-md text-sm leading-relaxed sm:text-base">
             From stunning websites to powerful automations — we craft digital
             experiences that drive real business growth.
           </p>
@@ -324,8 +263,8 @@ export default function CleanHero() {
 
         {/* CTA buttons */}
         <div
-          className="mb-10 flex flex-wrap items-center justify-center gap-4 opacity-0"
-          style={{ animation: 'hfu .7s ease forwards .86s' }}
+          className="mb-9 flex flex-wrap items-center justify-center gap-4 opacity-0"
+          style={{ animation: 'hfu .7s ease forwards .60s' }}
         >
           <Link href="/contact">
             <button
@@ -333,7 +272,7 @@ export default function CleanHero() {
               style={{
                 background: 'linear-gradient(135deg,#37AFE1,#1e7fa8)',
                 boxShadow:
-                  '0 0 28px rgba(55,175,225,.38), 0 4px 18px rgba(0,0,0,.5)',
+                  '0 0 28px rgba(55,175,225,.4),0 4px 18px rgba(0,0,0,.5)',
               }}
             >
               <span className="relative z-10 flex items-center gap-2">
@@ -348,10 +287,9 @@ export default function CleanHero() {
               />
             </button>
           </Link>
-
           <Link href="/portfolio">
             <button
-              className="border-white/12 group flex items-center gap-2 rounded-full border px-7 py-3.5 text-sm font-semibold text-white/65 backdrop-blur-sm transition-all duration-300 hover:border-[#37AFE1]/40 hover:text-white sm:text-base"
+              className="border-white/12 group flex items-center gap-2 rounded-full border px-7 py-3.5 text-sm font-semibold text-white/60 backdrop-blur-sm transition-all duration-300 hover:border-[#37AFE1]/40 hover:text-white sm:text-base"
               style={{ background: 'rgba(255,255,255,.04)' }}
             >
               View Our Work
@@ -362,8 +300,8 @@ export default function CleanHero() {
 
         {/* Stats */}
         <div
-          className="mb-8 flex flex-wrap items-center justify-center gap-6 opacity-0 sm:gap-10"
-          style={{ animation: 'hfu .7s ease forwards 1.0s' }}
+          className="flex flex-wrap items-center justify-center gap-6 opacity-0 sm:gap-10"
+          style={{ animation: 'hfu .7s ease forwards .76s' }}
         >
           {[
             { v: '150+', l: 'Projects' },
@@ -383,40 +321,104 @@ export default function CleanHero() {
               >
                 {v}
               </span>
-              <span className="text-[10px] text-white/35 sm:text-xs">{l}</span>
+              <span className="text-white/32 text-[10px] sm:text-xs">{l}</span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* ════════════════════════════════════════════════════
-          BOTTOM  –  divider + marquee + scroll
-      ════════════════════════════════════════════════════ */}
+      {/* flex spacer — pushes orb + marquee to bottom */}
+      <div className="flex-1" />
+
+      {/* ── HALF-CIRCLE ORB ────────────────────────────── */}
       <div
-        className="relative z-10 w-full opacity-0"
-        style={{ animation: 'hfi .6s ease forwards 1.1s' }}
+        className="relative z-[3] w-full opacity-0"
+        style={{
+          animation: 'hfi 1.2s ease forwards .4s',
+          height: 'clamp(180px,26vw,320px)',
+        }}
       >
-        <div className="via-white/08 mb-5 h-px w-full bg-gradient-to-r from-transparent to-transparent" />
-        <ServiceMarquee />
-        <div className="mt-6 flex justify-center pb-6">
-          <div className="flex flex-col items-center gap-1">
-            <span className="text-[9px] uppercase tracking-[.22em] text-white/20">
-              Scroll
-            </span>
-            <ChevronDown
-              className="h-4 w-4 text-[#37AFE1]/30"
-              style={{ animation: 'bob 2.4s ease-in-out infinite' }}
-            />
-          </div>
+        {/* Upward bloom above rim */}
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0"
+          style={{
+            height: 'clamp(120px,18vw,220px)',
+            transform: 'translateY(-50%)',
+            background:
+              'radial-gradient(ellipse 60% 100% at 50% 100%,rgba(55,175,225,.13) 0%,rgba(245,129,34,.06) 55%,transparent 100%)',
+          }}
+        />
+
+        {/* Semi-ellipse body */}
+        <div
+          className="absolute bottom-0 left-1/2"
+          style={{
+            transform: 'translateX(-50%)',
+            width: 'clamp(700px,96vw,1200px)',
+            height: 'clamp(180px,26vw,320px)',
+            borderRadius: '50% 50% 0 0 / 100% 100% 0 0',
+            background:
+              'radial-gradient(ellipse 90% 100% at 50% 100%,rgba(10,25,55,0.92) 0%,rgba(6,14,34,0.88) 40%,rgba(2,6,15,0.7) 70%,transparent 100%)',
+          }}
+        >
+          {/* Rim glow line */}
+          <div
+            style={{
+              position: 'absolute',
+              top: -1,
+              left: '3%',
+              right: '3%',
+              height: '2px',
+              background:
+                'linear-gradient(90deg,transparent 0%,rgba(55,175,225,.75) 25%,rgba(245,129,34,.55) 75%,transparent 100%)',
+              filter: 'blur(0.8px)',
+            }}
+          />
+
+          {/* Rim outer glow */}
+          <div
+            style={{
+              position: 'absolute',
+              top: -5,
+              left: '3%',
+              right: '3%',
+              height: '12px',
+              background:
+                'linear-gradient(90deg,transparent 0%,rgba(55,175,225,.3) 25%,rgba(245,129,34,.2) 75%,transparent 100%)',
+              filter: 'blur(8px)',
+            }}
+          />
+
+          {/* Inner ambient */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '15%',
+              left: '18%',
+              right: '18%',
+              bottom: 0,
+              background:
+                'radial-gradient(ellipse 70% 55% at 50% 25%,rgba(55,175,225,.07) 0%,transparent 70%)',
+            }}
+          />
         </div>
       </div>
 
-      {/* ── Keyframes ─────────────────────────────────────── */}
+      {/* ── MARQUEE ────────────────────────────────────── */}
+      <div
+        className="relative z-10 w-full py-4"
+        style={{
+          background:
+            'linear-gradient(0deg,rgba(0,5,14,.96) 0%,rgba(0,9,19,.78) 100%)',
+        }}
+      >
+        <ServiceMarquee />
+      </div>
+
+      {/* ── Keyframes ──────────────────────────────────── */}
       <style>{`
-        @keyframes hfu   { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes hfi   { from{opacity:0} to{opacity:1} }
-        @keyframes spinOrb { from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(360deg)} }
-        @keyframes bob   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(7px)} }
+        @keyframes hfu  { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes hfi  { from{opacity:0} to{opacity:1} }
         @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
       `}</style>
     </section>
