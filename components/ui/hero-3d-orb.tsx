@@ -10,176 +10,187 @@ export function Hero3DOrb() {
     const el = mountRef.current;
     if (!el) return;
 
-    const w = el.clientWidth;
-    const h = el.clientHeight;
+    const W = el.clientWidth;
+    const H = el.clientHeight;
 
-    // ── Scene ──────────────────────────────────────────────
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 100);
-    camera.position.z = 3.5;
-
+    /* ─── Renderer ─────────────────────────────────────── */
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
       antialias: true,
       powerPreference: 'high-performance',
     });
-    renderer.setSize(w, h);
+    renderer.setSize(W, H);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0x000000, 0);
     el.appendChild(renderer.domElement);
 
-    // ── Wireframe Icosahedron (outer) ──────────────────────
-    const outerGeo = new THREE.IcosahedronGeometry(1.1, 3);
-    const outerMat = new THREE.MeshBasicMaterial({
+    /* ─── Scene / Camera ───────────────────────────────── */
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, W / H, 0.1, 100);
+    camera.position.z = 4.2;
+
+    /* ─── Fibonacci dot sphere ─────────────────────────── */
+    const DOT_COUNT = 1800;
+    const SPHERE_R = 1.6;
+    const positions = new Float32Array(DOT_COUNT * 3);
+    const dotColors = new Float32Array(DOT_COUNT * 3);
+    const phi = Math.PI * (3 - Math.sqrt(5)); // golden angle
+
+    const blue = new THREE.Color('#37AFE1');
+    const orange = new THREE.Color('#F58122');
+    const white = new THREE.Color('#ffffff');
+
+    for (let i = 0; i < DOT_COUNT; i++) {
+      const y = 1 - (i / (DOT_COUNT - 1)) * 2;
+      const r = Math.sqrt(Math.max(0, 1 - y * y));
+      const phi2 = phi * i;
+      positions[i * 3] = Math.cos(phi2) * r * SPHERE_R;
+      positions[i * 3 + 1] = y * SPHERE_R;
+      positions[i * 3 + 2] = Math.sin(phi2) * r * SPHERE_R;
+
+      const t = Math.random();
+      const c = t < 0.12 ? orange : t < 0.18 ? white : blue;
+      dotColors[i * 3] = c.r;
+      dotColors[i * 3 + 1] = c.g;
+      dotColors[i * 3 + 2] = c.b;
+    }
+
+    const dotGeo = new THREE.BufferGeometry();
+    dotGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    dotGeo.setAttribute('color', new THREE.BufferAttribute(dotColors, 3));
+
+    const dotMat = new THREE.PointsMaterial({
+      size: 0.028,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.9,
+      sizeAttenuation: true,
+    });
+    const dotSphere = new THREE.Points(dotGeo, dotMat);
+    scene.add(dotSphere);
+
+    /* ─── Connection lines between nearby dots ─────────── */
+    const lineVerts: number[] = [];
+    const CONNECT_DIST = 0.38;
+    for (let i = 0; i < DOT_COUNT; i++) {
+      for (let j = i + 1; j < DOT_COUNT; j++) {
+        const dx = positions[i * 3] - positions[j * 3];
+        const dy = positions[i * 3 + 1] - positions[j * 3 + 1];
+        const dz = positions[i * 3 + 2] - positions[j * 3 + 2];
+        const d2 = dx * dx + dy * dy + dz * dz;
+        if (d2 < CONNECT_DIST * CONNECT_DIST) {
+          lineVerts.push(
+            positions[i * 3],
+            positions[i * 3 + 1],
+            positions[i * 3 + 2],
+            positions[j * 3],
+            positions[j * 3 + 1],
+            positions[j * 3 + 2]
+          );
+        }
+      }
+    }
+    const lineGeo = new THREE.BufferGeometry();
+    lineGeo.setAttribute(
+      'position',
+      new THREE.BufferAttribute(new Float32Array(lineVerts), 3)
+    );
+    const lineMat = new THREE.LineBasicMaterial({
       color: 0x37afe1,
-      wireframe: true,
       transparent: true,
-      opacity: 0.18,
+      opacity: 0.1,
     });
-    const outerMesh = new THREE.Mesh(outerGeo, outerMat);
-    scene.add(outerMesh);
+    scene.add(new THREE.LineSegments(lineGeo, lineMat));
 
-    // ── Inner glowing sphere ────────────────────────────────
-    const innerGeo = new THREE.SphereGeometry(0.75, 64, 64);
-    const innerMat = new THREE.MeshPhongMaterial({
-      color: 0x0d4f6e,
-      emissive: 0x37afe1,
-      emissiveIntensity: 0.3,
-      transparent: true,
-      opacity: 0.25,
-      shininess: 100,
-    });
-    const innerMesh = new THREE.Mesh(innerGeo, innerMat);
-    scene.add(innerMesh);
-
-    // ── Core bright orb ─────────────────────────────────────
-    const coreGeo = new THREE.SphereGeometry(0.38, 32, 32);
+    /* ─── Glowing core orb ─────────────────────────────── */
+    const coreGeo = new THREE.SphereGeometry(0.55, 32, 32);
     const coreMat = new THREE.MeshBasicMaterial({
-      color: 0xf58122,
+      color: 0x0d3a52,
       transparent: true,
-      opacity: 0.55,
+      opacity: 0.6,
     });
-    const coreMesh = new THREE.Mesh(coreGeo, coreMat);
-    scene.add(coreMesh);
+    scene.add(new THREE.Mesh(coreGeo, coreMat));
 
-    // ── Orbit ring of particles ─────────────────────────────
+    /* ─── Equatorial glow ring ─────────────────────────── */
     const buildRing = (
+      r: number,
       count: number,
-      radius: number,
-      spread: number,
-      color: number,
-      size: number,
+      col: number,
+      sz: number,
       tilt: number
     ) => {
-      const pos = new Float32Array(count * 3);
+      const p = new Float32Array(count * 3);
       for (let i = 0; i < count; i++) {
         const a = (i / count) * Math.PI * 2;
-        const r = radius + (Math.random() - 0.5) * spread;
-        pos[i * 3] = Math.cos(a) * r;
-        pos[i * 3 + 1] = (Math.random() - 0.5) * spread * 0.5;
-        pos[i * 3 + 2] = Math.sin(a) * r;
+        p[i * 3] = Math.cos(a) * r;
+        p[i * 3 + 1] = (Math.random() - 0.5) * 0.04;
+        p[i * 3 + 2] = Math.sin(a) * r;
       }
-      const geo = new THREE.BufferGeometry();
-      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-      const mat = new THREE.PointsMaterial({
-        color,
-        size,
+      const g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.BufferAttribute(p, 3));
+      const m = new THREE.PointsMaterial({
+        color: col,
+        size: sz,
         transparent: true,
-        opacity: 0.85,
-        sizeAttenuation: true,
+        opacity: 0.7,
       });
-      const ring = new THREE.Points(geo, mat);
-      ring.rotation.x = tilt;
-      return ring;
+      const pts = new THREE.Points(g, m);
+      pts.rotation.x = tilt;
+      return pts;
     };
-
-    const ring1 = buildRing(280, 1.55, 0.08, 0x37afe1, 0.018, Math.PI / 5);
-    const ring2 = buildRing(180, 1.8, 0.06, 0xf58122, 0.013, -Math.PI / 7);
-    const ring3 = buildRing(120, 2.1, 0.05, 0xffffff, 0.009, Math.PI / 3);
+    const ring1 = buildRing(1.9, 300, 0x37afe1, 0.014, 0.3);
+    const ring2 = buildRing(2.2, 200, 0xf58122, 0.01, -0.5);
+    const ring3 = buildRing(2.5, 140, 0xffffff, 0.007, 0.8);
     scene.add(ring1, ring2, ring3);
 
-    // ── Ambient floating particles ──────────────────────────
-    const ambientCount = 600;
-    const ambientPos = new Float32Array(ambientCount * 3);
-    for (let i = 0; i < ambientCount; i++) {
-      const r = 1.4 + Math.random() * 1.2;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      ambientPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-      ambientPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-      ambientPos[i * 3 + 2] = r * Math.cos(phi);
-    }
-    const ambGeo = new THREE.BufferGeometry();
-    ambGeo.setAttribute('position', new THREE.BufferAttribute(ambientPos, 3));
-    const ambMat = new THREE.PointsMaterial({
-      color: 0xaad8f0,
-      size: 0.008,
-      transparent: true,
-      opacity: 0.45,
-    });
-    const ambParticles = new THREE.Points(ambGeo, ambMat);
-    scene.add(ambParticles);
-
-    // ── Lights ─────────────────────────────────────────────
-    scene.add(new THREE.AmbientLight(0x37afe1, 0.6));
-    const pl1 = new THREE.PointLight(0x37afe1, 3, 12);
-    pl1.position.set(2.5, 2, 2);
+    /* ─── Lights ───────────────────────────────────────── */
+    scene.add(new THREE.AmbientLight(0x37afe1, 0.4));
+    const pl1 = new THREE.PointLight(0x37afe1, 4, 10);
+    pl1.position.set(3, 2, 3);
     scene.add(pl1);
-    const pl2 = new THREE.PointLight(0xf58122, 2, 12);
-    pl2.position.set(-2, -1.5, -1.5);
+    const pl2 = new THREE.PointLight(0xf58122, 2.5, 10);
+    pl2.position.set(-2, -2, -2);
     scene.add(pl2);
-    const pl3 = new THREE.PointLight(0xffffff, 1, 8);
-    pl3.position.set(0, 3, 1);
-    scene.add(pl3);
 
-    // ── Mouse parallax ──────────────────────────────────────
-    let mx = 0;
-    let my = 0;
+    /* ─── Mouse parallax ───────────────────────────────── */
+    let mx = 0,
+      my = 0;
     const onMouse = (e: MouseEvent) => {
       mx = (e.clientX / window.innerWidth - 0.5) * 2;
-      my = -(e.clientY / window.innerHeight - 0.5) * 2;
+      my = (e.clientY / window.innerHeight - 0.5) * 2;
     };
     window.addEventListener('mousemove', onMouse);
 
-    // ── Animation loop ──────────────────────────────────────
+    /* ─── Animate ──────────────────────────────────────── */
     let raf: number;
     const animate = () => {
       raf = requestAnimationFrame(animate);
       const t = Date.now() * 0.001;
 
-      outerMesh.rotation.y = t * 0.18;
-      outerMesh.rotation.x = t * 0.09;
+      dotSphere.rotation.y = t * 0.14;
+      dotSphere.rotation.x = Math.sin(t * 0.07) * 0.15;
 
-      innerMesh.rotation.y = -t * 0.12;
-      innerMesh.rotation.z = t * 0.06;
+      ring1.rotation.y = t * 0.4;
+      ring2.rotation.y = -t * 0.32;
+      ring3.rotation.y = t * 0.22;
 
-      coreMesh.rotation.y = t * 0.4;
+      // subtle pulse on dot size
+      (dotSphere.material as THREE.PointsMaterial).size =
+        0.028 + Math.sin(t * 1.2) * 0.003;
 
-      ring1.rotation.y = t * 0.35;
-      ring2.rotation.y = -t * 0.28;
-      ring3.rotation.y = t * 0.2;
-
-      ambParticles.rotation.y = t * 0.04;
-      ambParticles.rotation.x = t * 0.02;
-
-      // Pulsing core
-      const pulse = 0.9 + Math.sin(t * 1.5) * 0.1;
-      coreMesh.scale.setScalar(pulse);
-      coreMat.opacity = 0.45 + Math.sin(t * 1.8) * 0.1;
-
-      // Mouse parallax
-      scene.rotation.y += (mx * 0.25 - scene.rotation.y) * 0.04;
-      scene.rotation.x += (my * 0.15 - scene.rotation.x) * 0.04;
+      // mouse parallax
+      scene.rotation.y += (mx * 0.28 - scene.rotation.y) * 0.04;
+      scene.rotation.x += (-my * 0.18 - scene.rotation.x) * 0.04;
 
       renderer.render(scene, camera);
     };
     animate();
 
-    // ── Resize ──────────────────────────────────────────────
+    /* ─── Resize ───────────────────────────────────────── */
     const onResize = () => {
       if (!el) return;
-      const nw = el.clientWidth;
-      const nh = el.clientHeight;
+      const nw = el.clientWidth,
+        nh = el.clientHeight;
       camera.aspect = nw / nh;
       camera.updateProjectionMatrix();
       renderer.setSize(nw, nh);
@@ -191,10 +202,6 @@ export function Hero3DOrb() {
       window.removeEventListener('mousemove', onMouse);
       window.removeEventListener('resize', onResize);
       renderer.dispose();
-      outerGeo.dispose();
-      innerGeo.dispose();
-      coreGeo.dispose();
-      ambGeo.dispose();
       if (el.contains(renderer.domElement)) el.removeChild(renderer.domElement);
     };
   }, []);
