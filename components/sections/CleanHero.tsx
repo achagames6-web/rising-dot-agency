@@ -140,28 +140,31 @@ function OrbParticles() {
   );
 }
 
-/* ── Marquee with both-sides fade ────────────────────────── */
+/* ── Seamless marquee (never gaps) with both-sides fade ──── */
 function ServiceMarquee() {
-  const items = [...SERVICES, ...SERVICES];
+  // Repeat enough to exceed any viewport width, then duplicate the whole run
+  // and translate exactly -50% so the loop is perfectly seamless (no gap).
+  const half = [...SERVICES, ...SERVICES, ...SERVICES];
+  const items = [...half, ...half];
   return (
     <div
       className="relative w-full overflow-hidden"
       style={{
         maskImage:
-          'linear-gradient(90deg,transparent,black 14%,black 86%,transparent)',
+          'linear-gradient(90deg,transparent 0%,black 12%,black 88%,transparent 100%)',
         WebkitMaskImage:
-          'linear-gradient(90deg,transparent,black 14%,black 86%,transparent)',
+          'linear-gradient(90deg,transparent 0%,black 12%,black 88%,transparent 100%)',
       }}
     >
       <div
         className="flex w-max items-center gap-3"
-        style={{ animation: 'marquee 28s linear infinite' }}
+        style={{ animation: 'marquee 40s linear infinite' }}
       >
         {items.map((s, i) => (
           <div
             key={i}
-            className="flex shrink-0 items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-xs font-medium text-white/55 backdrop-blur-sm"
-            style={{ background: 'rgba(55,175,225,0.06)' }}
+            className="border-white/12 flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-xs font-medium text-white/70"
+            style={{ background: 'rgba(55,175,225,0.07)' }}
           >
             <span>{s.icon}</span>
             <span>{s.label}</span>
@@ -189,8 +192,9 @@ export default function CleanHero() {
 
       {/* top blue aurora */}
       <div
-        className="opacity-18 pointer-events-none absolute inset-x-0 top-0 z-0 h-[34vh]"
+        className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[34vh]"
         style={{
+          opacity: 0.18,
           background:
             'radial-gradient(ellipse 80% 65% at 50% -8%,#37AFE1 0%,transparent 68%)',
         }}
@@ -221,7 +225,7 @@ export default function CleanHero() {
       {/* top spacer — biased so content sits lower, clears navbar */}
       <div className="z-10 min-h-[140px] flex-[1.5]" />
 
-      {/* ── TOP CONTENT (eyebrow + headline + subtitle grouped, then CTA + stats) ── */}
+      {/* ── TOP CONTENT ────────────────────────────────── */}
       <div className="relative z-10 flex w-full flex-col items-center px-5 text-center">
         {/* Badge */}
         <div
@@ -310,7 +314,7 @@ export default function CleanHero() {
           </Link>
         </div>
 
-        {/* Stats */}
+        {/* Stats — brighter, more prominent labels */}
         <div
           className="flex flex-wrap items-center justify-center gap-6 opacity-0 sm:gap-10"
           style={{ animation: 'hfu .7s ease forwards .76s' }}
@@ -321,7 +325,7 @@ export default function CleanHero() {
             { v: '7', l: 'Services' },
             { v: '100%', l: 'Satisfaction' },
           ].map(({ v, l }) => (
-            <div key={l} className="flex flex-col items-center gap-0.5">
+            <div key={l} className="flex flex-col items-center gap-1">
               <span
                 className="font-montserrat text-xl font-extrabold sm:text-2xl"
                 style={{
@@ -333,7 +337,9 @@ export default function CleanHero() {
               >
                 {v}
               </span>
-              <span className="text-white/32 text-[10px] sm:text-xs">{l}</span>
+              <span className="text-[11px] font-medium uppercase tracking-wide text-white/65 sm:text-xs">
+                {l}
+              </span>
             </div>
           ))}
         </div>
@@ -347,7 +353,7 @@ export default function CleanHero() {
         className="relative z-[3] w-full"
         style={{ height: 'clamp(180px,24vw,320px)' }}
       >
-        {/* Giant circle — transparent inside, only the curved edge glows upward */}
+        {/* Giant circle — transparent inside; edge glows BOTH outward & inward, stronger */}
         <div
           style={{
             position: 'absolute',
@@ -358,16 +364,22 @@ export default function CleanHero() {
             aspectRatio: '1 / 1',
             borderRadius: '50%',
             background: 'transparent',
-            border: '2px solid rgba(145,218,253,.85)',
-            boxShadow:
-              '0 0 22px rgba(130,210,252,.6), 0 0 55px rgba(55,175,225,.38), 0 0 120px rgba(55,175,225,.16)',
+            border: '2px solid rgba(165,228,255,.95)',
+            boxShadow: [
+              '0 0 34px rgba(150,220,255,.85)', // outer near
+              '0 0 80px rgba(55,175,225,.55)', // outer mid
+              '0 0 160px rgba(55,175,225,.32)', // outer far
+              '0 0 240px rgba(55,175,225,.18)', // outer glow bloom (upside)
+              'inset 0 0 70px rgba(90,195,245,.5)', // inner near (downside)
+              'inset 0 0 150px rgba(55,175,225,.24)', // inner far (downside)
+            ].join(', '),
           }}
         />
 
-        {/* Marquee — sits inside the orb, fading in from both ends */}
+        {/* Marquee — sits at the orb's ends, streaming out and fading at both sides */}
         <div
           className="pointer-events-auto absolute inset-x-0 z-20"
-          style={{ bottom: 'clamp(30px,5vw,58px)' }}
+          style={{ bottom: 'clamp(34px,5.5vw,64px)' }}
         >
           <ServiceMarquee />
         </div>
