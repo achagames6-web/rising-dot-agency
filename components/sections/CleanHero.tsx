@@ -2,7 +2,6 @@
 
 import { useRef, useCallback } from 'react';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
-import { useAnalytics } from '@/components/analytics/AnalyticsTracker';
 import dynamic from 'next/dynamic';
 import { ArrowRight } from 'lucide-react';
 import { StarButton } from '@/components/ui/star-button';
@@ -19,7 +18,6 @@ const AnimatedBackground = dynamic(
 export default function CleanHero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const hasTrackedInteraction = useRef(false);
-  const { trackEvent } = useAnalytics();
 
   // Fetch CMS content
   const { content: heroContent } = useSiteContent<{
@@ -45,9 +43,8 @@ export default function CleanHero() {
   const trackHeroInteraction = useCallback(() => {
     if (!hasTrackedInteraction.current) {
       hasTrackedInteraction.current = true;
-      trackEvent('hero_interaction', { type: 'engagement', section: 'hero' });
     }
-  }, [trackEvent]);
+  }, []);
 
   return (
     <section

@@ -4,7 +4,6 @@ import { useState, useCallback, useRef } from 'react';
 
 import { StarButton } from '@/components/ui/star-button';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
-import { useAnalytics } from '@/components/analytics/AnalyticsTracker';
 import { GradientMeshBackground } from '@/components/ui/gradient-mesh-bg';
 
 interface HeroProps {
@@ -15,7 +14,6 @@ export default function Hero({ typewriterSpeed = 80 }: HeroProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isAnimationComplete, setIsAnimationComplete] = useState(true);
   const hasTrackedInteraction = useRef(false);
-  const { trackEvent } = useAnalytics();
 
   // Fetch CMS content
   const { content: heroContent } = useSiteContent<{
@@ -40,9 +38,8 @@ export default function Hero({ typewriterSpeed = 80 }: HeroProps) {
   const trackHeroInteraction = useCallback(() => {
     if (!hasTrackedInteraction.current) {
       hasTrackedInteraction.current = true;
-      trackEvent('hero_interaction', { type: 'engagement', section: 'hero' });
     }
-  }, [trackEvent]);
+  }, []);
 
   return (
     <section
