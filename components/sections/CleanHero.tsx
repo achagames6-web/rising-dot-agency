@@ -85,12 +85,11 @@ function OrbParticles() {
       const spread = c.width * 0.46;
       const rx = (Math.random() - 0.5) * 2;
       const x = cx + rx * spread * (0.5 + Math.abs(rx) * 0.5);
-      // spawn along the curved rim (higher in the middle, lower at sides)
-      const orbH = Math.min(c.height * 0.34, 360);
+      const orbH = Math.min(c.height * 0.3, 320);
       const rimY = c.height - orbH * Math.sqrt(Math.max(0, 1 - rx * rx));
       return {
         x,
-        y: rimY + Math.random() * orbH * 0.55,
+        y: rimY + Math.random() * orbH * 0.5,
         vy: -(Math.random() * 0.8 + 0.28),
         vx: (Math.random() - 0.5) * 0.14,
         r: Math.random() * 2 + 0.4,
@@ -110,7 +109,7 @@ function OrbParticles() {
       raf = requestAnimationFrame(draw);
       ctx.clearRect(0, 0, c.width, c.height);
       const topFade = c.height * 0.18;
-      const orbH = Math.min(c.height * 0.34, 360);
+      const orbH = Math.min(c.height * 0.3, 320);
       const orbRimY = c.height - orbH;
       dots.forEach((d) => {
         d.y += d.vy;
@@ -149,9 +148,9 @@ function ServiceMarquee() {
       className="relative w-full overflow-hidden"
       style={{
         maskImage:
-          'linear-gradient(90deg,transparent,black 10%,black 90%,transparent)',
+          'linear-gradient(90deg,transparent,black 14%,black 86%,transparent)',
         WebkitMaskImage:
-          'linear-gradient(90deg,transparent,black 10%,black 90%,transparent)',
+          'linear-gradient(90deg,transparent,black 14%,black 86%,transparent)',
       }}
     >
       <div
@@ -161,8 +160,8 @@ function ServiceMarquee() {
         {items.map((s, i) => (
           <div
             key={i}
-            className="flex shrink-0 items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-xs font-medium text-white/50 backdrop-blur-sm"
-            style={{ background: 'rgba(55,175,225,0.05)' }}
+            className="flex shrink-0 items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-xs font-medium text-white/55 backdrop-blur-sm"
+            style={{ background: 'rgba(55,175,225,0.06)' }}
           >
             <span>{s.icon}</span>
             <span>{s.label}</span>
@@ -190,7 +189,7 @@ export default function CleanHero() {
 
       {/* top blue aurora */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[36vh] opacity-20"
+        className="opacity-18 pointer-events-none absolute inset-x-0 top-0 z-0 h-[34vh]"
         style={{
           background:
             'radial-gradient(ellipse 80% 65% at 50% -8%,#37AFE1 0%,transparent 68%)',
@@ -207,23 +206,23 @@ export default function CleanHero() {
         }}
       />
 
-      {/* bottom black blend (so hero mixes into next section) */}
+      {/* bottom black blend (hero mixes into next section) */}
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[32vh]"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[30vh]"
         style={{
           background:
-            'linear-gradient(0deg,#000000 0%,#000000 22%,transparent 100%)',
+            'linear-gradient(0deg,#000000 0%,#000000 26%,transparent 100%)',
         }}
       />
 
       {/* rising colored particles */}
       {mounted && <OrbParticles />}
 
-      {/* spacer — pushes content down to vertical center */}
-      <div className="z-10 flex-1" />
+      {/* top spacer — biased so content sits lower, clears navbar */}
+      <div className="z-10 min-h-[140px] flex-[1.5]" />
 
-      {/* ── TOP CONTENT ────────────────────────────────── */}
-      <div className="relative z-10 flex w-full flex-col items-center px-5 pt-24 text-center">
+      {/* ── TOP CONTENT (eyebrow + headline + subtitle grouped, then CTA + stats) ── */}
+      <div className="relative z-10 flex w-full flex-col items-center px-5 text-center">
         {/* Badge */}
         <div
           className="mb-5 opacity-0"
@@ -265,10 +264,10 @@ export default function CleanHero() {
 
         {/* Subtitle */}
         <div
-          className="mb-7 opacity-0"
+          className="mb-8 opacity-0"
           style={{ animation: 'hfu .7s ease forwards .46s' }}
         >
-          <p className="text-white/38 max-w-md text-sm leading-relaxed sm:text-base">
+          <p className="max-w-md text-sm leading-relaxed text-white/40 sm:text-base">
             From stunning websites to powerful automations — we craft digital
             experiences that drive real business growth.
           </p>
@@ -340,72 +339,38 @@ export default function CleanHero() {
         </div>
       </div>
 
-      {/* spacer between content and orb */}
+      {/* bottom spacer */}
       <div className="z-10 flex-1" />
 
-      {/* ── GLOWING PLANET-HORIZON ORB ─────────────────── */}
+      {/* ── GLOWING CURVED-EDGE ORB (no fill) + marquee inside ── */}
       <div
         className="relative z-[3] w-full"
-        style={{ height: 'clamp(210px,30vw,380px)' }}
+        style={{ height: 'clamp(180px,24vw,320px)' }}
       >
-        {/* Wide upward halo (atmosphere glow above the limb) */}
+        {/* Giant circle — transparent inside, only the curved edge glows upward */}
         <div
-          className="pointer-events-none absolute inset-x-0 top-0"
           style={{
-            height: '80%',
-            transform: 'translateY(-45%)',
-            background:
-              'radial-gradient(ellipse 55% 100% at 50% 100%,rgba(55,175,225,.30) 0%,rgba(55,175,225,.12) 40%,rgba(245,129,34,.05) 60%,transparent 76%)',
-            filter: 'blur(26px)',
+            position: 'absolute',
+            left: '50%',
+            top: 0,
+            transform: 'translateX(-50%)',
+            width: 'min(2000px,200vw)',
+            aspectRatio: '1 / 1',
+            borderRadius: '50%',
+            background: 'transparent',
+            border: '2px solid rgba(145,218,253,.85)',
+            boxShadow:
+              '0 0 22px rgba(130,210,252,.6), 0 0 55px rgba(55,175,225,.38), 0 0 120px rgba(55,175,225,.16)',
           }}
         />
 
-        {/* Clip box — reveals only the top cap of the giant circle */}
-        <div className="absolute inset-0 overflow-hidden">
-          {/* Planet body */}
-          <div
-            style={{
-              position: 'absolute',
-              left: '50%',
-              top: 0,
-              transform: 'translateX(-50%)',
-              width: 'min(1900px,190vw)',
-              aspectRatio: '1 / 1',
-              borderRadius: '50%',
-              background:
-                'radial-gradient(circle at 50% 5%,#17386c 0%,#0c2149 18%,#06122d 36%,#01060f 56%,#000000 72%)',
-              boxShadow:
-                'inset 0 7px 30px -7px rgba(150,222,255,.95), inset 0 2px 5px rgba(255,255,255,.55)',
-            }}
-          />
-          {/* Bright glowing limb line following the curve */}
-          <div
-            style={{
-              position: 'absolute',
-              left: '50%',
-              top: 0,
-              transform: 'translateX(-50%)',
-              width: 'min(1900px,190vw)',
-              aspectRatio: '1 / 1',
-              borderRadius: '50%',
-              border: '2px solid rgba(130,210,252,.6)',
-              boxShadow:
-                '0 0 34px rgba(55,175,225,.6), 0 0 70px rgba(55,175,225,.28)',
-            }}
-          />
+        {/* Marquee — sits inside the orb, fading in from both ends */}
+        <div
+          className="pointer-events-auto absolute inset-x-0 z-20"
+          style={{ bottom: 'clamp(30px,5vw,58px)' }}
+        >
+          <ServiceMarquee />
         </div>
-      </div>
-
-      {/* ── MARQUEE — right under the orb, black bg to blend ── */}
-      <div
-        className="relative z-10 w-full"
-        style={{
-          background: '#000000',
-          paddingTop: '4px',
-          paddingBottom: '16px',
-        }}
-      >
-        <ServiceMarquee />
       </div>
 
       {/* ── Keyframes ──────────────────────────────────── */}
