@@ -58,7 +58,7 @@ function AnimatedWord() {
   );
 }
 
-/* ── Colored rising particles from orb ──────────────────── */
+/* ── Colored rising particles from orb rim ──────────────── */
 function OrbParticles() {
   const ref = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
@@ -82,25 +82,26 @@ function OrbParticles() {
 
     const make = () => {
       const cx = c.width / 2;
-      const spread = c.width * 0.44;
+      const spread = c.width * 0.46;
       const rx = (Math.random() - 0.5) * 2;
       const x = cx + rx * spread * (0.5 + Math.abs(rx) * 0.5);
-      const orbH = Math.min(c.height * 0.3, 300);
+      // spawn along the curved rim (higher in the middle, lower at sides)
+      const orbH = Math.min(c.height * 0.34, 360);
       const rimY = c.height - orbH * Math.sqrt(Math.max(0, 1 - rx * rx));
       return {
         x,
-        y: rimY + Math.random() * orbH * 0.7,
-        vy: -(Math.random() * 0.75 + 0.25),
-        vx: (Math.random() - 0.5) * 0.12,
+        y: rimY + Math.random() * orbH * 0.55,
+        vy: -(Math.random() * 0.8 + 0.28),
+        vx: (Math.random() - 0.5) * 0.14,
         r: Math.random() * 2 + 0.4,
-        alpha: Math.random() * 0.55 + 0.2,
+        alpha: Math.random() * 0.6 + 0.2,
         col: pick(),
       };
     };
 
-    const dots = Array.from({ length: 200 }, () => {
+    const dots = Array.from({ length: 210 }, () => {
       const d = make();
-      d.y -= Math.random() * c.height * 0.85;
+      d.y -= Math.random() * c.height * 0.9;
       return d;
     });
 
@@ -108,13 +109,13 @@ function OrbParticles() {
     const draw = () => {
       raf = requestAnimationFrame(draw);
       ctx.clearRect(0, 0, c.width, c.height);
-      const topFade = c.height * 0.2;
-      const orbH = Math.min(c.height * 0.3, 300);
+      const topFade = c.height * 0.18;
+      const orbH = Math.min(c.height * 0.34, 360);
       const orbRimY = c.height - orbH;
       dots.forEach((d) => {
         d.y += d.vy;
         d.x += d.vx;
-        if (d.y < c.height * 0.04 || d.x < -8 || d.x > c.width + 8)
+        if (d.y < c.height * 0.03 || d.x < -8 || d.x > c.width + 8)
           Object.assign(d, make());
         const risenFrac = (orbRimY - d.y) / (orbRimY - topFade);
         const topAlpha = d.y < topFade ? Math.max(0, d.y / topFade) : 1;
@@ -189,7 +190,7 @@ export default function CleanHero() {
 
       {/* top blue aurora */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[38vh] opacity-20"
+        className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[36vh] opacity-20"
         style={{
           background:
             'radial-gradient(ellipse 80% 65% at 50% -8%,#37AFE1 0%,transparent 68%)',
@@ -206,11 +207,23 @@ export default function CleanHero() {
         }}
       />
 
+      {/* bottom black blend (so hero mixes into next section) */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[32vh]"
+        style={{
+          background:
+            'linear-gradient(0deg,#000000 0%,#000000 22%,transparent 100%)',
+        }}
+      />
+
       {/* rising colored particles */}
       {mounted && <OrbParticles />}
 
+      {/* spacer — pushes content down to vertical center */}
+      <div className="z-10 flex-1" />
+
       {/* ── TOP CONTENT ────────────────────────────────── */}
-      <div className="relative z-10 flex w-full flex-col items-center px-5 pt-28 text-center sm:pt-32">
+      <div className="relative z-10 flex w-full flex-col items-center px-5 pt-24 text-center">
         {/* Badge */}
         <div
           className="mb-5 opacity-0"
@@ -232,7 +245,7 @@ export default function CleanHero() {
           </div>
         </div>
 
-        {/* Headline — smaller */}
+        {/* Headline */}
         <div
           className="mb-4 opacity-0"
           style={{ animation: 'hfu .75s ease forwards .28s' }}
@@ -327,89 +340,69 @@ export default function CleanHero() {
         </div>
       </div>
 
-      {/* flex spacer — pushes orb + marquee to bottom */}
-      <div className="flex-1" />
+      {/* spacer between content and orb */}
+      <div className="z-10 flex-1" />
 
-      {/* ── HALF-CIRCLE ORB ────────────────────────────── */}
+      {/* ── GLOWING PLANET-HORIZON ORB ─────────────────── */}
       <div
-        className="relative z-[3] w-full opacity-0"
-        style={{
-          animation: 'hfi 1.2s ease forwards .4s',
-          height: 'clamp(180px,26vw,320px)',
-        }}
+        className="relative z-[3] w-full"
+        style={{ height: 'clamp(210px,30vw,380px)' }}
       >
-        {/* Upward bloom above rim */}
+        {/* Wide upward halo (atmosphere glow above the limb) */}
         <div
           className="pointer-events-none absolute inset-x-0 top-0"
           style={{
-            height: 'clamp(120px,18vw,220px)',
-            transform: 'translateY(-50%)',
+            height: '80%',
+            transform: 'translateY(-45%)',
             background:
-              'radial-gradient(ellipse 60% 100% at 50% 100%,rgba(55,175,225,.13) 0%,rgba(245,129,34,.06) 55%,transparent 100%)',
+              'radial-gradient(ellipse 55% 100% at 50% 100%,rgba(55,175,225,.30) 0%,rgba(55,175,225,.12) 40%,rgba(245,129,34,.05) 60%,transparent 76%)',
+            filter: 'blur(26px)',
           }}
         />
 
-        {/* Semi-ellipse body */}
-        <div
-          className="absolute bottom-0 left-1/2"
-          style={{
-            transform: 'translateX(-50%)',
-            width: 'clamp(700px,96vw,1200px)',
-            height: 'clamp(180px,26vw,320px)',
-            borderRadius: '50% 50% 0 0 / 100% 100% 0 0',
-            background:
-              'radial-gradient(ellipse 90% 100% at 50% 100%,rgba(10,25,55,0.92) 0%,rgba(6,14,34,0.88) 40%,rgba(2,6,15,0.7) 70%,transparent 100%)',
-          }}
-        >
-          {/* Rim glow line */}
+        {/* Clip box — reveals only the top cap of the giant circle */}
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Planet body */}
           <div
             style={{
               position: 'absolute',
-              top: -1,
-              left: '3%',
-              right: '3%',
-              height: '2px',
+              left: '50%',
+              top: 0,
+              transform: 'translateX(-50%)',
+              width: 'min(1900px,190vw)',
+              aspectRatio: '1 / 1',
+              borderRadius: '50%',
               background:
-                'linear-gradient(90deg,transparent 0%,rgba(55,175,225,.75) 25%,rgba(245,129,34,.55) 75%,transparent 100%)',
-              filter: 'blur(0.8px)',
+                'radial-gradient(circle at 50% 5%,#17386c 0%,#0c2149 18%,#06122d 36%,#01060f 56%,#000000 72%)',
+              boxShadow:
+                'inset 0 7px 30px -7px rgba(150,222,255,.95), inset 0 2px 5px rgba(255,255,255,.55)',
             }}
           />
-
-          {/* Rim outer glow */}
+          {/* Bright glowing limb line following the curve */}
           <div
             style={{
               position: 'absolute',
-              top: -5,
-              left: '3%',
-              right: '3%',
-              height: '12px',
-              background:
-                'linear-gradient(90deg,transparent 0%,rgba(55,175,225,.3) 25%,rgba(245,129,34,.2) 75%,transparent 100%)',
-              filter: 'blur(8px)',
-            }}
-          />
-
-          {/* Inner ambient */}
-          <div
-            style={{
-              position: 'absolute',
-              top: '15%',
-              left: '18%',
-              right: '18%',
-              bottom: 0,
-              background:
-                'radial-gradient(ellipse 70% 55% at 50% 25%,rgba(55,175,225,.07) 0%,transparent 70%)',
+              left: '50%',
+              top: 0,
+              transform: 'translateX(-50%)',
+              width: 'min(1900px,190vw)',
+              aspectRatio: '1 / 1',
+              borderRadius: '50%',
+              border: '2px solid rgba(130,210,252,.6)',
+              boxShadow:
+                '0 0 34px rgba(55,175,225,.6), 0 0 70px rgba(55,175,225,.28)',
             }}
           />
         </div>
       </div>
 
-      {/* ── MARQUEE ────────────────────────────────────── */}
+      {/* ── MARQUEE — right under the orb, black bg to blend ── */}
       <div
-        className="relative z-10 w-full py-4"
+        className="relative z-10 w-full"
         style={{
-          background:
-            'linear-gradient(0deg,rgba(0,5,14,.96) 0%,rgba(0,9,19,.78) 100%)',
+          background: '#000000',
+          paddingTop: '4px',
+          paddingBottom: '16px',
         }}
       >
         <ServiceMarquee />
@@ -418,7 +411,6 @@ export default function CleanHero() {
       {/* ── Keyframes ──────────────────────────────────── */}
       <style>{`
         @keyframes hfu  { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes hfi  { from{opacity:0} to{opacity:1} }
         @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
       `}</style>
     </section>
