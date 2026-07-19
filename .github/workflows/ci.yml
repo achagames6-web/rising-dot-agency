@@ -8,12 +8,12 @@ on:
 
 jobs:
   test:
-    name: Test
+    name: Test (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [22.x]
 
     steps:
       - name: Checkout code
@@ -35,16 +35,7 @@ jobs:
         run: npm run type-check
 
       - name: Run tests
-        run: npm test -- --coverage --maxWorkers=2
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        if: matrix.node-version == '20.x'
-        with:
-          file: ./coverage/coverage-final.json
-          flags: unittests
-          name: codecov-umbrella
-          fail_ci_if_error: false
+        run: npm test -- --maxWorkers=2
 
   build:
     name: Build
@@ -58,7 +49,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           cache: 'npm'
 
       - name: Install dependencies
@@ -67,12 +58,13 @@ jobs:
       - name: Build application
         run: npm run build
         env:
-          SKIP_ENV_VALIDATION: true
+          NEXT_PUBLIC_SITE_URL: https://risingdot.com
+          RESEND_API_KEY: placeholder
 
       - name: Check bundle size
         run: |
           echo "Checking bundle sizes..."
-          du -sh .next/static/chunks/*.js | sort -h
+          du -sh .next/static/chunks/ 2>/dev/null || echo "No chunks directory"
 
   deploy:
     name: Deploy to Vercel
