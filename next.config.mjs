@@ -10,24 +10,19 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**',
       },
-      {
-        protocol: 'https',
-        hostname: 'res.cloudinary.com',
-      },
     ],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60,
   },
 
-  // Performance optimizations
+  // Remove console logs in production
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
 
-  // Experimental features for performance
+  // Experimental: optimizeCss removed (requires critters package)
   experimental: {
-    optimizeCss: true,
     optimizePackageImports: [
       'gsap',
       'framer-motion',
@@ -38,42 +33,34 @@ const nextConfig = {
     ],
   },
 
-  // Webpack configuration for code splitting
+  // Webpack: suppress noise, split heavy animation libs
   webpack: (config, { isServer }) => {
-    // Suppress cache serialization warnings
-    config.infrastructureLogging = {
-      level: 'error',
-    };
+    config.infrastructureLogging = { level: 'error' };
 
-    // Code splitting for animation libraries
     if (!isServer) {
       config.optimization = {
         ...config.optimization,
         splitChunks: {
           chunks: 'all',
           cacheGroups: {
-            // GSAP bundle
             gsap: {
               test: /[\\/]node_modules[\\/](gsap)[\\/]/,
               name: 'gsap',
               priority: 30,
               reuseExistingChunk: true,
             },
-            // Three.js bundle
             three: {
               test: /[\\/]node_modules[\\/](three|@react-three)[\\/]/,
               name: 'three',
               priority: 25,
               reuseExistingChunk: true,
             },
-            // Framer Motion bundle
             framerMotion: {
               test: /[\\/]node_modules[\\/](framer-motion)[\\/]/,
               name: 'framer-motion',
               priority: 20,
               reuseExistingChunk: true,
             },
-            // Other vendor libraries
             vendor: {
               test: /[\\/]node_modules[\\/]/,
               name: 'vendor',
@@ -88,29 +75,22 @@ const nextConfig = {
     return config;
   },
 
-  // Headers for performance and security
+  // Security & caching headers
   async headers() {
     return [
       {
         source: '/:path*',
         headers: [
-          // Resource hints
-          {
-            key: 'Link',
-            value:
-              '<https://fonts.googleapis.com>; rel=preconnect; crossorigin, <https://fonts.gstatic.com>; rel=preconnect; crossorigin',
-          },
-          // Content Security Policy
           {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://vercel.live",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com https://framerusercontent.com data:",
               "img-src 'self' data: https: blob:",
               "media-src 'self' https:",
-              "connect-src 'self' https://www.google-analytics.com https://vitals.vercel-insights.com https://vercel.live wss://ws-us3.pusher.com wss://ws-us2.pusher.com wss://ws-eu.pusher.com wss://ws-ap1.pusher.com",
+              "connect-src 'self' https://vercel.live",
               "frame-src 'self' https://vercel.live",
               "worker-src 'self' blob:",
               "object-src 'none'",
@@ -120,56 +100,25 @@ const nextConfig = {
               'upgrade-insecure-requests',
             ].join('; '),
           },
-          // Strict Transport Security (HSTS)
           {
             key: 'Strict-Transport-Security',
             value: 'max-age=63072000; includeSubDomains; preload',
           },
-          // X-Frame-Options
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          // X-Content-Type-Options
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          // Referrer Policy
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
-          },
-          // Permissions Policy
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()',
-          },
-          // X-DNS-Prefetch-Control
-          {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on',
-          },
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+          { key: 'X-DNS-Prefetch-Control', value: 'on' },
         ],
       },
       {
         source: '/api/:path*',
-        headers: [
-          // API-specific headers
-          {
-            key: 'Cache-Control',
-            value: 'no-store, max-age=0',
-          },
-        ],
+        headers: [{ key: 'Cache-Control', value: 'no-store, max-age=0' }],
       },
       {
         source: '/_next/static/:path*',
         headers: [
-          // Cache control for static assets
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
         ],
       },
     ];
