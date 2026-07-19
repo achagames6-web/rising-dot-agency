@@ -356,26 +356,27 @@ export default function CleanHero() {
         <div
           className="pointer-events-none absolute inset-x-0 top-0"
           style={{
-            height: '60%',
-            transform: 'translateY(-58%)',
+            height: '58%',
+            transform: 'translateY(-56%)',
             background:
-              'radial-gradient(ellipse 34% 100% at 50% 100%,rgba(80,185,235,.34) 0%,rgba(55,175,225,.14) 42%,transparent 72%)',
+              'radial-gradient(ellipse 30% 100% at 50% 100%,rgba(85,188,238,.34) 0%,rgba(55,175,225,.12) 45%,transparent 72%)',
             filter: 'blur(30px)',
           }}
         />
 
-        {/* Masked horizon — rim glow fades toward the sides AND the bottom */}
+        {/* Horizon — crisp bright rim, glow above & below, fades at sides + bottom */}
         <div
           className="absolute inset-0"
           style={{
             WebkitMaskImage:
-              'radial-gradient(ellipse 48% 100% at 50% 0%,#000 0%,#000 26%,transparent 74%)',
+              'linear-gradient(90deg,transparent 0%,#000 15%,#000 85%,transparent 100%),linear-gradient(180deg,#000 0%,#000 55%,transparent 100%)',
+            WebkitMaskComposite: 'source-in',
             maskImage:
-              'radial-gradient(ellipse 48% 100% at 50% 0%,#000 0%,#000 26%,transparent 74%)',
+              'linear-gradient(90deg,transparent 0%,#000 15%,#000 85%,transparent 100%),linear-gradient(180deg,#000 0%,#000 55%,transparent 100%)',
+            maskComposite: 'intersect',
           }}
         >
-          {/* Giant sphere: dark interior, inner atmosphere (downside glow),
-              bright rim, then outer bloom (upside glow) — all from one gradient */}
+          {/* Giant sphere: dark body + glowing rim (outer + inner glow) */}
           <div
             style={{
               position: 'absolute',
@@ -385,19 +386,16 @@ export default function CleanHero() {
               width: 'min(2200px,220vw)',
               aspectRatio: '1 / 1',
               borderRadius: '50%',
+              border: '3px solid rgba(222,244,255,.95)',
               background:
-                'radial-gradient(circle at 50% 50%,' +
-                'transparent 0%,' +
-                'transparent 74%,' +
-                'rgba(45,120,180,.10) 79%,' +
-                'rgba(70,165,220,.34) 84%,' +
-                'rgba(130,205,248,.70) 88%,' +
-                'rgba(200,236,255,.98) 89.8%,' +
-                'rgba(225,245,255,1) 90.3%,' +
-                'rgba(160,220,252,.72) 91.4%,' +
-                'rgba(80,180,235,.36) 94%,' +
-                'rgba(55,175,225,.14) 97%,' +
-                'transparent 100%)',
+                'radial-gradient(circle at 50% 50%,#0b2138 0%,#071a31 45%,#041025 70%,#020a16 100%)',
+              boxShadow: [
+                '0 0 30px rgba(130,210,252,.75)',
+                '0 0 70px rgba(55,175,225,.45)',
+                '0 0 150px rgba(55,175,225,.25)',
+                'inset 0 0 70px rgba(85,185,240,.4)',
+                'inset 0 0 150px rgba(55,175,225,.18)',
+              ].join(', '),
             }}
           />
         </div>
