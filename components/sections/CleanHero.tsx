@@ -82,10 +82,10 @@ function OrbParticles() {
 
     const make = () => {
       const cx = c.width / 2;
-      const spread = c.width * 0.46;
+      const spread = c.width * 0.42;
       const rx = (Math.random() - 0.5) * 2;
       const x = cx + rx * spread * (0.5 + Math.abs(rx) * 0.5);
-      const orbH = Math.min(c.height * 0.3, 320);
+      const orbH = Math.min(c.height * 0.32, 340);
       const rimY = c.height - orbH * Math.sqrt(Math.max(0, 1 - rx * rx));
       return {
         x,
@@ -109,7 +109,7 @@ function OrbParticles() {
       raf = requestAnimationFrame(draw);
       ctx.clearRect(0, 0, c.width, c.height);
       const topFade = c.height * 0.18;
-      const orbH = Math.min(c.height * 0.3, 320);
+      const orbH = Math.min(c.height * 0.32, 340);
       const orbRimY = c.height - orbH;
       dots.forEach((d) => {
         d.y += d.vy;
@@ -140,20 +140,19 @@ function OrbParticles() {
   );
 }
 
-/* ── Seamless marquee (never gaps) with both-sides fade ──── */
+/* ── Seamless marquee (never gaps); fades in from the orb ends ── */
 function ServiceMarquee() {
-  // Repeat enough to exceed any viewport width, then duplicate the whole run
-  // and translate exactly -50% so the loop is perfectly seamless (no gap).
   const half = [...SERVICES, ...SERVICES, ...SERVICES];
   const items = [...half, ...half];
   return (
     <div
       className="relative w-full overflow-hidden"
       style={{
+        // hidden past the orb ends → pills emerge from the ends, not the screen sides
         maskImage:
-          'linear-gradient(90deg,transparent 0%,black 12%,black 88%,transparent 100%)',
+          'linear-gradient(90deg,transparent 0%,transparent 15%,black 26%,black 74%,transparent 85%,transparent 100%)',
         WebkitMaskImage:
-          'linear-gradient(90deg,transparent 0%,black 12%,black 88%,transparent 100%)',
+          'linear-gradient(90deg,transparent 0%,transparent 15%,black 26%,black 74%,transparent 85%,transparent 100%)',
       }}
     >
       <div
@@ -314,7 +313,7 @@ export default function CleanHero() {
           </Link>
         </div>
 
-        {/* Stats — brighter, more prominent labels */}
+        {/* Stats — brighter, prominent labels */}
         <div
           className="flex flex-wrap items-center justify-center gap-6 opacity-0 sm:gap-10"
           style={{ animation: 'hfu .7s ease forwards .76s' }}
@@ -348,38 +347,65 @@ export default function CleanHero() {
       {/* bottom spacer */}
       <div className="z-10 flex-1" />
 
-      {/* ── GLOWING CURVED-EDGE ORB (no fill) + marquee inside ── */}
+      {/* ══ GLOWING PLANET HORIZON ══════════════════════ */}
       <div
         className="relative z-[3] w-full"
-        style={{ height: 'clamp(180px,24vw,320px)' }}
+        style={{ height: 'clamp(230px,29vw,380px)' }}
       >
-        {/* Giant circle — transparent inside; edge glows BOTH outward & inward, stronger */}
+        {/* Soft upward sky-glow above the crest (curved, blurred dome) */}
         <div
+          className="pointer-events-none absolute inset-x-0 top-0"
           style={{
-            position: 'absolute',
-            left: '50%',
-            top: 0,
-            transform: 'translateX(-50%)',
-            width: 'min(2000px,200vw)',
-            aspectRatio: '1 / 1',
-            borderRadius: '50%',
-            background: 'transparent',
-            border: '2px solid rgba(165,228,255,.95)',
-            boxShadow: [
-              '0 0 34px rgba(150,220,255,.85)', // outer near
-              '0 0 80px rgba(55,175,225,.55)', // outer mid
-              '0 0 160px rgba(55,175,225,.32)', // outer far
-              '0 0 240px rgba(55,175,225,.18)', // outer glow bloom (upside)
-              'inset 0 0 70px rgba(90,195,245,.5)', // inner near (downside)
-              'inset 0 0 150px rgba(55,175,225,.24)', // inner far (downside)
-            ].join(', '),
+            height: '60%',
+            transform: 'translateY(-58%)',
+            background:
+              'radial-gradient(ellipse 34% 100% at 50% 100%,rgba(80,185,235,.34) 0%,rgba(55,175,225,.14) 42%,transparent 72%)',
+            filter: 'blur(30px)',
           }}
         />
 
-        {/* Marquee — sits at the orb's ends, streaming out and fading at both sides */}
+        {/* Masked horizon — rim glow fades toward the sides AND the bottom */}
+        <div
+          className="absolute inset-0"
+          style={{
+            WebkitMaskImage:
+              'radial-gradient(ellipse 48% 100% at 50% 0%,#000 0%,#000 26%,transparent 74%)',
+            maskImage:
+              'radial-gradient(ellipse 48% 100% at 50% 0%,#000 0%,#000 26%,transparent 74%)',
+          }}
+        >
+          {/* Giant sphere: dark interior, inner atmosphere (downside glow),
+              bright rim, then outer bloom (upside glow) — all from one gradient */}
+          <div
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: 0,
+              transform: 'translateX(-50%)',
+              width: 'min(2200px,220vw)',
+              aspectRatio: '1 / 1',
+              borderRadius: '50%',
+              background:
+                'radial-gradient(circle at 50% 50%,' +
+                'transparent 0%,' +
+                'transparent 74%,' +
+                'rgba(45,120,180,.10) 79%,' +
+                'rgba(70,165,220,.34) 84%,' +
+                'rgba(130,205,248,.70) 88%,' +
+                'rgba(200,236,255,.98) 89.8%,' +
+                'rgba(225,245,255,1) 90.3%,' +
+                'rgba(160,220,252,.72) 91.4%,' +
+                'rgba(80,180,235,.36) 94%,' +
+                'rgba(55,175,225,.14) 97%,' +
+                'transparent 100%)',
+            }}
+          />
+        </div>
+
+        {/* Marquee — streams out from the orb ends, fading at both ends */}
         <div
           className="pointer-events-auto absolute inset-x-0 z-20"
-          style={{ bottom: 'clamp(34px,5.5vw,64px)' }}
+          style={{ bottom: 'clamp(30px,5vw,58px)' }}
         >
           <ServiceMarquee />
         </div>
