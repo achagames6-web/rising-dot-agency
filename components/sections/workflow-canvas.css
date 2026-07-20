@@ -1,0 +1,252 @@
+/* components/sections/workflow-canvas.css
+   Type is lifted from the hero verbatim: same mono eyebrow at 0.68rem /
+   0.42em, same Montserrat 800 uppercase heading at -0.045em. */
+
+.wfc {
+  position: relative;
+  background: #04050a;
+  color: #e8ecf4;
+  padding: clamp(4rem, 12vh, 9rem) 0 clamp(4.5rem, 13vh, 10rem);
+  overflow: hidden;
+  --wfc-line: #16203a;
+  --wfc-blue: #2b8fd4;
+  --wfc-accent: #f58220;
+  --wfc-muted: #7c8698;
+}
+
+.wfc__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(22, 32, 58, 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(22, 32, 58, 0.5) 1px, transparent 1px);
+  background-size: 40px 40px;
+  -webkit-mask-image: radial-gradient(78% 68% at 50% 46%, #000, transparent);
+  mask-image: radial-gradient(78% 68% at 50% 46%, #000, transparent);
+  pointer-events: none;
+}
+
+.wfc__inner {
+  position: relative;
+  max-width: 84rem;
+  margin: 0 auto;
+  padding: 0 clamp(1.2rem, 4vw, 3rem);
+}
+
+/* ---------- heading: identical to the hero ---------- */
+
+.wfc__eyebrow {
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--wfc-accent);
+  margin: 0 0 1.2rem;
+}
+
+.wfc__title {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.75rem, 4vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.wfc__lead {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+  line-height: 1.6;
+  color: var(--wfc-muted);
+  max-width: 34rem;
+  margin: 1.4rem 0 0;
+}
+
+/* ---------- the canvas ---------- */
+
+.wfc__flow {
+  position: relative;
+  margin-top: clamp(2.5rem, 7vh, 5rem);
+  height: 34rem;
+}
+
+.wfc__edges {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.wfc__edge {
+  fill: none;
+  stroke: var(--wfc-line);
+  stroke-width: 1.4;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.wfc.is-live .wfc__edge {
+  opacity: 1;
+}
+
+/* Only the connectors into and out of the middle carry a pulse, so the eye
+   is told which way the work flows. */
+.wfc.is-live .wfc__edge.is-pulse {
+  stroke: var(--wfc-blue);
+  stroke-dasharray: 5 9;
+  animation: wfc-flow 2.4s linear infinite;
+  opacity: 0.9;
+}
+
+@keyframes wfc-flow {
+  to {
+    stroke-dashoffset: -56;
+  }
+}
+
+.wfc__nodes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  inset: 0;
+}
+
+.wfc__node {
+  position: absolute;
+  /* Checked against the canvas width: at 13.5rem every node clears the box
+     down to a 1000px container, which is where the diagram gives way to the
+     stacked list below. */
+  width: 13.5rem;
+  transform: translate(-50%, -50%) translateY(14px);
+  opacity: 0;
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.wfc.is-live .wfc__node {
+  opacity: 1;
+  transform: translate(-50%, -50%) translateY(0);
+}
+
+.wfc__node-body {
+  display: block;
+  border: 1px solid var(--wfc-line);
+  border-radius: 12px;
+  background: rgba(11, 15, 26, 0.96);
+  padding: 0.95rem 1rem 1.05rem;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+}
+
+a.wfc__node-body:hover {
+  border-color: var(--wfc-blue);
+  background: rgba(17, 24, 40, 0.98);
+  box-shadow:
+    0 0 0 1px rgba(43, 143, 212, 0.22),
+    0 18px 46px -16px rgba(43, 143, 212, 0.5);
+}
+
+a.wfc__node-body:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 3px;
+}
+
+.wfc__node-top {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.55rem;
+}
+
+.wfc__node-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--wfc-accent);
+  flex: none;
+}
+
+.wfc__node-kind {
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--wfc-muted);
+}
+
+.wfc__node-title {
+  display: block;
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.98rem;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.35rem;
+}
+
+.wfc__node-desc {
+  display: block;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.74rem;
+  line-height: 1.45;
+  color: var(--wfc-muted);
+}
+
+/* The two ends are not services, so they are drawn differently. */
+.wfc__node--in .wfc__node-body {
+  border-style: dashed;
+}
+
+.wfc__node--out .wfc__node-body {
+  border-color: rgba(245, 130, 32, 0.5);
+}
+
+.wfc__node--out .wfc__node-title {
+  color: var(--wfc-accent);
+}
+
+/* ---------- narrow screens: a list, not a diagram ---------- */
+
+@media (max-width: 1100px) {
+  .wfc__flow {
+    height: auto;
+  }
+
+  .wfc__edges {
+    display: none;
+  }
+
+  .wfc__nodes {
+    position: static;
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .wfc__node {
+    position: static;
+    width: auto;
+    transform: translateY(14px);
+  }
+
+  .wfc.is-live .wfc__node {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wfc__node,
+  .wfc__edge {
+    transition: none;
+  }
+
+  .wfc.is-live .wfc__edge.is-pulse {
+    animation: none;
+  }
+}

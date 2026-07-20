@@ -54,14 +54,16 @@ const PortfolioGallery = dynamic(
   }
 );
 
-// ServicesShowcase - Alternating image/content layout for featured services
-const ServicesShowcase = dynamic(
-  () => import('@/components/sections/ServicesShowcase'),
+// WorkflowCanvas - the services drawn as a workflow, directly under the hero.
+// Replaces ServicesShowcase, which is left in place at
+// components/sections/ServicesShowcase for an easy revert.
+const WorkflowCanvas = dynamic(
+  () => import('@/components/sections/WorkflowCanvas'),
   {
     ssr: false,
     loading: () => (
-      <section className="flex items-center justify-center bg-black py-20">
-        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
+      <section className="flex items-center justify-center bg-[#04050A] py-20">
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#F58220]/30 border-t-[#F58220]" />
       </section>
     ),
   }
@@ -183,7 +185,7 @@ export default function Home() {
           <RisingDotHero />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="servicesShowcase">
-          <ServicesShowcase />
+          <WorkflowCanvas />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="portfolioGallery">
           <PortfolioGallery />
