@@ -35,52 +35,71 @@ export const SCROLL_TRACK_VH = 1500;
 export const PARTICLE_COUNT = 6500;
 
 export type WorkItem = {
+  /**
+   * 'case' is real, shipped work and carries an image.
+   * 'capability' is something we do, shown without a fake case study
+   * attached. Keeping the two visually distinct is the point - a wall of
+   * invented projects is the fastest way to lose a lead who checks.
+   */
+  type: 'case' | 'capability';
   title: string;
   kind: string;
   blurb: string;
   href: string;
+  image?: string;
+  year?: string;
+  stack?: string;
 };
 
-/**
- * Placeholder set built from real services. Swap these for actual client
- * projects as they ship - the layout expects 4 to 8 entries.
- */
 export const WORK: WorkItem[] = [
   {
-    title: 'Order Ops Pipeline',
-    kind: 'n8n Automation',
-    blurb: 'Order sync, invoicing and stock alerts running without a human.',
+    type: 'case',
+    title: 'Curbside Laundry',
+    kind: 'SaaS · Toronto',
+    blurb:
+      'Pickup and delivery laundry platform. Customers book a wash in a few minutes; the owner runs the whole operation - orders, drivers, routes, payments, promo codes, inventory - from one dashboard.',
+    href: '/portfolio',
+    image: '/Projects/curbside-laundry.jpg',
+    year: '2025',
+    stack: 'Web app · CRM dashboard · Payments',
+  },
+  {
+    type: 'capability',
+    title: 'Workflow automation',
+    kind: 'n8n',
+    blurb:
+      'Order sync, invoicing, stock alerts and reporting that run without a human.',
     href: '/services/n8n-automations',
   },
   {
-    title: 'Support Agent',
-    kind: 'AI Chatbot',
-    blurb: 'Answers from your own docs, escalates when it should.',
+    type: 'capability',
+    title: 'AI assistants',
+    kind: 'Chatbots',
+    blurb:
+      'Trained on your own docs. Answers what it knows, escalates what it does not.',
     href: '/services/chatbot-development',
   },
   {
-    title: 'Storefront Rebuild',
+    type: 'capability',
+    title: 'Storefronts',
     kind: 'Shopify',
-    blurb: 'Custom theme, faster cart, fewer drop-offs.',
+    blurb: 'Custom themes built for speed and a shorter path to checkout.',
     href: '/services/shopify',
   },
   {
-    title: 'Marketing Site',
-    kind: 'Web Design',
-    blurb: 'Hand-built front end. No page-builder weight.',
+    type: 'capability',
+    title: 'Websites',
+    kind: 'Web design',
+    blurb: 'Hand-built front ends. No page-builder weight.',
     href: '/services/web-design',
   },
   {
-    title: 'Content Engine',
+    type: 'capability',
+    title: 'Search',
     kind: 'SEO',
-    blurb: 'Technical fixes plus a publishing system that keeps running.',
+    blurb:
+      'Technical fixes plus a publishing system that keeps running after launch.',
     href: '/services/seo',
-  },
-  {
-    title: 'Product MVP',
-    kind: 'SaaS',
-    blurb: 'Wireframe to signed-up users.',
-    href: '/services/saas',
   },
 ];
 

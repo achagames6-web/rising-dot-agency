@@ -7,6 +7,7 @@
 // rendered through a 3D transform that can turn away from the camera.
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import Image from 'next/image';
 import { Canvas } from '@react-three/fiber';
 import {
   FILTERS,
@@ -70,6 +71,7 @@ function WorkCard({
   const ref = useRef<HTMLAnchorElement>(null);
   const [seen, setSeen] = useState(false);
   const title = useScramble(seen, item.title);
+  const isCase = item.type === 'case';
 
   useEffect(() => {
     return onProgress(() => {
@@ -107,7 +109,7 @@ function WorkCard({
   return (
     <a
       ref={ref}
-      className="rd-card"
+      className={`rd-card ${isCase ? 'rd-card--case' : 'rd-card--capability'}`}
       href={item.href}
       style={{
         left: `calc(50% + ${offset.x}%)`,
@@ -118,8 +120,21 @@ function WorkCard({
     >
       <span className="rd-card__leader" aria-hidden="true" />
       <span className="rd-card__id" aria-hidden="true">
-        {`CASE_${String(index + 1).padStart(2, '0')}`}
+        {isCase ? 'CASE_01' : `CAP_${String(index).padStart(2, '0')}`}
       </span>
+
+      {isCase && item.image && (
+        <span className="rd-card__shot">
+          <Image
+            src={item.image}
+            alt={`${item.title} interface`}
+            width={1400}
+            height={671}
+            sizes="(max-width: 1024px) 80vw, 34rem"
+            priority={false}
+          />
+        </span>
+      )}
 
       <div className="rd-card__head">
         <Marker seed={index} />
@@ -128,7 +143,17 @@ function WorkCard({
 
       <h3 className="rd-card__title">{title}</h3>
       <p className="rd-card__blurb">{item.blurb}</p>
-      <span className="rd-card__cta">Click to explore</span>
+
+      {isCase && item.stack && (
+        <p className="rd-card__stack">
+          {item.stack}
+          {item.year ? ` · ${item.year}` : ''}
+        </p>
+      )}
+
+      <span className="rd-card__cta">
+        {isCase ? 'Click to explore' : 'See the service'}
+      </span>
     </a>
   );
 }
