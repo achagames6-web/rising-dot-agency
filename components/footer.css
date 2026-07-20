@@ -54,10 +54,6 @@
   );
 }
 
-.rdf__mq--b {
-  padding: clamp(0.7rem, 1.8vh, 1.1rem) 0;
-}
-
 .rdf__track {
   display: flex;
   align-items: center;
@@ -66,23 +62,9 @@
   animation: rdf-slide 34s linear infinite;
 }
 
-.rdf__track--rev {
-  animation-name: rdf-slide-rev;
-  animation-duration: 42s;
-}
-
 @keyframes rdf-slide {
   to {
     transform: translateX(-50%);
-  }
-}
-
-@keyframes rdf-slide-rev {
-  from {
-    transform: translateX(-50%);
-  }
-  to {
-    transform: translateX(0);
   }
 }
 
@@ -121,18 +103,6 @@
 .rdf__word:hover {
   color: #e8ecf4;
   -webkit-text-stroke-color: transparent;
-}
-
-.rdf__word--sm {
-  font-size: clamp(0.85rem, 1.5vw, 1.15rem);
-  letter-spacing: 0.02em;
-  -webkit-text-stroke: 0;
-  color: var(--rdf-muted);
-  font-weight: 700;
-}
-
-.rdf__word--sm:hover {
-  color: var(--rdf-accent);
 }
 
 .rdf__sep {

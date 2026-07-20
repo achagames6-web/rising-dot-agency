@@ -103,9 +103,8 @@ export default function Footer() {
     settings.footer.description ||
     'Automation, AI assistants and the sites they run on. We take work that repeats and make it stop repeating.';
 
-  // Two rows, opposite directions. Doubled so the loop has no seam.
+  // One row, doubled so the loop has no seam.
   const rowA = [...SERVICES, ...SERVICES];
-  const rowB = [...CASE_STUDIES, ...CASE_STUDIES];
 
   return (
     <footer className="rdf">
@@ -123,22 +122,6 @@ export default function Footer() {
                 {s.label}
               </Link>
               <span className="rdf__sep">/</span>
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <div className="rdf__mq rdf__mq--b" aria-hidden="true">
-        <div className="rdf__track rdf__track--rev">
-          {rowB.map((c, i) => (
-            <span key={`b${i}`} className="rdf__wordwrap">
-              <Link
-                href={`/portfolio/${c.slug}`}
-                className="rdf__word rdf__word--sm"
-              >
-                {c.title}
-              </Link>
-              <span className="rdf__sep">·</span>
             </span>
           ))}
         </div>
@@ -247,7 +230,7 @@ export default function Footer() {
       <div className="rdf__bottom">
         <span>
           {settings.footer.copyrightText ||
-            `© ${new Date().getFullYear()} Rising Dot. All rights reserved.`}
+            '© 2025 Rising Dot. All rights reserved.'}
         </span>
         <span className="rdf__tag">
           Rising together in the world of digital dots
