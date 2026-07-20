@@ -14,7 +14,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import {
-  COLORS,
   PARTICLE_COUNT,
   SECTIONS,
   damp,
@@ -162,8 +161,10 @@ export function Field({
 
   return (
     <>
-      <color attach="background" args={[COLORS.base]} />
-      <fog attach="fog" args={[COLORS.base, 18, SPAN]} />
+      {/* No background or fog here on purpose. The canvas has to stay
+          transparent: it sits above the earth plate so the dots fall in
+          front of it, and an opaque clear colour would hide the plate and
+          every DOM layer behind it. The page background comes from CSS. */}
       {sample && <Cloud sample={sample} quality={quality} narrow={narrow} />}
     </>
   );

@@ -42,6 +42,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
+  z-index: 3;
   background: radial-gradient(
     ellipse at 50% 50%,
     transparent 55%,
@@ -53,6 +54,8 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
+  /* Above the canvas. Order is: earth 2, dots 3, copy 4, HUD 5. */
+  z-index: 4;
   will-change: opacity, transform;
 }
 
@@ -169,6 +172,7 @@
 .rd-wall {
   position: absolute;
   inset: 0;
+  z-index: 4;
   perspective: 1200px;
   perspective-origin: 50% 50%;
   pointer-events: none;

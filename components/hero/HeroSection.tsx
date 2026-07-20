@@ -263,7 +263,12 @@ export default function HeroSection() {
           <Canvas
             className="rd-canvas"
             dpr={[1, 1.5]}
-            gl={{ antialias: false, powerPreference: 'high-performance' }}
+            gl={{
+              antialias: false,
+              alpha: true,
+              powerPreference: 'high-performance',
+            }}
+            onCreated={({ gl }) => gl.setClearAlpha(0)}
             camera={{ fov: 48, near: 0.1, far: 120, position: [0, 0, 9] }}
           >
             <Field quality={quality} narrow={narrow} />

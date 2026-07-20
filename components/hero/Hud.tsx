@@ -181,6 +181,13 @@ export function SoundToggle() {
     setState('loading');
     el.volume = 0;
 
+    // If the file never arrives, say so rather than sitting on 'loading'.
+    const bail = window.setTimeout(() => {
+      // eslint-disable-next-line no-console
+      console.error('[hero audio] timed out loading /audio/ambient.mp3');
+      setState('error');
+    }, 6000);
+
     // play() must be called in the click handler itself, not after an await,
     // or Safari treats it as programmatic and blocks it.
     const attempt = el.play();
@@ -188,11 +195,22 @@ export function SoundToggle() {
     if (attempt && typeof attempt.then === 'function') {
       attempt
         .then(() => {
+          window.clearTimeout(bail);
           setState('on');
           ramp(0.3);
         })
-        .catch(() => setState('error'));
+        .catch((err) => {
+          window.clearTimeout(bail);
+          // eslint-disable-next-line no-console
+          console.error(
+            '[hero audio] play() rejected:',
+            err?.name,
+            err?.message
+          );
+          setState('error');
+        });
     } else {
+      window.clearTimeout(bail);
       setState('on');
       ramp(0.3);
     }
@@ -214,7 +232,17 @@ export function SoundToggle() {
         src="/audio/ambient.mp3"
         loop
         preload="none"
-        onError={() => setState('error')}
+        onError={(e) => {
+          const el = e.currentTarget;
+          // eslint-disable-next-line no-console
+          console.error(
+            '[hero audio] element error',
+            el.error?.code,
+            el.error?.message,
+            el.currentSrc
+          );
+          setState('error');
+        }}
       />
       <button
         type="button"
