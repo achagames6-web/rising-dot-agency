@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ParticleWrapper } from '@/components/ui/particle-button';
+import { Mail, Calendar } from 'lucide-react';
 import { StarButton } from '@/components/ui/star-button';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
@@ -44,6 +45,19 @@ export default function SimpleCTA() {
   const ctaLink = ctaContent?.ctaLink || '/contact';
   const secondaryCtaText = ctaContent?.secondaryCtaText || 'View Our Work';
   const secondaryCtaLink = ctaContent?.secondaryCtaLink || '/portfolio';
+
+  // Merged in from the Connect section: the direct ways to reach a person.
+  const { content: connectContent } = useSiteContent<{
+    ctaText?: string;
+    ctaLink?: string;
+    email?: string;
+    whatsapp?: string;
+  }>('home', 'connect');
+
+  const callText = connectContent?.ctaText || 'Book a call';
+  const callLink = connectContent?.ctaLink || '/contact';
+  const email = connectContent?.email || 'contact@risingdot.agency';
+  const whatsapp = connectContent?.whatsapp || '+1234567890';
 
   // Social media configuration
   const socialLinks = [
@@ -173,6 +187,51 @@ export default function SimpleCTA() {
               </motion.div>
             </ParticleWrapper>
           </div>
+
+          {/* Direct contact - merged from Connect. Sits between the two
+              calls to action and the social row, so the page ends with
+              buttons, then people, then platforms. */}
+          <motion.div
+            className="mt-8 flex flex-wrap items-center justify-center gap-3"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <Link
+              href={callLink}
+              className="inline-flex items-center gap-2 rounded-full border border-white/[0.15] bg-white/[0.06] px-4 py-2.5 text-sm font-medium text-white/85 backdrop-blur-sm transition-colors hover:border-[#F58122]/60 hover:text-white"
+            >
+              <Calendar className="h-4 w-4 text-[#F58122]" />
+              {callText}
+            </Link>
+
+            <a
+              href={`mailto:${email}`}
+              className="inline-flex items-center gap-2 rounded-full border border-white/[0.15] bg-white/[0.06] px-4 py-2.5 text-sm font-medium text-white/85 backdrop-blur-sm transition-colors hover:border-[#37AFE1]/60 hover:text-white"
+            >
+              <Mail className="h-4 w-4 text-[#37AFE1]" />
+              {email}
+            </a>
+
+            <a
+              href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-white/[0.15] bg-white/[0.06] px-4 py-2.5 text-sm font-medium text-white/85 backdrop-blur-sm transition-colors hover:border-green-400/60 hover:text-white"
+            >
+              <svg
+                className="h-4 w-4 text-green-400"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M17.5 14.4c-.3-.1-1.7-.9-2-1s-.5-.1-.7.1-.7.9-.9 1.1-.3.2-.6.1a8 8 0 0 1-3.9-3.4c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5s-.7-1.6-.9-2.2c-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1.1 2.8 1.2 3c.1.2 2.1 3.2 5.1 4.4 1.9.8 2.6.9 3.5.8.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.2-.3-.3-.6-.4z" />
+                <path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z" />
+              </svg>
+              WhatsApp
+            </a>
+          </motion.div>
 
           {/* Social Icons - Direct on Page Background */}
           <motion.div

@@ -1,0 +1,417 @@
+/* components/case/case.css - the case study page, in the homepage language. */
+
+.cs {
+  position: relative;
+  background: #04050a;
+  color: #e8ecf4;
+  padding: clamp(3.5rem, 10vh, 7rem) 0 clamp(4rem, 12vh, 8rem);
+  overflow: hidden;
+  --cs-line: #16203a;
+  --cs-blue: #2b8fd4;
+  --cs-accent: #f58220;
+  --cs-muted: #7c8698;
+}
+
+/* The opening picks up the blue the header sits over, then settles. */
+.cs--hero {
+  background: linear-gradient(
+    180deg,
+    #081d3b 0%,
+    #06172f 20%,
+    #050d1c 45%,
+    #04050a 80%
+  );
+  padding-top: clamp(7rem, 18vh, 11rem);
+}
+
+.cs__stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #7fb6dd 50%, transparent 51%),
+    radial-gradient(1px 1px at 78% 12%, #cfe4f5 50%, transparent 51%),
+    radial-gradient(1px 1px at 34% 62%, #6aa6cf 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 74%, #a9cdea 50%, transparent 51%),
+    radial-gradient(1px 1px at 58% 34%, #f58220 50%, transparent 51%),
+    radial-gradient(1px 1px at 22% 86%, #8fc0e0 50%, transparent 51%),
+    radial-gradient(1px 1px at 66% 92%, #b9d8ef 50%, transparent 51%),
+    radial-gradient(1px 1px at 46% 8%, #7fb6dd 50%, transparent 51%);
+  background-repeat: repeat;
+  background-size: 620px 480px;
+  -webkit-mask-image: radial-gradient(95% 85% at 50% 40%, #000, transparent);
+  mask-image: radial-gradient(95% 85% at 50% 40%, #000, transparent);
+}
+
+.cs__inner {
+  position: relative;
+  width: 100%;
+  padding: 0 clamp(1.2rem, 3.5vw, 4rem);
+  max-width: 84rem;
+  margin: 0 auto;
+}
+
+/* ---------- opening ---------- */
+
+.cs__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1.8rem;
+}
+
+.cs__chip {
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cs-muted);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+}
+
+.cs__shot {
+  margin-top: clamp(2.2rem, 6vh, 3.5rem);
+  border: 1px solid var(--cs-line);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0b0f1a;
+  line-height: 0;
+}
+
+.cs__shot img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: saturate(0.92) contrast(1.02) brightness(0.95);
+}
+
+/* ---------- what changed ---------- */
+
+.cs__shift {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.cs__shift li {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 1.2rem 1.3rem;
+  border: 1px solid var(--cs-line);
+  border-radius: 14px;
+  background: rgba(5, 7, 15, 0.86);
+  backdrop-filter: blur(8px);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--cs-muted);
+  transform: perspective(900px) rotateX(var(--rx, 0deg))
+    rotateY(var(--ry, 0deg));
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease;
+}
+
+.cs__shift li::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    240px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(43, 143, 212, 0.16),
+    rgba(245, 130, 32, 0.06) 45%,
+    transparent 70%
+  );
+  transition: opacity 0.35s ease;
+}
+
+.cs__shift li:hover::before {
+  opacity: 1;
+}
+
+.cs__shift li:hover {
+  border-color: rgba(43, 143, 212, 0.45);
+}
+
+.cs__bullet {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #3b4557;
+  margin-top: 0.5rem;
+  flex: none;
+}
+
+.cs__shift.is-after .cs__bullet {
+  background: var(--cs-accent);
+}
+
+/* ---------- the build ---------- */
+
+.cs__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.cs__step {
+  position: relative;
+  isolation: isolate;
+  padding: 1.5rem 1.5rem 1.6rem;
+  border: 1px solid var(--cs-line);
+  border-radius: 16px;
+  background: rgba(5, 7, 15, 0.86);
+  backdrop-filter: blur(8px);
+  transform: perspective(900px) rotateX(var(--rx, 0deg))
+    rotateY(var(--ry, 0deg));
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease;
+}
+
+.cs__step::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    240px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(43, 143, 212, 0.16),
+    rgba(245, 130, 32, 0.06) 45%,
+    transparent 70%
+  );
+  transition: opacity 0.35s ease;
+}
+
+.cs__step:hover::before {
+  opacity: 1;
+}
+
+.cs__step:hover {
+  border-color: rgba(43, 143, 212, 0.45);
+}
+
+.cs__n {
+  display: block;
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: var(--cs-blue);
+  margin-bottom: 0.9rem;
+}
+
+.cs__step-t {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 1.15rem;
+  letter-spacing: -0.025em;
+  margin: 0 0 0.6rem;
+  transition: color 0.3s ease;
+}
+
+.cs__step:hover .cs__step-t {
+  color: var(--cs-accent);
+}
+
+.cs__step-d {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--cs-muted);
+  margin: 0;
+}
+
+/* ---------- prose ---------- */
+
+.cs__prose {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: clamp(1.5rem, 4vw, 3rem);
+}
+
+.cs__h {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(1.1rem, 1.9vw, 1.45rem);
+  letter-spacing: -0.03em;
+  margin: 0 0 0.9rem;
+}
+
+.cs__prose p {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.94rem;
+  line-height: 1.75;
+  color: var(--cs-muted);
+  margin: 0 0 1rem;
+}
+
+.cs__outcomes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 0.8rem;
+  margin-top: clamp(2rem, 5vh, 3rem);
+}
+
+.cs__outcome {
+  position: relative;
+  isolation: isolate;
+  text-align: center;
+  padding: 1.6rem 1.3rem;
+  border: 1px solid var(--cs-line);
+  border-radius: 16px;
+  background: rgba(5, 7, 15, 0.86);
+  backdrop-filter: blur(8px);
+  transform: perspective(900px) rotateX(var(--rx, 0deg))
+    rotateY(var(--ry, 0deg));
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cs__outcome::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    240px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(43, 143, 212, 0.16),
+    rgba(245, 130, 32, 0.06) 45%,
+    transparent 70%
+  );
+  transition: opacity 0.35s ease;
+}
+
+.cs__outcome:hover::before {
+  opacity: 1;
+}
+
+.cs__outcome-v {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin: 0 0 0.6rem;
+  color: var(--cs-accent);
+}
+
+.cs__outcome-l {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--cs-muted);
+  margin: 0;
+}
+
+/* ---------- close ---------- */
+
+.cs__actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-top: clamp(1.8rem, 4vh, 2.6rem);
+}
+
+.cs__next {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+  padding: 1.4rem 1.6rem;
+  border: 1px solid var(--cs-line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color 0.3s ease,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cs__next:hover {
+  border-color: rgba(245, 130, 32, 0.5);
+  transform: translateY(-3px);
+}
+
+.cs__next-k {
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cs-muted);
+}
+
+.cs__next-t {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  letter-spacing: -0.03em;
+}
+
+.cs__next-m {
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cs-accent);
+}
+
+/* ---------- narrow ---------- */
+
+@media (max-width: 900px) {
+  .cs__shift,
+  .cs__steps {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .cs__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cs__next {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs__shift li,
+  .cs__step,
+  .cs__outcome,
+  .cs__next {
+    transform: none;
+    transition: none;
+  }
+}

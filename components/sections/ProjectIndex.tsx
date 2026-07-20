@@ -11,8 +11,15 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { WORK } from '@/lib/hero/journey';
+import { CASE_STUDIES } from '@/lib/case-studies';
 import { SectionIntro } from './SectionIntro';
 import './project-index.css';
+
+/** Rows now open the case study when one exists, not the service page. */
+const caseHref = (title: string) => {
+  const c = CASE_STUDIES.find((x) => x.title === title);
+  return c ? `/portfolio/${c.slug}` : undefined;
+};
 
 export default function ProjectIndex() {
   const [active, setActive] = useState(0);
@@ -44,7 +51,7 @@ export default function ProjectIndex() {
             {WORK.map((w, i) => (
               <li key={w.title}>
                 <Link
-                  href={w.href}
+                  href={caseHref(w.title) ?? w.href}
                   className={`pidx__row${i === active ? ' is-on' : ''}`}
                   onMouseEnter={() => setActive(i)}
                   onFocus={() => setActive(i)}
