@@ -1,0 +1,399 @@
+/* components/footer.css - the marquee footer. */
+
+.rdf {
+  position: relative;
+  background: #04050a;
+  color: #e8ecf4;
+  overflow: hidden;
+  border-top: 1px solid #16203a;
+  --rdf-line: #16203a;
+  --rdf-blue: #2b8fd4;
+  --rdf-accent: #f58122;
+  --rdf-muted: #7c8698;
+}
+
+.rdf__stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #7fb6dd 50%, transparent 51%),
+    radial-gradient(1px 1px at 78% 12%, #cfe4f5 50%, transparent 51%),
+    radial-gradient(1px 1px at 34% 62%, #6aa6cf 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 74%, #a9cdea 50%, transparent 51%),
+    radial-gradient(1px 1px at 58% 34%, #f58220 50%, transparent 51%),
+    radial-gradient(1px 1px at 22% 86%, #8fc0e0 50%, transparent 51%);
+  background-repeat: repeat;
+  background-size: 620px 480px;
+  -webkit-mask-image: radial-gradient(95% 85% at 50% 25%, #000, transparent);
+  mask-image: radial-gradient(95% 85% at 50% 25%, #000, transparent);
+}
+
+/* ---------- marquee ---------- */
+
+.rdf__mq {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--rdf-line);
+  padding: clamp(1rem, 2.4vh, 1.6rem) 0;
+  /* Fades at both edges so words enter and leave rather than being cut. */
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+
+.rdf__mq--b {
+  padding: clamp(0.7rem, 1.8vh, 1.1rem) 0;
+}
+
+.rdf__track {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+  width: max-content;
+  animation: rdf-slide 34s linear infinite;
+}
+
+.rdf__track--rev {
+  animation-name: rdf-slide-rev;
+  animation-duration: 42s;
+}
+
+@keyframes rdf-slide {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes rdf-slide-rev {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Hovering anywhere on a row stops it, so a word can be read and clicked. */
+.rdf__mq:hover .rdf__track {
+  animation-play-state: paused;
+}
+
+.rdf__wordwrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 2.4rem;
+}
+
+.rdf__word {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(1.5rem, 3.6vw, 3rem);
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  text-decoration: none;
+  color: transparent;
+  -webkit-text-stroke: 1px #24324f;
+  transition:
+    color 0.3s ease,
+    -webkit-text-stroke-color 0.3s ease;
+  pointer-events: auto;
+}
+
+.rdf__word.is-on {
+  color: var(--rdf-accent);
+  -webkit-text-stroke-width: 0;
+}
+
+.rdf__word:hover {
+  color: #e8ecf4;
+  -webkit-text-stroke-color: transparent;
+}
+
+.rdf__word--sm {
+  font-size: clamp(0.85rem, 1.5vw, 1.15rem);
+  letter-spacing: 0.02em;
+  -webkit-text-stroke: 0;
+  color: var(--rdf-muted);
+  font-weight: 700;
+}
+
+.rdf__word--sm:hover {
+  color: var(--rdf-accent);
+}
+
+.rdf__sep {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: clamp(1rem, 2vw, 1.6rem);
+  color: #1d2740;
+}
+
+/* ---------- body ---------- */
+
+.rdf__in {
+  position: relative;
+  width: 100%;
+  max-width: 84rem;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 6vh, 4rem) clamp(1.2rem, 3.5vw, 4rem) 1.5rem;
+}
+
+.rdf__grid {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr 1fr 1fr;
+  gap: clamp(1.5rem, 3vw, 3.5rem);
+}
+
+.rdf__logo img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+.rdf__desc {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--rdf-muted);
+  margin: 1.1rem 0 1.3rem;
+  max-width: 26rem;
+}
+
+.rdf__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.54rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rdf-muted);
+}
+
+.rdf__status i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  animation: rdf-pulse 2s ease-in-out infinite;
+}
+
+@keyframes rdf-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* newsletter */
+
+.rdf__sub {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.3rem;
+  max-width: 24rem;
+}
+
+.rdf__sub input {
+  flex: 1;
+  min-width: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  padding: 0.7rem 1.1rem;
+  color: #e8ecf4;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.85rem;
+}
+
+.rdf__sub input::placeholder {
+  color: rgba(124, 134, 152, 0.8);
+}
+
+.rdf__sub input:focus {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+}
+
+.rdf__sub button {
+  border: 0;
+  cursor: pointer;
+  border-radius: 999px;
+  background: var(--rdf-accent);
+  color: #fff;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.7rem 1.3rem;
+  transition: background 0.25s ease;
+}
+
+.rdf__sub button:hover {
+  background: #ff9440;
+}
+
+.rdf__sub button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.rdf__msg {
+  margin: 0.7rem 0 0;
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #4ade80;
+}
+
+.rdf__msg.is-err {
+  color: #f87171;
+}
+
+/* columns */
+
+.rdf__col h2 {
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rdf-muted);
+  font-weight: 400;
+  margin: 0 0 1.1rem;
+}
+
+.rdf__col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.rdf__col a {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.88rem;
+  color: rgba(232, 236, 244, 0.72);
+  text-decoration: none;
+  transition:
+    color 0.25s ease,
+    padding-left 0.25s ease;
+}
+
+.rdf__col a:hover {
+  color: var(--rdf-accent);
+  padding-left: 4px;
+}
+
+.rdf__soc {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 1.4rem;
+}
+
+.rdf__soc a {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  color: var(--rdf-muted);
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.rdf__soc a:hover {
+  color: #fff;
+  border-color: rgba(245, 129, 34, 0.6);
+  background: rgba(245, 129, 34, 0.12);
+  transform: translateY(-2px);
+  padding-left: 0;
+}
+
+.rdf__soc svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ---------- bottom ---------- */
+
+.rdf__bottom {
+  position: relative;
+  max-width: 84rem;
+  margin: 0 auto;
+  padding: 1.2rem clamp(1.2rem, 3.5vw, 4rem) 2rem;
+  border-top: 1px solid var(--rdf-line);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rdf-muted);
+}
+
+.rdf__tag {
+  color: rgba(124, 134, 152, 0.65);
+}
+
+/* ---------- narrow ---------- */
+
+@media (max-width: 1000px) {
+  .rdf__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .rdf__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .rdf__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rdf__sub {
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .rdf__sub input,
+  .rdf__sub button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rdf__track,
+  .rdf__status i {
+    animation: none;
+  }
+}

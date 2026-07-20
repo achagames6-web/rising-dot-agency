@@ -50,3 +50,28 @@ export async function sendContactNotification(data: ContactEmailData) {
     return false;
   }
 }
+
+interface SubscribeData {
+  email: string;
+  source: string;
+}
+
+/** Newsletter signup. Notifies the inbox; there is no list service yet. */
+export async function sendSubscribeNotification(data: SubscribeData) {
+  const adminEmail = 'achagames6@gmail.com';
+
+  const { error } = await resend.emails.send({
+    from: 'Rising Dot <onboarding@resend.dev>',
+    to: adminEmail,
+    subject: `New subscriber: ${data.email}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #2563EB;">New newsletter subscriber</h2>
+        <p><strong>Email:</strong> <a href="mailto:${data.email}">${data.email}</a></p>
+        <p><strong>Source:</strong> ${data.source}</p>
+      </div>
+    `,
+  });
+
+  if (error) throw new Error(error.message);
+}
