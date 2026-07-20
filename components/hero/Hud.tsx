@@ -41,7 +41,6 @@ export function Hud() {
   const posRef = useRef<HTMLSpanElement>(null);
   const fpsRef = useRef<HTMLSpanElement>(null);
   const velRef = useRef<HTMLSpanElement>(null);
-  const barRef = useRef<HTMLSpanElement>(null);
 
   // Scroll-derived readouts.
   useEffect(() => {
@@ -63,9 +62,6 @@ export function Hud() {
       }
       if (velRef.current) {
         velRef.current.textContent = velocity.toFixed(1).padStart(5, '0');
-      }
-      if (barRef.current) {
-        barRef.current.style.transform = `scaleX(${clamp(p)})`;
       }
     });
 
@@ -117,10 +113,6 @@ export function Hud() {
         <span ref={velRef} className="rd-hud__val">
           000.0
         </span>
-      </div>
-
-      <div className="rd-hud__bar">
-        <span ref={barRef} />
       </div>
 
       {/* Lower frame corners only - the upper pair sat under the header. */}

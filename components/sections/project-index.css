@@ -4,13 +4,9 @@
   position: relative;
   /* Continues out of the canvas, which ends on the page black, and stays
      there: deep space rather than a panel sitting on a page. */
-  background:
-    radial-gradient(
-      120% 70% at 50% 0%,
-      rgba(11, 22, 44, 0.75) 0%,
-      transparent 55%
-    ),
-    #04050a;
+  /* Starts on exactly the colour the canvas above ends on, so the two
+     sections read as one continuous field of space rather than two panels. */
+  background: #04050a;
   color: #e8ecf4;
   padding: clamp(4rem, 12vh, 9rem) 0 clamp(4.5rem, 13vh, 10rem);
   overflow: hidden;

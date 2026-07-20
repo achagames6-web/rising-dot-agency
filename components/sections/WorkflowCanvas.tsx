@@ -10,7 +10,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import './section-type.css';
+import { SectionIntro } from './SectionIntro';
 import './workflow-canvas.css';
 
 type Node = {
@@ -175,21 +175,24 @@ export default function WorkflowCanvas() {
       className={`wfc${live ? ' is-live' : ''}`}
       aria-labelledby="wfc-head"
     >
-      <div className="wfc__grid" aria-hidden="true" />
+      <div className="wfc__stars" aria-hidden="true" />
 
       <div className="wfc__inner">
-        <header className="wfc__head">
-          <p className="sec-eyebrow">What we do</p>
-          <h2 id="wfc-head" className="sec-title">
-            Your operation,
-            <br />
-            as a <em>workflow</em>
-          </h2>
-          <p className="sec-lead">
-            Everything that repeats becomes a step. Everything that runs itself
-            stops needing you.
-          </p>
-        </header>
+        <div className="wfc__head">
+          <SectionIntro
+            id="wfc-head"
+            eyebrow="What we do"
+            title={
+              <>
+                Your operation,
+                <br />
+                as a
+              </>
+            }
+            highlight="workflow"
+            lead="Everything that repeats becomes a step. Everything that runs itself stops needing you."
+          />
+        </div>
 
         <div className="wfc__flow">
           <svg

@@ -11,7 +11,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { WORK } from '@/lib/hero/journey';
-import './section-type.css';
+import { SectionIntro } from './SectionIntro';
 import './project-index.css';
 
 export default function ProjectIndex() {
@@ -23,17 +23,21 @@ export default function ProjectIndex() {
       <div className="pidx__stars" aria-hidden="true" />
 
       <div className="pidx__inner">
-        <header className="pidx__head">
-          <p className="sec-eyebrow">Selected work</p>
-          <h2 id="pidx-head" className="sec-title">
-            Seven things
-            <br />
-            we <em>actually shipped</em>
-          </h2>
-          <p className="sec-lead">
-            Every one is live. Point at a line to see it.
-          </p>
-        </header>
+        <div className="pidx__head">
+          <SectionIntro
+            id="pidx-head"
+            eyebrow="Selected work"
+            title={
+              <>
+                Seven things
+                <br />
+                we
+              </>
+            }
+            highlight="actually shipped"
+            lead="Every one is live. Point at a line to see it."
+          />
+        </div>
 
         <div className="pidx__body">
           <ol className="pidx__list">

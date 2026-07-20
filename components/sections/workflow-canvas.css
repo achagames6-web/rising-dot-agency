@@ -10,9 +10,10 @@
   background: linear-gradient(
     180deg,
     #081d3b 0%,
-    #061630 14%,
-    #050d1c 34%,
-    #04050a 62%
+    #06172f 18%,
+    #050d1c 42%,
+    #04050a 78%,
+    #04050a 100%
   );
   color: #e8ecf4;
   padding: clamp(4rem, 12vh, 9rem) 0 clamp(4.5rem, 13vh, 10rem);
@@ -23,16 +24,24 @@
   --wfc-muted: #7c8698;
 }
 
-.wfc__grid {
+.wfc__stars {
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(22, 32, 58, 0.5) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(22, 32, 58, 0.5) 1px, transparent 1px);
-  background-size: 40px 40px;
-  -webkit-mask-image: radial-gradient(72% 62% at 50% 48%, #000, transparent);
-  mask-image: radial-gradient(72% 62% at 50% 48%, #000, transparent);
   pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #7fb6dd 50%, transparent 51%),
+    radial-gradient(1px 1px at 78% 12%, #cfe4f5 50%, transparent 51%),
+    radial-gradient(1px 1px at 34% 62%, #6aa6cf 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 74%, #a9cdea 50%, transparent 51%),
+    radial-gradient(1px 1px at 58% 34%, #f58220 50%, transparent 51%),
+    radial-gradient(1px 1px at 22% 86%, #8fc0e0 50%, transparent 51%),
+    radial-gradient(1px 1px at 66% 92%, #b9d8ef 50%, transparent 51%),
+    radial-gradient(1px 1px at 46% 8%, #7fb6dd 50%, transparent 51%);
+  background-repeat: repeat;
+  background-size: 620px 480px;
+  -webkit-mask-image: radial-gradient(95% 85% at 50% 40%, #000, transparent);
+  mask-image: radial-gradient(95% 85% at 50% 40%, #000, transparent);
 }
 
 .wfc__inner {

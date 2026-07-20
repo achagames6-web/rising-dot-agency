@@ -535,23 +535,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-.rd-hud__bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: var(--rd-line);
-}
-
-.rd-hud__bar span {
-  display: block;
-  height: 100%;
-  background: var(--rd-accent);
-  transform: scaleX(0);
-  transform-origin: 0 50%;
-}
-
 .rd-hud__frame {
   position: absolute;
   inset: clamp(0.6rem, 1.6vw, 1.1rem);
