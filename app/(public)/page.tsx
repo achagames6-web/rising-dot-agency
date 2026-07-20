@@ -3,15 +3,17 @@ import SimpleCTA from '@/components/sections/SimpleCTA';
 import { BatchSectionProvider } from '@/components/sections/BatchSectionProvider';
 import OptimizedSectionWrapper from '@/components/sections/OptimizedSectionWrapper';
 
-// Hero component - Clean hero with particle background (client-side only)
-const CleanHero = dynamic(() => import('@/components/sections/CleanHero'), {
+// Hero - six-act scroll film: the dot draws the logo, the camera flies
+// through it into the services corridor. Client-side only: the scene samples
+// SVG paths in the browser. Previous hero kept at components/sections/CleanHero.
+const RisingDotHero = dynamic(() => import('@/components/hero/HeroSection'), {
   ssr: false,
   loading: () => (
     <section
       className="flex min-h-screen items-center justify-center"
-      style={{ background: '#000212' }}
+      style={{ background: '#04050A' }}
     >
-      <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#4285F4]/30 border-t-[#4285F4]" />
+      <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#F58220]/30 border-t-[#F58220]" />
     </section>
   ),
 });
@@ -178,7 +180,7 @@ export default function Home() {
     <BatchSectionProvider page="home" sections={HOME_SECTIONS}>
       <main className="min-h-screen bg-black">
         <OptimizedSectionWrapper section="hero">
-          <CleanHero />
+          <RisingDotHero />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="servicesShowcase">
           <ServicesShowcase />
