@@ -85,9 +85,14 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: flex-end;
-  padding: 0 clamp(1.5rem, 6vw, 6rem) clamp(2rem, 8vh, 5rem);
-  gap: 1.4rem;
+  justify-content: center;
+  padding: 0 clamp(1.5rem, 6vw, 6rem);
+  gap: 1.5rem;
+  max-width: min(50%, 40rem);
+}
+
+.rd-idle__hint {
+  margin-top: 0.6rem;
 }
 
 .rd-idle__hint {
@@ -128,7 +133,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 1.6rem;
+  gap: 1.2rem;
   padding: 0 clamp(1.5rem, 6vw, 6rem);
   /* Left column only - the mark occupies the right of the frame. */
   max-width: min(50%, 40rem);
@@ -136,10 +141,10 @@
 
 .rd-intro__side {
   font-family: var(--rd-body);
-  font-size: clamp(0.9rem, 1.05vw, 1.02rem);
-  line-height: 1.65;
-  color: var(--rd-muted);
-  max-width: 30rem;
+  font-size: clamp(1rem, 1.4vw, 1.35rem);
+  line-height: 1.55;
+  color: var(--rd-text);
+  max-width: 32rem;
 }
 
 .rd-intro__side p {
@@ -551,7 +556,7 @@
 .rd-sound {
   position: absolute;
   bottom: clamp(1rem, 3vh, 1.6rem);
-  left: clamp(1rem, 3vw, 2.4rem);
+  right: clamp(1rem, 3vw, 2.4rem);
   z-index: 7;
   padding: 0.4rem 0.85rem;
   border: 1px solid var(--rd-line);

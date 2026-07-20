@@ -124,14 +124,12 @@ export function Hud() {
         <span ref={barRef} />
       </div>
 
-      {/* Frame corners. Static, thin, quiet. */}
+      {/* Lower frame corners only - the upper pair sat under the header. */}
       <svg
         className="rd-hud__frame"
         viewBox="0 0 100 100"
         preserveAspectRatio="none"
       >
-        <path d="M0.5 6 L0.5 0.5 L6 0.5" />
-        <path d="M94 0.5 L99.5 0.5 L99.5 6" />
         <path d="M99.5 94 L99.5 99.5 L94 99.5" />
         <path d="M6 99.5 L0.5 99.5 L0.5 94" />
       </svg>
@@ -166,20 +164,52 @@ export function SoundToggle() {
       gain.gain.value = 0;
       gain.connect(ctx.destination);
 
-      // Two detuned sines and a filtered triangle: a slow, low pad.
-      [55, 82.5, 110].forEach((freq, i) => {
+      // An A-minor pad: root, fifth, octave, minor third, plus a high fifth
+      // that drifts in and out. Everything runs through one slowly sweeping
+      // lowpass so the texture breathes instead of sitting still.
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.value = 300;
+      filter.Q.value = 0.7;
+      filter.connect(gain);
+
+      // 18-second sweep on the cutoff.
+      const lfo = ctx.createOscillator();
+      lfo.frequency.value = 1 / 18;
+      const lfoAmount = ctx.createGain();
+      lfoAmount.gain.value = 150;
+      lfo.connect(lfoAmount);
+      lfoAmount.connect(filter.frequency);
+      lfo.start();
+
+      const voices: [number, OscillatorType, number][] = [
+        [55.0, 'sine', 0.34], // A1  root
+        [82.41, 'sine', 0.22], // E2  fifth
+        [110.0, 'triangle', 0.14], // A2  octave
+        [130.81, 'sine', 0.1], // C3  minor third
+        [164.81, 'sine', 0.06], // E3  upper fifth
+      ];
+
+      voices.forEach(([freq, type, level], i) => {
         const osc = ctx.createOscillator();
-        osc.type = i === 2 ? 'triangle' : 'sine';
+        osc.type = type;
         osc.frequency.value = freq;
-        osc.detune.value = (i - 1) * 6;
-        const filter = ctx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.value = 320;
+        osc.detune.value = (i - 2) * 4;
+
         const voice = ctx.createGain();
-        voice.gain.value = i === 2 ? 0.12 : 0.3;
-        osc.connect(filter);
-        filter.connect(voice);
-        voice.connect(gain);
+        voice.gain.value = level;
+
+        // Each voice swells on its own cycle, so the chord never sits flat.
+        const swell = ctx.createOscillator();
+        swell.frequency.value = 1 / (23 + i * 7);
+        const swellAmount = ctx.createGain();
+        swellAmount.gain.value = level * 0.45;
+        swell.connect(swellAmount);
+        swellAmount.connect(voice.gain);
+        swell.start();
+
+        osc.connect(voice);
+        voice.connect(filter);
         osc.start();
       });
 

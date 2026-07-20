@@ -274,6 +274,13 @@ export default function HeroSection() {
         {/* --- 1. idle --- */}
         <div ref={idleRef} className="rd-layer rd-idle">
           <p className="rd-eyebrow">Rising Dot</p>
+          <h1 className="rd-headline">
+            Rising together
+            <br />
+            in the world of
+            <br />
+            <em>digital dots</em>
+          </h1>
           <p className="rd-idle__hint">
             <span className="rd-idle__rule" aria-hidden="true" />
             Scroll
@@ -286,13 +293,7 @@ export default function HeroSection() {
           className="rd-layer rd-intro"
           style={{ opacity: 0 }}
         >
-          <h1 className="rd-headline">
-            Rising together
-            <br />
-            in the world of
-            <br />
-            <em>digital dots</em>
-          </h1>
+          <p className="rd-eyebrow">The studio</p>
           <div className="rd-intro__side">
             <p>
               A small studio building automation, AI assistants and the sites
