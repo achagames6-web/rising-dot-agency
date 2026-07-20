@@ -20,6 +20,7 @@ import {
 } from '@/lib/hero/journey';
 import { onProgress, scrollState, useHeroScroll } from '@/lib/hero/scroll';
 import { Field } from './Field';
+import { Hud, Marker, SoundToggle } from './Hud';
 import './journey.css';
 
 const CHARS = '▚▘▝▞ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -115,10 +116,19 @@ function WorkCard({
         visibility: 'hidden',
       }}
     >
-      <span className="rd-card__kind">{item.kind}</span>
+      <span className="rd-card__leader" aria-hidden="true" />
+      <span className="rd-card__id" aria-hidden="true">
+        {`CASE_${String(index + 1).padStart(2, '0')}`}
+      </span>
+
+      <div className="rd-card__head">
+        <Marker seed={index} />
+        <span className="rd-card__kind">{item.kind}</span>
+      </div>
+
       <h3 className="rd-card__title">{title}</h3>
       <p className="rd-card__blurb">{item.blurb}</p>
-      <span className="rd-card__cta">Open case</span>
+      <span className="rd-card__cta">Click to explore</span>
     </a>
   );
 }
@@ -133,7 +143,7 @@ export default function HeroSection() {
   const railRef = useRef<HTMLDivElement>(null);
   const coreRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLDivElement>(null);
-  const progressRef = useRef<HTMLSpanElement>(null);
+  const diveRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const reduced = window.matchMedia(
@@ -183,8 +193,23 @@ export default function HeroSection() {
       );
       set(closeRef.current, range(p, [0.9, 0.97] as const), 26);
 
-      if (progressRef.current) {
-        progressRef.current.style.transform = `scaleX(${p})`;
+      // Chromatic dive at every section boundary: a short RGB split plus a
+      // scale kick, so moving between sections feels like passing through
+      // something rather than cross-fading.
+      if (diveRef.current) {
+        const edges = [
+          SECTIONS.intro[0],
+          SECTIONS.work[0],
+          SECTIONS.core[0],
+          SECTIONS.close[0],
+        ];
+        let dive = 0;
+        for (const e of edges) {
+          const d = (p - e) / 0.02;
+          dive = Math.max(dive, Math.exp(-d * d));
+        }
+        diveRef.current.style.opacity = String(dive);
+        diveRef.current.style.setProperty('--rd-split', `${dive * 14}px`);
       }
     });
   }, [mode]);
@@ -211,6 +236,15 @@ export default function HeroSection() {
         )}
 
         <div className="rd-vignette" aria-hidden="true" />
+        <div
+          ref={diveRef}
+          className="rd-dive"
+          aria-hidden="true"
+          style={{ opacity: 0 }}
+        >
+          <span className="rd-dive__r" />
+          <span className="rd-dive__b" />
+        </div>
 
         {/* --- 1. idle --- */}
         <div ref={idleRef} className="rd-layer rd-idle">
@@ -299,9 +333,8 @@ export default function HeroSection() {
           <a href="/contact">Contact</a>
         </nav>
 
-        <div className="rd-progress" aria-hidden="true">
-          <span ref={progressRef} />
-        </div>
+        <Hud />
+        <SoundToggle />
 
         <p className="rd-sr">
           Rising Dot builds n8n automations, AI chatbots, websites, WordPress

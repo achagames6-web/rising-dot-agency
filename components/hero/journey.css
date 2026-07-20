@@ -412,23 +412,6 @@
   color: var(--rd-text);
 }
 
-.rd-progress {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: var(--rd-line);
-}
-
-.rd-progress span {
-  display: block;
-  height: 100%;
-  background: var(--rd-accent);
-  transform: scaleX(0);
-  transform-origin: 0 50%;
-}
-
 /* ---------- static fallback ---------- */
 
 .rd-static {
@@ -478,6 +461,214 @@
 
 @media (prefers-reduced-motion: reduce) {
   .rd-idle__rule {
+    animation: none;
+  }
+}
+
+/* ---------- chromatic dive between sections ---------- */
+
+.rd-dive {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 6;
+  mix-blend-mode: screen;
+}
+
+.rd-dive__r,
+.rd-dive__b {
+  position: absolute;
+  inset: -4%;
+  display: block;
+  border-radius: 50%;
+  filter: blur(28px);
+}
+
+.rd-dive__r {
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(245, 130, 32, 0.42),
+    transparent 62%
+  );
+  transform: translateX(calc(var(--rd-split, 0px) * -1));
+}
+
+.rd-dive__b {
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(56, 189, 248, 0.42),
+    transparent 62%
+  );
+  transform: translateX(var(--rd-split, 0px));
+}
+
+/* ---------- HUD ---------- */
+
+.rd-hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  font-family: var(--rd-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rd-muted);
+}
+
+.rd-hud__tl,
+.rd-hud__tr,
+.rd-hud__bl {
+  position: absolute;
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.rd-hud__tl {
+  top: clamp(1rem, 3vh, 2rem);
+  left: clamp(1rem, 3vw, 2.4rem);
+}
+
+.rd-hud__tr {
+  top: clamp(1rem, 3vh, 2rem);
+  right: clamp(7.5rem, 16vw, 12rem);
+}
+
+.rd-hud__bl {
+  bottom: clamp(2.4rem, 6vh, 3.4rem);
+  left: clamp(1rem, 3vw, 2.4rem);
+  gap: 0.5rem 1.1rem;
+  flex-wrap: wrap;
+  max-width: 16rem;
+}
+
+.rd-hud__key {
+  color: rgba(124, 134, 152, 0.55);
+}
+
+.rd-hud__val {
+  color: var(--rd-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.rd-hud__bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--rd-line);
+}
+
+.rd-hud__bar span {
+  display: block;
+  height: 100%;
+  background: var(--rd-accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+.rd-hud__frame {
+  position: absolute;
+  inset: clamp(0.6rem, 1.6vw, 1.1rem);
+  width: auto;
+  height: auto;
+  fill: none;
+  stroke: var(--rd-line);
+  stroke-width: 0.6;
+  vector-effect: non-scaling-stroke;
+}
+
+.rd-sound {
+  position: absolute;
+  bottom: clamp(1rem, 3vh, 1.6rem);
+  left: clamp(1rem, 3vw, 2.4rem);
+  z-index: 7;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--rd-line);
+  border-radius: 999px;
+  background: rgba(4, 5, 10, 0.55);
+  backdrop-filter: blur(8px);
+  font-family: var(--rd-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rd-muted);
+  cursor: pointer;
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.rd-sound:hover {
+  color: var(--rd-text);
+  border-color: var(--rd-blue);
+}
+
+.rd-sound:focus-visible {
+  outline: 2px solid var(--rd-glow);
+  outline-offset: 3px;
+}
+
+/* ---------- card instrumentation ---------- */
+
+.rd-card__head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.9rem;
+}
+
+.rd-marker {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  color: var(--rd-blue);
+  animation: rd-spin 14s linear infinite;
+}
+
+@keyframes rd-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rd-card__kind {
+  margin-bottom: 0;
+}
+
+/* Leader line + tag: the card is labelled like a part in a diagram. */
+.rd-card__leader {
+  position: absolute;
+  top: 1.5rem;
+  right: 100%;
+  width: clamp(1.5rem, 4vw, 3.2rem);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rd-line));
+}
+
+.rd-card__id {
+  position: absolute;
+  top: 0.85rem;
+  right: calc(100% + clamp(1.5rem, 4vw, 3.2rem));
+  font-family: var(--rd-mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.2em;
+  color: rgba(124, 134, 152, 0.7);
+  white-space: nowrap;
+}
+
+@media (max-width: 1024px) {
+  .rd-hud__bl,
+  .rd-card__leader,
+  .rd-card__id {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rd-marker {
     animation: none;
   }
 }
