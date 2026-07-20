@@ -238,3 +238,13 @@ a.wfc__node-body:focus-visible {
     animation: none;
   }
 }
+
+@media (max-width: 640px) {
+  .wfc__node-body {
+    padding: 0.85rem 0.9rem 0.95rem;
+  }
+
+  .wfc__node-desc {
+    font-size: 0.72rem;
+  }
+}

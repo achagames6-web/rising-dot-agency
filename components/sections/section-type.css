@@ -33,3 +33,17 @@
   max-width: 34rem;
   margin: 1.4rem 0 0;
 }
+
+/* Phones. clamp()'s minimum of 1.75rem never shrinks, so on a 360px screen
+   a nineteen-character line runs about 335px into 322px of content and
+   overflows. Below 640px the size becomes viewport-relative instead. */
+@media (max-width: 640px) {
+  .sec-title {
+    font-size: clamp(1.5rem, 6.8vw, 2.2rem);
+  }
+
+  .sec-lead {
+    font-size: 0.95rem;
+    margin-top: 1.1rem;
+  }
+}

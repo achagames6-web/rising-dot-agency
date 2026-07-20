@@ -224,3 +224,26 @@
     transition: none;
   }
 }
+
+/* On a 360px screen the three columns add up to about 356px against 322px of
+   content. The service tag is the least useful of the three on a phone - the
+   preview panel already names it - so it goes. */
+@media (max-width: 640px) {
+  .pidx__row {
+    grid-template-columns: auto 1fr;
+    gap: 0.8rem;
+  }
+
+  .pidx__k {
+    display: none;
+  }
+
+  .pidx__meta {
+    padding: 1.1rem 1.1rem 1.3rem;
+  }
+
+  .pidx__foot {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+}

@@ -281,3 +281,32 @@
     transition: none;
   }
 }
+
+@media (max-width: 640px) {
+  .abt__tabs {
+    margin-bottom: 1.6rem;
+  }
+
+  .abt__tab {
+    flex: 1;
+    padding: 0.8rem 0.4rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+  }
+
+  .abt__claim {
+    font-size: 1.15rem;
+  }
+
+  .abt__stack-top,
+  .abt__row {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+
+  /* Two full-width buttons stack rather than squeezing side by side. */
+  .abt__cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
