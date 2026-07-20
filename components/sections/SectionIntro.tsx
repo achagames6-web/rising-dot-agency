@@ -4,14 +4,17 @@
 //
 // The eyebrow and heading for the new sections.
 //
-// Type comes from section-type.css, which is copied from the hero.
-// Motion comes from components/ui/section-heading.tsx, which nine existing
-// sections already use - the same fade-up variant, the same easing, the same
-// viewport trigger, and the same gradient sweeping across the highlighted
-// phrase. Nothing new is invented here; the two established pieces are put
-// together so a new section matches both the hero and the rest of the page.
+// The eyebrow is the pill from components/ui/section-heading.tsx, markup and
+// all: bordered, blurred, a rotating sparkle, the label, a pulsing dot.
+// The heading keeps the hero's type from section-type.css.
+// The motion - fade-up variant, easing, viewport trigger, and the gradient
+// sweeping across the highlighted phrase - is also section-heading's.
+//
+// So a new section inherits the site's eyebrow, the hero's heading, and the
+// motion nine other sections already use. Nothing here is invented.
 
 import { motion } from 'framer-motion';
+import { Sparkles } from 'lucide-react';
 import type { ReactNode } from 'react';
 import './section-type.css';
 
@@ -55,9 +58,20 @@ export function SectionIntro({
       whileInView="visible"
       viewport={{ once: true, margin: '-50px' }}
     >
-      <motion.p className="sec-eyebrow" variants={fadeInUp}>
-        {eyebrow}
-      </motion.p>
+      <motion.div
+        className="mb-6 inline-flex items-center gap-3 rounded-full border border-white/[0.15] bg-white/[0.08] px-4 py-2 backdrop-blur-sm"
+        variants={fadeInUp}
+        whileHover={{ scale: 1.05, borderColor: 'rgba(255, 255, 255, 0.3)' }}
+      >
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+        >
+          <Sparkles className="h-4 w-4 text-[#F58122]" />
+        </motion.div>
+        <span className="text-sm font-medium text-white/80">✨ {eyebrow}</span>
+        <div className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
+      </motion.div>
 
       <motion.h2 id={id} className="sec-title" variants={fadeInUp}>
         {title}

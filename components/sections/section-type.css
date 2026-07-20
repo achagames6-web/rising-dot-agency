@@ -1,19 +1,12 @@
 /* components/sections/section-type.css
  *
- * One place for the section eyebrow and heading. Both are copied verbatim
- * from the hero (.rd-eyebrow / .rd-headline in components/hero/journey.css)
- * so a section can never drift from it. Import this, use these two classes,
- * and the type is right by construction.
+ * The section heading, copied verbatim from the hero (.rd-headline in
+ * components/hero/journey.css) so a section can never drift from it.
+ *
+ * The eyebrow is not here: sections use the pill from
+ * components/ui/section-heading.tsx via SectionIntro, which is what the rest
+ * of the site already uses.
  */
-
-.sec-eyebrow {
-  font-family: var(--font-fira-code), ui-monospace, monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.42em;
-  text-transform: uppercase;
-  color: #f58220;
-  margin: 0 0 1.2rem;
-}
 
 .sec-title {
   font-family: var(--font-montserrat), system-ui, sans-serif;
