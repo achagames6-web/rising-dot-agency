@@ -14,6 +14,7 @@ import { useCallback, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { StarButton } from '@/components/ui/star-button';
 import { SectionIntro } from './SectionIntro';
+import { SectionTabs } from './SectionTabs';
 import './toolkit-ways.css';
 
 function usePointerCard() {
@@ -196,24 +197,13 @@ export default function ToolkitWays() {
           />
         </div>
 
-        <div
-          className="tkw__tabs"
-          role="tablist"
-          aria-label="Toolkit and engagement"
-        >
-          {TABS.map((t) => (
-            <button
-              key={t.id}
-              role="tab"
-              type="button"
-              aria-selected={tab === t.id}
-              className={`tkw__tab${tab === t.id ? ' is-on' : ''}`}
-              onClick={() => setTab(t.id)}
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
+        <SectionTabs
+          idBase="toolkit"
+          label="Toolkit and engagement"
+          tabs={TABS}
+          active={tab}
+          onChange={(id) => setTab(id as TabId)}
+        />
 
         <AnimatePresence mode="wait">
           {tab === 'tools' ? (

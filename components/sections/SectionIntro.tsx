@@ -54,6 +54,7 @@ export function SectionIntro({
 }) {
   return (
     <motion.header
+      className="sec-intro"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '-50px' }}

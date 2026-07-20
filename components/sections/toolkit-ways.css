@@ -44,54 +44,6 @@
 
 /* ---------- tabs ---------- */
 
-.tkw__tabs {
-  display: flex;
-  gap: 0.4rem;
-  margin: clamp(1.6rem, 4vh, 2.6rem) 0 clamp(2rem, 5vh, 3rem);
-  border-bottom: 1px solid var(--tkw-line);
-}
-
-.tkw__tab {
-  position: relative;
-  background: none;
-  border: 0;
-  cursor: pointer;
-  padding: 0.85rem 1.15rem;
-  font-family: var(--font-fira-code), ui-monospace, monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--tkw-muted);
-  transition: color 0.25s ease;
-}
-
-.tkw__tab::after {
-  content: '';
-  position: absolute;
-  left: 0.6rem;
-  right: 0.6rem;
-  bottom: -1px;
-  height: 2px;
-  background: var(--tkw-accent);
-  transform: scaleX(0);
-  transform-origin: 0 50%;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.tkw__tab:hover,
-.tkw__tab.is-on {
-  color: #e8ecf4;
-}
-
-.tkw__tab.is-on::after {
-  transform: scaleX(1);
-}
-
-.tkw__tab:focus-visible {
-  outline: 2px solid #38bdf8;
-  outline-offset: -4px;
-}
-
 /* ---------- cards ---------- */
 
 .tkw__card {
@@ -259,13 +211,6 @@
 @media (max-width: 640px) {
   .tkw__kit {
     grid-template-columns: 1fr;
-  }
-
-  .tkw__tab {
-    flex: 1;
-    padding: 0.8rem 0.4rem;
-    font-size: 0.56rem;
-    letter-spacing: 0.12em;
   }
 
   .tkw__cta {

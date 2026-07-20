@@ -71,14 +71,15 @@ const WorkflowCanvas = dynamic(
   }
 );
 
-// HolographicTeam - Team carousel section
-const HolographicTeam = dynamic(
-  () => import('@/components/sections/HolographicTeam'),
+// VoicesSection - client words, immediately before the contact block.
+// Replaces HolographicTeam.
+const VoicesSection = dynamic(
+  () => import('@/components/sections/VoicesSection'),
   {
     ssr: false,
     loading: () => (
-      <section className="flex min-h-screen items-center justify-center bg-[#0A0F1E] py-12">
-        <div className="h-12 w-12 animate-spin rounded-full border-2 border-purple-500/30 border-t-purple-500" />
+      <section className="flex items-center justify-center bg-[#04050A] py-20">
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#F58220]/30 border-t-[#F58220]" />
       </section>
     ),
   }
@@ -118,17 +119,15 @@ const FaqSection = dynamic(() => import('@/components/sections/FaqSection'), {
   ),
 });
 
-// PremiumTestimonials - Premium testimonials with animations
-const PremiumTestimonials = dynamic(
-  () =>
-    import('@/components/ui/premium-testimonials').then((mod) => ({
-      default: mod.PremiumTestimonials,
-    })),
+// ShiftSignals - section eight. Two tabs: what changed for each client, and
+// what is running right now. Replaces PremiumTestimonials.
+const ShiftSignals = dynamic(
+  () => import('@/components/sections/ShiftSignals'),
   {
     ssr: false,
     loading: () => (
-      <section className="flex items-center justify-center bg-gradient-to-br from-black via-[#0F172A] to-black py-32">
-        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#F58122]/30 border-t-[#F58122]" />
+      <section className="flex items-center justify-center bg-[#04050A] py-20">
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#F58220]/30 border-t-[#F58220]" />
       </section>
     ),
   }
@@ -204,7 +203,7 @@ export default function Home() {
           <FaqSection />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="testimonials">
-          <PremiumTestimonials />
+          <ShiftSignals />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="blog">
           <BlogSection />
@@ -213,7 +212,7 @@ export default function Home() {
           <Connect />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="team">
-          <HolographicTeam />
+          <VoicesSection />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="contact">
           <HolographicContact />

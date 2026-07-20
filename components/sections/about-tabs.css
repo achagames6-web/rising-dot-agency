@@ -50,57 +50,6 @@
 
 /* ---------- tabs ---------- */
 
-.abt__tabs {
-  display: flex;
-  gap: 0.4rem;
-  margin: clamp(1.6rem, 4vh, 2.6rem) 0 clamp(2rem, 5vh, 3rem);
-  border-bottom: 1px solid var(--abt-line);
-}
-
-.abt__tab {
-  position: relative;
-  background: none;
-  border: 0;
-  cursor: pointer;
-  padding: 0.85rem 1.15rem;
-  font-family: var(--font-fira-code), ui-monospace, monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--abt-muted);
-  transition: color 0.25s ease;
-}
-
-.abt__tab::after {
-  content: '';
-  position: absolute;
-  left: 0.6rem;
-  right: 0.6rem;
-  bottom: -1px;
-  height: 2px;
-  background: var(--abt-accent);
-  transform: scaleX(0);
-  transform-origin: 0 50%;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.abt__tab:hover {
-  color: #e8ecf4;
-}
-
-.abt__tab.is-on {
-  color: #e8ecf4;
-}
-
-.abt__tab.is-on::after {
-  transform: scaleX(1);
-}
-
-.abt__tab:focus-visible {
-  outline: 2px solid #38bdf8;
-  outline-offset: -4px;
-}
-
 /* ---------- tab one: who we are ---------- */
 
 .abt__who {
@@ -279,7 +228,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .abt__tab::after,
   .abt__rule,
   .abt__rule-t {
     transition: none;
@@ -287,17 +235,6 @@
 }
 
 @media (max-width: 640px) {
-  .abt__tabs {
-    margin-bottom: 1.6rem;
-  }
-
-  .abt__tab {
-    flex: 1;
-    padding: 0.8rem 0.4rem;
-    font-size: 0.58rem;
-    letter-spacing: 0.14em;
-  }
-
   .abt__claim {
     font-size: 1.15rem;
   }

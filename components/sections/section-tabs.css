@@ -1,0 +1,91 @@
+/* components/sections/section-tabs.css */
+
+.stabs {
+  display: flex;
+  justify-content: center;
+  margin: clamp(1.8rem, 4vh, 2.8rem) 0 clamp(2rem, 5vh, 3rem);
+}
+
+/* The capsule: glass, with the same light border the buttons use. */
+.stabs__glass {
+  position: relative;
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: 0.35rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 18px 40px -24px rgba(0, 0, 0, 0.9);
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.stabs__glass::-webkit-scrollbar {
+  display: none;
+}
+
+.stabs__tab {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 0.65rem 1.35rem;
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(232, 236, 244, 0.55);
+  white-space: nowrap;
+  transition: color 0.25s ease;
+}
+
+.stabs__tab:hover {
+  color: #e8ecf4;
+}
+
+.stabs__tab.is-on {
+  color: #100a03;
+}
+
+/* Slides between tabs instead of appearing. */
+.stabs__pill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 999px;
+  background: #f58220;
+  box-shadow:
+    0 0 0 1px rgba(245, 130, 32, 0.6),
+    0 10px 26px -10px rgba(245, 130, 32, 0.75);
+}
+
+.stabs__label {
+  position: relative;
+}
+
+.stabs__tab:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .stabs__tab {
+    padding: 0.6rem 0.9rem;
+    font-size: 0.55rem;
+    letter-spacing: 0.14em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stabs__tab {
+    transition: none;
+  }
+}

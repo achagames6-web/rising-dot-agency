@@ -15,6 +15,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { StarButton } from '@/components/ui/star-button';
 import { SectionIntro } from './SectionIntro';
+import { SectionTabs } from './SectionTabs';
 import './about-tabs.css';
 
 const TABS = [
@@ -112,20 +113,13 @@ export default function AboutTabs() {
           />
         </div>
 
-        <div className="abt__tabs" role="tablist" aria-label="About Rising Dot">
-          {TABS.map((t) => (
-            <button
-              key={t.id}
-              role="tab"
-              type="button"
-              aria-selected={tab === t.id}
-              className={`abt__tab${tab === t.id ? ' is-on' : ''}`}
-              onClick={() => setTab(t.id)}
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
+        <SectionTabs
+          idBase="about"
+          label="About Rising Dot"
+          tabs={TABS}
+          active={tab}
+          onChange={(id) => setTab(id as TabId)}
+        />
 
         <AnimatePresence mode="wait">
           {tab === 'who' ? (
