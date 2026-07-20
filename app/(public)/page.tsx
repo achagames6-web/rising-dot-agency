@@ -147,14 +147,15 @@ const BlogSection = dynamic(() => import('@/components/sections/BlogSection'), {
   ),
 });
 
-// Bento Grid - Services showcase
-const BentoGridSection = dynamic(
-  () => import('@/components/sections/BentoGridSection'),
+// ProcessBento - section five. What actually happens if you hire us.
+// Replaces BentoGridSection, which stays in the repo for an easy revert.
+const ProcessBento = dynamic(
+  () => import('@/components/sections/ProcessBento'),
   {
     ssr: false,
     loading: () => (
-      <section className="flex items-center justify-center bg-black py-20">
-        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
+      <section className="flex items-center justify-center bg-[#04050A] py-20">
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#F58220]/30 border-t-[#F58220]" />
       </section>
     ),
   }
@@ -197,7 +198,7 @@ export default function Home() {
           <AboutTabs />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="bentoGrid">
-          <BentoGridSection />
+          <ProcessBento />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="techStack">
           <TechStackMarquee />

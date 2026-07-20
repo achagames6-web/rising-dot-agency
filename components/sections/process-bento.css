@@ -1,0 +1,250 @@
+/* components/sections/process-bento.css */
+
+.prc {
+  position: relative;
+  /* Identical to sections three and four so all of them read as one field. */
+  background: #04050a;
+  color: #e8ecf4;
+  padding: clamp(4rem, 12vh, 9rem) 0 clamp(4.5rem, 13vh, 10rem);
+  overflow: hidden;
+  --prc-line: #16203a;
+  --prc-blue: #2b8fd4;
+  --prc-accent: #f58220;
+  --prc-muted: #7c8698;
+}
+
+.prc__stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #7fb6dd 50%, transparent 51%),
+    radial-gradient(1px 1px at 78% 12%, #cfe4f5 50%, transparent 51%),
+    radial-gradient(1px 1px at 34% 62%, #6aa6cf 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 74%, #a9cdea 50%, transparent 51%),
+    radial-gradient(1px 1px at 58% 34%, #f58220 50%, transparent 51%),
+    radial-gradient(1px 1px at 22% 86%, #8fc0e0 50%, transparent 51%),
+    radial-gradient(1px 1px at 66% 92%, #b9d8ef 50%, transparent 51%),
+    radial-gradient(1px 1px at 46% 8%, #7fb6dd 50%, transparent 51%);
+  background-repeat: repeat;
+  background-size: 620px 480px;
+  -webkit-mask-image: radial-gradient(95% 85% at 50% 40%, #000, transparent);
+  mask-image: radial-gradient(95% 85% at 50% 40%, #000, transparent);
+}
+
+.prc__inner {
+  position: relative;
+  width: 100%;
+  padding: 0 clamp(1.2rem, 3.5vw, 4rem);
+}
+
+/* ---------- the grid ---------- */
+
+.prc__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--prc-line);
+  border: 1px solid var(--prc-line);
+  border-radius: 18px;
+  overflow: hidden;
+  margin-top: clamp(2.5rem, 7vh, 4.5rem);
+}
+
+.prc__grid > * {
+  background: #05070f;
+  padding: 1.5rem 1.5rem 1.7rem;
+}
+
+/* The four stages sit across the top, in order. */
+.prc__step {
+  display: flex;
+  flex-direction: column;
+  transition: background 0.35s ease;
+}
+
+.prc__step:hover {
+  background: #070b16;
+}
+
+.prc__n {
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: var(--prc-blue);
+  margin-bottom: 0.9rem;
+}
+
+.prc__t {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.6rem;
+  transition: color 0.3s ease;
+}
+
+.prc__step:hover .prc__t {
+  color: var(--prc-accent);
+}
+
+.prc__d {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--prc-muted);
+  margin: 0 0 1.3rem;
+}
+
+.prc__meta {
+  margin-top: auto;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(22, 32, 58, 0.8);
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.54rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(124, 134, 152, 0.85);
+}
+
+/* Second row: the claim, the guarantee, the invitation. */
+.prc__wide {
+  grid-column: span 2;
+}
+
+.prc__wide-t {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.1rem, 1.9vw, 1.5rem);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  margin: 0 0 0.9rem;
+}
+
+.prc__wide-t b {
+  color: var(--prc-accent);
+  font-weight: 700;
+}
+
+.prc__wide-d {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--prc-muted);
+  margin: 0;
+  max-width: 40rem;
+}
+
+.prc__keys-k {
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--prc-accent);
+  margin: 0 0 1.1rem;
+}
+
+.prc__keys-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--prc-muted);
+}
+
+.prc__keys-list li {
+  position: relative;
+  padding: 0 0 0.75rem 1.1rem;
+}
+
+.prc__keys-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--prc-blue);
+}
+
+.prc__keys-list li:last-child {
+  padding-bottom: 0;
+}
+
+.prc__cta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(
+    150deg,
+    rgba(11, 22, 44, 0.9),
+    rgba(5, 7, 15, 0.95)
+  ) !important;
+}
+
+.prc__cta-t {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.7rem;
+}
+
+.prc__cta-d {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--prc-muted);
+  margin: 0 0 1.3rem;
+}
+
+.prc__cta-row {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+/* ---------- narrow ---------- */
+
+@media (max-width: 1100px) {
+  .prc__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .prc__wide {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .prc__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .prc__wide {
+    grid-column: span 1;
+  }
+
+  .prc__grid > * {
+    padding: 1.2rem 1.2rem 1.4rem;
+  }
+
+  .prc__cta-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prc__step,
+  .prc__t {
+    transition: none;
+  }
+}
