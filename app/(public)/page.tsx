@@ -84,18 +84,16 @@ const HolographicTeam = dynamic(
   }
 );
 
-// TechStackMarquee - Infinite scrolling tech logos
-const TechStackMarquee = dynamic(
-  () => import('@/components/sections/TechStackMarquee'),
-  {
-    ssr: false,
-    loading: () => (
-      <section className="flex items-center justify-center bg-black py-16 md:py-24">
-        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
-      </section>
-    ),
-  }
-);
+// ToolkitWays - section six. Two tabs: what we build with, and ways to work.
+// Replaces TechStackMarquee, which stays in the repo for an easy revert.
+const ToolkitWays = dynamic(() => import('@/components/sections/ToolkitWays'), {
+  ssr: false,
+  loading: () => (
+    <section className="flex items-center justify-center bg-[#04050A] py-20">
+      <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#F58220]/30 border-t-[#F58220]" />
+    </section>
+  ),
+});
 
 // AboutTabs - section four. Two tabs: who we are, and how we work.
 // Replaces components/ui/about-section, which stays for an easy revert.
@@ -108,18 +106,17 @@ const AboutTabs = dynamic(() => import('@/components/sections/AboutTabs'), {
   ),
 });
 
-// CaseStudiesCarousel - Progressive auto-advancing carousel
-const CaseStudiesCarousel = dynamic(
-  () => import('@/components/sections/CaseStudiesCarousel'),
-  {
-    ssr: false,
-    loading: () => (
-      <section className="flex items-center justify-center bg-black py-20 md:py-32">
-        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#F58122]/30 border-t-[#F58122]" />
-      </section>
-    ),
-  }
-);
+// FaqSection - section seven. By this point the work has been shown three
+// times; what a reader needs next is the awkward questions answered, not a
+// fourth gallery. Replaces CaseStudiesCarousel, kept in the repo for revert.
+const FaqSection = dynamic(() => import('@/components/sections/FaqSection'), {
+  ssr: false,
+  loading: () => (
+    <section className="flex items-center justify-center bg-[#04050A] py-20">
+      <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#F58220]/30 border-t-[#F58220]" />
+    </section>
+  ),
+});
 
 // PremiumTestimonials - Premium testimonials with animations
 const PremiumTestimonials = dynamic(
@@ -201,10 +198,10 @@ export default function Home() {
           <ProcessBento />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="techStack">
-          <TechStackMarquee />
+          <ToolkitWays />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="caseStudies">
-          <CaseStudiesCarousel />
+          <FaqSection />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="testimonials">
           <PremiumTestimonials />

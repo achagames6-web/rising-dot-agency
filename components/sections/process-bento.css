@@ -37,6 +37,10 @@
   position: relative;
   width: 100%;
   padding: 0 clamp(1.2rem, 3.5vw, 4rem);
+  /* Boxed content, full-bleed background: the star field keeps running edge
+     to edge while text and cards sit in a readable column. */
+  max-width: 84rem;
+  margin: 0 auto;
 }
 
 /* ---------- the grid ---------- */

@@ -1,0 +1,282 @@
+.tkw {
+  position: relative;
+  background: #04050a;
+  color: #e8ecf4;
+  padding: clamp(4rem, 12vh, 9rem) 0 clamp(4.5rem, 13vh, 10rem);
+  overflow: hidden;
+  --tkw-line: #16203a;
+  --tkw-blue: #2b8fd4;
+  --tkw-accent: #f58220;
+  --tkw-muted: #7c8698;
+}
+
+.tkw__stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #7fb6dd 50%, transparent 51%),
+    radial-gradient(1px 1px at 78% 12%, #cfe4f5 50%, transparent 51%),
+    radial-gradient(1px 1px at 34% 62%, #6aa6cf 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 74%, #a9cdea 50%, transparent 51%),
+    radial-gradient(1px 1px at 58% 34%, #f58220 50%, transparent 51%),
+    radial-gradient(1px 1px at 22% 86%, #8fc0e0 50%, transparent 51%),
+    radial-gradient(1px 1px at 66% 92%, #b9d8ef 50%, transparent 51%),
+    radial-gradient(1px 1px at 46% 8%, #7fb6dd 50%, transparent 51%);
+  background-repeat: repeat;
+  background-size: 620px 480px;
+  -webkit-mask-image: radial-gradient(95% 85% at 50% 40%, #000, transparent);
+  mask-image: radial-gradient(95% 85% at 50% 40%, #000, transparent);
+}
+
+.tkw__inner {
+  position: relative;
+  width: 100%;
+  padding: 0 clamp(1.2rem, 3.5vw, 4rem);
+  max-width: 84rem;
+  margin: 0 auto;
+}
+
+.tkw__head {
+  min-height: 13rem;
+}
+
+/* ---------- tabs ---------- */
+
+.tkw__tabs {
+  display: flex;
+  gap: 0.4rem;
+  margin: clamp(1.6rem, 4vh, 2.6rem) 0 clamp(2rem, 5vh, 3rem);
+  border-bottom: 1px solid var(--tkw-line);
+}
+
+.tkw__tab {
+  position: relative;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0.85rem 1.15rem;
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tkw-muted);
+  transition: color 0.25s ease;
+}
+
+.tkw__tab::after {
+  content: '';
+  position: absolute;
+  left: 0.6rem;
+  right: 0.6rem;
+  bottom: -1px;
+  height: 2px;
+  background: var(--tkw-accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tkw__tab:hover,
+.tkw__tab.is-on {
+  color: #e8ecf4;
+}
+
+.tkw__tab.is-on::after {
+  transform: scaleX(1);
+}
+
+.tkw__tab:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: -4px;
+}
+
+/* ---------- cards ---------- */
+
+.tkw__card {
+  position: relative;
+  isolation: isolate;
+  background: #05070f;
+  border: 1px solid var(--tkw-line);
+  border-radius: 14px;
+  padding: 1.35rem 1.4rem 1.5rem;
+  transform: perspective(900px) rotateX(var(--rx, 0deg))
+    rotateY(var(--ry, 0deg));
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease;
+}
+
+.tkw__card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    240px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(43, 143, 212, 0.16),
+    rgba(245, 130, 32, 0.06) 45%,
+    transparent 70%
+  );
+  transition: opacity 0.35s ease;
+}
+
+.tkw__card:hover::before {
+  opacity: 1;
+}
+
+.tkw__card:hover {
+  border-color: rgba(43, 143, 212, 0.45);
+}
+
+/* ---------- toolkit grid ---------- */
+
+.tkw__kit {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.8rem;
+}
+
+.tkw__k {
+  display: block;
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.54rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tkw-blue);
+  margin-bottom: 0.7rem;
+}
+
+.tkw__t {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.4rem;
+  transition: color 0.3s ease;
+}
+
+.tkw__card:hover .tkw__t {
+  color: var(--tkw-accent);
+}
+
+.tkw__d {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--tkw-muted);
+  margin: 0 0 1rem;
+}
+
+.tkw__p {
+  display: block;
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tkw-accent);
+  border-top: 1px solid rgba(22, 32, 58, 0.9);
+  padding-top: 0.75rem;
+  margin-top: auto;
+}
+
+/* ---------- ways to work ---------- */
+
+.tkw__ways {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.tkw__way {
+  display: flex;
+  flex-direction: column;
+}
+
+/* The smallest commitment leads, so it is the one marked. */
+.tkw__way.is-lead {
+  border-color: rgba(245, 130, 32, 0.45);
+}
+
+.tkw__way-t {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 1.35rem;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.5rem;
+}
+
+.tkw__l {
+  list-style: none;
+  margin: 0 0 1.3rem;
+  padding: 0;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.83rem;
+  line-height: 1.5;
+  color: var(--tkw-muted);
+}
+
+.tkw__l li {
+  position: relative;
+  padding: 0 0 0.6rem 1.1rem;
+}
+
+.tkw__l li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--tkw-blue);
+}
+
+.tkw__cta {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-top: 0.8rem;
+}
+
+/* ---------- narrow ---------- */
+
+@media (max-width: 900px) {
+  .tkw__ways {
+    grid-template-columns: 1fr;
+  }
+
+  .tkw__head {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .tkw__kit {
+    grid-template-columns: 1fr;
+  }
+
+  .tkw__tab {
+    flex: 1;
+    padding: 0.8rem 0.4rem;
+    font-size: 0.56rem;
+    letter-spacing: 0.12em;
+  }
+
+  .tkw__cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tkw__card {
+    transform: none;
+    transition: none;
+  }
+}

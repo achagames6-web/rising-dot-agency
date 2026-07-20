@@ -28,7 +28,7 @@ type Node = {
 const NODES: Node[] = [
   {
     id: 'in',
-    x: 11,
+    x: 13,
     y: 50,
     kind: 'Input',
     title: 'Your operation',
@@ -37,7 +37,7 @@ const NODES: Node[] = [
   },
   {
     id: 'n8n',
-    x: 32,
+    x: 34,
     y: 12,
     kind: 'Trigger',
     title: 'n8n Automation',
@@ -46,7 +46,7 @@ const NODES: Node[] = [
   },
   {
     id: 'bot',
-    x: 32,
+    x: 34,
     y: 38,
     kind: 'Agent',
     title: 'AI Chatbots',
@@ -55,7 +55,7 @@ const NODES: Node[] = [
   },
   {
     id: 'web',
-    x: 32,
+    x: 34,
     y: 64,
     kind: 'Build',
     title: 'Web Development',
@@ -64,7 +64,7 @@ const NODES: Node[] = [
   },
   {
     id: 'wp',
-    x: 32,
+    x: 34,
     y: 90,
     kind: 'Build',
     title: 'WordPress',
@@ -100,7 +100,7 @@ const NODES: Node[] = [
   },
   {
     id: 'out',
-    x: 86,
+    x: 85,
     y: 50,
     kind: 'Result',
     title: 'Time back',

@@ -48,6 +48,10 @@
   position: relative;
   width: 100%;
   padding: 0 clamp(1.2rem, 3.5vw, 4rem);
+  /* Boxed content, full-bleed background: the star field keeps running edge
+     to edge while text and cards sit in a readable column. */
+  max-width: 84rem;
+  margin: 0 auto;
 }
 
 /* ---------- heading: identical to the hero ---------- */
@@ -105,9 +109,9 @@
 
 .wfc__node {
   position: absolute;
-  /* Scales with the canvas: wide enough to read at 1200px, generous on a
-     large monitor, never so wide that the outer nodes clip. */
-  width: clamp(12.5rem, 14vw, 18rem);
+  /* Sized for the boxed shell now, not the viewport. Checked at 1280,
+     1440, 1920 and 2560: every node clears the box. */
+  width: clamp(11.5rem, 13vw, 16rem);
   transform: translate(-50%, -50%) translateY(14px);
   opacity: 0;
   transition:
