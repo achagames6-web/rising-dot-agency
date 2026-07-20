@@ -70,7 +70,7 @@ function WorkCard({
   total: number;
   label: string;
 }) {
-  const ref = useRef<HTMLAnchorElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [seen, setSeen] = useState(false);
   const title = useScramble(seen, item.title);
   const isCase = item.type === 'case';
@@ -109,10 +109,9 @@ function WorkCard({
   }, [index]);
 
   return (
-    <a
+    <div
       ref={ref}
       className={`rd-card ${isCase ? 'rd-card--case' : 'rd-card--capability'}`}
-      href={item.href}
       style={{
         left: `calc(50% + ${offset.x}%)`,
         top: `calc(50% + ${offset.y}%)`,
@@ -153,8 +152,8 @@ function WorkCard({
         </p>
       )}
 
-      <span className="rd-card__cta">{item.serviceLabel} &rarr;</span>
-    </a>
+      <span className="rd-card__cta">{item.serviceLabel}</span>
+    </div>
   );
 }
 
@@ -169,6 +168,7 @@ export default function HeroSection() {
   const coreRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLDivElement>(null);
   const diveRef = useRef<HTMLDivElement>(null);
+  const earthRef = useRef<HTMLDivElement>(null);
 
   const [narrow, setNarrow] = useState(false);
 
@@ -210,6 +210,13 @@ export default function HeroSection() {
 
     return onProgress((p) => {
       set(idleRef.current, 1 - range(p, [0.0, 0.075] as const), 0);
+
+      const earth = earthRef.current;
+      if (earth) {
+        const v = 1 - range(p, [SECTIONS.intro[0], SECTIONS.intro[1]] as const);
+        earth.style.opacity = String(v);
+        earth.style.transform = `translateY(${(1 - v) * 14}%)`;
+      }
       set(
         introRef.current,
         band(p, SECTIONS.intro[0], SECTIONS.intro[1], 0.05),
@@ -270,6 +277,11 @@ export default function HeroSection() {
             <Field quality={quality} narrow={narrow} />
           </Canvas>
         )}
+
+        <div ref={earthRef} className="rd-earth" aria-hidden="true">
+          <span className="rd-earth__img" />
+          <span className="rd-earth__blend" />
+        </div>
 
         <div className="rd-vignette" aria-hidden="true" />
         <div

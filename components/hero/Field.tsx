@@ -1,26 +1,23 @@
 'use client';
 
 // components/hero/Field.tsx
-// The idle state is the Rising Dot mark, sampled directly out of
-// /public/hero/mark.png. Positions and colours are read from that file's
-// pixels at runtime - nothing about the shape is drawn in code, so swapping
-// the file swaps the hero.
+// Three behaviours, driven by one scroll value:
 //
-// Three states, morphed by scroll:
-//   MARK   the logo, made of dots        (idle, and again at the close)
-//   FIELD  a deep slab flying past       (the work section)
-//   CORE   a dense sphere with cables    (the set piece)
+//   RAIN   brand-coloured particles fall from the top and settle out at the
+//          horizon, above the earth plate           (first screen)
+//   FIELD  the same particles fly past the camera   (the work section)
+//   EXIT   everything rises off the top and clears  (the close)
 //
-// No text in here. No additive blending. Both rules learned the hard way.
+// No shape is formed at either end - no ring, no sphere. No text in here.
+// No additive blending.
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import {
   COLORS,
   PARTICLE_COUNT,
   SECTIONS,
-  clamp,
   damp,
   easeInOut,
   lerp,
@@ -29,41 +26,45 @@ import {
 import { scrollState } from '@/lib/hero/scroll';
 
 const SPAN = 70;
-/** World height of the mark on desktop. Phones scale it down - see Field. */
-const MARK_SIZE = 4.6;
+/** Where the rain stops: the horizon line of the earth plate. */
+const HORIZON = -3.1;
+const TOP = 5.4;
 
 const VERT = /* glsl */ `
-  attribute vec3 aMark;
+  attribute vec3 aRain;
   attribute vec3 aField;
-  attribute vec3 aCore;
   attribute vec3 aColor;
   attribute float aSeed;
 
-  uniform float uMark;
   uniform float uField;
-  uniform float uCore;
+  uniform float uFall;
+  uniform float uSweep;
+  uniform float uLift;
   uniform float uTime;
   uniform float uFlight;
   uniform float uSize;
-  uniform vec3 uCursor;
 
   varying vec3 vColor;
   varying float vFade;
 
   void main() {
-    vec3 p = aMark * uMark + aField * uField + aCore * uCore;
+    // --- rain ---
+    float span = TOP_Y - HORIZON_Y;
+    // Each particle keeps its own offset, so they do not fall in lockstep.
+    float y = TOP_Y - mod(aRain.y + uFall * (0.6 + aSeed * 0.8), span);
+    float drift = sin(uTime * 0.4 + aSeed * 6.2831) * 0.12;
 
-    float s = aSeed * 6.2831;
-    p.x += sin(uTime * 0.32 + s) * 0.05;
-    p.y += cos(uTime * 0.27 + s) * 0.05;
+    vec3 rain = vec3(aRain.x + drift + uSweep, y + uLift, aRain.z);
 
-    float flown = p.z + uFlight;
-    float wrapped = mod(flown + SPAN_HALF, SPAN_TOTAL) - SPAN_HALF;
-    p.z = mix(p.z, wrapped, uField);
+    // Particles thin out as they reach the horizon rather than passing through it.
+    float land = smoothstep(HORIZON_Y, HORIZON_Y + 1.5, y);
 
-    vec3 away = p - uCursor;
-    float d = length(away);
-    p += normalize(away + vec3(0.0001)) * exp(-d * d * 0.35) * 0.16;
+    // --- flying field ---
+    vec3 fld = aField;
+    float flown = fld.z + uFlight;
+    fld.z = mod(flown + SPAN_HALF, SPAN_TOTAL) - SPAN_HALF;
+
+    vec3 p = mix(rain, fld, uField);
 
     vec4 mv = modelViewMatrix * vec4(p, 1.0);
     gl_Position = projectionMatrix * mv;
@@ -72,18 +73,18 @@ const VERT = /* glsl */ `
     gl_PointSize = uSize * (26.0 / max(0.001, dist));
 
     vColor = aColor;
-    vFade = smoothstep(SPAN_TOTAL, 10.0, dist) * smoothstep(0.4, 3.0, dist);
+    float depth = smoothstep(SPAN_TOTAL, 10.0, dist) * smoothstep(0.4, 3.0, dist);
+    vFade = depth * mix(land, 1.0, uField);
   }
 `
   .replace(/SPAN_HALF/g, (SPAN / 2).toFixed(1))
-  .replace(/SPAN_TOTAL/g, SPAN.toFixed(1));
+  .replace(/SPAN_TOTAL/g, SPAN.toFixed(1))
+  .replace(/HORIZON_Y/g, HORIZON.toFixed(2))
+  .replace(/TOP_Y/g, TOP.toFixed(2));
 
 const FRAG = /* glsl */ `
   precision mediump float;
-
   uniform float uOpacity;
-  uniform float uDim;
-
   varying vec3 vColor;
   varying float vFade;
 
@@ -91,94 +92,42 @@ const FRAG = /* glsl */ `
     vec2 uv = gl_PointCoord - 0.5;
     float d = length(uv);
     if (d > 0.5) discard;
-
     float a = smoothstep(0.5, 0.08, d) * vFade * uOpacity;
-    gl_FragColor = vec4(vColor * uDim, a * 0.42);
+    gl_FragColor = vec4(vColor, a * 0.5);
   }
 `;
 
-type Sample = {
-  mark: Float32Array;
-  field: Float32Array;
-  core: Float32Array;
-  color: Float32Array;
-  seed: Float32Array;
-};
+/** Brand hues, held back a stop so they sit in the frame. */
+const BLUE = new THREE.Color('#2B8FD4').multiplyScalar(0.66);
+const GLOW = new THREE.Color('#38BDF8').multiplyScalar(0.62);
+const ACCENT = new THREE.Color('#F58220').multiplyScalar(0.66);
 
-/**
- * Reads the logo out of the PNG. Every opaque pixel is a candidate position;
- * its own colour rides along, so the dots are the logo's blues and oranges
- * rather than anything picked here.
- */
-async function sampleMark(url: string, count: number): Promise<Sample> {
-  const img = new window.Image();
-  img.crossOrigin = 'anonymous';
-  img.src = url;
-  await img.decode();
-
-  const S = 256;
-  const canvas = document.createElement('canvas');
-  canvas.width = S;
-  canvas.height = S;
-  const ctx = canvas.getContext('2d', { willReadFrequently: true });
-  if (!ctx) throw new Error('2d context unavailable');
-  ctx.drawImage(img, 0, 0, S, S);
-  const { data } = ctx.getImageData(0, 0, S, S);
-
-  const candidates: number[] = [];
-  for (let i = 0; i < S * S; i++) {
-    if (data[i * 4 + 3] > 60) candidates.push(i);
-  }
-
-  const mark = new Float32Array(count * 3);
+function build(count: number) {
+  const rain = new Float32Array(count * 3);
   const field = new Float32Array(count * 3);
-  const core = new Float32Array(count * 3);
   const color = new Float32Array(count * 3);
   const seed = new Float32Array(count);
 
-  const cell = MARK_SIZE / S;
-
   for (let i = 0; i < count; i++) {
-    const pick = candidates[(Math.random() * candidates.length) | 0];
-    const px = pick % S;
-    const py = (pick / S) | 0;
-
-    // Jitter inside the pixel, or the cloud reads as a visible grid.
-    mark[i * 3] = (px / S - 0.5) * MARK_SIZE + (Math.random() - 0.5) * cell;
-    mark[i * 3 + 1] = (0.5 - py / S) * MARK_SIZE + (Math.random() - 0.5) * cell;
-    mark[i * 3 + 2] = (Math.random() - 0.5) * 0.09;
-
-    color[i * 3] = data[pick * 4] / 255;
-    color[i * 3 + 1] = data[pick * 4 + 1] / 255;
-    color[i * 3 + 2] = data[pick * 4 + 2] / 255;
+    rain[i * 3] = (Math.random() - 0.5) * 26;
+    rain[i * 3 + 1] = Math.random() * (TOP - HORIZON);
+    rain[i * 3 + 2] = -1 + Math.random() * 7;
 
     field[i * 3] = (Math.random() - 0.5) * 34;
     field[i * 3 + 1] = -2.6 + Math.pow(Math.random(), 1.7) * 8.5;
     field[i * 3 + 2] = -Math.random() * SPAN;
 
-    const r = 1.15 + Math.pow(Math.random(), 0.35) * 0.95;
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos(2 * Math.random() - 1);
-    core[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-    core[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-    core[i * 3 + 2] = r * Math.cos(phi);
+    // Mostly blue, a little glow, a sparse accent.
+    const r = Math.random();
+    const c = r < 0.1 ? ACCENT : r < 0.32 ? GLOW : BLUE;
+    const v = 0.8 + Math.random() * 0.4;
+    color[i * 3] = c.r * v;
+    color[i * 3 + 1] = c.g * v;
+    color[i * 3 + 2] = c.b * v;
 
     seed[i] = Math.random();
   }
-
-  return { mark, field, core, color, seed };
-}
-
-function stateWeights(p: number) {
-  const toField = range(p, SECTIONS.intro);
-  const toCore = range(p, SECTIONS.core);
-
-  const wMark = 1 - toField;
-  const wField = toField * (1 - toCore);
-  const wCore = toCore;
-
-  const total = wMark + wField + wCore || 1;
-  return [wMark / total, wField / total, wCore / total] as const;
+  return { rain, field, color, seed };
 }
 
 export function Field({
@@ -188,89 +137,39 @@ export function Field({
   quality?: number;
   narrow?: boolean;
 }) {
-  const [sample, setSample] = useState<Sample | null>(null);
-
-  useEffect(() => {
-    let alive = true;
-    // Phones get roughly half the points: the mark still reads at that
-    // density and the fill cost drops with it.
-    sampleMark('/hero/mark.png', narrow ? 4200 : PARTICLE_COUNT)
-      .then((s) => alive && setSample(s))
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
-  }, [narrow]);
-
-  return (
-    <>
-      <color attach="background" args={[COLORS.base]} />
-      <fog attach="fog" args={[COLORS.base, 16, SPAN]} />
-      {sample && <Cloud sample={sample} quality={quality} narrow={narrow} />}
-    </>
-  );
-}
-
-function Cloud({
-  sample,
-  quality,
-  narrow,
-}: {
-  sample: Sample;
-  quality: number;
-  narrow: boolean;
-}) {
   const matRef = useRef<THREE.ShaderMaterial>(null);
-  const pointsRef = useRef<THREE.Points>(null);
-  const cablesRef = useRef<THREE.LineSegments>(null);
-  const { camera, pointer, viewport } = useThree();
+  const { camera } = useThree();
+
+  const count = narrow ? Math.round(PARTICLE_COUNT * 0.5) : PARTICLE_COUNT;
+  const data = useMemo(() => build(count), [count]);
 
   const geometry = useMemo(() => {
     const g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.BufferAttribute(sample.mark, 3));
-    g.setAttribute('aMark', new THREE.BufferAttribute(sample.mark, 3));
-    g.setAttribute('aField', new THREE.BufferAttribute(sample.field, 3));
-    g.setAttribute('aCore', new THREE.BufferAttribute(sample.core, 3));
-    g.setAttribute('aColor', new THREE.BufferAttribute(sample.color, 3));
-    g.setAttribute('aSeed', new THREE.BufferAttribute(sample.seed, 1));
+    g.setAttribute('position', new THREE.BufferAttribute(data.rain, 3));
+    g.setAttribute('aRain', new THREE.BufferAttribute(data.rain, 3));
+    g.setAttribute('aField', new THREE.BufferAttribute(data.field, 3));
+    g.setAttribute('aColor', new THREE.BufferAttribute(data.color, 3));
+    g.setAttribute('aSeed', new THREE.BufferAttribute(data.seed, 1));
     g.boundingSphere = new THREE.Sphere(new THREE.Vector3(), SPAN);
     return g;
-  }, [sample]);
-
-  const cableGeometry = useMemo(() => {
-    const pts: number[] = [];
-    for (let i = 0; i < 26; i++) {
-      const a = (i / 26) * Math.PI * 2;
-      const r = 2.6 + Math.random() * 3.4;
-      const x = Math.cos(a) * r;
-      const z = Math.sin(a) * r;
-      pts.push(x, 7, z, x + (Math.random() - 0.5) * 0.4, -6, z);
-    }
-    const g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
-    return g;
-  }, []);
+  }, [data]);
 
   const uniforms = useMemo(
     () => ({
-      uMark: { value: 1 },
       uField: { value: 0 },
-      uCore: { value: 0 },
+      uFall: { value: 0 },
+      uSweep: { value: 0 },
+      uLift: { value: 0 },
       uTime: { value: 0 },
       uFlight: { value: 0 },
-      uSize: { value: 1.7 * quality },
+      uSize: { value: 1.8 * quality },
       uOpacity: { value: 1 },
-      // The logo's own colours are UI-bright. Held back a stop they sit in
-      // the frame instead of glaring out of it.
-      uDim: { value: 0.62 },
-      uCursor: { value: new THREE.Vector3(999, 999, 999) },
     }),
     [quality]
   );
 
-  const cursor = useRef(new THREE.Vector3(999, 999, 999));
+  const fall = useRef(0);
   const camZ = useRef(9);
-  const spin = useRef(0);
 
   useFrame((state, dt) => {
     const step = Math.min(dt, 0.05);
@@ -281,80 +180,39 @@ function Cloud({
       step
     );
     const p = scrollState.smooth;
-    const [wMark, wField, wCore] = stateWeights(p);
-    const t = state.clock.elapsedTime;
+
+    const toField = easeInOut(range(p, SECTIONS.intro));
+    const exit = easeInOut(range(p, SECTIONS.close));
+
+    // Falling accelerates hard as you start scrolling, which is what makes
+    // the transition feel like speed rather than a cross-fade.
+    const speed = 1 + range(p, SECTIONS.intro) * 14;
+    fall.current += step * speed * 1.4;
 
     const u = matRef.current?.uniforms;
     if (u) {
-      u.uTime.value = t;
-      u.uMark.value = wMark;
-      u.uField.value = wField;
-      u.uCore.value = wCore;
+      u.uTime.value = state.clock.elapsedTime;
+      u.uFall.value = fall.current;
+      u.uField.value = toField * (1 - exit);
+      // Everything sweeps to one side as the screen clears for the work wall.
+      u.uSweep.value = range(p, SECTIONS.intro) * (narrow ? 14 : 20);
+      // At the close the whole field rises off the top of the frame.
+      u.uLift.value = exit * 16;
+      u.uOpacity.value = 1 - exit * 0.92;
       u.uFlight.value = range(p, SECTIONS.work) * SPAN * 1.6;
-      // The close dims the core rather than erasing it. The logo does not
-      // return at the end; this is the sphere, and it holds the right side
-      // the way the mark does on the first screen.
-      u.uOpacity.value = 1 - easeInOut(range(p, SECTIONS.close)) * 0.45;
-
-      const reach = Math.max(wMark, wCore * 0.5);
-      cursor.current.set(pointer.x * 3.2, pointer.y * 2.0, 0);
-      u.uCursor.value.copy(
-        reach > 0.25 ? cursor.current : new THREE.Vector3(999, 999, 999)
-      );
     }
 
-    // The mark is a flat plane: spinning it on Y would turn it edge-on and
-    // lose the logo. It sways instead. Only the core actually rotates.
-    spin.current += step * wCore * 0.22;
-    if (pointsRef.current) {
-      pointsRef.current.rotation.y =
-        spin.current + Math.sin(t * 0.24) * 0.09 * wMark;
-      pointsRef.current.rotation.x = Math.sin(t * 0.19) * 0.045 * wMark;
-
-      // The cloud sits to the right so the copy owns the left - at the start
-      // as the mark, and again at the close as the core. Tied to viewport
-      // width rather than a fixed number so it holds on narrow screens.
-      const offset = narrow ? 0 : Math.min(3.2, viewport.width * 0.24);
-      const toSide = clamp(wMark + range(p, SECTIONS.close));
-      pointsRef.current.position.x = damp(
-        pointsRef.current.position.x,
-        offset * toSide,
-        6,
-        step
-      );
-      pointsRef.current.position.y = damp(
-        pointsRef.current.position.y,
-        narrow ? 1.5 * toSide : 0,
-        6,
-        step
-      );
-      const s = narrow ? 0.72 : 1;
-      pointsRef.current.scale.setScalar(
-        damp(pointsRef.current.scale.x, s, 6, step)
-      );
-    }
-
-    const wantZ = lerp(9, 5.4, wCore) * (narrow ? 1.18 : 1);
-    const wantY = lerp(0, 0.6, range(p, SECTIONS.work)) * wField;
+    const wantZ = narrow ? 10.5 : 9;
     camZ.current = damp(camZ.current, wantZ, 3, step);
-    camera.position.set(
-      pointer.x * 0.3,
-      wantY + pointer.y * 0.18,
-      camZ.current
-    );
+    camera.position.set(0, lerp(0, 0.5, range(p, SECTIONS.work)), camZ.current);
     camera.lookAt(0, 0, 0);
-
-    if (cablesRef.current) {
-      const mat = cablesRef.current.material as THREE.LineBasicMaterial;
-      mat.opacity = clamp(wCore * 0.5);
-      cablesRef.current.visible = mat.opacity > 0.01;
-      cablesRef.current.rotation.y = spin.current * 0.4;
-    }
   });
 
   return (
     <>
-      <points ref={pointsRef} geometry={geometry} frustumCulled={false}>
+      <color attach="background" args={[COLORS.base]} />
+      <fog attach="fog" args={[COLORS.base, 16, SPAN]} />
+      <points geometry={geometry} frustumCulled={false}>
         <shaderMaterial
           ref={matRef}
           vertexShader={VERT}
@@ -364,15 +222,6 @@ function Cloud({
           depthWrite={false}
         />
       </points>
-
-      <lineSegments ref={cablesRef} geometry={cableGeometry} visible={false}>
-        <lineBasicMaterial
-          color={COLORS.line}
-          transparent
-          opacity={0}
-          depthWrite={false}
-        />
-      </lineSegments>
     </>
   );
 }
