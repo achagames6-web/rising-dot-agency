@@ -22,6 +22,7 @@ import {
   SECTIONS,
   clamp,
   damp,
+  easeInOut,
   lerp,
   range,
 } from '@/lib/hero/journey';
@@ -171,12 +172,10 @@ async function sampleMark(url: string, count: number): Promise<Sample> {
 function stateWeights(p: number) {
   const toField = range(p, SECTIONS.intro);
   const toCore = range(p, SECTIONS.core);
-  const back = range(p, SECTIONS.close);
 
-  let wMark = 1 - toField;
+  const wMark = 1 - toField;
   const wField = toField * (1 - toCore);
-  const wCore = toCore * (1 - back);
-  wMark += back;
+  const wCore = toCore;
 
   const total = wMark + wField + wCore || 1;
   return [wMark / total, wField / total, wCore / total] as const;
@@ -208,7 +207,7 @@ function Cloud({ sample, quality }: { sample: Sample; quality: number }) {
   const matRef = useRef<THREE.ShaderMaterial>(null);
   const pointsRef = useRef<THREE.Points>(null);
   const cablesRef = useRef<THREE.LineSegments>(null);
-  const { camera, pointer } = useThree();
+  const { camera, pointer, viewport } = useThree();
 
   const geometry = useMemo(() => {
     const g = new THREE.BufferGeometry();
@@ -276,6 +275,9 @@ function Cloud({ sample, quality }: { sample: Sample; quality: number }) {
       u.uField.value = wField;
       u.uCore.value = wCore;
       u.uFlight.value = range(p, SECTIONS.work) * SPAN * 1.6;
+      // The close dissolves everything to black - the logo does not come
+      // back at the end, so the last frame is the call to action alone.
+      u.uOpacity.value = 1 - easeInOut(range(p, SECTIONS.close)) * 0.98;
 
       const reach = Math.max(wMark, wCore * 0.5);
       cursor.current.set(pointer.x * 3.2, pointer.y * 2.0, 0);
@@ -291,6 +293,16 @@ function Cloud({ sample, quality }: { sample: Sample; quality: number }) {
       pointsRef.current.rotation.y =
         spin.current + Math.sin(t * 0.24) * 0.09 * wMark;
       pointsRef.current.rotation.x = Math.sin(t * 0.19) * 0.045 * wMark;
+
+      // The mark sits to the right so the copy owns the left. Tied to the
+      // viewport rather than a fixed number, or it drifts off narrow screens.
+      const offset = Math.min(3.2, viewport.width * 0.24);
+      pointsRef.current.position.x = damp(
+        pointsRef.current.position.x,
+        offset * wMark,
+        6,
+        step
+      );
     }
 
     const wantZ = lerp(9, 5.4, wCore);
