@@ -29,7 +29,7 @@ import {
 import { scrollState } from '@/lib/hero/scroll';
 
 const SPAN = 70;
-/** World height of the mark. */
+/** World height of the mark on desktop. Phones scale it down - see Field. */
 const MARK_SIZE = 4.6;
 
 const VERT = /* glsl */ `
@@ -181,29 +181,45 @@ function stateWeights(p: number) {
   return [wMark / total, wField / total, wCore / total] as const;
 }
 
-export function Field({ quality = 1 }: { quality?: number }) {
+export function Field({
+  quality = 1,
+  narrow = false,
+}: {
+  quality?: number;
+  narrow?: boolean;
+}) {
   const [sample, setSample] = useState<Sample | null>(null);
 
   useEffect(() => {
     let alive = true;
-    sampleMark('/hero/mark.png', PARTICLE_COUNT)
+    // Phones get roughly half the points: the mark still reads at that
+    // density and the fill cost drops with it.
+    sampleMark('/hero/mark.png', narrow ? 4200 : PARTICLE_COUNT)
       .then((s) => alive && setSample(s))
       .catch(() => {});
     return () => {
       alive = false;
     };
-  }, []);
+  }, [narrow]);
 
   return (
     <>
       <color attach="background" args={[COLORS.base]} />
       <fog attach="fog" args={[COLORS.base, 16, SPAN]} />
-      {sample && <Cloud sample={sample} quality={quality} />}
+      {sample && <Cloud sample={sample} quality={quality} narrow={narrow} />}
     </>
   );
 }
 
-function Cloud({ sample, quality }: { sample: Sample; quality: number }) {
+function Cloud({
+  sample,
+  quality,
+  narrow,
+}: {
+  sample: Sample;
+  quality: number;
+  narrow: boolean;
+}) {
   const matRef = useRef<THREE.ShaderMaterial>(null);
   const pointsRef = useRef<THREE.Points>(null);
   const cablesRef = useRef<THREE.LineSegments>(null);
@@ -275,9 +291,10 @@ function Cloud({ sample, quality }: { sample: Sample; quality: number }) {
       u.uField.value = wField;
       u.uCore.value = wCore;
       u.uFlight.value = range(p, SECTIONS.work) * SPAN * 1.6;
-      // The close dissolves everything to black - the logo does not come
-      // back at the end, so the last frame is the call to action alone.
-      u.uOpacity.value = 1 - easeInOut(range(p, SECTIONS.close)) * 0.98;
+      // The close dims the core rather than erasing it. The logo does not
+      // return at the end; this is the sphere, and it holds the right side
+      // the way the mark does on the first screen.
+      u.uOpacity.value = 1 - easeInOut(range(p, SECTIONS.close)) * 0.45;
 
       const reach = Math.max(wMark, wCore * 0.5);
       cursor.current.set(pointer.x * 3.2, pointer.y * 2.0, 0);
@@ -294,18 +311,30 @@ function Cloud({ sample, quality }: { sample: Sample; quality: number }) {
         spin.current + Math.sin(t * 0.24) * 0.09 * wMark;
       pointsRef.current.rotation.x = Math.sin(t * 0.19) * 0.045 * wMark;
 
-      // The mark sits to the right so the copy owns the left. Tied to the
-      // viewport rather than a fixed number, or it drifts off narrow screens.
-      const offset = Math.min(3.2, viewport.width * 0.24);
+      // The cloud sits to the right so the copy owns the left - at the start
+      // as the mark, and again at the close as the core. Tied to viewport
+      // width rather than a fixed number so it holds on narrow screens.
+      const offset = narrow ? 0 : Math.min(3.2, viewport.width * 0.24);
+      const toSide = clamp(wMark + range(p, SECTIONS.close));
       pointsRef.current.position.x = damp(
         pointsRef.current.position.x,
-        offset * wMark,
+        offset * toSide,
         6,
         step
       );
+      pointsRef.current.position.y = damp(
+        pointsRef.current.position.y,
+        narrow ? 1.5 * toSide : 0,
+        6,
+        step
+      );
+      const s = narrow ? 0.72 : 1;
+      pointsRef.current.scale.setScalar(
+        damp(pointsRef.current.scale.x, s, 6, step)
+      );
     }
 
-    const wantZ = lerp(9, 5.4, wCore);
+    const wantZ = lerp(9, 5.4, wCore) * (narrow ? 1.18 : 1);
     const wantY = lerp(0, 0.6, range(p, SECTIONS.work)) * wField;
     camZ.current = damp(camZ.current, wantZ, 3, step);
     camera.position.set(

@@ -707,3 +707,132 @@
 .rd-card--capability .rd-card__kind {
   color: var(--rd-blue);
 }
+
+/* ---------- sound control ---------- */
+
+.rd-sound__wave {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 9px;
+  margin-right: 0.5rem;
+}
+
+.rd-sound__wave i {
+  width: 2px;
+  height: 3px;
+  background: currentColor;
+  transition: height 0.25s ease;
+}
+
+.rd-sound__wave.is-on i {
+  animation: rd-bars 1.1s ease-in-out infinite;
+  background: var(--rd-accent);
+}
+
+.rd-sound__wave.is-on i:nth-child(2) {
+  animation-delay: 0.18s;
+}
+.rd-sound__wave.is-on i:nth-child(3) {
+  animation-delay: 0.36s;
+}
+
+@keyframes rd-bars {
+  0%,
+  100% {
+    height: 3px;
+  }
+  50% {
+    height: 9px;
+  }
+}
+
+/* ---------- portrait / small screens ----------
+   The shape moves above the copy, so every text layer drops to the lower
+   half of the frame and runs full width. */
+
+@media (max-width: 900px) {
+  .rd-idle,
+  .rd-intro,
+  .rd-close {
+    max-width: 100%;
+    justify-content: flex-end;
+    padding-bottom: clamp(4.5rem, 16vh, 8rem);
+    gap: 1.1rem;
+  }
+
+  .rd-headline {
+    font-size: clamp(1.6rem, 8.5vw, 2.6rem);
+  }
+
+  .rd-intro__side {
+    font-size: clamp(0.95rem, 4vw, 1.1rem);
+  }
+
+  .rd-close__head {
+    font-size: clamp(1.4rem, 7vw, 2rem);
+  }
+
+  /* Cards fly at the viewer, so they need to fit the narrow axis. */
+  .rd-card {
+    width: min(20rem, 78vw);
+    padding: 1.1rem 1.2rem 1.3rem;
+  }
+
+  .rd-card--case {
+    width: min(21rem, 82vw);
+    padding-top: 0;
+  }
+
+  .rd-card__shot {
+    margin: 0 -1.2rem;
+  }
+
+  .rd-card__blurb {
+    font-size: 0.78rem;
+  }
+
+  .rd-wall {
+    perspective: 800px;
+  }
+
+  /* Keep the readouts, drop the decoration. */
+  .rd-hud__frame,
+  .rd-hud__tr {
+    display: none;
+  }
+
+  .rd-hud__tl {
+    top: auto;
+    bottom: clamp(2.6rem, 7vh, 3.4rem);
+  }
+
+  .rd-sound {
+    bottom: clamp(0.8rem, 2.5vh, 1.2rem);
+    right: clamp(0.8rem, 4vw, 1.4rem);
+    font-size: 0.54rem;
+    padding: 0.35rem 0.7rem;
+  }
+
+  .rd-actions {
+    gap: 0.6rem;
+  }
+
+  .rd-btn {
+    font-size: 0.84rem;
+    padding: 0.72rem 1.3rem;
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+  /* Landscape phones have height to spare nowhere - shrink the type hard. */
+  .rd-idle,
+  .rd-intro,
+  .rd-close {
+    padding-bottom: clamp(2.5rem, 10vh, 4rem);
+  }
+
+  .rd-headline {
+    font-size: clamp(1.3rem, 4.5vw, 1.9rem);
+  }
+}

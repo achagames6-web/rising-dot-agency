@@ -170,11 +170,12 @@ export default function HeroSection() {
   const closeRef = useRef<HTMLDivElement>(null);
   const diveRef = useRef<HTMLDivElement>(null);
 
+  const [narrow, setNarrow] = useState(false);
+
   useEffect(() => {
     const reduced = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
     ).matches;
-    const small = window.innerWidth < 768;
     const gl = (() => {
       try {
         const c = document.createElement('canvas');
@@ -183,8 +184,16 @@ export default function HeroSection() {
         return false;
       }
     })();
-    setQuality(window.devicePixelRatio > 2 ? 0.85 : 1);
-    setMode(reduced || small || !gl ? 'static' : 'full');
+
+    // Screen size alone is no longer a reason to drop the experience; the
+    // static hero is for reduced motion or a device without WebGL.
+    const measure = () => setNarrow(window.innerWidth < 900);
+    measure();
+    window.addEventListener('resize', measure);
+
+    setQuality(window.devicePixelRatio > 2 ? 0.8 : 1);
+    setMode(reduced || !gl ? 'static' : 'full');
+    return () => window.removeEventListener('resize', measure);
   }, []);
 
   useHeroScroll(trackRef, mode === 'full');
@@ -244,8 +253,10 @@ export default function HeroSection() {
   return (
     <section
       ref={trackRef}
-      className="rd-track"
-      style={{ height: `${SCROLL_TRACK_VH}vh` }}
+      className={`rd-track ${narrow ? 'is-narrow' : ''}`}
+      style={{
+        height: `${narrow ? Math.round(SCROLL_TRACK_VH * 0.62) : SCROLL_TRACK_VH}vh`,
+      }}
       aria-label="Rising Dot"
     >
       <div className="rd-stage">
@@ -256,7 +267,7 @@ export default function HeroSection() {
             gl={{ antialias: false, powerPreference: 'high-performance' }}
             camera={{ fov: 48, near: 0.1, far: 120, position: [0, 0, 9] }}
           >
-            <Field quality={quality} />
+            <Field quality={quality} narrow={narrow} />
           </Canvas>
         )}
 

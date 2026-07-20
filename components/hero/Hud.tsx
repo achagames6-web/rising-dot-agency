@@ -5,7 +5,7 @@
 // from scroll position and frame timing, not faked. That matters - a HUD
 // showing invented telemetry on an automation studio's site is a costume.
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { SECTIONS, clamp } from '@/lib/hero/journey';
 import { onProgress, scrollState } from '@/lib/hero/scroll';
 
@@ -138,115 +138,83 @@ export function Hud() {
 }
 
 /**
- * Ambient audio. Generated with WebAudio - no asset files, nothing to load.
- * Off by default and stays off until the visitor asks for it.
+ * Ambient audio. The track is fetched only when someone asks for it, so the
+ * hero never pays 1.9MB for a control most visitors will not touch.
  */
 export function SoundToggle() {
-  const ctxRef = useRef<AudioContext | null>(null);
-  const gainRef = useRef<GainNode | null>(null);
-  const onRef = useRef(false);
-  const labelRef = useRef<HTMLButtonElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const rafRef = useRef(0);
+  const [on, setOn] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     return () => {
-      ctxRef.current?.close();
+      cancelAnimationFrame(rafRef.current);
+      audioRef.current?.pause();
     };
   }, []);
 
-  const toggle = () => {
-    if (!ctxRef.current) {
-      const Ctx =
-        window.AudioContext ||
-        (window as unknown as { webkitAudioContext: typeof AudioContext })
-          .webkitAudioContext;
-      const ctx = new Ctx();
-      const gain = ctx.createGain();
-      gain.gain.value = 0;
-      gain.connect(ctx.destination);
+  /** Ramp volume rather than cutting - a hard start is jarring. */
+  const fadeTo = (target: number, done?: () => void) => {
+    cancelAnimationFrame(rafRef.current);
+    const el = audioRef.current;
+    if (!el) return;
+    const from = el.volume;
+    const start = performance.now();
+    const step = (now: number) => {
+      const t = Math.min(1, (now - start) / 900);
+      el.volume = from + (target - from) * t;
+      if (t < 1) rafRef.current = requestAnimationFrame(step);
+      else done?.();
+    };
+    rafRef.current = requestAnimationFrame(step);
+  };
 
-      // An A-minor pad: root, fifth, octave, minor third, plus a high fifth
-      // that drifts in and out. Everything runs through one slowly sweeping
-      // lowpass so the texture breathes instead of sitting still.
-      const filter = ctx.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.value = 300;
-      filter.Q.value = 0.7;
-      filter.connect(gain);
-
-      // 18-second sweep on the cutoff.
-      const lfo = ctx.createOscillator();
-      lfo.frequency.value = 1 / 18;
-      const lfoAmount = ctx.createGain();
-      lfoAmount.gain.value = 150;
-      lfo.connect(lfoAmount);
-      lfoAmount.connect(filter.frequency);
-      lfo.start();
-
-      const voices: [number, OscillatorType, number][] = [
-        [55.0, 'sine', 0.34], // A1  root
-        [82.41, 'sine', 0.22], // E2  fifth
-        [110.0, 'triangle', 0.14], // A2  octave
-        [130.81, 'sine', 0.1], // C3  minor third
-        [164.81, 'sine', 0.06], // E3  upper fifth
-      ];
-
-      voices.forEach(([freq, type, level], i) => {
-        const osc = ctx.createOscillator();
-        osc.type = type;
-        osc.frequency.value = freq;
-        osc.detune.value = (i - 2) * 4;
-
-        const voice = ctx.createGain();
-        voice.gain.value = level;
-
-        // Each voice swells on its own cycle, so the chord never sits flat.
-        const swell = ctx.createOscillator();
-        swell.frequency.value = 1 / (23 + i * 7);
-        const swellAmount = ctx.createGain();
-        swellAmount.gain.value = level * 0.45;
-        swell.connect(swellAmount);
-        swellAmount.connect(voice.gain);
-        swell.start();
-
-        osc.connect(voice);
-        voice.connect(filter);
-        osc.start();
-      });
-
-      ctxRef.current = ctx;
-      gainRef.current = gain;
+  const toggle = async () => {
+    if (on) {
+      setOn(false);
+      fadeTo(0, () => audioRef.current?.pause());
+      return;
     }
 
-    const ctx = ctxRef.current;
-    const gain = gainRef.current;
-    if (!ctx || !gain) return;
+    if (!audioRef.current) {
+      setLoading(true);
+      const el = new Audio('/audio/ambient.mp3');
+      el.loop = true;
+      el.preload = 'auto';
+      el.volume = 0;
+      audioRef.current = el;
+    }
 
-    void ctx.resume();
-    onRef.current = !onRef.current;
-    gain.gain.cancelScheduledValues(ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(
-      onRef.current ? 0.05 : 0,
-      ctx.currentTime + 0.7
-    );
-
-    if (labelRef.current) {
-      labelRef.current.textContent = onRef.current ? 'Sound: On' : 'Sound: Off';
-      labelRef.current.setAttribute(
-        'aria-pressed',
-        onRef.current ? 'true' : 'false'
-      );
+    try {
+      await audioRef.current.play();
+      setOn(true);
+      fadeTo(0.32);
+    } catch {
+      // Autoplay policy or a failed fetch - leave the control off.
+      setOn(false);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <button
-      ref={labelRef}
       type="button"
       className="rd-sound"
       onClick={toggle}
-      aria-pressed="false"
+      aria-pressed={on}
+      aria-label={on ? 'Turn sound off' : 'Turn sound on'}
     >
-      Sound: Off
+      <span
+        className={`rd-sound__wave ${on ? 'is-on' : ''}`}
+        aria-hidden="true"
+      >
+        <i />
+        <i />
+        <i />
+      </span>
+      {loading ? 'Sound: ...' : on ? 'Sound: On' : 'Sound: Off'}
     </button>
   );
 }
