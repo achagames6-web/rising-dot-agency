@@ -153,9 +153,7 @@ function WorkCard({
         </p>
       )}
 
-      <span className="rd-card__cta">
-        {isCase ? 'Click to explore' : 'See the service'}
-      </span>
+      <span className="rd-card__cta">{item.serviceLabel} &rarr;</span>
     </a>
   );
 }
@@ -360,12 +358,6 @@ export default function HeroSection() {
             </a>
           </div>
         </div>
-
-        <nav className="rd-pill" aria-label="Shortcuts">
-          <a href="/portfolio">Work</a>
-          <span aria-hidden="true">·</span>
-          <a href="/contact">Contact</a>
-        </nav>
 
         <Hud />
         <SoundToggle />

@@ -1,0 +1,356 @@
+/* components/header.css
+   Shares the hero's tokens so the bar and the film speak the same language. */
+
+.rdh {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  transform: translateY(0);
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.35s ease,
+    border-color 0.35s ease;
+  border-bottom: 1px solid transparent;
+  --rdh-text: #e8ecf4;
+  --rdh-muted: #7c8698;
+  --rdh-line: #16203a;
+  --rdh-accent: #f58220;
+  --rdh-blue: #2b8fd4;
+}
+
+.rdh.is-hidden {
+  transform: translateY(-102%);
+}
+
+/* Transparent over the hero, a surface once you leave it. */
+.rdh.is-lifted {
+  background: rgba(4, 5, 10, 0.72);
+  backdrop-filter: blur(14px);
+  border-bottom-color: var(--rdh-line);
+}
+
+.rdh.is-open {
+  background: #04050a;
+}
+
+.rdh__bar {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.4rem);
+  padding: 0 clamp(1rem, 3vw, 2.4rem);
+  height: 72px;
+}
+
+.rdh__logo {
+  display: flex;
+  align-items: center;
+  flex: none;
+}
+
+.rdh__logo img {
+  height: 34px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ---------- desktop nav ---------- */
+
+.rdh__nav {
+  display: none;
+  align-items: center;
+  gap: 0.35rem;
+  margin-right: auto;
+}
+
+@media (min-width: 900px) {
+  .rdh__nav {
+    display: flex;
+  }
+}
+
+.rdh__group {
+  position: static;
+}
+
+.rdh__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.85rem;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rdh-muted);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.rdh__link:hover,
+.rdh__link.is-active {
+  color: var(--rdh-text);
+}
+
+/* The dot is the whole signature: it appears when a link matters. */
+.rdh__dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--rdh-accent);
+  opacity: 0;
+  transform: scale(0.4);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rdh__link:hover .rdh__dot,
+.rdh__link.is-active .rdh__dot {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.rdh__chev {
+  width: 5px;
+  height: 5px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(45deg) translate(-1px, -1px);
+  transition: transform 0.3s ease;
+}
+
+.rdh__chev.is-up {
+  transform: rotate(-135deg) translate(-2px, -2px);
+}
+
+/* ---------- right side ---------- */
+
+.rdh__right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: auto;
+}
+
+.rdh__cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.6rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid var(--rdh-accent);
+  background: var(--rdh-accent);
+  color: #100a03;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.82rem;
+  text-decoration: none;
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.rdh__cta:hover {
+  background: #ff9440;
+  border-color: #ff9440;
+  transform: translateY(-1px);
+}
+
+.rdh__cta--block {
+  justify-content: center;
+  margin-top: 1.6rem;
+}
+
+.rdh__burger {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 0 9px;
+  border: 1px solid var(--rdh-line);
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+}
+
+@media (min-width: 900px) {
+  .rdh__burger {
+    display: none;
+  }
+}
+
+.rdh__burger span {
+  display: block;
+  height: 1px;
+  background: var(--rdh-text);
+  transition: transform 0.3s ease;
+}
+
+.rdh.is-open .rdh__burger span:first-child {
+  transform: translateY(3px) rotate(45deg);
+}
+
+.rdh.is-open .rdh__burger span:last-child {
+  transform: translateY(-3px) rotate(-45deg);
+}
+
+/* ---------- services panel ---------- */
+
+.rdh__panel {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  border-top: 1px solid transparent;
+  background: rgba(4, 5, 10, 0.94);
+  backdrop-filter: blur(16px);
+  transition:
+    max-height 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.rdh__panel.is-open {
+  max-height: 26rem;
+  opacity: 1;
+  border-top-color: var(--rdh-line);
+}
+
+.rdh__panel-inner {
+  padding: clamp(1.4rem, 3vw, 2.2rem) clamp(1rem, 3vw, 2.4rem)
+    clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.rdh__panel-lead {
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--rdh-muted);
+  margin: 0 0 1.1rem;
+}
+
+.rdh__panel-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0.1rem 1.5rem;
+}
+
+.rdh__panel-list a {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid rgba(22, 32, 58, 0.7);
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+  color: var(--rdh-text);
+  text-decoration: none;
+  transition:
+    color 0.22s ease,
+    padding-left 0.22s ease;
+}
+
+.rdh__panel-list a:hover {
+  color: var(--rdh-accent);
+  padding-left: 0.4rem;
+}
+
+.rdh__panel-num {
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.16em;
+  color: var(--rdh-blue);
+}
+
+/* ---------- mobile sheet ---------- */
+
+.rdh__sheet {
+  position: fixed;
+  inset: 72px 0 0;
+  background: #04050a;
+  padding: clamp(1.4rem, 6vw, 2.4rem);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.rdh__sheet[hidden] {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .rdh__sheet {
+    display: none;
+  }
+}
+
+.rdh__sheet nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.rdh__sheet-link {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.7rem, 8vw, 2.4rem);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  color: var(--rdh-text);
+  text-decoration: none;
+  padding: 0.35rem 0;
+}
+
+.rdh__sheet-link:active {
+  color: var(--rdh-accent);
+}
+
+.rdh__sheet-lead {
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--rdh-muted);
+  margin: 1.8rem 0 0.6rem;
+}
+
+.rdh__sheet-sub {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 1rem;
+  color: var(--rdh-muted);
+  text-decoration: none;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(22, 32, 58, 0.7);
+}
+
+.rdh__link:focus-visible,
+.rdh__cta:focus-visible,
+.rdh__burger:focus-visible,
+.rdh__panel-list a:focus-visible,
+.rdh__sheet-link:focus-visible,
+.rdh__sheet-sub:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rdh,
+  .rdh__panel,
+  .rdh__dot,
+  .rdh__chev,
+  .rdh__panel-list a {
+    transition: none;
+  }
+}

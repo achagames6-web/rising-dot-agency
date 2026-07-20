@@ -384,36 +384,6 @@
   outline-offset: 3px;
 }
 
-.rd-pill {
-  position: absolute;
-  top: clamp(1rem, 3vh, 2rem);
-  right: clamp(1rem, 3vw, 2.4rem);
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  padding: 0.5rem 1.05rem;
-  border-radius: 999px;
-  border: 1px solid var(--rd-line);
-  background: rgba(4, 5, 10, 0.55);
-  backdrop-filter: blur(8px);
-  font-family: var(--rd-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-
-.rd-pill a {
-  color: var(--rd-muted);
-  text-decoration: none;
-  transition: color 0.25s ease;
-}
-
-.rd-pill a:hover {
-  color: var(--rd-text);
-}
-
-/* ---------- static fallback ---------- */
-
 .rd-static {
   min-height: 100svh;
   background: var(--rd-base);

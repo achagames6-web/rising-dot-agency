@@ -46,6 +46,8 @@ export type WorkItem = {
   kind: string;
   blurb: string;
   href: string;
+  /** Shown on the CTA so the card says where it goes. */
+  serviceLabel: string;
   image?: string;
   year?: string;
   stack?: string;
@@ -58,7 +60,8 @@ export const WORK: WorkItem[] = [
     kind: 'SaaS · Toronto',
     blurb:
       'Pickup and delivery laundry platform. Customers book a wash in minutes; the owner runs the whole operation - orders, drivers, routes, payments, promo codes, inventory - from one dashboard.',
-    href: '/portfolio',
+    href: '/services/saas',
+    serviceLabel: 'SaaS development',
     image: '/Projects/curbside-laundry.jpg',
     year: '2025',
     stack: 'Web app · CRM dashboard · Payments',
@@ -69,7 +72,8 @@ export const WORK: WorkItem[] = [
     kind: 'AI · Blockchain risk',
     blurb:
       'Paste a token address, get a verdict. On-chain data runs through risk heuristics - holder concentration, liquidity, contract issues - then a fine-tuned model turns the result into a readable answer. Five chains.',
-    href: '/portfolio',
+    href: '/services/chatbot-development',
+    serviceLabel: 'AI chatbot development',
     image: '/Projects/dredd-ai.jpg',
     year: '2025',
     stack: 'Chat dashboard · n8n backend · Fine-tuned LLM',
@@ -80,7 +84,8 @@ export const WORK: WorkItem[] = [
     kind: 'Platform · Internal',
     blurb:
       'Products from two live stores flow through a scoring and generation pipeline, then land in a review queue. Nothing publishes until someone approves it.',
-    href: '/portfolio',
+    href: '/services/seo',
+    serviceLabel: 'SEO services',
     image: '/Projects/seo-command-center.jpg',
     year: '2025',
     stack: 'Dashboard · n8n · Gemini · Supabase',
@@ -91,7 +96,8 @@ export const WORK: WorkItem[] = [
     kind: 'n8n · mytechguide.io',
     blurb:
       'Nine independent sub-workflows that research, write, optimise and draft around five SEO articles a day. Any stage can be rerun on its own when it fails - no restarting the pipeline.',
-    href: '/portfolio',
+    href: '/services/n8n-automations',
+    serviceLabel: 'n8n automation',
     image: '/Projects/mytechguide-n8n.jpg',
     year: '2025',
     stack: 'n8n · OpenAI · DataForSEO · WordPress REST',
@@ -102,7 +108,8 @@ export const WORK: WorkItem[] = [
     kind: 'n8n · Async',
     blurb:
       'Text and image go in, finished assets come out. Prompts are composed by one model, rendered by another, polled until ready, and stored back in R2 - with error handling at every hop.',
-    href: '/portfolio',
+    href: '/services/n8n-automations',
+    serviceLabel: 'n8n automation',
     image: '/Projects/image-pipeline.jpg',
     year: '2025',
     stack: 'n8n · Cloudflare R2 · OpenRouter · Replicate',
@@ -113,7 +120,8 @@ export const WORK: WorkItem[] = [
     kind: 'Shopify · Pakistan',
     blurb:
       'Custom storefront for a 200+ product catalogue. Fit quiz, live flash sales with stock counters, quick-view cards, and local rails - TCS delivery and JazzCash - wired in.',
-    href: '/portfolio',
+    href: '/services/shopify',
+    serviceLabel: 'Shopify development',
     image: '/Projects/vape-brothers.jpg',
     year: '2025',
     stack: 'Shopify · Liquid · JavaScript',
@@ -124,7 +132,8 @@ export const WORK: WorkItem[] = [
     kind: 'WordPress · California',
     blurb:
       'Static pages rebuilt as a site the owner can actually edit. Same design, but the blog pulls real posts and the community calendar runs on its own post type.',
-    href: '/portfolio',
+    href: '/services/wordpress',
+    serviceLabel: 'WordPress development',
     year: '2025',
     stack: 'WordPress · Custom child theme · ACF',
   },
