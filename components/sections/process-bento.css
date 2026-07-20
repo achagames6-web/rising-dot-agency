@@ -52,20 +52,73 @@
   margin-top: clamp(2.5rem, 7vh, 4.5rem);
 }
 
-.prc__grid > * {
+.prc__card {
+  position: relative;
+  isolation: isolate;
   background: #05070f;
   padding: 1.5rem 1.5rem 1.7rem;
+  /* Tilts toward the pointer. Both vars are written by the move handler. */
+  transform: perspective(900px) rotateX(var(--rx, 0deg))
+    rotateY(var(--ry, 0deg));
+  transform-style: preserve-3d;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Spotlight that follows the cursor across the card. */
+.prc__card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  background: radial-gradient(
+    260px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(43, 143, 212, 0.16),
+    rgba(245, 130, 32, 0.06) 45%,
+    transparent 70%
+  );
+  transition: opacity 0.35s ease;
+}
+
+.prc__card:hover::before {
+  opacity: 1;
+}
+
+/* A brighter rim on the edge nearest the cursor. */
+.prc__card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  background: radial-gradient(
+    180px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(56, 189, 248, 0.5),
+    transparent 65%
+  );
+  -webkit-mask:
+    linear-gradient(#000, #000) content-box,
+    linear-gradient(#000, #000);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1px;
+  transition: opacity 0.35s ease;
+}
+
+.prc__card:hover::after {
+  opacity: 1;
+}
+
+.prc__live {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 /* The four stages sit across the top, in order. */
 .prc__step {
   display: flex;
   flex-direction: column;
-  transition: background 0.35s ease;
-}
-
-.prc__step:hover {
-  background: #070b16;
 }
 
 .prc__n {
@@ -245,6 +298,175 @@
 @media (prefers-reduced-motion: reduce) {
   .prc__step,
   .prc__t {
+    transition: none;
+  }
+}
+
+/* ---------- card animations ---------- */
+
+.pk {
+  position: relative;
+  height: 5.4rem;
+  margin-bottom: 1.2rem;
+  border-radius: 10px;
+  border: 1px solid rgba(22, 32, 58, 0.9);
+  background: linear-gradient(160deg, rgba(11, 22, 44, 0.5), transparent);
+  overflow: hidden;
+}
+
+/* Map: rows of work being read. */
+.pk--map {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.38rem;
+  padding: 0 0.7rem;
+}
+
+.pk__row {
+  display: block;
+  height: 4px;
+  border-radius: 999px;
+  background: #2b8fd4;
+}
+
+.pk__row.is-hit {
+  background: #f58220;
+}
+
+.pk__scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 12px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(56, 189, 248, 0.35),
+    transparent
+  );
+}
+
+/* Prototype: one run, proving itself. */
+.pk--proto {
+  display: flex;
+  align-items: center;
+}
+
+.pk__wire {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: 50%;
+  height: 1px;
+  background: #16203a;
+}
+
+.pk__node {
+  position: absolute;
+  top: 50%;
+  width: 15px;
+  height: 15px;
+  margin: -7.5px 0 0 -7.5px;
+  border-radius: 4px;
+  border: 1px solid #16203a;
+  background: #0b0f1a;
+}
+
+.pk__pulse {
+  position: absolute;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: #f58220;
+  box-shadow: 0 0 10px rgba(245, 130, 32, 0.9);
+}
+
+/* Build: stages filling, one of them rerunning. */
+.pk--build {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0 0.7rem;
+}
+
+.pk__bar {
+  display: block;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(22, 32, 58, 0.9);
+  overflow: hidden;
+}
+
+.pk__fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #2b8fd4;
+}
+
+.pk__fill.is-rerun {
+  background: #f58220;
+}
+
+/* Hand over: the keys change hands. */
+.pk--hand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.9rem;
+}
+
+.pk__box {
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--prc-muted);
+  border: 1px dashed rgba(22, 32, 58, 1);
+  border-radius: 8px;
+  padding: 0.35rem 0.6rem;
+}
+
+.pk__box--you {
+  border-style: solid;
+  border-color: rgba(245, 130, 32, 0.5);
+  color: #f58220;
+}
+
+.pk__key {
+  position: absolute;
+  left: 17%;
+  top: 50%;
+  margin-top: -9px;
+  width: 18px;
+  height: 18px;
+  color: #38bdf8;
+}
+
+.pk__key svg {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 640px) {
+  .pk {
+    height: 4.6rem;
+  }
+
+  .pk__key {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prc__card {
+    transform: none;
     transition: none;
   }
 }
