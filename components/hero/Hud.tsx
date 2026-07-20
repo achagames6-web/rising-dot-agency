@@ -144,6 +144,13 @@ export function Hud() {
  * if the file will not load or play, the control says so instead of sitting
  * on "Off" while nothing happens.
  */
+/**
+ * Background music, not a soundtrack: loud enough to be clearly present,
+ * quiet enough to talk over. The track itself is gain-corrected on the way
+ * in, since it opens around -13dB and builds.
+ */
+const TARGET_VOLUME = 0.85;
+
 export function SoundToggle() {
   const elRef = useRef<HTMLAudioElement>(null);
   const rafRef = useRef(0);
@@ -181,7 +188,10 @@ export function SoundToggle() {
     }
 
     setState('loading');
-    el.volume = 0;
+    el.muted = false;
+    // Start audible rather than at zero. The fade is a nicety; being heard
+    // is not, and a ramp that fails to run should not equal silence.
+    el.volume = 0.25;
 
     // preload is 'none', so nothing has been fetched yet. Ask for it
     // explicitly - some browsers will not start on play() alone.
@@ -204,7 +214,23 @@ export function SoundToggle() {
         .then(() => {
           window.clearTimeout(bail);
           setState('on');
-          ramp(0.3);
+          ramp(TARGET_VOLUME);
+
+          // If it claims to be playing but cannot be heard, this says why.
+          window.setTimeout(() => {
+            // eslint-disable-next-line no-console
+            console.info(
+              '[hero audio] playing:',
+              'volume',
+              el.volume,
+              'muted',
+              el.muted,
+              'paused',
+              el.paused,
+              'time',
+              el.currentTime.toFixed(1)
+            );
+          }, 1500);
         })
         .catch((err) => {
           window.clearTimeout(bail);
@@ -219,7 +245,7 @@ export function SoundToggle() {
     } else {
       window.clearTimeout(bail);
       setState('on');
-      ramp(0.3);
+      ramp(TARGET_VOLUME);
     }
   };
 
