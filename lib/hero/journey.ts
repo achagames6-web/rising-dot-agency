@@ -32,7 +32,8 @@ export const SECTIONS = {
 
 export const SCROLL_TRACK_VH = 1500;
 
-export const PARTICLE_COUNT = 6500;
+/** More points, far smaller: fine texture instead of a solid mass. */
+export const PARTICLE_COUNT = 9000;
 
 export type WorkItem = {
   /**

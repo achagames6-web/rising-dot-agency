@@ -60,13 +60,15 @@ const VERT = /* glsl */ `
     // Cursor pushes a soft ripple through the dots.
     vec3 away = p - uCursor;
     float d = length(away);
-    p += normalize(away + vec3(0.0001)) * exp(-d * d * 0.06) * 0.55;
+    p += normalize(away + vec3(0.0001)) * exp(-d * d * 0.35) * 0.16;
 
     vec4 mv = modelViewMatrix * vec4(p, 1.0);
     gl_Position = projectionMatrix * mv;
 
     float dist = -mv.z;
-    gl_PointSize = uSize * (330.0 / max(0.001, dist));
+    // 26, not 330. At the idle camera distance the old constant produced
+    // 84-pixel points, so 6500 of them fused into one solid disc.
+    gl_PointSize = uSize * (26.0 / max(0.001, dist));
 
     vTint = aTint;
     // Fade in from the far plane and out as dots pass the camera.
@@ -92,7 +94,7 @@ const FRAG = /* glsl */ `
     if (d > 0.5) discard;
 
     float a = smoothstep(0.5, 0.08, d) * vFade * uOpacity;
-    gl_FragColor = vec4(mix(uBlue, uAccent, vTint), a * 0.8);
+    gl_FragColor = vec4(mix(uBlue, uAccent, vTint), a * 0.42);
   }
 `;
 
@@ -107,9 +109,9 @@ function buildAttributes() {
   for (let i = 0; i < n; i++) {
     // RING: a torus lying in the view plane.
     const a = Math.random() * Math.PI * 2;
-    const tube = Math.pow(Math.random(), 0.7) * 0.42;
+    const tube = Math.pow(Math.random(), 0.7) * 0.2;
     const tubeAngle = Math.random() * Math.PI * 2;
-    const R = 3.15;
+    const R = 2.2;
     ring[i * 3] = Math.cos(a) * (R + Math.cos(tubeAngle) * tube);
     ring[i * 3 + 1] = Math.sin(a) * (R + Math.cos(tubeAngle) * tube);
     ring[i * 3 + 2] = Math.sin(tubeAngle) * tube;
@@ -130,7 +132,7 @@ function buildAttributes() {
 
     seed[i] = Math.random();
     // One dot in nine carries the accent. Sparse on purpose.
-    tint[i] = Math.random() < 0.11 ? 1 : 0;
+    tint[i] = Math.random() < 0.05 ? 1 : 0;
   }
 
   return { ring, field, core, seed, tint };
@@ -193,11 +195,15 @@ export function Field({ quality = 1 }: { quality?: number }) {
       uCore: { value: 0 },
       uTime: { value: 0 },
       uFlight: { value: 0 },
-      uSize: { value: 2.3 * quality },
+      uSize: { value: 1.7 * quality },
       uOpacity: { value: 1 },
       uCursor: { value: new THREE.Vector3(999, 999, 999) },
-      uBlue: { value: new THREE.Color(COLORS.blue) },
-      uAccent: { value: new THREE.Color(COLORS.accent) },
+      // Brand blue at full strength is too bright for a background element:
+      // where dots overlap it peaks around luma 126, against a reference
+      // whose brightest 5% rarely passes 90. These are the brand hues held
+      // back a stop; UI keeps the full-strength versions.
+      uBlue: { value: new THREE.Color('#1E6FA8') },
+      uAccent: { value: new THREE.Color('#C4661A') },
     }),
     [quality]
   );
