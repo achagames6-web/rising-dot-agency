@@ -32,8 +32,13 @@ export function setProgress(p: number) {
 }
 
 /**
- * Drives scrollState from a scroll-track element and runs Lenis for inertia.
- * Pass a ref to the tall wrapper that contains the sticky canvas.
+ * Drives scrollState from the hero's scroll track.
+ *
+ * Deliberately does NOT create a Lenis instance. The app already runs one
+ * globally via SmoothScrollProvider, and a second instance fights it: both
+ * intercept the wheel and both write scroll position every frame, so once
+ * one settles the other snaps the page to its own target. That was the jump
+ * after scrolling stopped. This only reads position.
  */
 export function useHeroScroll(
   trackRef: React.RefObject<HTMLElement | null>,
@@ -42,9 +47,7 @@ export function useHeroScroll(
   useEffect(() => {
     if (!enabled) return;
 
-    let lenis: { raf: (t: number) => void; destroy: () => void } | null = null;
     let frame = 0;
-    let cancelled = false;
 
     const measure = () => {
       const el = trackRef.current;
@@ -55,33 +58,17 @@ export function useHeroScroll(
       setProgress(-rect.top / distance);
     };
 
-    const loop = (time: number) => {
-      lenis?.raf(time);
+    const loop = () => {
       measure();
       frame = requestAnimationFrame(loop);
     };
 
-    // Lenis is imported lazily so the hero never blocks first paint.
-    import('lenis').then(({ default: Lenis }) => {
-      if (cancelled) return;
-      lenis = new Lenis({
-        duration: 1.15,
-        easing: (t: number) => 1 - Math.pow(1 - t, 3),
-        smoothWheel: true,
-        syncTouch: false,
-      }) as unknown as { raf: (t: number) => void; destroy: () => void };
-      frame = requestAnimationFrame(loop);
-    });
-
-    // Fallback loop in case Lenis fails to load — the hero still works.
     frame = requestAnimationFrame(loop);
     window.addEventListener('resize', measure);
 
     return () => {
-      cancelled = true;
       cancelAnimationFrame(frame);
       window.removeEventListener('resize', measure);
-      lenis?.destroy();
     };
   }, [trackRef, enabled]);
 }
