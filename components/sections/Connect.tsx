@@ -83,7 +83,7 @@ export default function Connect() {
   }, [animate]);
 
   return (
-    <section className="relative bg-black py-16 overflow-hidden">
+    <section className="relative overflow-hidden bg-black py-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <HighlightGroup className="group h-full">
           <div

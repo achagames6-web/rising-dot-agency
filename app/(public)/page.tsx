@@ -41,14 +41,16 @@ const HolographicContact = dynamic(
   }
 );
 
-// Portfolio Gallery - dynamic import for image gallery
-const PortfolioGallery = dynamic(
-  () => import('@/components/sections/PortfolioGallery'),
+// ProjectIndex - the seven shipped projects as an index with a live preview.
+// Replaces PortfolioGallery, which is left in place at
+// components/sections/PortfolioGallery for an easy revert.
+const ProjectIndex = dynamic(
+  () => import('@/components/sections/ProjectIndex'),
   {
     ssr: false,
     loading: () => (
-      <section className="flex items-center justify-center bg-black py-20">
-        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
+      <section className="flex items-center justify-center bg-[#04050A] py-20">
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#F58220]/30 border-t-[#F58220]" />
       </section>
     ),
   }
@@ -188,7 +190,7 @@ export default function Home() {
           <WorkflowCanvas />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="portfolioGallery">
-          <PortfolioGallery />
+          <ProjectIndex />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="about">
           <AboutSection />

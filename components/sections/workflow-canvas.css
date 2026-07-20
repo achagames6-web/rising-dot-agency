@@ -4,7 +4,16 @@
 
 .wfc {
   position: relative;
-  background: #04050a;
+  /* Picks up where the hero's earth leaves off - its bottom edge renders
+     around #081d3b once the plate's filter is applied - and settles to the
+     page black, so the seam between the two sections disappears. */
+  background: linear-gradient(
+    180deg,
+    #081d3b 0%,
+    #061630 14%,
+    #050d1c 34%,
+    #04050a 62%
+  );
   color: #e8ecf4;
   padding: clamp(4rem, 12vh, 9rem) 0 clamp(4.5rem, 13vh, 10rem);
   overflow: hidden;
@@ -21,54 +30,25 @@
     linear-gradient(rgba(22, 32, 58, 0.5) 1px, transparent 1px),
     linear-gradient(90deg, rgba(22, 32, 58, 0.5) 1px, transparent 1px);
   background-size: 40px 40px;
-  -webkit-mask-image: radial-gradient(78% 68% at 50% 46%, #000, transparent);
-  mask-image: radial-gradient(78% 68% at 50% 46%, #000, transparent);
+  -webkit-mask-image: radial-gradient(72% 62% at 50% 48%, #000, transparent);
+  mask-image: radial-gradient(72% 62% at 50% 48%, #000, transparent);
   pointer-events: none;
 }
 
 .wfc__inner {
   position: relative;
-  max-width: 84rem;
-  margin: 0 auto;
-  padding: 0 clamp(1.2rem, 4vw, 3rem);
+  width: 100%;
+  padding: 0 clamp(1.2rem, 3.5vw, 4rem);
 }
 
 /* ---------- heading: identical to the hero ---------- */
-
-.wfc__eyebrow {
-  font-family: var(--font-fira-code), ui-monospace, monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.42em;
-  text-transform: uppercase;
-  color: var(--wfc-accent);
-  margin: 0 0 1.2rem;
-}
-
-.wfc__title {
-  font-family: var(--font-montserrat), system-ui, sans-serif;
-  font-weight: 800;
-  font-size: clamp(1.75rem, 4vw, 3.5rem);
-  line-height: 1;
-  letter-spacing: -0.045em;
-  text-transform: uppercase;
-  margin: 0;
-}
-
-.wfc__lead {
-  font-family: var(--font-inter), system-ui, sans-serif;
-  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
-  line-height: 1.6;
-  color: var(--wfc-muted);
-  max-width: 34rem;
-  margin: 1.4rem 0 0;
-}
 
 /* ---------- the canvas ---------- */
 
 .wfc__flow {
   position: relative;
   margin-top: clamp(2.5rem, 7vh, 5rem);
-  height: 34rem;
+  height: clamp(31rem, 52vh, 40rem);
 }
 
 .wfc__edges {
@@ -116,10 +96,9 @@
 
 .wfc__node {
   position: absolute;
-  /* Checked against the canvas width: at 13.5rem every node clears the box
-     down to a 1000px container, which is where the diagram gives way to the
-     stacked list below. */
-  width: 13.5rem;
+  /* Scales with the canvas: wide enough to read at 1200px, generous on a
+     large monitor, never so wide that the outer nodes clip. */
+  width: clamp(12.5rem, 14vw, 18rem);
   transform: translate(-50%, -50%) translateY(14px);
   opacity: 0;
   transition:

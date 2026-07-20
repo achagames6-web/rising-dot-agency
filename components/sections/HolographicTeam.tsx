@@ -548,9 +548,7 @@ export default function HolographicTeam() {
   }, [isMobile]);
 
   return (
-    <section
-      className="relative min-h-screen overflow-hidden bg-black py-16"
-    >
+    <section className="relative min-h-screen overflow-hidden bg-black py-16">
       {/* Background */}
       <div className="absolute inset-0">
         {/* Grid pattern */}

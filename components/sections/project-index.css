@@ -1,0 +1,230 @@
+/* components/sections/project-index.css */
+
+.pidx {
+  position: relative;
+  /* Continues out of the canvas, which ends on the page black, and stays
+     there: deep space rather than a panel sitting on a page. */
+  background:
+    radial-gradient(
+      120% 70% at 50% 0%,
+      rgba(11, 22, 44, 0.75) 0%,
+      transparent 55%
+    ),
+    #04050a;
+  color: #e8ecf4;
+  padding: clamp(4rem, 12vh, 9rem) 0 clamp(4.5rem, 13vh, 10rem);
+  overflow: hidden;
+  --pidx-line: #16203a;
+  --pidx-blue: #2b8fd4;
+  --pidx-accent: #f58220;
+  --pidx-muted: #7c8698;
+}
+
+/* A sparse star field, drawn rather than loaded. */
+.pidx__stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.55;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #7fb6dd 50%, transparent 51%),
+    radial-gradient(1px 1px at 78% 12%, #cfe4f5 50%, transparent 51%),
+    radial-gradient(1px 1px at 34% 62%, #6aa6cf 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 74%, #a9cdea 50%, transparent 51%),
+    radial-gradient(1px 1px at 58% 34%, #f58220 50%, transparent 51%),
+    radial-gradient(1px 1px at 22% 86%, #8fc0e0 50%, transparent 51%),
+    radial-gradient(1px 1px at 66% 92%, #b9d8ef 50%, transparent 51%),
+    radial-gradient(1px 1px at 46% 8%, #7fb6dd 50%, transparent 51%);
+  background-repeat: repeat;
+  background-size: 620px 480px;
+  -webkit-mask-image: radial-gradient(90% 80% at 50% 30%, #000, transparent);
+  mask-image: radial-gradient(90% 80% at 50% 30%, #000, transparent);
+}
+
+.pidx__inner {
+  position: relative;
+  width: 100%;
+  padding: 0 clamp(1.2rem, 3.5vw, 4rem);
+}
+
+.pidx__head {
+  margin-bottom: clamp(2.5rem, 7vh, 4.5rem);
+}
+
+.pidx__body {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 0.86fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: start;
+}
+
+/* ---------- the list ---------- */
+
+.pidx__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--pidx-line);
+}
+
+.pidx__row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: clamp(0.8rem, 2vw, 1.6rem);
+  padding: clamp(0.95rem, 2.2vh, 1.5rem) 0.4rem;
+  border-bottom: 1px solid var(--pidx-line);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    padding-left 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.35s ease;
+}
+
+.pidx__row:hover,
+.pidx__row.is-on {
+  padding-left: 1.1rem;
+  background: rgba(43, 143, 212, 0.06);
+}
+
+.pidx__row:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: -2px;
+}
+
+.pidx__n {
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  color: var(--pidx-blue);
+}
+
+.pidx__t {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.1rem, 2.1vw, 1.9rem);
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.pidx__row:hover .pidx__t,
+.pidx__row.is-on .pidx__t {
+  color: var(--pidx-accent);
+}
+
+.pidx__k {
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pidx-muted);
+  white-space: nowrap;
+}
+
+/* ---------- the preview ---------- */
+
+.pidx__panel {
+  position: sticky;
+  top: 6rem;
+  border: 1px solid var(--pidx-line);
+  border-radius: 18px;
+  background: linear-gradient(
+    160deg,
+    rgba(11, 15, 26, 0.95),
+    rgba(4, 5, 10, 0.92)
+  );
+  overflow: hidden;
+}
+
+.pidx__shot {
+  position: relative;
+  aspect-ratio: 2 / 1;
+  border-bottom: 1px solid var(--pidx-line);
+  background: #0b0f1a;
+}
+
+.pidx__shot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  opacity: 0;
+  transform: scale(1.02);
+  transition:
+    opacity 0.45s ease,
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  /* Screenshots are light UI on a dark card - settle them into the palette. */
+  filter: saturate(0.9) contrast(1.02) brightness(0.94);
+}
+
+.pidx__shot img.is-on {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.pidx__meta {
+  padding: 1.4rem 1.5rem 1.6rem;
+}
+
+.pidx__kicker {
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--pidx-accent);
+  margin: 0 0 0.7rem;
+}
+
+.pidx__name {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.45rem;
+  letter-spacing: -0.025em;
+  margin: 0 0 0.6rem;
+}
+
+.pidx__desc {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--pidx-muted);
+  margin: 0 0 1.3rem;
+}
+
+.pidx__foot {
+  border-top: 1px solid var(--pidx-line);
+  padding-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--pidx-muted);
+}
+
+/* ---------- narrow ---------- */
+
+@media (max-width: 1000px) {
+  .pidx__body {
+    grid-template-columns: 1fr;
+  }
+
+  /* On one column the preview leads, then the list. */
+  .pidx__panel {
+    position: static;
+    order: -1;
+    margin-bottom: 1.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pidx__row,
+  .pidx__shot img {
+    transition: none;
+  }
+}

@@ -10,6 +10,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
+import './section-type.css';
 import './workflow-canvas.css';
 
 type Node = {
@@ -178,13 +179,13 @@ export default function WorkflowCanvas() {
 
       <div className="wfc__inner">
         <header className="wfc__head">
-          <p className="wfc__eyebrow">What we do</p>
-          <h2 id="wfc-head" className="wfc__title">
+          <p className="sec-eyebrow">What we do</p>
+          <h2 id="wfc-head" className="sec-title">
             Your operation,
             <br />
-            as a workflow
+            as a <em>workflow</em>
           </h2>
-          <p className="wfc__lead">
+          <p className="sec-lead">
             Everything that repeats becomes a step. Everything that runs itself
             stops needing you.
           </p>
