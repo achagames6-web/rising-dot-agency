@@ -18,21 +18,28 @@ export const COLORS = {
  * Change these numbers to re-time the whole film; nothing else needs editing.
  */
 export const ACTS = {
-  dot: [0.0, 0.1],
-  trail: [0.1, 0.34],
-  ring: [0.34, 0.46],
-  entry: [0.46, 0.56],
-  corridor: [0.56, 0.88],
-  rise: [0.88, 1.0],
+  /** One dot on the axis. Nothing else. */
+  dot: [0.0, 0.07],
+  /** Guides appear: axis, both circles, the 24 degree ray. */
+  construct: [0.07, 0.17],
+  /** The mark draws itself, stroke by stroke, in construction order. */
+  draw: [0.17, 0.52],
+  /** Camera pushes through the bowl centre - through the dot itself. */
+  entry: [0.52, 0.62],
+  /** Services, arranged around the tunnel axis. */
+  corridor: [0.62, 0.93],
+  rise: [0.93, 1.0],
 } as const;
 
+/** Sparse dust only. The mark itself is drawn with solid tubes, not points -
+ *  additive particle stacking is what blew the old hero out to white. */
 export const PARTICLES = {
-  trail: 9000,
-  ring: 4200,
+  dust: 1400,
 } as const;
 
-/** Height of the scroll track. More vh = slower, more cinematic. */
-export const SCROLL_TRACK_VH = 620;
+/** Height of the scroll track. More vh = slower. 1100 gives the construction
+ *  room to breathe; the old 620 rushed the whole film. */
+export const SCROLL_TRACK_VH = 1100;
 
 export type Service = {
   title: string;

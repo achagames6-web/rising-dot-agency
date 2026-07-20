@@ -12,11 +12,13 @@ import { onProgress, useHeroScroll } from '@/lib/hero/scroll';
 import { Scene } from './Scene';
 import './hero.css';
 
+// The rail names the six acts. They are a real sequence - the order you
+// would construct the logo in - so numbering them carries information.
 const ACT_LABELS = [
   'The dot',
-  'The trail',
-  'The ring',
-  'Inside',
+  'Construction',
+  'The mark',
+  'Through the dot',
   'What we do',
   'Rise',
 ];
@@ -54,9 +56,9 @@ export default function HeroSection() {
     if (mode !== 'full') return;
 
     return onProgress((p) => {
-      // Tagline: in with the trail, out before the portal.
-      const tagIn = clamp((p - 0.13) / 0.09);
-      const tagOut = 1 - clamp((p - ACTS.ring[1] + 0.03) / 0.05);
+      // Tagline: in as the mark starts drawing, out before the portal.
+      const tagIn = clamp((p - ACTS.draw[0] - 0.02) / 0.07);
+      const tagOut = 1 - clamp((p - ACTS.draw[1] + 0.03) / 0.05);
       const tag = taglineRef.current;
       if (tag) {
         const v = tagIn * tagOut;
@@ -66,19 +68,19 @@ export default function HeroSection() {
 
       // Scroll hint: only while nothing has happened yet.
       const hint = hintRef.current;
-      if (hint) hint.style.opacity = String(1 - clamp(p / 0.05));
+      if (hint) hint.style.opacity = String(1 - clamp(p / 0.035));
 
       // Portal flash at the moment the camera crosses the ring.
       const flash = flashRef.current;
       if (flash) {
         const f = range(p, ACTS.entry);
-        flash.style.opacity = String(Math.sin(f * Math.PI) * 0.42);
+        flash.style.opacity = String(Math.sin(f * Math.PI) * 0.22);
       }
 
       // Outro: appears as the camera rises back out.
       const outro = outroRef.current;
       if (outro) {
-        const v = range(p, [0.92, 0.99] as const);
+        const v = range(p, [0.945, 0.995] as const);
         outro.style.opacity = String(v);
         outro.style.transform = `translateY(${(1 - v) * 24}px)`;
         outro.style.pointerEvents = v > 0.6 ? 'auto' : 'none';

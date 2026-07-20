@@ -1,18 +1,16 @@
 'use client';
 
 // components/hero/Scene.tsx
-// One camera, one continuous move, six acts. Every act reads from the same
-// normalised scroll value, so the whole film is re-timeable from config.ts.
+// One camera, one continuous move. The camera enters the mark through the
+// centre of the bowl circle - which is the orange dot itself.
 
-import { useMemo, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { PerformanceMonitor } from '@react-three/drei';
 import * as THREE from 'three';
 import {
   ACTS,
   COLORS,
-  PARTICLES,
-  clamp,
   damp,
   easeInOut,
   easeOut,
@@ -20,65 +18,74 @@ import {
   range,
 } from '@/lib/hero/config';
 import { scrollState } from '@/lib/hero/scroll';
-import { R_PATH_D, sampleRing, samplePath } from '@/lib/hero/paths';
-import { LeadDot, TrailPoints } from './Particles';
-import { Corridor } from './Corridor';
+import { MARK } from '@/lib/hero/mark';
+import { Mark } from './Mark';
+import { Construction, Dust } from './Construction';
+import { Corridor, CORRIDOR_END } from './Corridor';
 
-const CORRIDOR_END = -37;
+const FOCUS = MARK.bowl.center;
 
 function CameraRig() {
   const { camera } = useThree();
-  const target = useMemo(() => new THREE.Vector3(0, 0, 0), []);
-  const look = useMemo(() => new THREE.Vector3(0, 0, 0), []);
-  const desired = useMemo(() => new THREE.Vector3(0, 0, 6.4), []);
-  const desiredLook = useMemo(() => new THREE.Vector3(), []);
+  const pos = new THREE.Vector3(0, FOCUS.y, 3.2);
+  const look = new THREE.Vector3(0, FOCUS.y, 0);
+  const wantPos = new THREE.Vector3();
+  const wantLook = new THREE.Vector3();
 
   useFrame((_, dt) => {
     const step = Math.min(dt, 0.05);
+    // Slower damping than before: the film should feel weighted, not springy.
     scrollState.smooth = damp(
       scrollState.smooth,
       scrollState.progress,
-      6,
+      4.5,
       step
     );
     const p = scrollState.smooth;
 
     if (p < ACTS.entry[0]) {
-      // Acts 1–3: slow orbit while the mark draws itself.
-      const t = clamp(p / ACTS.entry[0]);
-      const angle = lerp(-0.3, 0.24, easeInOut(t));
-      const dist = lerp(7.2, 6.0, easeInOut(t));
-      desired.set(Math.sin(angle) * dist, 0.15, Math.cos(angle) * dist);
-      desiredLook.set(0, 0, 0);
-    } else if (p < ACTS.corridor[0]) {
-      // Act 4: push through the centre of the R.
-      const t = easeInOut(range(p, ACTS.entry));
-      desired.set(
-        lerp(Math.sin(0.24) * 6.0, 0, t),
-        lerp(0.15, 0, t),
-        lerp(6.0, -1.4, t)
+      // Acts 1-3. Start tight on the dot, pull back as the construction
+      // appears, drift a few degrees while the mark draws itself.
+      const t = easeInOut(p / ACTS.entry[0]);
+      const dist = lerp(3.4, 8.6, easeOut(Math.min(1, p / ACTS.draw[0])));
+      const angle = lerp(-0.16, 0.2, t);
+      wantPos.set(
+        Math.sin(angle) * dist,
+        FOCUS.y + t * 0.25,
+        Math.cos(angle) * dist
       );
-      desiredLook.set(0, 0, lerp(0, -8, t));
+      wantLook.set(0, FOCUS.y, 0);
+    } else if (p < ACTS.corridor[0]) {
+      // Act 4: straight through the bowl centre.
+      const t = easeInOut(range(p, ACTS.entry));
+      wantPos.set(
+        lerp(Math.sin(0.2) * 8.6, FOCUS.x, t),
+        lerp(FOCUS.y + 0.25, FOCUS.y, t),
+        lerp(Math.cos(0.2) * 8.6, -1.6, t)
+      );
+      wantLook.set(0, lerp(FOCUS.y, 0, t), lerp(FOCUS.y, -9, t));
     } else if (p < ACTS.rise[0]) {
-      // Act 5: tracking shot down the corridor.
+      // Act 5: down the tunnel.
       const t = range(p, ACTS.corridor);
-      const z = lerp(-1.4, CORRIDOR_END, t);
-      desired.set(
-        Math.sin(t * Math.PI * 2.1) * 0.55,
-        Math.sin(t * Math.PI * 3.1) * 0.3,
+      const z = lerp(-1.6, CORRIDOR_END, t);
+      wantPos.set(
+        Math.sin(t * Math.PI * 1.7) * 0.42,
+        lerp(FOCUS.y, 0, Math.min(1, t * 3)) +
+          Math.sin(t * Math.PI * 2.4) * 0.22,
         z
       );
-      desiredLook.set(0, 0, z - 8);
+      wantLook.set(0, 0, z - 9);
     } else {
-      // Act 6: pull out and rise.
+      // Act 6: out and up.
       const t = easeOut(range(p, ACTS.rise));
-      desired.set(lerp(0, 0, t), lerp(0, 1.5, t), lerp(CORRIDOR_END, 9, t));
-      desiredLook.set(0, 0, lerp(CORRIDOR_END - 8, 0, t));
+      wantPos.set(0, lerp(0, 1.4, t), lerp(CORRIDOR_END, 9.5, t));
+      wantLook.set(0, lerp(0, FOCUS.y, t), lerp(CORRIDOR_END - 9, 0, t));
     }
 
-    target.lerp(desired, 1 - Math.exp(-9 * step));
-    look.lerp(desiredLook, 1 - Math.exp(-9 * step));
-    camera.position.copy(target);
+    const k = 1 - Math.exp(-7 * step);
+    pos.lerp(wantPos, k);
+    look.lerp(wantLook, k);
+    camera.position.copy(pos);
     camera.lookAt(look);
   });
 
@@ -86,42 +93,7 @@ function CameraRig() {
 }
 
 export function Scene() {
-  // Glow is done with additive blending + a CSS bloom layer instead of a
-  // post-processing pass, so the hero adds no new dependencies and stays
-  // cheap on mid-range phones. `rich` scales particle size down if the
-  // frame rate drops.
   const [rich, setRich] = useState(true);
-
-  // Sampled once, on the client, before first paint of the canvas.
-  const rData = useMemo(() => samplePath(R_PATH_D, PARTICLES.trail), []);
-  const ringData = useMemo(() => sampleRing(PARTICLES.ring), []);
-
-  const trailReveal = () => easeOut(range(scrollState.smooth, ACTS.trail));
-  const ringReveal = () => easeOut(range(scrollState.smooth, ACTS.ring));
-  const collapse = () => easeInOut(range(scrollState.smooth, ACTS.rise));
-
-  const leadPosition = (): [number, number, number] => {
-    const p = scrollState.smooth;
-    if (p < ACTS.trail[0]) return rData.pointAt(0);
-    if (p < ACTS.ring[0]) return rData.pointAt(trailReveal());
-    return ringData.pointAt(ringReveal());
-  };
-
-  const leadVisible = () => {
-    const p = scrollState.smooth;
-    if (p < ACTS.ring[1]) return 1;
-    // Fades out as the camera enters the portal.
-    return 1 - clamp((p - ACTS.ring[1]) / 0.05);
-  };
-
-  const markOpacityGroup = useRef<THREE.Group>(null);
-  useFrame(() => {
-    const g = markOpacityGroup.current;
-    if (!g) return;
-    // Hide the mark once we are well inside the corridor — nothing to see
-    // behind us, and it saves the fill rate for the panels.
-    g.visible = scrollState.smooth < ACTS.corridor[1] + 0.02;
-  });
 
   return (
     <>
@@ -131,36 +103,14 @@ export function Scene() {
       />
 
       <color attach="background" args={[COLORS.base]} />
-      <fog attach="fog" args={[COLORS.base, 12, 46]} />
+      <fog attach="fog" args={[COLORS.base, 14, 52]} />
 
       <CameraRig />
 
-      <group ref={markOpacityGroup}>
-        <TrailPoints
-          data={rData}
-          color={COLORS.blue}
-          hot={COLORS.glow}
-          reveal={trailReveal}
-          scatter={collapse}
-          size={rich ? 2.5 : 1.9}
-        />
-        <TrailPoints
-          data={ringData}
-          color={COLORS.glow}
-          hot={COLORS.accent}
-          reveal={ringReveal}
-          scatter={collapse}
-          size={rich ? 2.0 : 1.6}
-          hotWidth={0.035}
-        />
-        <LeadDot
-          positionAt={leadPosition}
-          visible={leadVisible}
-          color={COLORS.accent}
-        />
-      </group>
-
+      <Construction />
+      <Mark />
       <Corridor />
+      {rich && <Dust />}
     </>
   );
 }
