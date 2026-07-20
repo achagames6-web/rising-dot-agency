@@ -63,10 +63,12 @@ function WorkCard({
   item,
   index,
   total,
+  label,
 }: {
   item: (typeof WORK)[number];
   index: number;
   total: number;
+  label: string;
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
   const [seen, setSeen] = useState(false);
@@ -120,7 +122,7 @@ function WorkCard({
     >
       <span className="rd-card__leader" aria-hidden="true" />
       <span className="rd-card__id" aria-hidden="true">
-        {isCase ? 'CASE_01' : `CAP_${String(index).padStart(2, '0')}`}
+        {label}
       </span>
 
       {isCase && item.image && (
@@ -304,14 +306,21 @@ export default function HeroSection() {
 
         {/* --- 3. work wall --- */}
         <div className="rd-wall" aria-hidden="false">
-          {WORK.map((item, i) => (
-            <WorkCard
-              key={item.title}
-              item={item}
-              index={i}
-              total={WORK.length}
-            />
-          ))}
+          {WORK.map((item, i) => {
+            const seen = WORK.slice(0, i + 1).filter(
+              (x) => x.type === item.type
+            ).length;
+            const prefix = item.type === 'case' ? 'CASE' : 'CAP';
+            return (
+              <WorkCard
+                key={item.title}
+                item={item}
+                index={i}
+                total={WORK.length}
+                label={`${prefix}_${String(seen).padStart(2, '0')}`}
+              />
+            );
+          })}
         </div>
 
         <div ref={railRef} className="rd-layer rd-rail" style={{ opacity: 0 }}>
