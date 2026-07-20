@@ -136,19 +136,19 @@
   cursor: pointer;
   border-radius: 999px;
   padding: 0.34rem 0.8rem;
-  font-family: var(--font-fira-code), ui-monospace, monospace;
-  font-size: 0.52rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(232, 236, 244, 0.55);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.76rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: rgba(232, 236, 244, 0.62);
   transition:
     background 0.25s ease,
     color 0.25s ease;
 }
 
 .sfs__switch button[aria-pressed='true'] {
-  background: var(--sfs-accent);
-  color: #100a03;
+  background: #f58122;
+  color: #ffffff;
 }
 
 .sfs__switch button:focus-visible {

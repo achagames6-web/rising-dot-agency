@@ -37,12 +37,16 @@
   background: none;
   cursor: pointer;
   border-radius: 999px;
-  padding: 0.65rem 1.35rem;
-  font-family: var(--font-fira-code), ui-monospace, monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(232, 236, 244, 0.55);
+  /* Type and colour lifted from StarButton so a tab reads as the same
+     control family: Inter, 0.875rem, semibold, sentence case - not the
+     mono uppercase used for labels elsewhere. */
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  padding: 0.6rem 1.5rem;
+  color: rgba(232, 236, 244, 0.62);
   white-space: nowrap;
   transition: color 0.25s ease;
 }
@@ -52,7 +56,8 @@
 }
 
 .stabs__tab.is-on {
-  color: #100a03;
+  /* White on orange, exactly as the button does it. */
+  color: #ffffff;
 }
 
 /* Slides between tabs instead of appearing. */
@@ -61,10 +66,10 @@
   inset: 0;
   z-index: -1;
   border-radius: 999px;
-  background: #f58220;
+  background: #f58122;
   box-shadow:
-    0 0 0 1px rgba(245, 130, 32, 0.6),
-    0 10px 26px -10px rgba(245, 130, 32, 0.75);
+    0 0 0 1px rgba(245, 129, 34, 0.6),
+    0 10px 26px -10px rgba(245, 129, 34, 0.75);
 }
 
 .stabs__label {
@@ -78,9 +83,8 @@
 
 @media (max-width: 640px) {
   .stabs__tab {
-    padding: 0.6rem 0.9rem;
-    font-size: 0.55rem;
-    letter-spacing: 0.14em;
+    padding: 0.55rem 1rem;
+    font-size: 0.8rem;
   }
 }
 
