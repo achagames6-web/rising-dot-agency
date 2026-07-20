@@ -1,5 +1,7 @@
 import { Resend } from 'resend';
 
+// Resend throws lazily, so the missing-key case is checked in the route and
+// surfaced to the visitor rather than failing as a generic 500.
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 interface ContactEmailData {

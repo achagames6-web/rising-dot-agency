@@ -7,6 +7,7 @@ import { ParticleWrapper } from '@/components/ui/particle-button';
 import { StarButton } from '@/components/ui/star-button';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
+import '@/components/sections/space.css';
 
 // Custom Dropdown Component
 interface DropdownOption {
@@ -193,6 +194,7 @@ export default function HolographicContact() {
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [sendError, setSendError] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // WebGL Globe
@@ -352,6 +354,7 @@ export default function HolographicContact() {
     async (e: React.FormEvent) => {
       e.preventDefault();
       setIsSubmitting(true);
+      setSendError('');
 
       try {
         const response = await fetch('/api/contact', {
@@ -369,13 +372,22 @@ export default function HolographicContact() {
         });
 
         if (!response.ok) {
-          throw new Error('Failed to submit');
+          // Surface the server's reason rather than a generic failure, so a
+          // missing API key looks different from a bad address.
+          const detail = await response.json().catch(() => null);
+          throw new Error(
+            detail?.error || `Request failed (${response.status})`
+          );
         }
 
         setIsSubmitted(true);
       } catch (error) {
         console.error('Error submitting form:', error);
-        alert('Failed to send message. Please try again.');
+        setSendError(
+          error instanceof Error
+            ? error.message
+            : 'Could not send. Please try again.'
+        );
       } finally {
         setIsSubmitting(false);
       }
@@ -384,7 +396,8 @@ export default function HolographicContact() {
   );
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-black py-16">
+    <section className="rd-space min-h-screen py-16">
+      <div className="rd-space__stars" aria-hidden="true" />
       <div className="mx-auto max-w-7xl px-4 md:px-6">
         <SectionHeading
           eyebrow={eyebrow}
@@ -529,6 +542,15 @@ export default function HolographicContact() {
                     />
                   </p>
                 </div>
+
+                {sendError && (
+                  <p
+                    role="alert"
+                    className="rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-300"
+                  >
+                    {sendError}
+                  </p>
+                )}
 
                 <ParticleWrapper className="w-full">
                   <StarButton

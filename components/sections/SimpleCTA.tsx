@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ParticleWrapper } from '@/components/ui/particle-button';
-import { Mail, Calendar } from 'lucide-react';
+import { Mail, Calendar, Sparkles } from 'lucide-react';
 import { StarButton } from '@/components/ui/star-button';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
@@ -19,6 +19,7 @@ import {
   PinterestIcon,
   GitHubIcon,
 } from '@/components/ui/social-icons';
+import '@/components/sections/space.css';
 
 export default function SimpleCTA() {
   // Fetch CMS content
@@ -84,7 +85,8 @@ export default function SimpleCTA() {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-black px-4 py-12 sm:px-6 md:py-16 lg:px-8">
+    <section className="rd-space px-4 py-12 sm:px-6 md:py-16 lg:px-8">
+      <div className="rd-space__stars" aria-hidden="true" />
       {/* Background gradient */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#37AFE1]/5 to-transparent" />
       <div className="absolute inset-0">
@@ -119,14 +121,24 @@ export default function SimpleCTA() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
+            {/* The same eyebrow pill every other section uses. */}
             <motion.div
-              className="inline-flex items-center gap-2 rounded-full border border-white/[0.15] bg-white/[0.08] px-4 py-2 text-xs backdrop-blur-sm sm:gap-3 sm:px-5 sm:text-sm"
+              className="inline-flex items-center gap-3 rounded-full border border-white/[0.15] bg-white/[0.08] px-4 py-2 backdrop-blur-sm"
               whileHover={{
                 scale: 1.05,
                 borderColor: 'rgba(255, 255, 255, 0.3)',
               }}
             >
-              <span className="font-medium text-white/80">{eyebrow}</span>
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+              >
+                <Sparkles className="h-4 w-4 text-[#F58122]" />
+              </motion.div>
+              <span className="text-sm font-medium text-white/80">
+                ✨ {eyebrow}
+              </span>
+              <div className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
             </motion.div>
           </motion.div>
 

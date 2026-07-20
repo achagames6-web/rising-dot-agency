@@ -1,0 +1,40 @@
+/* components/sections/space.css
+ *
+ * The shared field of space. Any section that predates the new design system
+ * can adopt the exact background by adding `rd-space` and dropping a
+ * `rd-space__stars` div inside it - same #04050A, same eight-point star
+ * field, same mask as the sections built from scratch.
+ */
+
+.rd-space {
+  position: relative;
+  background: #04050a !important;
+  overflow: hidden;
+}
+
+.rd-space__stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  z-index: 0;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #7fb6dd 50%, transparent 51%),
+    radial-gradient(1px 1px at 78% 12%, #cfe4f5 50%, transparent 51%),
+    radial-gradient(1px 1px at 34% 62%, #6aa6cf 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 74%, #a9cdea 50%, transparent 51%),
+    radial-gradient(1px 1px at 58% 34%, #f58220 50%, transparent 51%),
+    radial-gradient(1px 1px at 22% 86%, #8fc0e0 50%, transparent 51%),
+    radial-gradient(1px 1px at 66% 92%, #b9d8ef 50%, transparent 51%),
+    radial-gradient(1px 1px at 46% 8%, #7fb6dd 50%, transparent 51%);
+  background-repeat: repeat;
+  background-size: 620px 480px;
+  -webkit-mask-image: radial-gradient(95% 85% at 50% 40%, #000, transparent);
+  mask-image: radial-gradient(95% 85% at 50% 40%, #000, transparent);
+}
+
+/* Keep real content above the field. */
+.rd-space > *:not(.rd-space__stars) {
+  position: relative;
+  z-index: 1;
+}
