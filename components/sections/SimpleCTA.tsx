@@ -44,12 +44,6 @@ export default function SimpleCTA() {
   const ctaLink = ctaContent?.ctaLink || '/contact';
   const secondaryCtaText = ctaContent?.secondaryCtaText || 'View Our Work';
   const secondaryCtaLink = ctaContent?.secondaryCtaLink || '/portfolio';
-  const stats = ctaContent?.stats || [
-    { number: '500+', label: 'Projects Completed' },
-    { number: '98%', label: 'Client Satisfaction' },
-    { number: '50+', label: 'Team Members' },
-    { number: '24/7', label: 'Support Available' },
-  ];
 
   // Social media configuration
   const socialLinks = [
@@ -178,27 +172,6 @@ export default function SimpleCTA() {
                 </Link>
               </motion.div>
             </ParticleWrapper>
-          </div>
-
-          {/* Stats */}
-          <div className="mt-20 grid grid-cols-2 gap-8 md:grid-cols-4">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="text-center"
-              >
-                <div className="mb-2 text-3xl font-bold text-white md:text-4xl">
-                  {stat.number}
-                </div>
-                <div className="text-sm text-[#64748B] md:text-base">
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
           </div>
 
           {/* Social Icons - Direct on Page Background */}
