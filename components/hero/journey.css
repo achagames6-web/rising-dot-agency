@@ -184,7 +184,9 @@
   );
   text-decoration: none;
   color: var(--rd-text);
-  pointer-events: auto;
+  /* Cards are display only: they fly past and are not clickable, so they
+     take no pointer events and carry no hover state. */
+  pointer-events: none;
   /* The card never turns away from the camera - no rotateY anywhere. This is
      what mirrored the text in the previous build. */
   backface-visibility: hidden;
@@ -224,11 +226,15 @@
 }
 
 .rd-card__cta {
+  display: inline-block;
   font-family: var(--rd-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.22em;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--rd-blue);
+  color: var(--rd-muted);
+  border: 1px solid var(--rd-line);
+  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
 }
 
 /* ---------- 3b. pinned rail ---------- */
