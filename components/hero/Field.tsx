@@ -1,17 +1,16 @@
 'use client';
 
 // components/hero/Field.tsx
-// Three behaviours, driven by one scroll value:
+// Three states, morphed by scroll:
 //
-//   RAIN   brand-coloured particles fall from the top and settle out at the
-//          horizon, above the earth plate           (first screen)
-//   FIELD  the same particles fly past the camera   (the work section)
-//   EXIT   everything rises off the top and clears  (the close)
+//   RAIN   brand-coloured dots falling from the top of the frame, fading out
+//          as they reach the horizon of the earth image below
+//   FIELD  the same dots as a deep slab flying past  (the work section)
+//   RISE   everything travels upward out of frame    (the close)
 //
-// No shape is formed at either end - no ring, no sphere. No text in here.
-// No additive blending.
+// No sphere anywhere. No text in here. No additive blending.
 
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import {
@@ -26,9 +25,6 @@ import {
 import { scrollState } from '@/lib/hero/scroll';
 
 const SPAN = 70;
-/** Where the rain stops: the horizon line of the earth plate. */
-const HORIZON = -3.1;
-const TOP = 5.4;
 
 const VERT = /* glsl */ `
   attribute vec3 aRain;
@@ -37,34 +33,43 @@ const VERT = /* glsl */ `
   attribute float aSeed;
 
   uniform float uField;
+  uniform float uRise;
   uniform float uFall;
   uniform float uSweep;
-  uniform float uLift;
-  uniform float uTime;
+  uniform float uHorizon;
+  uniform float uSpan;
+  uniform float uHalfW;
   uniform float uFlight;
   uniform float uSize;
+  uniform float uTime;
 
   varying vec3 vColor;
   varying float vFade;
 
   void main() {
-    // --- rain ---
-    float span = TOP_Y - HORIZON_Y;
-    // Each particle keeps its own offset, so they do not fall in lockstep.
-    float y = TOP_Y - mod(aRain.y + uFall * (0.6 + aSeed * 0.8), span);
-    float drift = sin(uTime * 0.4 + aSeed * 6.2831) * 0.12;
+    // --- rain -------------------------------------------------------------
+    // aRain.y is a normalised position in the fall cycle, so the column is
+    // resolution independent: it always spans horizon -> top of frame.
+    float ry = fract(aRain.y - uFall);
+    vec3 rain = vec3(
+      aRain.x * uHalfW + uSweep * (0.6 + aSeed),
+      uHorizon + ry * uSpan,
+      aRain.z
+    );
+    rain.x += sin(uTime * 0.4 + aSeed * 6.2831) * 0.06;
 
-    vec3 rain = vec3(aRain.x + drift + uSweep, y + uLift, aRain.z);
+    // Fade in as they enter at the top, out as they meet the horizon.
+    float rainFade = smoothstep(0.0, 0.16, ry) * (1.0 - smoothstep(0.84, 1.0, ry));
 
-    // Particles thin out as they reach the horizon rather than passing through it.
-    float land = smoothstep(HORIZON_Y, HORIZON_Y + 1.5, y);
+    // --- field ------------------------------------------------------------
+    vec3 field = aField;
+    float flown = field.z + uFlight;
+    field.z = mod(flown + SPAN_HALF, SPAN_TOTAL) - SPAN_HALF;
 
-    // --- flying field ---
-    vec3 fld = aField;
-    float flown = fld.z + uFlight;
-    fld.z = mod(flown + SPAN_HALF, SPAN_TOTAL) - SPAN_HALF;
+    vec3 p = mix(rain, field, uField);
 
-    vec3 p = mix(rain, fld, uField);
+    // --- rise -------------------------------------------------------------
+    p.y += uRise * (7.0 + aSeed * 6.0);
 
     vec4 mv = modelViewMatrix * vec4(p, 1.0);
     gl_Position = projectionMatrix * mv;
@@ -73,18 +78,20 @@ const VERT = /* glsl */ `
     gl_PointSize = uSize * (26.0 / max(0.001, dist));
 
     vColor = aColor;
-    float depth = smoothstep(SPAN_TOTAL, 10.0, dist) * smoothstep(0.4, 3.0, dist);
-    vFade = depth * mix(land, 1.0, uField);
+
+    float depthFade = smoothstep(SPAN_TOTAL, 10.0, dist) * smoothstep(0.4, 3.0, dist);
+    vFade = mix(rainFade, depthFade, uField) * (1.0 - uRise);
   }
 `
   .replace(/SPAN_HALF/g, (SPAN / 2).toFixed(1))
-  .replace(/SPAN_TOTAL/g, SPAN.toFixed(1))
-  .replace(/HORIZON_Y/g, HORIZON.toFixed(2))
-  .replace(/TOP_Y/g, TOP.toFixed(2));
+  .replace(/SPAN_TOTAL/g, SPAN.toFixed(1));
 
 const FRAG = /* glsl */ `
   precision mediump float;
+
   uniform float uOpacity;
+  uniform float uDim;
+
   varying vec3 vColor;
   varying float vFade;
 
@@ -92,41 +99,51 @@ const FRAG = /* glsl */ `
     vec2 uv = gl_PointCoord - 0.5;
     float d = length(uv);
     if (d > 0.5) discard;
+
     float a = smoothstep(0.5, 0.08, d) * vFade * uOpacity;
-    gl_FragColor = vec4(vColor, a * 0.5);
+    gl_FragColor = vec4(vColor * uDim, a * 0.55);
   }
 `;
 
-/** Brand hues, held back a stop so they sit in the frame. */
-const BLUE = new THREE.Color('#2B8FD4').multiplyScalar(0.66);
-const GLOW = new THREE.Color('#38BDF8').multiplyScalar(0.62);
-const ACCENT = new THREE.Color('#F58220').multiplyScalar(0.66);
+type Sample = {
+  rain: Float32Array;
+  field: Float32Array;
+  color: Float32Array;
+  seed: Float32Array;
+};
 
-function build(count: number) {
+/** Brand blue with a little variation, and one dot in eight in the accent. */
+function brandColour(i: number): [number, number, number] {
+  const accent = Math.random() < 0.12;
+  if (accent) return [0.96, 0.51, 0.13];
+  const t = Math.random();
+  // #2B8FD4 -> #7CC4F0, so the fall has depth rather than one flat blue.
+  return [lerp(0.17, 0.49, t), lerp(0.56, 0.77, t), lerp(0.83, 0.94, t)];
+}
+
+function build(count: number): Sample {
   const rain = new Float32Array(count * 3);
   const field = new Float32Array(count * 3);
   const color = new Float32Array(count * 3);
   const seed = new Float32Array(count);
 
   for (let i = 0; i < count; i++) {
-    rain[i * 3] = (Math.random() - 0.5) * 26;
-    rain[i * 3 + 1] = Math.random() * (TOP - HORIZON);
-    rain[i * 3 + 2] = -1 + Math.random() * 7;
+    rain[i * 3] = Math.random() * 2 - 1; // -1..1, scaled by uHalfW
+    rain[i * 3 + 1] = Math.random(); // position in the fall cycle
+    rain[i * 3 + 2] = -5 + Math.random() * 8;
 
     field[i * 3] = (Math.random() - 0.5) * 34;
     field[i * 3 + 1] = -2.6 + Math.pow(Math.random(), 1.7) * 8.5;
     field[i * 3 + 2] = -Math.random() * SPAN;
 
-    // Mostly blue, a little glow, a sparse accent.
-    const r = Math.random();
-    const c = r < 0.1 ? ACCENT : r < 0.32 ? GLOW : BLUE;
-    const v = 0.8 + Math.random() * 0.4;
-    color[i * 3] = c.r * v;
-    color[i * 3 + 1] = c.g * v;
-    color[i * 3 + 2] = c.b * v;
+    const [r, g, b] = brandColour(i);
+    color[i * 3] = r;
+    color[i * 3 + 1] = g;
+    color[i * 3 + 2] = b;
 
     seed[i] = Math.random();
   }
+
   return { rain, field, color, seed };
 }
 
@@ -137,33 +154,58 @@ export function Field({
   quality?: number;
   narrow?: boolean;
 }) {
-  const matRef = useRef<THREE.ShaderMaterial>(null);
-  const { camera } = useThree();
+  const [sample, setSample] = useState<Sample | null>(null);
 
-  const count = narrow ? Math.round(PARTICLE_COUNT * 0.5) : PARTICLE_COUNT;
-  const data = useMemo(() => build(count), [count]);
+  useEffect(() => {
+    setSample(build(narrow ? 3600 : PARTICLE_COUNT));
+  }, [narrow]);
+
+  return (
+    <>
+      <color attach="background" args={[COLORS.base]} />
+      <fog attach="fog" args={[COLORS.base, 18, SPAN]} />
+      {sample && <Cloud sample={sample} quality={quality} narrow={narrow} />}
+    </>
+  );
+}
+
+function Cloud({
+  sample,
+  quality,
+  narrow,
+}: {
+  sample: Sample;
+  quality: number;
+  narrow: boolean;
+}) {
+  const matRef = useRef<THREE.ShaderMaterial>(null);
+  const { camera, pointer, viewport } = useThree();
 
   const geometry = useMemo(() => {
     const g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.BufferAttribute(data.rain, 3));
-    g.setAttribute('aRain', new THREE.BufferAttribute(data.rain, 3));
-    g.setAttribute('aField', new THREE.BufferAttribute(data.field, 3));
-    g.setAttribute('aColor', new THREE.BufferAttribute(data.color, 3));
-    g.setAttribute('aSeed', new THREE.BufferAttribute(data.seed, 1));
+    g.setAttribute('position', new THREE.BufferAttribute(sample.field, 3));
+    g.setAttribute('aRain', new THREE.BufferAttribute(sample.rain, 3));
+    g.setAttribute('aField', new THREE.BufferAttribute(sample.field, 3));
+    g.setAttribute('aColor', new THREE.BufferAttribute(sample.color, 3));
+    g.setAttribute('aSeed', new THREE.BufferAttribute(sample.seed, 1));
     g.boundingSphere = new THREE.Sphere(new THREE.Vector3(), SPAN);
     return g;
-  }, [data]);
+  }, [sample]);
 
   const uniforms = useMemo(
     () => ({
       uField: { value: 0 },
+      uRise: { value: 0 },
       uFall: { value: 0 },
       uSweep: { value: 0 },
-      uLift: { value: 0 },
-      uTime: { value: 0 },
+      uHorizon: { value: -1 },
+      uSpan: { value: 9 },
+      uHalfW: { value: 8 },
       uFlight: { value: 0 },
-      uSize: { value: 1.8 * quality },
+      uTime: { value: 0 },
+      uSize: { value: 1.7 * quality },
       uOpacity: { value: 1 },
+      uDim: { value: 0.78 },
     }),
     [quality]
   );
@@ -181,47 +223,49 @@ export function Field({
     );
     const p = scrollState.smooth;
 
-    const toField = easeInOut(range(p, SECTIONS.intro));
-    const exit = easeInOut(range(p, SECTIONS.close));
+    const toField = range(p, SECTIONS.intro);
+    const rise = easeInOut(range(p, SECTIONS.close));
+    const t = state.clock.elapsedTime;
 
-    // Falling accelerates hard as you start scrolling, which is what makes
-    // the transition feel like speed rather than a cross-fade.
-    const speed = 1 + range(p, SECTIONS.intro) * 14;
-    fall.current += step * speed * 1.4;
+    // The fall accelerates hard as you start scrolling, then the whole
+    // column slides aside to hand the frame over to the work section.
+    const speed = 0.05 + toField * 0.55;
+    fall.current += step * speed;
 
     const u = matRef.current?.uniforms;
     if (u) {
-      u.uTime.value = state.clock.elapsedTime;
+      u.uTime.value = t;
+      u.uField.value = toField;
+      u.uRise.value = rise;
       u.uFall.value = fall.current;
-      u.uField.value = toField * (1 - exit);
-      // Everything sweeps to one side as the screen clears for the work wall.
-      u.uSweep.value = range(p, SECTIONS.intro) * (narrow ? 14 : 20);
-      // At the close the whole field rises off the top of the frame.
-      u.uLift.value = exit * 16;
-      u.uOpacity.value = 1 - exit * 0.92;
+      u.uSweep.value = easeInOut(toField) * (narrow ? 5 : 9);
       u.uFlight.value = range(p, SECTIONS.work) * SPAN * 1.6;
+
+      // The rain column is measured from the earth's horizon, which sits at
+      // ~38% of frame height, up past the top edge.
+      const halfH = viewport.height / 2;
+      u.uHorizon.value = -halfH + viewport.height * (narrow ? 0.3 : 0.36);
+      u.uSpan.value = halfH - u.uHorizon.value + 2;
+      u.uHalfW.value = viewport.width * 0.56;
+      u.uOpacity.value = 1;
     }
 
-    const wantZ = narrow ? 10.5 : 9;
+    const wantZ = narrow ? 10.6 : 9;
     camZ.current = damp(camZ.current, wantZ, 3, step);
-    camera.position.set(0, lerp(0, 0.5, range(p, SECTIONS.work)), camZ.current);
+    camera.position.set(pointer.x * 0.22, pointer.y * 0.14, camZ.current);
     camera.lookAt(0, 0, 0);
   });
 
   return (
-    <>
-      <color attach="background" args={[COLORS.base]} />
-      <fog attach="fog" args={[COLORS.base, 16, SPAN]} />
-      <points geometry={geometry} frustumCulled={false}>
-        <shaderMaterial
-          ref={matRef}
-          vertexShader={VERT}
-          fragmentShader={FRAG}
-          uniforms={uniforms}
-          transparent
-          depthWrite={false}
-        />
-      </points>
-    </>
+    <points geometry={geometry} frustumCulled={false}>
+      <shaderMaterial
+        ref={matRef}
+        vertexShader={VERT}
+        fragmentShader={FRAG}
+        uniforms={uniforms}
+        transparent
+        depthWrite={false}
+      />
+    </points>
   );
 }
