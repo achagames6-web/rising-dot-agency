@@ -1,39 +1,140 @@
 'use client';
 
 // components/hero/HeroSection.tsx
-// The scroll track and the 2D layer that sits over the canvas.
-// Overlay elements are updated by writing straight to the DOM on each
-// progress tick — React never re-renders while you scroll.
+// Five sections over one sticky viewport. The 3D layer is atmosphere only;
+// every word on screen is real DOM text sitting on top of it. That is the
+// fix for the mirrored, blurry copy in the previous build - nothing is
+// rendered through a 3D transform that can turn away from the camera.
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { ACTS, SCROLL_TRACK_VH, clamp, range } from '@/lib/hero/config';
-import { onProgress, useHeroScroll } from '@/lib/hero/scroll';
-import { Scene } from './Scene';
-import './hero.css';
+import {
+  FILTERS,
+  SCROLL_TRACK_VH,
+  SECTIONS,
+  WORK,
+  band,
+  clamp,
+  lerp,
+  range,
+} from '@/lib/hero/journey';
+import { onProgress, scrollState, useHeroScroll } from '@/lib/hero/scroll';
+import { Field } from './Field';
+import './journey.css';
 
-// The rail names the six acts. They are a real sequence - the order you
-// would construct the logo in - so numbering them carries information.
-const ACT_LABELS = [
-  'The dot',
-  'Construction',
-  'The mark',
-  'Through the dot',
-  'What we do',
-  'Rise',
-];
+const CHARS = '▚▘▝▞ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+/** Decode-on-reveal. Runs on a timer, not on scroll, so it never stutters. */
+function useScramble(active: boolean, text: string) {
+  const [out, setOut] = useState(text);
+  const done = useRef(false);
+
+  useEffect(() => {
+    if (!active || done.current) return;
+    done.current = true;
+    let frame = 0;
+    const total = 22;
+    const id = window.setInterval(() => {
+      frame += 1;
+      const revealed = Math.floor((frame / total) * text.length);
+      setOut(
+        text
+          .split('')
+          .map((c, i) => {
+            if (i < revealed || c === ' ') return c;
+            return CHARS[Math.floor(Math.random() * CHARS.length)];
+          })
+          .join('')
+      );
+      if (frame >= total) {
+        setOut(text);
+        window.clearInterval(id);
+      }
+    }, 34);
+    return () => window.clearInterval(id);
+  }, [active, text]);
+
+  return out;
+}
+
+function WorkCard({
+  item,
+  index,
+  total,
+}: {
+  item: (typeof WORK)[number];
+  index: number;
+  total: number;
+}) {
+  const ref = useRef<HTMLAnchorElement>(null);
+  const [seen, setSeen] = useState(false);
+  const title = useScramble(seen, item.title);
+
+  useEffect(() => {
+    return onProgress(() => {
+      const el = ref.current;
+      if (!el) return;
+
+      const w = range(scrollState.smooth, SECTIONS.work);
+      // Each card owns a slice of the work scroll and flies toward the camera.
+      const t = w * (total + 1.15) - index;
+      const visible = t > -0.15 && t < 1.3;
+
+      if (!visible) {
+        el.style.opacity = '0';
+        el.style.visibility = 'hidden';
+        return;
+      }
+
+      el.style.visibility = 'visible';
+      if (t > 0.25 && !seen) setSeen(true);
+
+      const z = lerp(-2300, 680, clamp(t / 1.3));
+      const fade = band(t, 0.0, 1.15, 0.22);
+      el.style.opacity = String(fade);
+      el.style.transform = `translate3d(-50%, -50%, ${z}px)`;
+    });
+  }, [index, total, seen]);
+
+  // Fixed offsets give the wall parallax without any card leaving the frame.
+  const offset = useMemo(() => {
+    const xs = [-26, 22, -14, 28, -24, 16];
+    const ys = [-12, 14, 20, -18, 8, -8];
+    return { x: xs[index % xs.length], y: ys[index % ys.length] };
+  }, [index]);
+
+  return (
+    <a
+      ref={ref}
+      className="rd-card"
+      href={item.href}
+      style={{
+        left: `calc(50% + ${offset.x}%)`,
+        top: `calc(50% + ${offset.y}%)`,
+        opacity: 0,
+        visibility: 'hidden',
+      }}
+    >
+      <span className="rd-card__kind">{item.kind}</span>
+      <h3 className="rd-card__title">{title}</h3>
+      <p className="rd-card__blurb">{item.blurb}</p>
+      <span className="rd-card__cta">Open case</span>
+    </a>
+  );
+}
 
 export default function HeroSection() {
   const trackRef = useRef<HTMLDivElement>(null);
-  const taglineRef = useRef<HTMLDivElement>(null);
-  const hintRef = useRef<HTMLDivElement>(null);
-  const outroRef = useRef<HTMLDivElement>(null);
-  const railRef = useRef<HTMLDivElement>(null);
-  const flashRef = useRef<HTMLDivElement>(null);
-
   const [mode, setMode] = useState<'loading' | 'full' | 'static'>('loading');
+  const [quality, setQuality] = useState(1);
 
-  // Decide once: full WebGL film, or the honest static version.
+  const idleRef = useRef<HTMLDivElement>(null);
+  const introRef = useRef<HTMLDivElement>(null);
+  const railRef = useRef<HTMLDivElement>(null);
+  const coreRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLSpanElement>(null);
+
   useEffect(() => {
     const reduced = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
@@ -47,6 +148,7 @@ export default function HeroSection() {
         return false;
       }
     })();
+    setQuality(window.devicePixelRatio > 2 ? 0.85 : 1);
     setMode(reduced || small || !gl ? 'static' : 'full');
   }, []);
 
@@ -55,55 +157,37 @@ export default function HeroSection() {
   useEffect(() => {
     if (mode !== 'full') return;
 
+    const set = (el: HTMLElement | null, v: number, shift = 0) => {
+      if (!el) return;
+      el.style.opacity = String(v);
+      el.style.transform = `translateY(${(1 - v) * shift}px)`;
+      el.style.pointerEvents = v > 0.55 ? 'auto' : 'none';
+    };
+
     return onProgress((p) => {
-      // Tagline: in as the mark starts drawing, out before the portal.
-      const tagIn = clamp((p - ACTS.draw[0] - 0.02) / 0.07);
-      const tagOut = 1 - clamp((p - ACTS.draw[1] + 0.03) / 0.05);
-      const tag = taglineRef.current;
-      if (tag) {
-        const v = tagIn * tagOut;
-        tag.style.opacity = String(v);
-        tag.style.transform = `translateY(${(1 - v) * 18}px)`;
-      }
+      set(idleRef.current, 1 - range(p, [0.0, 0.075] as const), 0);
+      set(
+        introRef.current,
+        band(p, SECTIONS.intro[0], SECTIONS.intro[1], 0.05),
+        26
+      );
+      set(
+        railRef.current,
+        band(p, SECTIONS.work[0], SECTIONS.work[1], 0.03),
+        0
+      );
+      set(
+        coreRef.current,
+        band(p, SECTIONS.core[0] + 0.05, SECTIONS.core[1], 0.05),
+        12
+      );
+      set(closeRef.current, range(p, [0.9, 0.97] as const), 26);
 
-      // Scroll hint: only while nothing has happened yet.
-      const hint = hintRef.current;
-      if (hint) hint.style.opacity = String(1 - clamp(p / 0.035));
-
-      // Portal flash at the moment the camera crosses the ring.
-      const flash = flashRef.current;
-      if (flash) {
-        const f = range(p, ACTS.entry);
-        flash.style.opacity = String(Math.sin(f * Math.PI) * 0.22);
-      }
-
-      // Outro: appears as the camera rises back out.
-      const outro = outroRef.current;
-      if (outro) {
-        const v = range(p, [0.945, 0.995] as const);
-        outro.style.opacity = String(v);
-        outro.style.transform = `translateY(${(1 - v) * 24}px)`;
-        outro.style.pointerEvents = v > 0.6 ? 'auto' : 'none';
-      }
-
-      // Act rail on the right edge.
-      const rail = railRef.current;
-      if (rail) {
-        const acts = Object.values(ACTS) as ReadonlyArray<
-          readonly [number, number]
-        >;
-        const current = acts.findIndex(([a, b]) => p >= a && p < b);
-        rail
-          .querySelectorAll<HTMLElement>('.rd-rail__item')
-          .forEach((el, i) => {
-            el.dataset.state =
-              i === current ? 'current' : i < current ? 'done' : 'next';
-          });
+      if (progressRef.current) {
+        progressRef.current.style.transform = `scaleX(${p})`;
       }
     });
   }, [mode]);
-
-  const trackStyle = useMemo(() => ({ height: `${SCROLL_TRACK_VH}vh` }), []);
 
   if (mode === 'static') return <StaticHero />;
 
@@ -111,99 +195,142 @@ export default function HeroSection() {
     <section
       ref={trackRef}
       className="rd-track"
-      style={trackStyle}
-      aria-label="Rising Dot introduction"
+      style={{ height: `${SCROLL_TRACK_VH}vh` }}
+      aria-label="Rising Dot"
     >
-      <div className="rd-sticky">
+      <div className="rd-stage">
         {mode === 'full' && (
           <Canvas
             className="rd-canvas"
             dpr={[1, 1.5]}
-            gl={{
-              antialias: false,
-              powerPreference: 'high-performance',
-              alpha: false,
-            }}
-            camera={{ fov: 46, near: 0.1, far: 90, position: [0, 0, 7.2] }}
+            gl={{ antialias: false, powerPreference: 'high-performance' }}
+            camera={{ fov: 48, near: 0.1, far: 120, position: [0, 0, 9] }}
           >
-            <Scene />
+            <Field quality={quality} />
           </Canvas>
         )}
 
-        <div ref={flashRef} className="rd-flash" aria-hidden="true" />
         <div className="rd-vignette" aria-hidden="true" />
 
-        <div className="rd-overlay">
-          <div ref={taglineRef} className="rd-tagline">
-            <p className="rd-tagline__eyebrow">Rising Dot</p>
-            <h1 className="rd-tagline__head">
-              Rising together in the
-              <br />
-              world of digital dots
-            </h1>
-            <p className="rd-tagline__sub">
-              Automation, AI and web builds for teams that want to stop doing
-              the same task twice.
+        {/* --- 1. idle --- */}
+        <div ref={idleRef} className="rd-layer rd-idle">
+          <p className="rd-eyebrow">Rising Dot</p>
+          <p className="rd-idle__hint">
+            <span className="rd-idle__rule" aria-hidden="true" />
+            Scroll
+          </p>
+        </div>
+
+        {/* --- 2. intro --- */}
+        <div
+          ref={introRef}
+          className="rd-layer rd-intro"
+          style={{ opacity: 0 }}
+        >
+          <h1 className="rd-headline">
+            Rising together
+            <br />
+            in the world of
+            <br />
+            <em>digital dots</em>
+          </h1>
+          <div className="rd-intro__side">
+            <p>
+              A small studio building automation, AI assistants and the sites
+              they run on. We take work that repeats and make it stop repeating.
             </p>
-          </div>
-
-          <div ref={hintRef} className="rd-hint">
-            <span className="rd-hint__line" aria-hidden="true" />
-            Scroll to begin
-          </div>
-
-          <div ref={railRef} className="rd-rail" aria-hidden="true">
-            {ACT_LABELS.map((label) => (
-              <div key={label} className="rd-rail__item" data-state="next">
-                <span className="rd-rail__tick" />
-                <span className="rd-rail__label">{label}</span>
-              </div>
-            ))}
-          </div>
-
-          <div ref={outroRef} className="rd-outro">
-            <h2 className="rd-outro__head">Tell us what you want automated.</h2>
-            <div className="rd-outro__actions">
-              <a className="rd-btn rd-btn--solid" href="/contact">
-                Start a project
-              </a>
-              <a className="rd-btn" href="/portfolio">
-                See our work
-              </a>
-            </div>
+            <p className="rd-intro__meta">Automation · AI · Web · Commerce</p>
           </div>
         </div>
 
-        {/* Screen-reader route out of the 3D sequence. */}
+        {/* --- 3. work wall --- */}
+        <div className="rd-wall" aria-hidden="false">
+          {WORK.map((item, i) => (
+            <WorkCard
+              key={item.title}
+              item={item}
+              index={i}
+              total={WORK.length}
+            />
+          ))}
+        </div>
+
+        <div ref={railRef} className="rd-layer rd-rail" style={{ opacity: 0 }}>
+          <p className="rd-rail__lead">What are you looking for?</p>
+          <ul className="rd-rail__filters">
+            {FILTERS.map((f) => (
+              <li key={f}>
+                <a href="/portfolio">{f}</a>
+              </li>
+            ))}
+          </ul>
+          <a className="rd-rail__ask" href="/contact">
+            Ask us anything →
+          </a>
+        </div>
+
+        {/* --- 4. set piece: one line, no UI --- */}
+        <div ref={coreRef} className="rd-layer rd-core" style={{ opacity: 0 }}>
+          <p className="rd-core__label">Every workflow is a set of dots.</p>
+        </div>
+
+        {/* --- 5. close --- */}
+        <div
+          ref={closeRef}
+          className="rd-layer rd-close"
+          style={{ opacity: 0 }}
+        >
+          <h2 className="rd-close__head">
+            Tell us what should stop repeating.
+          </h2>
+          <div className="rd-actions">
+            <a className="rd-btn rd-btn--solid" href="/contact">
+              Start a project
+            </a>
+            <a className="rd-btn" href="/portfolio">
+              See the work
+            </a>
+          </div>
+        </div>
+
+        <nav className="rd-pill" aria-label="Shortcuts">
+          <a href="/portfolio">Work</a>
+          <span aria-hidden="true">·</span>
+          <a href="/contact">Contact</a>
+        </nav>
+
+        <div className="rd-progress" aria-hidden="true">
+          <span ref={progressRef} />
+        </div>
+
         <p className="rd-sr">
           Rising Dot builds n8n automations, AI chatbots, websites, WordPress
           and Shopify stores, SaaS products and SEO.{' '}
-          <a href="/services/n8n-automations">Skip to services</a>.
+          <a href="/portfolio">Skip to the work</a>.
         </p>
       </div>
     </section>
   );
 }
 
-/** Shown on small screens, reduced-motion, and any device without WebGL. */
+/** Small screens, reduced motion, or no WebGL. Same content, no scene. */
 function StaticHero() {
   return (
     <section className="rd-static">
-      <span className="rd-static__dot" aria-hidden="true" />
-      <p className="rd-tagline__eyebrow">Rising Dot</p>
-      <h1 className="rd-tagline__head">
-        Rising together in the world of digital dots
+      <p className="rd-eyebrow">Rising Dot</p>
+      <h1 className="rd-headline">
+        Rising together in the world of <em>digital dots</em>
       </h1>
-      <p className="rd-tagline__sub">
-        Automation, AI and web builds for teams that want to stop doing the same
-        task twice.
+      <p className="rd-static__blurb">
+        A small studio building automation, AI assistants and the sites they run
+        on. We take work that repeats and make it stop repeating.
       </p>
-      <div className="rd-outro__actions">
+      <div className="rd-actions">
         <a className="rd-btn rd-btn--solid" href="/contact">
           Start a project
         </a>
         <a className="rd-btn" href="/portfolio">
-          See our work
+          See the work
         </a>
       </div>
     </section>

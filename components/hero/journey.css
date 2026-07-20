@@ -1,0 +1,483 @@
+/* components/hero/journey.css
+   Fonts come from app/layout.tsx (next/font). No third-party import. */
+
+:root {
+  --rd-base: #04050a;
+  --rd-panel: #0b0f1a;
+  --rd-line: #16203a;
+  --rd-blue: #2b8fd4;
+  --rd-glow: #38bdf8;
+  --rd-accent: #f58220;
+  --rd-text: #e8ecf4;
+  --rd-muted: #7c8698;
+
+  --rd-display: var(--font-montserrat), system-ui, sans-serif;
+  --rd-body: var(--font-inter), system-ui, sans-serif;
+  --rd-mono: var(--font-fira-code), ui-monospace, monospace;
+}
+
+.rd-track {
+  position: relative;
+  background: var(--rd-base);
+}
+
+.rd-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  color: var(--rd-text);
+}
+
+.rd-canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.rd-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    transparent 55%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
+
+.rd-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+/* ---------- shared type ---------- */
+
+.rd-eyebrow {
+  font-family: var(--rd-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--rd-accent);
+  margin: 0;
+}
+
+.rd-headline {
+  font-family: var(--rd-display);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 6.4vw, 6rem);
+  line-height: 0.94;
+  letter-spacing: -0.045em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.rd-headline em {
+  font-style: normal;
+  color: var(--rd-accent);
+}
+
+/* ---------- 1. idle ---------- */
+
+.rd-idle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: clamp(2rem, 8vh, 5rem);
+  gap: 1.6rem;
+}
+
+.rd-idle__hint {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: var(--rd-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--rd-muted);
+  margin: 0;
+}
+
+.rd-idle__rule {
+  width: 3rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rd-blue));
+  animation: rd-sweep 2.6s ease-in-out infinite;
+}
+
+@keyframes rd-sweep {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translateX(-5px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(5px);
+  }
+}
+
+/* ---------- 2. intro ---------- */
+
+.rd-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr);
+  align-content: center;
+  gap: clamp(1.5rem, 5vw, 5rem);
+  padding: 0 clamp(1.5rem, 6vw, 6rem);
+  align-items: end;
+}
+
+.rd-intro__side {
+  font-family: var(--rd-body);
+  font-size: clamp(0.9rem, 1.05vw, 1.02rem);
+  line-height: 1.65;
+  color: var(--rd-muted);
+  max-width: 26rem;
+  padding-bottom: 0.6rem;
+}
+
+.rd-intro__side p {
+  margin: 0 0 1rem;
+}
+
+.rd-intro__meta {
+  font-family: var(--rd-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--rd-blue);
+}
+
+/* ---------- 3. work wall ---------- */
+
+.rd-wall {
+  position: absolute;
+  inset: 0;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+  pointer-events: none;
+}
+
+.rd-card {
+  position: absolute;
+  width: min(23rem, 74vw);
+  padding: 1.5rem 1.6rem 1.7rem;
+  border-radius: 16px;
+  border: 1px solid var(--rd-line);
+  background: linear-gradient(
+    155deg,
+    rgba(11, 15, 26, 0.96),
+    rgba(4, 5, 10, 0.92)
+  );
+  text-decoration: none;
+  color: var(--rd-text);
+  pointer-events: auto;
+  /* The card never turns away from the camera - no rotateY anywhere. This is
+     what mirrored the text in the previous build. */
+  backface-visibility: hidden;
+  transform-style: flat;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+  will-change: transform, opacity;
+}
+
+.rd-card:hover {
+  border-color: var(--rd-blue);
+  box-shadow:
+    0 0 0 1px rgba(43, 143, 212, 0.22),
+    0 24px 60px -18px rgba(43, 143, 212, 0.5);
+}
+
+.rd-card__kind {
+  display: block;
+  font-family: var(--rd-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--rd-accent);
+  margin-bottom: 0.85rem;
+}
+
+.rd-card__title {
+  font-family: var(--rd-display);
+  font-weight: 700;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+  /* Scrambling swaps glyph widths - reserve the line so nothing jumps. */
+  min-height: 1.7rem;
+}
+
+.rd-card__blurb {
+  font-family: var(--rd-body);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--rd-muted);
+  margin: 0 0 1.2rem;
+}
+
+.rd-card__cta {
+  font-family: var(--rd-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rd-blue);
+}
+
+/* ---------- 3b. pinned rail ---------- */
+
+.rd-rail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.1rem;
+  padding-left: clamp(1.5rem, 5vw, 4.5rem);
+  width: min(20rem, 40vw);
+  inset: 0 auto 0 0;
+}
+
+.rd-rail__lead {
+  font-family: var(--rd-display);
+  font-weight: 700;
+  font-size: clamp(1.1rem, 1.7vw, 1.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.rd-rail__filters {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.rd-rail__filters a {
+  display: inline-block;
+  font-family: var(--rd-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rd-muted);
+  text-decoration: none;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--rd-line);
+  border-radius: 999px;
+  pointer-events: auto;
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.rd-rail__filters a:hover {
+  color: var(--rd-text);
+  border-color: var(--rd-blue);
+}
+
+.rd-rail__ask {
+  font-family: var(--rd-body);
+  font-size: 0.85rem;
+  color: var(--rd-accent);
+  text-decoration: none;
+  pointer-events: auto;
+}
+
+.rd-rail__ask:hover {
+  text-decoration: underline;
+}
+
+/* ---------- 4. set piece ---------- */
+
+.rd-core {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: clamp(2.5rem, 9vh, 6rem);
+}
+
+.rd-core__label {
+  font-family: var(--rd-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--rd-muted);
+  margin: 0;
+}
+
+/* ---------- 5. close ---------- */
+
+.rd-close {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1.9rem;
+  padding: 0 1.5rem;
+}
+
+.rd-close__head {
+  font-family: var(--rd-display);
+  font-weight: 800;
+  font-size: clamp(1.6rem, 3.6vw, 3rem);
+  letter-spacing: -0.035em;
+  margin: 0;
+  max-width: 20ch;
+  text-transform: uppercase;
+  line-height: 1.02;
+}
+
+/* ---------- chrome ---------- */
+
+.rd-actions {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.rd-btn {
+  pointer-events: auto;
+  font-family: var(--rd-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.82rem 1.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--rd-line);
+  color: var(--rd-text);
+  text-decoration: none;
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.rd-btn:hover {
+  border-color: var(--rd-blue);
+  transform: translateY(-2px);
+}
+
+.rd-btn--solid {
+  background: var(--rd-accent);
+  border-color: var(--rd-accent);
+  color: #100a03;
+}
+
+.rd-btn--solid:hover {
+  background: #ff9440;
+  border-color: #ff9440;
+}
+
+.rd-btn:focus-visible,
+.rd-card:focus-visible,
+.rd-rail__filters a:focus-visible {
+  outline: 2px solid var(--rd-glow);
+  outline-offset: 3px;
+}
+
+.rd-pill {
+  position: absolute;
+  top: clamp(1rem, 3vh, 2rem);
+  right: clamp(1rem, 3vw, 2.4rem);
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.5rem 1.05rem;
+  border-radius: 999px;
+  border: 1px solid var(--rd-line);
+  background: rgba(4, 5, 10, 0.55);
+  backdrop-filter: blur(8px);
+  font-family: var(--rd-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.rd-pill a {
+  color: var(--rd-muted);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.rd-pill a:hover {
+  color: var(--rd-text);
+}
+
+.rd-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--rd-line);
+}
+
+.rd-progress span {
+  display: block;
+  height: 100%;
+  background: var(--rd-accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+/* ---------- static fallback ---------- */
+
+.rd-static {
+  min-height: 100svh;
+  background: var(--rd-base);
+  color: var(--rd-text);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.4rem;
+  padding: clamp(1.5rem, 7vw, 5rem);
+}
+
+.rd-static__blurb {
+  font-family: var(--rd-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--rd-muted);
+  max-width: 34rem;
+  margin: 0;
+}
+
+.rd-static .rd-actions {
+  justify-content: flex-start;
+}
+
+/* ---------- utility ---------- */
+
+.rd-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 1024px) {
+  .rd-intro {
+    grid-template-columns: 1fr;
+    align-content: center;
+  }
+  .rd-rail {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rd-idle__rule {
+    animation: none;
+  }
+}

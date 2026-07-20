@@ -3,7 +3,7 @@
 // useFrame reads it every frame; React never re-renders because of it.
 
 import { useEffect } from 'react';
-import { clamp } from './config';
+import { clamp } from './journey';
 
 export const scrollState = {
   /** 0 at the top of the hero track, 1 at the bottom. */
