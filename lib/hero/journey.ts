@@ -133,6 +133,7 @@ export const WORK: WorkItem[] = [
       'Static pages rebuilt as a site the owner can actually edit. Same design, but the blog pulls real posts and the community calendar runs on its own post type.',
     href: '/services/wordpress',
     serviceLabel: 'WordPress development',
+    image: '/Projects/south-bay-living.jpg',
     year: '2025',
     stack: 'WordPress · Custom child theme · ACF',
   },

@@ -3,7 +3,7 @@
 // components/hero/Hud.tsx
 // Instrumentation over the film. Every number here is real: they are read
 // from scroll position and frame timing, not faked. That matters - a HUD
-// showing invented telemetry on an automation studio's site is a costume.
+// showing invented telemetry on an automation agency's site is a costume.
 
 import { useEffect, useRef, useState } from 'react';
 import { SECTIONS, clamp } from '@/lib/hero/journey';
@@ -148,6 +148,8 @@ export function SoundToggle() {
   const elRef = useRef<HTMLAudioElement>(null);
   const rafRef = useRef(0);
   const [state, setState] = useState<'off' | 'loading' | 'on' | 'error'>('off');
+  // Shown on the button so a failure is legible without opening devtools.
+  const [reason, setReason] = useState('');
 
   useEffect(() => {
     return () => cancelAnimationFrame(rafRef.current);
@@ -181,10 +183,15 @@ export function SoundToggle() {
     setState('loading');
     el.volume = 0;
 
+    // preload is 'none', so nothing has been fetched yet. Ask for it
+    // explicitly - some browsers will not start on play() alone.
+    if (el.readyState === 0) el.load();
+
     // If the file never arrives, say so rather than sitting on 'loading'.
     const bail = window.setTimeout(() => {
       // eslint-disable-next-line no-console
       console.error('[hero audio] timed out loading /audio/ambient.mp3');
+      setReason('timeout');
       setState('error');
     }, 6000);
 
@@ -222,7 +229,7 @@ export function SoundToggle() {
       : state === 'loading'
         ? 'Sound: loading'
         : state === 'error'
-          ? 'Sound: unavailable'
+          ? `Sound: ${reason || 'unavailable'}`
           : 'Sound: Off';
 
   return (
@@ -231,7 +238,7 @@ export function SoundToggle() {
         ref={elRef}
         src="/audio/ambient.mp3"
         loop
-        preload="none"
+        preload="metadata"
         onError={(e) => {
           const el = e.currentTarget;
           // eslint-disable-next-line no-console
@@ -241,6 +248,7 @@ export function SoundToggle() {
             el.error?.message,
             el.currentSrc
           );
+          setReason(`media ${el.error?.code ?? '?'}`);
           setState('error');
         }}
       />

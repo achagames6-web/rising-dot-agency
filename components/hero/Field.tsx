@@ -35,8 +35,9 @@ const VERT = /* glsl */ `
   uniform float uRise;
   uniform float uFall;
   uniform float uSweep;
-  uniform float uHorizon;
-  uniform float uSpan;
+  uniform float uLandY;   // world y of the limb at frame centre
+  uniform float uLandK;   // curvature: how far the limb drops toward the edges
+  uniform float uTopY;    // just above the top of the frame
   uniform float uHalfW;
   uniform float uFlight;
   uniform float uSize;
@@ -47,18 +48,21 @@ const VERT = /* glsl */ `
 
   void main() {
     // --- rain -------------------------------------------------------------
-    // aRain.y is a normalised position in the fall cycle, so the column is
-    // resolution independent: it always spans horizon -> top of frame.
-    float ry = fract(aRain.y - uFall);
-    vec3 rain = vec3(
-      aRain.x * uHalfW + uSweep * (0.6 + aSeed),
-      uHorizon + ry * uSpan,
-      aRain.z
-    );
-    rain.x += sin(uTime * 0.4 + aSeed * 6.2831) * 0.06;
+    // Horizontal position first, because where a dot lands depends on it:
+    // the earth's limb is a curve, so the floor is lower toward the edges.
+    float rx = aRain.x * uHalfW
+      + uSweep * (0.6 + aSeed)
+      + sin(uTime * 0.4 + aSeed * 6.2831) * 0.06;
 
-    // Fade in as they enter at the top, out as they meet the horizon.
-    float rainFade = smoothstep(0.0, 0.16, ry) * (1.0 - smoothstep(0.84, 1.0, ry));
+    float land = uLandY - uLandK * rx * rx;
+
+    // Each dot runs its own cycle from that landing point up past the top of
+    // the frame, so every column stays evenly filled whatever its floor is.
+    float ry = fract(aRain.y - uFall);
+    vec3 rain = vec3(rx, land + ry * (uTopY - land), aRain.z);
+
+    // Fades out as it settles on the surface, in as it enters at the top.
+    float rainFade = smoothstep(0.0, 0.07, ry) * (1.0 - smoothstep(0.9, 1.0, ry));
 
     // --- field ------------------------------------------------------------
     vec3 field = aField;
@@ -199,8 +203,9 @@ function Cloud({
       uRise: { value: 0 },
       uFall: { value: 0 },
       uSweep: { value: 0 },
-      uHorizon: { value: -1 },
-      uSpan: { value: 9 },
+      uLandY: { value: -1 },
+      uLandK: { value: 0.05 },
+      uTopY: { value: 5 },
       uHalfW: { value: 8 },
       uFlight: { value: 0 },
       uTime: { value: 0 },
@@ -244,12 +249,20 @@ function Cloud({
       u.uSweep.value = easeInOut(toField) * (narrow ? 5 : 9);
       u.uFlight.value = range(p, SECTIONS.work) * SPAN * 1.6;
 
-      // The rain column is measured from the earth's horizon, which sits at
-      // ~38% of frame height, up past the top edge.
+      // The limb, as a parabola. LIMB_PEAK is where the earth's edge sits at
+      // frame centre and LIMB_DROP is how far it falls by the frame edge -
+      // both fractions of viewport height, so they track the CSS plate.
       const halfH = viewport.height / 2;
-      // Matches .rd-earth height, so the fall lands exactly on the plate.
-      u.uHorizon.value = -halfH + viewport.height * (narrow ? 0.34 : 0.46);
-      u.uSpan.value = halfH - u.uHorizon.value + 2;
+      const halfW = viewport.width / 2;
+      // Measured off earth.jpg: the limb sits highest at frame centre and
+      // falls away steeply toward the edges. These two numbers are the only
+      // tuning needed if the dots pile up too high or too low on the planet.
+      const LIMB_PEAK = narrow ? 0.32 : 0.4; // height of the limb at centre
+      const LIMB_DROP = narrow ? 0.45 : 0.55; // how far it falls by the edge
+
+      u.uLandY.value = -halfH + viewport.height * LIMB_PEAK;
+      u.uLandK.value = (viewport.height * LIMB_DROP) / (halfW * halfW);
+      u.uTopY.value = halfH + 1.2;
       u.uHalfW.value = viewport.width * 0.56;
       u.uOpacity.value = 1;
     }

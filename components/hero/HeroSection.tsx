@@ -313,10 +313,10 @@ export default function HeroSection() {
           className="rd-layer rd-intro"
           style={{ opacity: 0 }}
         >
-          <p className="rd-eyebrow">The studio</p>
+          <p className="rd-eyebrow">The agency</p>
           <div className="rd-intro__side">
             <p>
-              A small studio building automation, AI assistants and the sites
+              A digital agency building automation, AI assistants and the sites
               they run on. We take work that repeats and make it stop repeating.
             </p>
             <p className="rd-intro__meta">Automation · AI · Web · Commerce</p>
@@ -397,8 +397,8 @@ function StaticHero() {
         Rising together in the world of <em>digital dots</em>
       </h1>
       <p className="rd-static__blurb">
-        A small studio building automation, AI assistants and the sites they run
-        on. We take work that repeats and make it stop repeating.
+        A digital agency building automation, AI assistants and the sites they
+        run on. We take work that repeats and make it stop repeating.
       </p>
       <div className="rd-actions">
         <a className="rd-btn rd-btn--solid" href="/contact">
