@@ -1,0 +1,283 @@
+/* components/sections/about-tabs.css */
+
+.abt {
+  position: relative;
+  /* Same black the section above ends on - three and four are one field. */
+  background: #04050a;
+  color: #e8ecf4;
+  padding: clamp(4rem, 12vh, 9rem) 0 clamp(4.5rem, 13vh, 10rem);
+  overflow: hidden;
+  --abt-line: #16203a;
+  --abt-blue: #2b8fd4;
+  --abt-accent: #f58220;
+  --abt-muted: #7c8698;
+}
+
+/* Identical star field to sections two and three. */
+.abt__stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #7fb6dd 50%, transparent 51%),
+    radial-gradient(1px 1px at 78% 12%, #cfe4f5 50%, transparent 51%),
+    radial-gradient(1px 1px at 34% 62%, #6aa6cf 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 74%, #a9cdea 50%, transparent 51%),
+    radial-gradient(1px 1px at 58% 34%, #f58220 50%, transparent 51%),
+    radial-gradient(1px 1px at 22% 86%, #8fc0e0 50%, transparent 51%),
+    radial-gradient(1px 1px at 66% 92%, #b9d8ef 50%, transparent 51%),
+    radial-gradient(1px 1px at 46% 8%, #7fb6dd 50%, transparent 51%);
+  background-repeat: repeat;
+  background-size: 620px 480px;
+  -webkit-mask-image: radial-gradient(95% 85% at 50% 40%, #000, transparent);
+  mask-image: radial-gradient(95% 85% at 50% 40%, #000, transparent);
+}
+
+.abt__inner {
+  position: relative;
+  width: 100%;
+  padding: 0 clamp(1.2rem, 3.5vw, 4rem);
+}
+
+.abt__head {
+  min-height: 13rem;
+}
+
+/* ---------- tabs ---------- */
+
+.abt__tabs {
+  display: flex;
+  gap: 0.4rem;
+  margin: clamp(1.6rem, 4vh, 2.6rem) 0 clamp(2rem, 5vh, 3rem);
+  border-bottom: 1px solid var(--abt-line);
+}
+
+.abt__tab {
+  position: relative;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0.85rem 1.15rem;
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--abt-muted);
+  transition: color 0.25s ease;
+}
+
+.abt__tab::after {
+  content: '';
+  position: absolute;
+  left: 0.6rem;
+  right: 0.6rem;
+  bottom: -1px;
+  height: 2px;
+  background: var(--abt-accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.abt__tab:hover {
+  color: #e8ecf4;
+}
+
+.abt__tab.is-on {
+  color: #e8ecf4;
+}
+
+.abt__tab.is-on::after {
+  transform: scaleX(1);
+}
+
+.abt__tab:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: -4px;
+}
+
+/* ---------- tab one: who we are ---------- */
+
+.abt__who {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 0.95fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.abt__claim {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.25rem, 2.3vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin: 0 0 1.4rem;
+}
+
+.abt__claim b {
+  color: var(--abt-accent);
+  font-weight: 700;
+}
+
+.abt__p {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  color: var(--abt-muted);
+  line-height: 1.7;
+  margin: 0 0 1.1rem;
+  max-width: 36rem;
+}
+
+.abt__cta {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-top: 1.8rem;
+}
+
+.abt__stack {
+  border: 1px solid var(--abt-line);
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(11, 15, 26, 0.8);
+}
+
+.abt__stack-top {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--abt-line);
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--abt-muted);
+}
+
+.abt__stack-top span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  flex: none;
+}
+
+.abt__row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.95rem 1rem;
+  border-bottom: 1px solid rgba(22, 32, 58, 0.7);
+}
+
+.abt__row:last-child {
+  border-bottom: 0;
+}
+
+.abt__row-n {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.98rem;
+  margin: 0;
+}
+
+.abt__row-d {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.76rem;
+  color: var(--abt-muted);
+  margin: 0.15rem 0 0;
+}
+
+.abt__row-s {
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--abt-blue);
+  white-space: nowrap;
+}
+
+/* ---------- tab two: the rules ---------- */
+
+.abt__rules {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--abt-line);
+}
+
+.abt__rule {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr 1.4fr;
+  gap: clamp(1rem, 3vw, 3rem);
+  padding: clamp(1.3rem, 3vh, 2.2rem) 0.4rem;
+  border-bottom: 1px solid var(--abt-line);
+  transition:
+    background 0.35s ease,
+    padding-left 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.abt__rule:hover {
+  background: rgba(43, 143, 212, 0.05);
+  padding-left: 1.1rem;
+}
+
+.abt__rule-n {
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  color: var(--abt-blue);
+  padding-top: 0.35rem;
+}
+
+.abt__rule-t {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(1.05rem, 1.9vw, 1.55rem);
+  letter-spacing: -0.025em;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.abt__rule:hover .abt__rule-t {
+  color: var(--abt-accent);
+}
+
+.abt__rule-w {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  color: var(--abt-muted);
+  font-size: 0.92rem;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ---------- narrow ---------- */
+
+@media (max-width: 1000px) {
+  .abt__who {
+    grid-template-columns: 1fr;
+  }
+
+  .abt__head {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .abt__rule {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .abt__tab::after,
+  .abt__rule,
+  .abt__rule-t {
+    transition: none;
+  }
+}

@@ -97,12 +97,13 @@ const TechStackMarquee = dynamic(
   }
 );
 
-// About Section - Who we are
-const AboutSection = dynamic(() => import('@/components/ui/about-section'), {
+// AboutTabs - section four. Two tabs: who we are, and how we work.
+// Replaces components/ui/about-section, which stays for an easy revert.
+const AboutTabs = dynamic(() => import('@/components/sections/AboutTabs'), {
   ssr: false,
   loading: () => (
-    <section className="flex items-center justify-center bg-black py-20">
-      <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
+    <section className="flex items-center justify-center bg-[#04050A] py-20">
+      <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#F58220]/30 border-t-[#F58220]" />
     </section>
   ),
 });
@@ -193,7 +194,7 @@ export default function Home() {
           <ProjectIndex />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="about">
-          <AboutSection />
+          <AboutTabs />
         </OptimizedSectionWrapper>
         <OptimizedSectionWrapper section="bentoGrid">
           <BentoGridSection />

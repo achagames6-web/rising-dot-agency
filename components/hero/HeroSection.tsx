@@ -20,6 +20,7 @@ import {
   range,
 } from '@/lib/hero/journey';
 import { onProgress, scrollState, useHeroScroll } from '@/lib/hero/scroll';
+import { StarButton } from '@/components/ui/star-button';
 import { Field } from './Field';
 import { Hud, Marker, SoundToggle } from './Hud';
 import './journey.css';
@@ -366,12 +367,10 @@ export default function HeroSection() {
             Tell us what should stop repeating.
           </h2>
           <div className="rd-actions">
-            <a className="rd-btn rd-btn--solid" href="/contact">
-              Start a project
-            </a>
-            <a className="rd-btn" href="/portfolio">
+            <StarButton href="/contact">Start a project</StarButton>
+            <StarButton href="/portfolio" variant="ghost">
               See the work
-            </a>
+            </StarButton>
           </div>
         </div>
 
@@ -401,12 +400,10 @@ function StaticHero() {
         run on. We take work that repeats and make it stop repeating.
       </p>
       <div className="rd-actions">
-        <a className="rd-btn rd-btn--solid" href="/contact">
-          Start a project
-        </a>
-        <a className="rd-btn" href="/portfolio">
+        <StarButton href="/contact">Start a project</StarButton>
+        <StarButton href="/portfolio" variant="ghost">
           See the work
-        </a>
+        </StarButton>
       </div>
     </section>
   );

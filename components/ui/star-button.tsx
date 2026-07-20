@@ -5,6 +5,8 @@ import { cn } from '@/lib/utils';
 
 interface StarButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
+  /** Render as a link instead of a button. */
+  href?: string;
   lightWidth?: number;
   duration?: number;
   lightColor?: string;
@@ -12,11 +14,17 @@ interface StarButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
   textColor?: string;
   borderWidth?: number;
   className?: string;
-  variant?: 'primary' | 'secondary';
+  /**
+   * primary   solid brand orange
+   * secondary solid brand blue
+   * ghost     transparent until hover, then fills orange - same light trail
+   */
+  variant?: 'primary' | 'secondary' | 'ghost';
 }
 
 export function StarButton({
   children,
+  href,
   lightWidth = 100,
   duration = 3,
   lightColor = '#FFFFFF',
@@ -27,10 +35,11 @@ export function StarButton({
   variant = 'primary',
   ...props
 }: StarButtonProps) {
-  const pathRef = useRef<HTMLButtonElement>(null);
+  const pathRef = useRef<HTMLElement>(null);
 
   // Set colors based on variant
-  const bgColor = variant === 'primary' ? '#F58122' : '#37AFE1';
+  const isGhost = variant === 'ghost';
+  const bgColor = variant === 'secondary' ? '#37AFE1' : '#F58122';
   const finalBgColor =
     backgroundColor !== '#F58122' && backgroundColor !== 'currentColor'
       ? backgroundColor
@@ -46,8 +55,11 @@ export function StarButton({
     }
   }, []);
 
+  const Tag = (href ? 'a' : 'button') as 'a';
+
   return (
-    <button
+    <Tag
+      href={href}
       style={
         {
           '--duration': duration,
@@ -59,12 +71,12 @@ export function StarButton({
           isolation: 'isolate',
         } as CSSProperties
       }
-      ref={pathRef}
+      ref={pathRef as React.Ref<HTMLAnchorElement>}
       className={cn(
         'group/star-button relative z-[3] inline-flex h-10 items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-3xl px-4 py-2 text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50',
         className
       )}
-      {...props}
+      {...(props as React.HTMLAttributes<HTMLElement>)}
     >
       {/* Black border base layer */}
       <div
@@ -90,23 +102,31 @@ export function StarButton({
         }
       />
 
-      {/* Inner background with branding color - inset to show border */}
+      {/* Inner background with branding color - inset to show border.
+          Ghost keeps it transparent so the page shows through, then fills on
+          hover. The border and its light trail are identical either way. */}
       <div
-        className="absolute z-[3] overflow-hidden rounded-[inherit]"
+        className={cn(
+          'absolute z-[3] overflow-hidden rounded-[inherit] transition-colors duration-300',
+          isGhost && 'group-hover/star-button:!bg-[#F58122]'
+        )}
         style={{
           inset: 'var(--border-width)',
-          backgroundColor: 'var(--bg-color)',
+          backgroundColor: isGhost ? 'transparent' : 'var(--bg-color)',
         }}
         aria-hidden="true"
       />
 
       {/* Text layer */}
       <span
-        className="relative z-10 inline-flex items-center gap-2 font-semibold"
-        style={{ color: 'var(--text-color)' }}
+        className={cn(
+          'relative z-10 inline-flex items-center gap-2 font-semibold transition-colors duration-300',
+          isGhost && 'group-hover/star-button:!text-white'
+        )}
+        style={{ color: isGhost ? '#F58122' : 'var(--text-color)' }}
       >
         {children}
       </span>
-    </button>
+    </Tag>
   );
 }
