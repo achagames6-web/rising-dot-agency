@@ -223,8 +223,10 @@ function Cloud({
     );
     const p = scrollState.smooth;
 
-    const toField = range(p, SECTIONS.intro);
-    const rise = easeInOut(range(p, SECTIONS.close));
+    // The close unwinds the intro: field weight falls back to zero, so the
+    // rain and the earth return underneath the call to action.
+    const back = easeInOut(range(p, SECTIONS.close));
+    const toField = range(p, SECTIONS.intro) * (1 - back);
     const t = state.clock.elapsedTime;
 
     // The fall accelerates hard as you start scrolling, then the whole
@@ -236,7 +238,7 @@ function Cloud({
     if (u) {
       u.uTime.value = t;
       u.uField.value = toField;
-      u.uRise.value = rise;
+      u.uRise.value = 0;
       u.uFall.value = fall.current;
       u.uSweep.value = easeInOut(toField) * (narrow ? 5 : 9);
       u.uFlight.value = range(p, SECTIONS.work) * SPAN * 1.6;
@@ -244,7 +246,8 @@ function Cloud({
       // The rain column is measured from the earth's horizon, which sits at
       // ~38% of frame height, up past the top edge.
       const halfH = viewport.height / 2;
-      u.uHorizon.value = -halfH + viewport.height * (narrow ? 0.3 : 0.36);
+      // Matches .rd-earth height, so the fall lands exactly on the plate.
+      u.uHorizon.value = -halfH + viewport.height * (narrow ? 0.34 : 0.46);
       u.uSpan.value = halfH - u.uHorizon.value + 2;
       u.uHalfW.value = viewport.width * 0.56;
       u.uOpacity.value = 1;

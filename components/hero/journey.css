@@ -33,6 +33,9 @@
 .rd-canvas {
   position: absolute;
   inset: 0;
+  /* Above the earth plate: the dots fall in front of it and fade out on
+     its top edge, rather than disappearing behind it. */
+  z-index: 3;
 }
 
 .rd-vignette {
@@ -880,9 +883,9 @@
   display: block;
   background: linear-gradient(
     to bottom,
-    var(--rd-base) 0%,
-    rgba(4, 5, 10, 0.55) 22%,
-    transparent 55%
+    rgba(4, 5, 10, 0.92) 0%,
+    rgba(4, 5, 10, 0.4) 18%,
+    transparent 42%
   );
 }
 

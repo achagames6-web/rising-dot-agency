@@ -9,13 +9,12 @@ import { useEffect, useRef, useState } from 'react';
 import { SECTIONS, clamp } from '@/lib/hero/journey';
 import { onProgress, scrollState } from '@/lib/hero/scroll';
 
-const SECTION_NAMES = ['IDLE', 'INTRO', 'WORK', 'CORE', 'CLOSE'] as const;
+const SECTION_NAMES = ['IDLE', 'INTRO', 'WORK', 'CLOSE'] as const;
 
 const SECTION_RANGES = [
   SECTIONS.idle,
   SECTIONS.intro,
   SECTIONS.work,
-  SECTIONS.core,
   SECTIONS.close,
 ] as const;
 
@@ -57,7 +56,7 @@ export function Hud() {
       const safe = index < 0 ? SECTION_RANGES.length - 1 : index;
 
       if (sectionRef.current) {
-        sectionRef.current.textContent = `${String(safe + 1).padStart(2, '0')} / 05 · ${SECTION_NAMES[safe]}`;
+        sectionRef.current.textContent = `${String(safe + 1).padStart(2, '0')} / 04 · ${SECTION_NAMES[safe]}`;
       }
       if (posRef.current) {
         posRef.current.textContent = `${(p * 100).toFixed(1)}%`;
@@ -98,7 +97,7 @@ export function Hud() {
       <div className="rd-hud__tl">
         <span className="rd-hud__key">SEQ</span>
         <span ref={sectionRef} className="rd-hud__val">
-          01 / 05 · IDLE
+          01 / 04 · IDLE
         </span>
       </div>
 
@@ -138,83 +137,103 @@ export function Hud() {
 }
 
 /**
- * Ambient audio. The track is fetched only when someone asks for it, so the
- * hero never pays 1.9MB for a control most visitors will not touch.
+ * Ambient audio.
+ *
+ * Uses a real <audio> element rather than new Audio(): the previous version
+ * could fail with nothing to show for it. This one surfaces the failure -
+ * if the file will not load or play, the control says so instead of sitting
+ * on "Off" while nothing happens.
  */
 export function SoundToggle() {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const elRef = useRef<HTMLAudioElement>(null);
   const rafRef = useRef(0);
-  const [on, setOn] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [state, setState] = useState<'off' | 'loading' | 'on' | 'error'>('off');
 
   useEffect(() => {
-    return () => {
-      cancelAnimationFrame(rafRef.current);
-      audioRef.current?.pause();
-    };
+    return () => cancelAnimationFrame(rafRef.current);
   }, []);
 
-  /** Ramp volume rather than cutting - a hard start is jarring. */
-  const fadeTo = (target: number, done?: () => void) => {
+  const ramp = (to: number, then?: () => void) => {
     cancelAnimationFrame(rafRef.current);
-    const el = audioRef.current;
+    const el = elRef.current;
     if (!el) return;
     const from = el.volume;
-    const start = performance.now();
-    const step = (now: number) => {
-      const t = Math.min(1, (now - start) / 900);
-      el.volume = from + (target - from) * t;
-      if (t < 1) rafRef.current = requestAnimationFrame(step);
-      else done?.();
+    const t0 = performance.now();
+    const tick = (now: number) => {
+      const k = Math.min(1, (now - t0) / 800);
+      el.volume = from + (to - from) * k;
+      if (k < 1) rafRef.current = requestAnimationFrame(tick);
+      else then?.();
     };
-    rafRef.current = requestAnimationFrame(step);
+    rafRef.current = requestAnimationFrame(tick);
   };
 
-  const toggle = async () => {
-    if (on) {
-      setOn(false);
-      fadeTo(0, () => audioRef.current?.pause());
+  const toggle = () => {
+    const el = elRef.current;
+    if (!el) return;
+
+    if (state === 'on') {
+      setState('off');
+      ramp(0, () => el.pause());
       return;
     }
 
-    if (!audioRef.current) {
-      setLoading(true);
-      const el = new Audio('/audio/ambient.mp3');
-      el.loop = true;
-      el.preload = 'auto';
-      el.volume = 0;
-      audioRef.current = el;
-    }
+    setState('loading');
+    el.volume = 0;
 
-    try {
-      await audioRef.current.play();
-      setOn(true);
-      fadeTo(0.32);
-    } catch {
-      // Autoplay policy or a failed fetch - leave the control off.
-      setOn(false);
-    } finally {
-      setLoading(false);
+    // play() must be called in the click handler itself, not after an await,
+    // or Safari treats it as programmatic and blocks it.
+    const attempt = el.play();
+
+    if (attempt && typeof attempt.then === 'function') {
+      attempt
+        .then(() => {
+          setState('on');
+          ramp(0.3);
+        })
+        .catch(() => setState('error'));
+    } else {
+      setState('on');
+      ramp(0.3);
     }
   };
 
+  const label =
+    state === 'on'
+      ? 'Sound: On'
+      : state === 'loading'
+        ? 'Sound: loading'
+        : state === 'error'
+          ? 'Sound: unavailable'
+          : 'Sound: Off';
+
   return (
-    <button
-      type="button"
-      className="rd-sound"
-      onClick={toggle}
-      aria-pressed={on}
-      aria-label={on ? 'Turn sound off' : 'Turn sound on'}
-    >
-      <span
-        className={`rd-sound__wave ${on ? 'is-on' : ''}`}
-        aria-hidden="true"
+    <>
+      <audio
+        ref={elRef}
+        src="/audio/ambient.mp3"
+        loop
+        preload="none"
+        onError={() => setState('error')}
+      />
+      <button
+        type="button"
+        className="rd-sound"
+        onClick={toggle}
+        disabled={state === 'error'}
+        aria-pressed={state === 'on'}
+        aria-label={state === 'on' ? 'Turn sound off' : 'Turn sound on'}
       >
-        <i />
-        <i />
-        <i />
-      </span>
-      {loading ? 'Sound: ...' : on ? 'Sound: On' : 'Sound: Off'}
-    </button>
+        <span
+          className={`rd-sound__wave ${state === 'on' ? 'is-on' : ''}`}
+          aria-hidden="true"
+        >
+          <i />
+          <i />
+          <i />
+        </span>
+        {label}
+      </button>
+    </>
   );
 }

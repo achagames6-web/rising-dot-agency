@@ -165,7 +165,6 @@ export default function HeroSection() {
   const idleRef = useRef<HTMLDivElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
   const railRef = useRef<HTMLDivElement>(null);
-  const coreRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLDivElement>(null);
   const diveRef = useRef<HTMLDivElement>(null);
   const earthRef = useRef<HTMLDivElement>(null);
@@ -213,7 +212,10 @@ export default function HeroSection() {
 
       const earth = earthRef.current;
       if (earth) {
-        const v = 1 - range(p, [SECTIONS.intro[0], SECTIONS.intro[1]] as const);
+        // Out with the intro, back in with the close.
+        const v = clamp(
+          1 - range(p, SECTIONS.intro) + range(p, SECTIONS.close)
+        );
         earth.style.opacity = String(v);
         earth.style.transform = `translateY(${(1 - v) * 14}%)`;
       }
@@ -227,23 +229,13 @@ export default function HeroSection() {
         band(p, SECTIONS.work[0], SECTIONS.work[1], 0.03),
         0
       );
-      set(
-        coreRef.current,
-        band(p, SECTIONS.core[0] + 0.05, SECTIONS.core[1], 0.05),
-        12
-      );
-      set(closeRef.current, range(p, [0.9, 0.97] as const), 26);
+      set(closeRef.current, range(p, [0.8, 0.88] as const), 26);
 
       // Chromatic dive at every section boundary: a short RGB split plus a
       // scale kick, so moving between sections feels like passing through
       // something rather than cross-fading.
       if (diveRef.current) {
-        const edges = [
-          SECTIONS.intro[0],
-          SECTIONS.work[0],
-          SECTIONS.core[0],
-          SECTIONS.close[0],
-        ];
+        const edges = [SECTIONS.intro[0], SECTIONS.work[0], SECTIONS.close[0]];
         let dive = 0;
         for (const e of edges) {
           const d = (p - e) / 0.02;
@@ -357,11 +349,6 @@ export default function HeroSection() {
           <a className="rd-rail__ask" href="/contact">
             Ask us anything →
           </a>
-        </div>
-
-        {/* --- 4. set piece: one line, no UI --- */}
-        <div ref={coreRef} className="rd-layer rd-core" style={{ opacity: 0 }}>
-          <p className="rd-core__label">Every workflow is a set of dots.</p>
         </div>
 
         {/* --- 5. close --- */}

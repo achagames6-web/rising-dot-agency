@@ -18,16 +18,14 @@ export const COLORS = {
  * that is the part a visitor is actually there for.
  */
 export const SECTIONS = {
-  /** Idle. A slow ring of dots. Nothing asks anything of you. */
-  idle: [0.0, 0.1],
-  /** The ring opens out and the headline arrives. */
-  intro: [0.1, 0.26],
-  /** Work flies past the camera in depth. */
-  work: [0.26, 0.62],
-  /** Set piece. No UI, no copy - just the node core. */
-  core: [0.62, 0.85],
-  /** Everything returns to the ring. Contact sits here. */
-  close: [0.85, 1.0],
+  /** The earth, the falling dots, the headline. */
+  idle: [0.0, 0.08],
+  /** The fall accelerates and the column sweeps aside. */
+  intro: [0.08, 0.2],
+  /** Work flies past the camera in depth. Owns most of the scroll. */
+  work: [0.2, 0.74],
+  /** The earth and the fall return, with the call to action over them. */
+  close: [0.74, 1.0],
 } as const;
 
 export const SCROLL_TRACK_VH = 1500;
