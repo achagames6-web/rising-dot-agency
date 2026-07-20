@@ -103,8 +103,8 @@ function WorkCard({
 
   // Fixed offsets give the wall parallax without any card leaving the frame.
   const offset = useMemo(() => {
-    const xs = [-26, 22, -14, 28, -24, 16];
-    const ys = [-12, 14, 20, -18, 8, -8];
+    const xs = [-25, 21, -13, 27, -22, 15, -28, 19];
+    const ys = [-11, 15, 21, -17, 7, -9, 13, -20];
     return { x: xs[index % xs.length], y: ys[index % ys.length] };
   }, [index]);
 

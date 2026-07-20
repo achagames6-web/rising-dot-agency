@@ -65,6 +65,28 @@ export const WORK: WorkItem[] = [
   },
   {
     type: 'case',
+    title: 'DREDD AI',
+    kind: 'AI · Blockchain risk',
+    blurb:
+      'Paste a token address, get a verdict. On-chain data runs through risk heuristics - holder concentration, liquidity, contract issues - then a fine-tuned model turns the result into a readable answer. Five chains.',
+    href: '/portfolio',
+    image: '/Projects/dredd-ai.jpg',
+    year: '2025',
+    stack: 'Chat dashboard · n8n backend · Fine-tuned LLM',
+  },
+  {
+    type: 'case',
+    title: 'SEO Command Center',
+    kind: 'Platform · Internal',
+    blurb:
+      'Products from two live stores flow through a scoring and generation pipeline, then land in a review queue. Nothing publishes until someone approves it.',
+    href: '/portfolio',
+    image: '/Projects/seo-command-center.jpg',
+    year: '2025',
+    stack: 'Dashboard · n8n · Gemini · Supabase',
+  },
+  {
+    type: 'case',
     title: 'Content Pipeline',
     kind: 'n8n · mytechguide.io',
     blurb:
@@ -73,6 +95,17 @@ export const WORK: WorkItem[] = [
     image: '/Projects/mytechguide-n8n.jpg',
     year: '2025',
     stack: 'n8n · OpenAI · DataForSEO · WordPress REST',
+  },
+  {
+    type: 'case',
+    title: 'Image Pipeline',
+    kind: 'n8n · Async',
+    blurb:
+      'Text and image go in, finished assets come out. Prompts are composed by one model, rendered by another, polled until ready, and stored back in R2 - with error handling at every hop.',
+    href: '/portfolio',
+    image: '/Projects/image-pipeline.jpg',
+    year: '2025',
+    stack: 'n8n · Cloudflare R2 · OpenRouter · Replicate',
   },
   {
     type: 'case',
@@ -86,37 +119,24 @@ export const WORK: WorkItem[] = [
     stack: 'Shopify · Liquid · JavaScript',
   },
   {
-    type: 'capability',
-    title: 'AI assistants',
-    kind: 'Chatbots',
+    type: 'case',
+    title: 'South Bay Living',
+    kind: 'WordPress · California',
     blurb:
-      'Trained on your own docs. Answers what it knows, escalates what it does not.',
-    href: '/services/chatbot-development',
-  },
-  {
-    type: 'capability',
-    title: 'WordPress',
-    kind: 'Custom themes',
-    blurb: 'Built to survive updates, not to fight them.',
-    href: '/services/wordpress',
-  },
-  {
-    type: 'capability',
-    title: 'Search',
-    kind: 'SEO',
-    blurb:
-      'Technical fixes plus a publishing system that keeps running after launch.',
-    href: '/services/seo',
+      'Static pages rebuilt as a site the owner can actually edit. Same design, but the blog pulls real posts and the community calendar runs on its own post type.',
+    href: '/portfolio',
+    year: '2025',
+    stack: 'WordPress · Custom child theme · ACF',
   },
 ];
 
 export const FILTERS = [
   'Automation',
-  'Chatbots',
-  'Web',
-  'Shopify',
+  'AI',
+  'Dashboards',
+  'Commerce',
+  'WordPress',
   'SEO',
-  'SaaS',
 ] as const;
 
 // ---- maths helpers ----
