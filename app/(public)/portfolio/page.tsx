@@ -3,13 +3,16 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import TagCloud from '@/components/portfolio/TagCloud';
-import ProjectCard from '@/components/portfolio/ProjectCard';
 import ProjectDetail from '@/components/portfolio/ProjectDetail';
 import PortfolioFeatures from '@/components/sections/PortfolioFeatures';
 import FeaturedProjectsCarousel from '@/components/sections/FeaturedProjectsCarousel';
 import CaseStudiesCarousel from '@/components/sections/CaseStudiesCarousel';
 import MiniCTA from '@/components/sections/MiniCTA';
-import { ImageAccordionHero } from '@/components/ui/interactive-image-accordion';
+import HorizontalJourney from '@/components/portfolio/HorizontalJourney';
+import CaseSpotlight from '@/components/portfolio/CaseSpotlight';
+import ScrollWipe from '@/components/portfolio/ScrollWipe';
+import WorkCounters from '@/components/portfolio/WorkCounters';
+import CursorIndex from '@/components/portfolio/CursorIndex';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
 
@@ -214,20 +217,8 @@ export default function PortfolioPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Interactive Image Accordion Hero */}
-      <ImageAccordionHero
-        title={heroContent?.title || 'Our Creative'}
-        titleHighlight={heroContent?.titleHighlight || 'Portfolio'}
-        subtitle={
-          heroContent?.subtitle ||
-          'Explore our work across web design, e-commerce, automation, chatbots, and SEO. Each project showcases our commitment to excellence and innovation.'
-        }
-        ctaButton={{
-          label: heroContent?.ctaLabel || 'Start Your Project',
-          href: heroContent?.ctaHref || '/contact',
-        }}
-        items={heroContent?.heroItems || defaultHeroItems}
-      />
+      {/* Hero - the page travels sideways through all seven projects */}
+      <HorizontalJourney />
 
       {/* Featured Projects Horizontal Scroll Carousel */}
       <FeaturedProjectsCarousel />
@@ -247,33 +238,17 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <section className="px-6 py-24">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow={gridContent?.eyebrow || 'Our Work'}
-            title={gridContent?.title || 'All'}
-            titleHighlight={gridContent?.titleHighlight || 'Projects'}
-            subtitle={
-              gridContent?.subtitle ||
-              'Explore our complete collection of successful client projects'
-            }
-          />
-          <motion.div
-            layout
-            className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
-          >
-            <AnimatePresence mode="popLayout">
-              {projects.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  onClick={() => setSelectedProject(project)}
-                />
-              ))}
-            </AnimatePresence>
-          </motion.div>
-        </div>
-      </section>
+      {/* All work - replaces the grid, which was fed by invented projects */}
+      <CursorIndex />
+
+      {/* Three of them in detail, with the frame pinned while you read */}
+      <CaseSpotlight />
+
+      {/* One project, before and after, wiped by scroll */}
+      <ScrollWipe />
+
+      {/* A quiet divider between the heavy sections */}
+      <WorkCounters />
 
       {/* Case Studies Carousel - fetch from portfolio/caseStudies */}
       <CaseStudiesCarousel page="portfolio" />
