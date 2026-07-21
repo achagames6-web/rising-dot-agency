@@ -473,8 +473,14 @@
 /* The section pins so the page holds still while the wipe runs. The heading
    lives INSIDE the pin, so nothing strands above it, and the wrapper is
    exactly one viewport plus the travel - so nothing is left over as a gap. */
+/* position: sticky does nothing if ANY ancestor has overflow: hidden, and
+   .pf-sec sets it to clip the star field. That is why the pin never held:
+   the card scrolled away normally while the wipe ran, so it finished long
+   after the card had left the screen. The pin clips its own overflow
+   instead. */
 .pf-sec--pin {
   padding: 0;
+  overflow: visible;
 }
 
 .wp {
@@ -489,6 +495,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  /* Clears the fixed header so the card never sits under it. */
+  padding-top: clamp(3.5rem, 8vh, 5.5rem);
   overflow: hidden;
   background: #04050a;
 }

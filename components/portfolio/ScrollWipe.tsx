@@ -33,10 +33,11 @@ export default function ScrollWipe() {
       const travel = wrap.offsetHeight - window.innerHeight;
       if (travel <= 0) return;
 
-      const p = Math.min(
-        1,
-        Math.max(0, -wrap.getBoundingClientRect().top / travel)
-      );
+      // Only run while the section is actually the thing on screen.
+      const r = wrap.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > window.innerHeight) return;
+
+      const p = Math.min(1, Math.max(0, -r.top / travel));
       const e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
 
       if (afterRef.current) {
