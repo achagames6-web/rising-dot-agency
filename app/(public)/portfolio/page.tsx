@@ -4,16 +4,12 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import TagCloud from '@/components/portfolio/TagCloud';
 import ProjectDetail from '@/components/portfolio/ProjectDetail';
-import PortfolioFeatures from '@/components/sections/PortfolioFeatures';
 import FeaturedProjectsCarousel from '@/components/sections/FeaturedProjectsCarousel';
-import CaseStudiesCarousel from '@/components/sections/CaseStudiesCarousel';
 import MiniCTA from '@/components/sections/MiniCTA';
 import HorizontalJourney from '@/components/portfolio/HorizontalJourney';
-import CaseSpotlight from '@/components/portfolio/CaseSpotlight';
 import ScrollWipe from '@/components/portfolio/ScrollWipe';
 import WorkCounters from '@/components/portfolio/WorkCounters';
-import CursorIndex from '@/components/portfolio/CursorIndex';
-import { SectionHeading } from '@/components/ui/section-heading';
+import { SectionIntro } from '@/components/sections/SectionIntro';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
 
 // Project interface for type safety
@@ -223,38 +219,35 @@ export default function PortfolioPage() {
       {/* Featured Projects Horizontal Scroll Carousel */}
       <FeaturedProjectsCarousel />
 
-      <section className="px-6 py-24">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow={filtersContent?.eyebrow || 'Our Expertise'}
-            title={filtersContent?.title || 'Skills &'}
-            titleHighlight={filtersContent?.titleHighlight || 'Technologies'}
-            subtitle={
+      {/* Our expertise - now on the same field of space as everything else */}
+      <section className="pf-sec">
+        <div className="pf-stars" aria-hidden="true" />
+        <div className="pf-shell">
+          <SectionIntro
+            eyebrow={filtersContent?.eyebrow || 'Our expertise'}
+            title={
+              <>
+                Skills and
+                <br />
+              </>
+            }
+            highlight="technologies"
+            lead={
               filtersContent?.subtitle ||
-              'Drag and explore the technologies we master to bring your vision to life'
+              'Drag and explore the technologies behind the work above.'
             }
           />
-          <TagCloud tags={filtersContent?.tags || allTags} />
+          <div className="pf-cloud">
+            <TagCloud tags={filtersContent?.tags || allTags} />
+          </div>
         </div>
       </section>
-
-      {/* All work - replaces the grid, which was fed by invented projects */}
-      <CursorIndex />
-
-      {/* Three of them in detail, with the frame pinned while you read */}
-      <CaseSpotlight />
 
       {/* One project, before and after, wiped by scroll */}
       <ScrollWipe />
 
       {/* A quiet divider between the heavy sections */}
       <WorkCounters />
-
-      {/* Case Studies Carousel - fetch from portfolio/caseStudies */}
-      <CaseStudiesCarousel page="portfolio" />
-
-      {/* Features Section */}
-      <PortfolioFeatures />
 
       {/* CTA Section */}
       <MiniCTA

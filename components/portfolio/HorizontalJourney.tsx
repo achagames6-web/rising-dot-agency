@@ -121,21 +121,22 @@ export default function HorizontalJourney() {
                 href={`/portfolio/${c.slug}`}
                 aria-label={`${c.title} case study`}
               >
-                <span className="pj__inner">
-                  {c.image ? (
-                    <Image
-                      src={c.image}
-                      alt={`${c.title} interface`}
-                      width={1400}
-                      height={700}
-                      sizes="(max-width: 700px) 82vw, 34rem"
-                      priority={i < 2}
-                    />
-                  ) : (
-                    <span className="pj__placeholder" />
-                  )}
+                <span className="pj__media">
+                  <span className="pj__inner">
+                    {c.image ? (
+                      <Image
+                        src={c.image}
+                        alt={`${c.title} interface`}
+                        width={1400}
+                        height={700}
+                        sizes="(max-width: 700px) 86vw, 40rem"
+                        priority={i < 2}
+                      />
+                    ) : (
+                      <span className="pj__placeholder" />
+                    )}
+                  </span>
                 </span>
-                <span className="pj__grad" />
                 <span className="pj__cap">
                   <span className="pj__k">{c.kind}</span>
                   <span className="pj__t">{c.title}</span>
