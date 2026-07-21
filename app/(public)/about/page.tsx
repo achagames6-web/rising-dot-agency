@@ -5,18 +5,21 @@ import CompanyTimeline from '@/components/about/CompanyTimeline';
 import SkillVisualization from '@/components/about/SkillVisualization';
 import OfficeTour from '@/components/about/OfficeTour';
 import MiniCTA from '@/components/sections/MiniCTA';
+import EvidenceClaims from '@/components/pages/EvidenceClaims';
+import AskTheAgency from '@/components/pages/AskTheAgency';
 import { Hero1 } from '@/components/ui/hero-1';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
 import { BatchSectionProvider } from '@/components/sections/BatchSectionProvider';
 import OptimizedSectionWrapper from '@/components/sections/OptimizedSectionWrapper';
+import '@/components/sections/space.css';
 
 const AgencyShowreel = dynamic(
   () => import('@/components/sections/AgencyShowreel'),
   {
     ssr: false,
     loading: () => (
-      <section className="flex h-screen items-center justify-center bg-black">
+      <section className="flex h-screen items-center justify-center bg-[#04050A]">
         <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#F58122]/30 border-t-[#F58122]" />
       </section>
     ),
@@ -28,7 +31,7 @@ const HolographicTeam = dynamic(
   {
     ssr: false,
     loading: () => (
-      <section className="flex min-h-screen items-center justify-center bg-black py-12">
+      <section className="flex min-h-screen items-center justify-center bg-[#04050A] py-12">
         <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#37AFE1]/30 border-t-[#37AFE1]" />
       </section>
     ),
@@ -43,7 +46,7 @@ const PremiumTestimonials = dynamic(
   {
     ssr: false,
     loading: () => (
-      <section className="flex items-center justify-center bg-black py-32">
+      <section className="flex items-center justify-center bg-[#04050A] py-32">
         <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#F58122]/30 border-t-[#F58122]" />
       </section>
     ),
@@ -109,7 +112,8 @@ export default function AboutPage() {
 
   return (
     <BatchSectionProvider page="about" sections={ABOUT_SECTIONS}>
-      <div className="min-h-screen bg-black text-white">
+      <div className="rd-space min-h-screen text-white">
+        <div className="rd-space__stars" aria-hidden="true" />
         {/* Hero Section */}
         <OptimizedSectionWrapper section="hero">
           <Hero1
@@ -138,7 +142,7 @@ export default function AboutPage() {
 
         {/* Skills Visualization */}
         <OptimizedSectionWrapper section="skills">
-          <section className="bg-black px-6 py-24">
+          <section className="bg-[#04050A] px-6 py-24">
             <div className="mx-auto max-w-7xl">
               <SectionHeading
                 eyebrow={skillsContent?.eyebrow || 'What We Do Best'}
@@ -152,7 +156,7 @@ export default function AboutPage() {
 
         {/* Company Timeline */}
         <OptimizedSectionWrapper section="timeline">
-          <section className="bg-black px-6 py-24">
+          <section className="bg-[#04050A] px-6 py-24">
             <div className="mx-auto max-w-7xl">
               <SectionHeading
                 eyebrow={timelineContent?.eyebrow || 'Our Story'}
@@ -166,7 +170,7 @@ export default function AboutPage() {
 
         {/* Office Tour */}
         <OptimizedSectionWrapper section="officeTour">
-          <section className="bg-black px-6 py-24">
+          <section className="bg-[#04050A] px-6 py-24">
             <div className="mx-auto max-w-7xl">
               <SectionHeading
                 eyebrow={officeTourContent?.eyebrow || 'Virtual Experience'}
@@ -187,6 +191,10 @@ export default function AboutPage() {
 
         {/* CTA Section */}
         <OptimizedSectionWrapper section="cta">
+          <AskTheAgency />
+
+          <EvidenceClaims />
+
           <MiniCTA
             eyebrow={ctaContent?.eyebrow || 'Start a Project'}
             title={ctaContent?.title || "Let's Build Something"}

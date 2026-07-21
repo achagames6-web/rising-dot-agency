@@ -6,7 +6,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
 import { Hero1 } from '@/components/ui/hero-1';
+import KnowledgeGraph from '@/components/pages/KnowledgeGraph';
+import ReadingPaths from '@/components/pages/ReadingPaths';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
+import '@/components/sections/space.css';
 
 interface BlogPost {
   _id: string;
@@ -118,7 +121,8 @@ export default function BlogPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="rd-space min-h-screen text-white">
+      <div className="rd-space__stars" aria-hidden="true" />
       {/* Hero Section - Uses CMS content with fallback */}
       <Hero1
         eyebrow={hero.eyebrow}
@@ -160,6 +164,8 @@ export default function BlogPage() {
               </button>
             ))}
           </motion.div>
+
+          <ReadingPaths />
 
           {/* Blog Grid */}
           {loading ? (
@@ -238,6 +244,7 @@ export default function BlogPage() {
           )}
         </div>
       </section>
+      <KnowledgeGraph />
     </div>
   );
 }

@@ -4,9 +4,12 @@ import { motion } from 'framer-motion';
 import ContactForm from '@/components/contact/ContactForm';
 import ContactMap from '@/components/contact/ContactMap';
 import MiniCTA from '@/components/sections/MiniCTA';
+import MessagePreview from '@/components/pages/MessagePreview';
+import ConversationForm from '@/components/pages/ConversationForm';
 import { Hero1 } from '@/components/ui/hero-1';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
+import '@/components/sections/space.css';
 
 export default function ContactPage() {
   // Fetch CMS content for each section
@@ -48,7 +51,8 @@ export default function ContactPage() {
   }>('contact', 'cta');
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="rd-space min-h-screen text-white">
+      <div className="rd-space__stars" aria-hidden="true" />
       {/* Hero Section */}
       <Hero1
         eyebrow={heroContent?.eyebrow || "Let's Connect"}
@@ -110,7 +114,7 @@ export default function ContactPage() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.1 }}
-                className="flex items-start gap-4 rounded-lg border border-[#37AFE1]/20 bg-black p-6"
+                className="flex items-start gap-4 rounded-lg border border-[#37AFE1]/20 bg-[#04050A] p-6"
               >
                 <div className="text-3xl">📧</div>
                 <div>
@@ -125,7 +129,7 @@ export default function ContactPage() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2 }}
-                className="flex items-start gap-4 rounded-lg border border-[#37AFE1]/20 bg-black p-6"
+                className="flex items-start gap-4 rounded-lg border border-[#37AFE1]/20 bg-[#04050A] p-6"
               >
                 <div className="text-3xl">📞</div>
                 <div>
@@ -140,7 +144,7 @@ export default function ContactPage() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
-                className="flex items-start gap-4 rounded-lg border border-[#37AFE1]/20 bg-black p-6"
+                className="flex items-start gap-4 rounded-lg border border-[#37AFE1]/20 bg-[#04050A] p-6"
               >
                 <div className="text-3xl">📍</div>
                 <div>
@@ -156,7 +160,7 @@ export default function ContactPage() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 }}
-                className="flex items-start gap-4 rounded-lg border border-[#37AFE1]/20 bg-black p-6"
+                className="flex items-start gap-4 rounded-lg border border-[#37AFE1]/20 bg-[#04050A] p-6"
               >
                 <div className="text-3xl">🕐</div>
                 <div>
@@ -172,7 +176,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="bg-black px-6 py-24">
+      <section className="bg-[#04050A] px-6 py-24">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow={mapContent?.eyebrow || 'Location'}
@@ -184,6 +188,10 @@ export default function ContactPage() {
       </section>
 
       {/* CTA Section with Social Links */}
+      <ConversationForm />
+
+      <MessagePreview />
+
       <MiniCTA
         eyebrow={ctaContent?.eyebrow || 'Explore Our Work'}
         title={ctaContent?.title || 'View Our'}
