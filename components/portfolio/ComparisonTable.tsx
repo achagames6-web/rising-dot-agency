@@ -40,16 +40,22 @@ export default function ComparisonTable() {
   useEffect(() => {
     const host = hostRef.current;
     if (!host) return;
-    const rows = Array.from(host.querySelectorAll<HTMLElement>('.cp__line'));
+
+    // Observe the grid, not the rows. The rows use display:contents so they
+    // have no box of their own - an observer on them never fires, which is
+    // why every cell stayed at opacity 0 and the table rendered empty.
     const io = new IntersectionObserver(
       (entries) => {
-        entries.forEach((e) =>
-          e.target.classList.toggle('is-in', e.isIntersecting)
-        );
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            host.classList.add('is-in');
+            io.disconnect();
+          }
+        });
       },
-      { threshold: 0.4 }
+      { threshold: 0.15 }
     );
-    rows.forEach((el) => io.observe(el));
+    io.observe(host);
     return () => io.disconnect();
   }, []);
 
@@ -75,8 +81,12 @@ export default function ComparisonTable() {
           <div className="cp__hd cp__mid" aria-hidden="true" />
           <div className="cp__hd cp__them">The usual arrangement</div>
 
-          {ROWS.map(([us, label, them]) => (
-            <div className="cp__line" key={label}>
+          {ROWS.map(([us, label, them], i) => (
+            <div
+              className="cp__line"
+              key={label}
+              style={{ '--i': i } as React.CSSProperties}
+            >
               <div className="cp__r cp__us">
                 <span className="cp__tick" aria-hidden="true" />
                 {us}

@@ -16,23 +16,27 @@ const CASE =
   CASE_STUDIES.find((c) => c.slug === 'content-pipeline') ?? CASE_STUDIES[0];
 
 export default function ScrollWipe() {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
   const afterRef = useRef<HTMLDivElement>(null);
   const seamRef = useRef<HTMLSpanElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const onScroll = () => {
-      const card = cardRef.current;
-      if (!card) return;
+      const wrap = wrapRef.current;
+      if (!wrap) return;
 
-      // The wipe runs while the card crosses the screen: it starts as the card
-      // reaches 82% of the viewport height and finishes at 32%. No pinning, no
-      // spare height, and the heading above it never scrolls away.
-      const r = card.getBoundingClientRect();
-      const start = window.innerHeight * 0.82;
-      const end = window.innerHeight * 0.32;
-      const p = Math.min(1, Math.max(0, (start - r.top) / (start - end)));
+      // The whole section pins - heading included - and the page holds still
+      // while the wipe runs. Travel is exactly the wrapper height minus one
+      // viewport, so the pin releases the moment the wipe finishes and there
+      // is no spare height left showing as a gap.
+      const travel = wrap.offsetHeight - window.innerHeight;
+      if (travel <= 0) return;
+
+      const p = Math.min(
+        1,
+        Math.max(0, -wrap.getBoundingClientRect().top / travel)
+      );
       const e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
 
       if (afterRef.current) {
@@ -61,43 +65,43 @@ export default function ScrollWipe() {
   );
 
   return (
-    <section className="pf-sec" aria-labelledby="wp-head">
-      <div className="pf-stars" aria-hidden="true" />
-      <div className="pf-shell">
-        <SectionIntro
-          id="wp-head"
-          eyebrow="What changed"
-          title={
-            <>
-              Scroll to
-              <br />
-            </>
-          }
-          highlight="replace the old way"
-          lead={`${CASE.title} — ${CASE.kind}`}
-        />
-      </div>
+    <section className="pf-sec pf-sec--pin" aria-labelledby="wp-head">
+      <div className="wp" ref={wrapRef}>
+        <div className="wp__pin">
+          <div className="pf-stars" aria-hidden="true" />
+          <div className="pf-shell">
+            <SectionIntro
+              id="wp-head"
+              eyebrow="What changed"
+              title={
+                <>
+                  Scroll to
+                  <br />
+                </>
+              }
+              highlight="replace the old way"
+              lead={`${CASE.title} — ${CASE.kind}`}
+            />
 
-      <div className="wp">
-        <div className="pf-shell">
-          <div className="wp__card" ref={cardRef}>
-            <div className="wp__layer wp__before">
-              <span className="wp__k">Before</span>
-              {CASE.before.map((t) => row(t, false))}
-              <span className="wp__cost">{CASE.outcomes[0]?.label}</span>
-            </div>
+            <div className="wp__card">
+              <div className="wp__layer wp__before">
+                <span className="wp__k">Before</span>
+                {CASE.before.map((t) => row(t, false))}
+                <span className="wp__cost">{CASE.outcomes[0]?.label}</span>
+              </div>
 
-            <div className="wp__layer wp__after" ref={afterRef}>
-              <span className="wp__k is-after">After</span>
-              {CASE.after.map((t) => row(t, true))}
-              <span className="wp__cost is-after">
-                {CASE.outcomes[0]?.value} {CASE.outcomes[0]?.label}
-              </span>
-            </div>
+              <div className="wp__layer wp__after" ref={afterRef}>
+                <span className="wp__k is-after">After</span>
+                {CASE.after.map((t) => row(t, true))}
+                <span className="wp__cost is-after">
+                  {CASE.outcomes[0]?.value} {CASE.outcomes[0]?.label}
+                </span>
+              </div>
 
-            <span className="wp__seam" ref={seamRef} aria-hidden="true" />
-            <div className="wp__hud">
-              <span ref={labelRef}>Before</span>
+              <span className="wp__seam" ref={seamRef} aria-hidden="true" />
+              <div className="wp__hud">
+                <span ref={labelRef}>Before</span>
+              </div>
             </div>
           </div>
         </div>

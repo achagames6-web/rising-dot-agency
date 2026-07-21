@@ -470,17 +470,34 @@
 
 /* ═══════════ scroll wipe ═══════════ */
 
-/* No extra height and no pin. Pinning stranded the heading above and left
-   the wrapper's spare height as empty black below the card. */
+/* The section pins so the page holds still while the wipe runs. The heading
+   lives INSIDE the pin, so nothing strands above it, and the wrapper is
+   exactly one viewport plus the travel - so nothing is left over as a gap. */
+.pf-sec--pin {
+  padding: 0;
+}
+
 .wp {
   position: relative;
-  margin-top: clamp(2rem, 5vh, 3rem);
+  height: 190vh;
+}
+
+.wp__pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  background: #04050a;
 }
 
 .wp__card {
   position: relative;
   width: 100%;
-  min-height: 22rem;
+  min-height: min(22rem, 42vh);
+  margin-top: clamp(1.4rem, 4vh, 2.4rem);
   border: 1px solid var(--pf-line);
   border-radius: 20px;
   overflow: hidden;
@@ -1018,9 +1035,11 @@
   background: rgba(5, 7, 15, 0.55);
 }
 
-.cp__line.is-in .cp__r {
+/* Staggered off the grid's own class, one delay per row. */
+.cp.is-in .cp__r {
   opacity: 1;
   transform: none;
+  transition-delay: calc(var(--i, 0) * 70ms);
 }
 
 .cp__tick {
