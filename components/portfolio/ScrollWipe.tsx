@@ -17,6 +17,7 @@ const CASE =
 
 export default function ScrollWipe() {
   const wrapRef = useRef<HTMLDivElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
   const afterRef = useRef<HTMLDivElement>(null);
   const seamRef = useRef<HTMLSpanElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
@@ -24,20 +25,24 @@ export default function ScrollWipe() {
   useEffect(() => {
     const onScroll = () => {
       const wrap = wrapRef.current;
-      if (!wrap) return;
+      const pin = pinRef.current;
+      if (!wrap || !pin) return;
 
-      // The whole section pins - heading included - and the page holds still
-      // while the wipe runs. Travel is exactly the wrapper height minus one
-      // viewport, so the pin releases the moment the wipe finishes and there
-      // is no spare height left showing as a gap.
       const travel = wrap.offsetHeight - window.innerHeight;
       if (travel <= 0) return;
 
-      // Only run while the section is actually the thing on screen.
       const r = wrap.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > window.innerHeight) return;
 
-      const p = Math.min(1, Math.max(0, -r.top / travel));
+      // The pin is done in JS, not with position: sticky. Sticky is silently
+      // disabled by any ancestor that clips or transforms, and this page has
+      // several - which is why three separate attempts to fix this by moving
+      // heights around never held. Translating the panel by exactly how far
+      // the wrapper has scrolled makes it appear to stand still, and nothing
+      // above it in the tree can interfere.
+      const scrolled = Math.min(travel, Math.max(0, -r.top));
+      pin.style.transform = `translate3d(0, ${scrolled}px, 0)`;
+
+      const p = scrolled / travel;
       const e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
 
       if (afterRef.current) {
@@ -68,7 +73,7 @@ export default function ScrollWipe() {
   return (
     <section className="pf-sec pf-sec--pin" aria-labelledby="wp-head">
       <div className="wp" ref={wrapRef}>
-        <div className="wp__pin">
+        <div className="wp__pin" ref={pinRef}>
           <div className="pf-stars" aria-hidden="true" />
           <div className="pf-shell">
             <SectionIntro

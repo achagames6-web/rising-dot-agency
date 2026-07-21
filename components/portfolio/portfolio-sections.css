@@ -488,10 +488,15 @@
   height: 190vh;
 }
 
+/* Not sticky: the panel is translated by JS so no ancestor can disable it.
+   Absolute inside the tall wrapper, moved down as the wrapper scrolls. */
 .wp__pin {
-  position: sticky;
+  position: absolute;
   top: 0;
+  left: 0;
+  right: 0;
   height: 100vh;
+  will-change: transform;
   display: flex;
   flex-direction: column;
   justify-content: center;
