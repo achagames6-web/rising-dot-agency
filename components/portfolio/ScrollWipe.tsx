@@ -16,22 +16,23 @@ const CASE =
   CASE_STUDIES.find((c) => c.slug === 'content-pipeline') ?? CASE_STUDIES[0];
 
 export default function ScrollWipe() {
-  const wrapRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const afterRef = useRef<HTMLDivElement>(null);
   const seamRef = useRef<HTMLSpanElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const onScroll = () => {
-      const wrap = wrapRef.current;
-      if (!wrap) return;
-      const total = wrap.offsetHeight - window.innerHeight;
-      if (total <= 0) return;
+      const card = cardRef.current;
+      if (!card) return;
 
-      const p = Math.min(
-        1,
-        Math.max(0, -wrap.getBoundingClientRect().top / total)
-      );
+      // The wipe runs while the card crosses the screen: it starts as the card
+      // reaches 82% of the viewport height and finishes at 32%. No pinning, no
+      // spare height, and the heading above it never scrolls away.
+      const r = card.getBoundingClientRect();
+      const start = window.innerHeight * 0.82;
+      const end = window.innerHeight * 0.32;
+      const p = Math.min(1, Math.max(0, (start - r.top) / (start - end)));
       const e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
 
       if (afterRef.current) {
@@ -60,7 +61,7 @@ export default function ScrollWipe() {
   );
 
   return (
-    <section className="pf-sec pf-sec--flush" aria-labelledby="wp-head">
+    <section className="pf-sec" aria-labelledby="wp-head">
       <div className="pf-stars" aria-hidden="true" />
       <div className="pf-shell">
         <SectionIntro
@@ -77,9 +78,9 @@ export default function ScrollWipe() {
         />
       </div>
 
-      <div className="wp" ref={wrapRef}>
-        <div className="wp__pin">
-          <div className="wp__card">
+      <div className="wp">
+        <div className="pf-shell">
+          <div className="wp__card" ref={cardRef}>
             <div className="wp__layer wp__before">
               <span className="wp__k">Before</span>
               {CASE.before.map((t) => row(t, false))}

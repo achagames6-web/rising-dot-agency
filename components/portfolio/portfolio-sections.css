@@ -470,26 +470,17 @@
 
 /* ═══════════ scroll wipe ═══════════ */
 
+/* No extra height and no pin. Pinning stranded the heading above and left
+   the wrapper's spare height as empty black below the card. */
 .wp {
-  /* 300vh left the section above stranded. 170 is enough for the wipe to
-     read as deliberate without holding the page hostage. */
-  height: 170vh;
   position: relative;
-}
-
-.wp__pin {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
+  margin-top: clamp(2rem, 5vh, 3rem);
 }
 
 .wp__card {
   position: relative;
-  width: min(64rem, 92vw);
-  height: 54vh;
+  width: 100%;
+  min-height: 22rem;
   border: 1px solid var(--pf-line);
   border-radius: 20px;
   overflow: hidden;
@@ -857,5 +848,220 @@
 @media (prefers-reduced-motion: reduce) {
   .pf-cloud::after {
     animation: none;
+  }
+}
+
+/* ═══════════ shipping timeline ═══════════ */
+
+.tl {
+  position: relative;
+  padding-left: 2.4rem;
+  max-width: 52rem;
+  margin: clamp(2rem, 5vh, 3rem) auto 0;
+}
+
+.tl__line {
+  position: absolute;
+  left: 6px;
+  top: 0.6rem;
+  bottom: 0.6rem;
+  width: 2px;
+  background: var(--pf-line);
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.tl__line i {
+  display: block;
+  width: 100%;
+  height: 0;
+  background: linear-gradient(180deg, var(--pf-accent), var(--pf-blue));
+}
+
+.tl__i {
+  position: relative;
+  padding-bottom: clamp(1.6rem, 4vh, 2.4rem);
+}
+
+.tl__i::before {
+  content: '';
+  position: absolute;
+  left: -2.4rem;
+  top: 0.45rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #04050a;
+  border: 1px solid var(--pf-line);
+  transition:
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.tl__i.is-in::before {
+  border-color: var(--pf-accent);
+  box-shadow: 0 0 0 4px rgba(245, 129, 34, 0.14);
+}
+
+.tl__d {
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pf-blue);
+}
+
+.tl__t {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(1rem, 1.9vw, 1.4rem);
+  letter-spacing: -0.025em;
+  margin: 0.4rem 0 0.35rem;
+}
+
+.tl__t a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+.tl__t a:hover {
+  color: var(--pf-accent);
+}
+
+.tl__s {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.88rem;
+  color: var(--pf-muted);
+  line-height: 1.6;
+  margin: 0 0 0.8rem;
+}
+
+/* ═══════════ comparison ═══════════ */
+
+.cp {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  border: 1px solid var(--pf-line);
+  border-radius: 18px;
+  overflow: hidden;
+  max-width: 62rem;
+  margin: clamp(2rem, 5vh, 3rem) auto 0;
+  background: rgba(5, 7, 15, 0.7);
+}
+
+.cp__line {
+  display: contents;
+}
+
+.cp__hd {
+  padding: 1rem 1.2rem;
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.54rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--pf-line);
+  background: rgba(5, 7, 15, 0.9);
+}
+
+.cp__hd.cp__us {
+  color: var(--pf-accent);
+}
+
+.cp__hd.cp__them {
+  color: var(--pf-muted);
+  text-align: right;
+}
+
+.cp__r {
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid rgba(22, 32, 58, 0.6);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  opacity: 0;
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Ours arrives from the left, theirs from the right, so the eye reads across. */
+.cp__r.cp__us {
+  color: #d7e6f7;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  transform: translateX(-18px);
+}
+
+.cp__r.cp__them {
+  color: #5f6b80;
+  text-align: right;
+  transform: translateX(18px);
+}
+
+.cp__r.cp__mid {
+  font-family: var(--font-fira-code), ui-monospace, monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pf-muted);
+  text-align: center;
+  white-space: nowrap;
+  padding-inline: 1rem;
+  transform: none;
+}
+
+.cp__mid {
+  border-inline: 1px solid var(--pf-line);
+  background: rgba(5, 7, 15, 0.55);
+}
+
+.cp__line.is-in .cp__r {
+  opacity: 1;
+  transform: none;
+}
+
+.cp__tick {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--pf-accent);
+  margin-top: 0.5rem;
+  flex: none;
+}
+
+.cp__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(1.6rem, 4vh, 2.4rem);
+}
+
+@media (max-width: 820px) {
+  .cp {
+    grid-template-columns: 1fr;
+  }
+
+  .cp__hd.cp__them,
+  .cp__r.cp__them {
+    text-align: left;
+  }
+
+  .cp__mid {
+    border-inline: 0;
+  }
+
+  .cp__r.cp__us,
+  .cp__r.cp__them {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cp__r,
+  .tl__i::before,
+  .tl__line i {
+    transition: none;
   }
 }

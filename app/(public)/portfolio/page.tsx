@@ -8,6 +8,8 @@ import FeaturedProjectsCarousel from '@/components/sections/FeaturedProjectsCaro
 import MiniCTA from '@/components/sections/MiniCTA';
 import HorizontalJourney from '@/components/portfolio/HorizontalJourney';
 import ScrollWipe from '@/components/portfolio/ScrollWipe';
+import ShippingTimeline from '@/components/portfolio/ShippingTimeline';
+import ComparisonTable from '@/components/portfolio/ComparisonTable';
 import WorkCounters from '@/components/portfolio/WorkCounters';
 import { SectionIntro } from '@/components/sections/SectionIntro';
 import { useSiteContent } from '@/lib/hooks/useSiteContent';
@@ -246,8 +248,14 @@ export default function PortfolioPage() {
       {/* One project, before and after, wiped by scroll */}
       <ScrollWipe />
 
+      {/* Shipped in order - the year as pace, not a list */}
+      <ShippingTimeline />
+
       {/* A quiet divider between the heavy sections */}
       <WorkCounters />
+
+      {/* Why us, answered as contrast rather than adjectives */}
+      <ComparisonTable />
 
       {/* CTA Section */}
       <MiniCTA
